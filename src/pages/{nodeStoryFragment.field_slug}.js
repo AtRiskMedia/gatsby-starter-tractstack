@@ -11,7 +11,14 @@ export const query = graphql`
       edges {
         node {
           id
+          title
           field_slug
+          relationships {
+            field_tract_stack {
+              title
+              id
+            }
+          }
         }
       }
     }
@@ -50,21 +57,6 @@ export const query = graphql`
               field_options
               field_level
               id
-            }
-          }
-        }
-        field_tract_stack {
-          id
-          relationships {
-            field_story_fragments {
-              id
-              relationships {
-                field_panes {
-                  id
-                  field_slug
-                  field_options
-                }
-              }
             }
           }
         }
@@ -247,8 +239,43 @@ export const query = graphql`
   }
 `
 
+const tractStackGraph = data => {
+  const tractStackId = data[0].node.relationships.field_tract_stack.id
+  const tractStackTitle = data[0].node.relationships.field_tract_stack.title
+  const graph = data.map(e => {
+    const storyFragmentId = e.node.id
+    const storyFragmentTitle = e.node.title
+    const storyFragmentSlug = e.node.field_slug
+    return {
+      id: storyFragmentId,
+      title: storyFragmentTitle,
+      slug: storyFragmentSlug,
+    }
+  })
+  return {
+    id: tractStackId,
+    title: tractStackTitle,
+    graph: graph,
+  }
+}
+
+const storyFragmentPayload = data => {
+  const storyFragmentId = data.id
+  const storyFragmentTitle = data.title
+  const storyFragmentSlug = data.field_slug
+  const storyFragmentPanesRaw = data.relationships.field_panes
+  const storyFragmentMenuRaw = data.relationships.field_menu
+
+  //console.log( storyFragmentId, storyFragmentTitle, storyFragmentSlug, storyFragmentPanesRaw, storyFragmentMenuRaw );
+  return { mobile: data, tablet: data, desktop: data }
+}
+
 const StoryFragment = props => {
-  console.log(props.data)
+  const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
+  const thisPayload = storyFragmentPayload(props.data.nodeStoryFragment)
+  //console.log(thisGraph)
+  //console.log(thisPayload)
+
   return (
     <Layout>
       <Seo title="StoryFragment Collections Route" />
