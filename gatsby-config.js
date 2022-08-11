@@ -1,9 +1,13 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `Tract Stack by At Risk Media - Gatsby Starter`,
+    description: `Your opinionated, headless no-code CMS for personal brand makers, community builders and evangelists alike; powered by learning science.`,
     author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    siteUrl: `https://atriskmedia.com/`,
   },
   plugins: [
     `gatsby-plugin-image`,
@@ -19,15 +23,30 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
+        name: `gatsby-starter-tractstack`,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#663399`,
+        background_color: `#c8df8c`,
         // This will impact how browsers show your PWA/website
         // https://css-tricks.com/meta-theme-color-and-trickery/
         // theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `assets/ARm-logo.svg`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+    },
+    "gatsby-transformer-tractstack",
+    "gatsby-plugin-tractstack",
+    {
+      resolve: "gatsby-source-drupal",
+      options: {
+        baseUrl: "https://edit.tractstack.com/",
+        basicAuth: {
+          username: process.env.BASIC_AUTH_USERNAME,
+          password: process.env.BASIC_AUTH_PASSWORD,
+        },
       },
     },
   ],

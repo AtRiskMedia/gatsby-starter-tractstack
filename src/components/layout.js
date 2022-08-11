@@ -40,9 +40,14 @@ const Layout = ({ children }) => {
             fontSize: `var(--font-sm)`,
           }}
         >
-          © {new Date().getFullYear()} &middot; Built with
+          © {new Date().getFullYear()} &middot;
+          <a href="https://tractstack.com">Tract Stack</a> by{" "}
+          <a href="https://atriskmedia.com">At Risk Media</a>.{` `}
+          Your opinionated, headless no-code CMS for personal brand makers,
+          community builders and evangelists; powered by learning science. Built
+          with
           {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
+          <a href="https://www.gatsbyjs.com">Gatsby</a>.
         </footer>
       </div>
     </>
