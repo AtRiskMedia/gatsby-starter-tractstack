@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby-starter-tractstack",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Tract Stack by At Risk Media gatsby starter",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Adon Irani <a@atriskmedia.com>",
   "dependencies": {
     "gatsby": "^4.20.0",
     "gatsby-plugin-image": "^2.20.0",
@@ -21,7 +21,7 @@
   "keywords": [
     "gatsby"
   ],
-  "license": "0BSD",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -33,9 +33,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://gitlab.com/at-risk-media/gatsby-starter-tractstack"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://gitlab.com/at-risk-media/gatsby-starter-tractstack/issues"
   }
 }
