@@ -2,16 +2,24 @@
   --border-radius: 4px;
   --color-text: #10120d;
   --color-primary: #f58333;
-  --color-code-bg: #fcfcfc;
-  --color-code: #293f58;
+  --color-white: #fcfcfc;
+  --color-lightgrey: #a7b1b7;
+  --color-blue: #293f58;
+  --color-green: #c8df8c;
+  --color-orange: #f58333;
+  --color-darkgrey: #393d34;
+  --color-black: #10120d;
+  --color-trueblack: #000;
+  --color-truewhite: #fff;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
-  --font-lg: 18px;
-  --font-md: 16px;
-  --font-sm: 14px;
-  --font-sx: 12px;
+  --font-tract: "Organetto";
+  --font-lg: 20px;
+  --font-md: 18px;
+  --font-sm: 16px;
+  --font-sx: 14px;
   --line-height-loose: 1.75;
   --line-height-normal: 1.5;
   --line-height-dense: 1.1;
@@ -25,6 +33,13 @@
   --size-gutter: var(--space-5);
   --size-gap: var(--space-6);
 }
+
+@font-face {
+  font-family: "Organetto";
+  src: url("../fonts/Organetto-RegularUltraCnd.woff");
+  font-display: swap;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;

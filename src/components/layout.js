@@ -44,8 +44,8 @@ const Layout = ({ children }) => {
           <a href="https://tractstack.com">Tract Stack</a> by{" "}
           <a href="https://atriskmedia.com">At Risk Media</a>.{` `}
           Your opinionated, headless no-code CMS for personal brand makers,
-          community builders and evangelists; powered by learning science. Built
-          with
+          community builders and evangelists alike; powered by learning science.
+          Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>.
         </footer>

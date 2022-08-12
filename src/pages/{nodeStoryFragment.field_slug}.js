@@ -1,8 +1,11 @@
 import * as React from "react"
 import { graphql } from "gatsby"
+import { useBreakpoint } from "gatsby-plugin-breakpoints"
+import { ComposePanes } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Menu from "../components/menu"
 import * as styles from "../components/storyfragment.module.css"
 
 export const query = graphql`
@@ -239,6 +242,10 @@ export const query = graphql`
   }
 `
 
+const codeHooks = {
+  "add-here": <></>,
+}
+
 const tractStackGraph = data => {
   const tractStackId = data[0].node.relationships.field_tract_stack.id
   const tractStackTitle = data[0].node.relationships.field_tract_stack.title
@@ -259,22 +266,52 @@ const tractStackGraph = data => {
   }
 }
 
-const storyFragmentPayload = data => {
-  const storyFragmentId = data.id
-  const storyFragmentTitle = data.title
-  const storyFragmentSlug = data.field_slug
-  const storyFragmentPanesRaw = data.relationships.field_panes
-  const storyFragmentMenuRaw = data.relationships.field_menu
-
-  //console.log( storyFragmentId, storyFragmentTitle, storyFragmentSlug, storyFragmentPanesRaw, storyFragmentMenuRaw );
-  return { mobile: data, tablet: data, desktop: data }
+const storyFragmentPayload = props => {
+  const setLispActionHook = props.setLispActionHook
+  const storyFragmentId = props.data.id
+  const storyFragmentTitle = props.data.title
+  const storyFragmentSlug = props.data.field_slug
+  const panesPayload = props.data.relationships.field_panes
+  const composedPanes = ComposePanes(panesPayload, setLispActionHook, codeHooks)
+  const menuPayload = props.data.relationships.field_menu || null
+  const composedMenu = {
+    mobile: Menu({ menuPayload, viewportKey: "mobile" }),
+    tablet: Menu({ menuPayload, viewportKey: "tablet" }),
+    desktop: Menu({ menuPayload, viewportKey: "desktop" }),
+  }
+  return {
+    id: storyFragmentId,
+    title: storyFragmentTitle,
+    slug: storyFragmentSlug,
+    panes: composedPanes,
+    menu: composedMenu,
+  }
 }
 
 const StoryFragment = props => {
+  const [lispActionPayload, setLispActionPayload] = React.useState("")
+  const breakpoints = useBreakpoint()
+  const viewportKey = breakpoints.mobile
+    ? "mobile"
+    : breakpoints.tablet
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
-  const thisPayload = storyFragmentPayload(props.data.nodeStoryFragment)
+  const thisPayload = storyFragmentPayload({
+    data: props.data.nodeStoryFragment,
+    setLispActionHook: setLispActionPayload,
+  })
   //console.log(thisGraph)
-  //console.log(thisPayload)
+  console.log(thisPayload)
+
+  React.useEffect(
+    function doLispAction() {
+      console.log(lispActionPayload)
+    },
+    [lispActionPayload]
+  )
 
   return (
     <Layout>
