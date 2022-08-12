@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { ComposePanes } from "gatsby-plugin-tractstack"
+import { Compositor, getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -272,7 +272,7 @@ const storyFragmentPayload = props => {
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
   const panesPayload = props.data.relationships.field_panes
-  const composedPanes = ComposePanes(panesPayload, setLispActionHook, codeHooks)
+  const composedPayload = Compositor(panesPayload, setLispActionHook, codeHooks)
   const menuPayload = props.data.relationships.field_menu || null
   const composedMenu = {
     mobile: Menu({ menuPayload, viewportKey: "mobile" }),
@@ -283,7 +283,7 @@ const storyFragmentPayload = props => {
     id: storyFragmentId,
     title: storyFragmentTitle,
     slug: storyFragmentSlug,
-    panes: composedPanes,
+    payload: composedPayload,
     menu: composedMenu,
   }
 }
@@ -311,6 +311,13 @@ const StoryFragment = props => {
       console.log(lispActionPayload)
     },
     [lispActionPayload]
+  )
+  React.useEffect(
+    function checkScrollBarSize() {
+      const currentSize = viewportKey === "server" ? 0 : getScrollbarSize()
+      document.documentElement.style.setProperty("--offset", currentSize)
+    },
+    [viewportKey]
   )
 
   return (
