@@ -243,7 +243,11 @@ export const query = graphql`
 `
 
 const codeHooks = {
-  "add-here": <></>,
+  "add-here": (
+    <>
+      <p>codehook!</p>
+    </>
+  ),
 }
 
 const tractStackGraph = data => {
@@ -271,7 +275,9 @@ const storyFragmentPayload = props => {
   const storyFragmentId = props.data.id
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
-  const panesPayload = props.data.relationships.field_panes
+  const panesPayload = props.data.relationships.field_panes.sort((a, b) =>
+    a?.field_zindex > b?.field_zindex ? 1 : -1
+  )
   const composedPayload = Compositor(panesPayload, setLispActionHook, codeHooks)
   const menuPayload = props.data.relationships.field_menu || null
   const composedMenu = {
@@ -308,7 +314,8 @@ const StoryFragment = props => {
 
   React.useEffect(
     function doLispAction() {
-      console.log(lispActionPayload)
+      if( lispActionPayload )
+        console.log('doLispAction',lispActionPayload)
     },
     [lispActionPayload]
   )
