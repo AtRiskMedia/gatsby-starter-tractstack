@@ -6,15 +6,19 @@ import {
 } from "gatsby-plugin-tractstack"
 
 function Menu({ menuPayload, viewportKey, setPayload }) {
-  const logo = getLogo(
-    menuPayload.relationships?.field_menu?.relationships?.field_svg_logo,
-    menuPayload.relationships?.field_menu?.relationships?.field_image_logo
-  )
-  const menuItemsRaw = PreParseMenuItems(
-    menuPayload.relationships?.field_menu?.relationships?.field_menu_items,
-    setPayload
-  )
-  const menuItems = ParseMenuItems(menuItemsRaw)
+  const logo =
+    menuPayload &&
+    getLogo(
+      menuPayload.relationships?.field_menu?.relationships?.field_svg_logo,
+      menuPayload.relationships?.field_menu?.relationships?.field_image_logo
+    )
+  const menuItemsRaw =
+    menuPayload &&
+    PreParseMenuItems(
+      menuPayload.relationships?.field_menu?.relationships?.field_menu_items,
+      setPayload
+    )
+  const menuItems = menuItemsRaw && ParseMenuItems(menuItemsRaw)
   const slogan = (
     <p>
       <span>Power-ups for creatives since 2002.</span>

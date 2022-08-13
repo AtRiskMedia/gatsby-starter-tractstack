@@ -314,8 +314,7 @@ const StoryFragment = props => {
 
   React.useEffect(
     function doLispAction() {
-      if( lispActionPayload )
-        console.log('doLispAction',lispActionPayload)
+      if (lispActionPayload) console.log("doLispAction", lispActionPayload)
     },
     [lispActionPayload]
   )
