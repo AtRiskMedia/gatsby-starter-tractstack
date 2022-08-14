@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Compositor } from "gatsby-plugin-tractstack"
 
 import Menu from "../components/menu"
