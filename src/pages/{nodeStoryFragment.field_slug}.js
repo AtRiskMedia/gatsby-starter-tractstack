@@ -1,11 +1,11 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { Compositor, getScrollbarSize } from "gatsby-plugin-tractstack"
+import { getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import Menu from "../components/menu"
+import storyFragmentPayloadThisViewportKey from "../components/storyfragment"
 import * as styles from "../components/storyfragment.module.css"
 
 export const query = graphql`
@@ -270,30 +270,6 @@ const tractStackGraph = data => {
   }
 }
 
-const storyFragmentPayload = props => {
-  const setLispActionHook = props.setLispActionHook
-  const storyFragmentId = props.data.id
-  const storyFragmentTitle = props.data.title
-  const storyFragmentSlug = props.data.field_slug
-  const panesPayload = props.data.relationships.field_panes.sort((a, b) =>
-    a?.field_zindex > b?.field_zindex ? 1 : -1
-  )
-  const composedPayload = Compositor(panesPayload, setLispActionHook, codeHooks)
-  const menuPayload = props.data.relationships.field_menu || null
-  const composedMenu = {
-    mobile: Menu({ menuPayload, viewportKey: "mobile" }),
-    tablet: Menu({ menuPayload, viewportKey: "tablet" }),
-    desktop: Menu({ menuPayload, viewportKey: "desktop" }),
-  }
-  return {
-    id: storyFragmentId,
-    title: storyFragmentTitle,
-    slug: storyFragmentSlug,
-    payload: composedPayload,
-    menu: composedMenu,
-  }
-}
-
 const StoryFragment = props => {
   const [lispActionPayload, setLispActionPayload] = React.useState("")
   const breakpoints = useBreakpoint()
@@ -305,9 +281,11 @@ const StoryFragment = props => {
     ? "desktop"
     : "server"
   const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
-  const thisPayload = storyFragmentPayload({
+  const thisPayload = storyFragmentPayloadThisViewportKey({
     data: props.data.nodeStoryFragment,
+    viewportKey: viewportKey,
     setLispActionHook: setLispActionPayload,
+    codeHooks: codeHooks,
   })
   //console.log(thisGraph)
   console.log(thisPayload)
