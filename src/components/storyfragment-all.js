@@ -12,9 +12,13 @@ const storyFragmentPayload = props => {
   const panesPayload = props.data.relationships.field_panes.sort((a, b) =>
     a?.field_zindex > b?.field_zindex ? 1 : -1
   )
-  const composedPayload = Compositor(panesPayload, setLispActionHook, codeHooks)
+  const compositedPayload = Compositor(
+    panesPayload,
+    setLispActionHook,
+    codeHooks
+  )
   const menuPayload = props?.data?.relationships?.field_menu
-  const composedMenu = {
+  const compositedMenu = {
     mobile:
       (menuPayload && Menu({ menuPayload, viewportKey: "mobile" })) || false,
     tablet:
@@ -26,8 +30,8 @@ const storyFragmentPayload = props => {
     id: storyFragmentId,
     title: storyFragmentTitle,
     slug: storyFragmentSlug,
-    payload: composedPayload[viewportKey],
-    menu: composedMenu[viewportKey],
+    payload: compositedPayload[viewportKey],
+    menu: compositedMenu[viewportKey],
   }
 }
 

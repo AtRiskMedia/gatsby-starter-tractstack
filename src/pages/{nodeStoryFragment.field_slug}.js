@@ -6,6 +6,7 @@ import { getScrollbarSize } from "gatsby-plugin-tractstack"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import storyFragmentPayloadThisViewportKey from "../components/storyfragment"
+import RenderedStoryFragment from "../components/storyfragment-rendered"
 import * as styles from "../components/storyfragment.module.css"
 
 export const query = graphql`
@@ -288,7 +289,7 @@ const StoryFragment = props => {
     codeHooks: codeHooks,
   })
   //console.log(thisGraph)
-  console.log(thisPayload)
+  //console.log(thisPayload)
 
   React.useEffect(
     function doLispAction() {
@@ -312,6 +313,7 @@ const StoryFragment = props => {
           Welcome to <b>Tract Stack</b>
         </h1>
       </div>
+      <RenderedStoryFragment payload={thisPayload} viewportKey={viewportKey} />
     </Layout>
   )
 }
