@@ -31,7 +31,11 @@ function RenderedStoryFragment(props) {
         return jsx
       })
       return (
-        <section key={`${viewportKey}-${p}`} id={`${viewportKey}-${p}`}>
+        <section
+          key={`${viewportKey}-${p}`}
+          id={`${viewportKey}-${p}`}
+          className="pane"
+        >
           {paneFragments}
         </section>
       )

@@ -1,13 +1,12 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { getScrollbarSize } from "gatsby-plugin-tractstack"
+import { getScrollbarSize, lispLexer } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import storyFragmentPayloadThisViewportKey from "../components/storyfragment"
 import RenderedStoryFragment from "../components/storyfragment-rendered"
-import * as styles from "../components/storyfragment.module.css"
 
 export const query = graphql`
   query ($id: String) {
@@ -293,7 +292,11 @@ const StoryFragment = props => {
 
   React.useEffect(
     function doLispAction() {
-      if (lispActionPayload) console.log("doLispAction", lispActionPayload)
+      if (lispActionPayload) {
+        const astPayload = lispLexer(lispActionPayload)
+        console.log("doLispAction", astPayload)
+        // process payload!
+      }
     },
     [lispActionPayload]
   )
@@ -308,7 +311,7 @@ const StoryFragment = props => {
   return (
     <Layout>
       <Seo title="StoryFragment Collections Route" />
-      <div className={styles.textCenter}>
+      <div>
         <h1>
           Welcome to <b>Tract Stack</b>
         </h1>
