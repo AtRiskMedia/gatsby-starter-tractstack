@@ -20,11 +20,17 @@ const storyFragmentPayload = props => {
   const menuPayload = props?.data?.relationships?.field_menu
   const compositedMenu = {
     mobile:
-      (menuPayload && Menu({ menuPayload, viewportKey: "mobile" })) || false,
+      (menuPayload &&
+        Menu({ menuPayload, viewportKey: "mobile", setLispActionHook })) ||
+      false,
     tablet:
-      (menuPayload && Menu({ menuPayload, viewportKey: "tablet" })) || false,
+      (menuPayload &&
+        Menu({ menuPayload, viewportKey: "tablet", setLispActionHook })) ||
+      false,
     desktop:
-      (menuPayload && Menu({ menuPayload, viewportKey: "desktop" })) || false,
+      (menuPayload &&
+        Menu({ menuPayload, viewportKey: "desktop", setLispActionHook })) ||
+      false,
   }
   return {
     id: storyFragmentId,

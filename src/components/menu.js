@@ -5,14 +5,14 @@ import {
   getLogo,
 } from "gatsby-plugin-tractstack"
 
-function Menu({ menuPayload, viewportKey, setPayload }) {
+function Menu({ menuPayload, viewportKey, setLispActionHook }) {
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
     menuPayload.relationships?.field_image_logo
   )
   const menuItemsRaw = PreParseMenuItems(
     menuPayload.relationships?.field_menu_items,
-    setPayload
+    setLispActionHook
   )
   const menuItems = menuItemsRaw && ParseMenuItems(menuItemsRaw)
   const slogan = (
