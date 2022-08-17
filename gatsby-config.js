@@ -12,7 +12,7 @@ module.exports = {
   siteMetadata: {
     title: `Tract Stack by At Risk Media - Gatsby Starter`,
     description: `Your opinionated, headless no-code CMS for personal brand makers, community builders and evangelists alike; powered by learning science.`,
-    author: `@gatsbyjs`,
+    author: `@AtRiskMedia`,
     siteUrl: `https://atriskmedia.com/`,
   },
   plugins: [
@@ -44,6 +44,12 @@ module.exports = {
       resolve: `gatsby-plugin-breakpoints`,
       options: {
         queries: viewportWidths,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {
+        disableVendorPrefixes: true,
       },
     },
     {
