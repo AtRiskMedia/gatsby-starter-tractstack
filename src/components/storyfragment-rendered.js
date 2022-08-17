@@ -75,13 +75,13 @@ function RenderedStoryFragment(props) {
       return (
         <StyledWrapperSection
           key={`${viewportKey}-${p}`}
-          id={`${viewportKey}-${p}`}
-          className="pane"
           css={`
             ${paneCss}
           `}
         >
-          {paneJsx}
+          <div id={`${viewportKey}-${p}`} className="pane">
+            {paneJsx}
+          </div>
         </StyledWrapperSection>
       )
     })
