@@ -288,7 +288,7 @@ const StoryFragment = props => {
     codeHooks: codeHooks,
   })
   //console.log(thisGraph)
-  //console.log(thisPayload)
+  console.log(thisPayload)
 
   React.useEffect(
     function doLispAction() {

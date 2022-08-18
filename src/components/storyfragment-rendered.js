@@ -18,69 +18,16 @@ function RenderedStoryFragment(props) {
   const rendering =
     typeof panes === "object" &&
     panes?.map(p => {
-      const thisPanesObject = Object.entries(thisPayload).filter(
-        ([id, f]) => f.paneId === p
-      )
-      const paneJsx = thisPanesObject?.map(f => {
-        return f[1].jsx
-      })
-      const paneCss = thisPanesObject?.map(f => {
-        const thisCss = (f[0] && f[1]?.css && `#${f[0]} {${f[1].css}}`) || ``
-        const thisCssModal =
-          (f[0] && f[1]?.cssModal && `#${f[0]} {${f[1].cssModal}}`) || ``
-        const thisCssAnimated =
-          f[0] && f[1]?.cssAnimated && `#${f[0]}.visible {${f[1].cssAnimated}}`
-        const thisCssAnimatedContainer =
-          f[1]?.paneId &&
-          f[1]?.cssAnimatedContainer &&
-          `#${f[1].paneId}.visible {${f[1].cssAnimatedContainer}}`
-        return `${thisCss}${thisCssModal}${thisCssAnimated}${thisCssAnimatedContainer}`.replace(
-          /\s+/g,
-          ""
-        )
-      })
-      /*
-      const paneFragments = thisPanesObject?.map(f => {
-        const thisPaneFragmentId = f[0]
-        const thisPanesPayload = f[1]
-        const thisPaneId = thisPanesPayload.paneId
-        const jsx = thisPanesPayload.jsx
-        const css = thisPanesPayload.css
-        const cssModal = thisPanesPayload.cssModal
-        const cssAnimated = thisPanesPayload.cssAnimated
-        const cssAnimatedContainer = thisPanesPayload.cssAnimatedContainer
-        const impressions = thisPanesPayload.impressions
-        const thisCss = `background:red;`
-        console.log(
-          thisPaneId,
-          thisPaneFragmentId,
-          css,
-          cssModal,
-          cssAnimated,
-          cssAnimatedContainer,
-          impressions
-        )
-        // inject css and stuff
-        return { jsx: jsx, css: css, cssAnimated:  }
-      })
-      const paneJsx = paneFragments.map(p => {
-        return p.jsx
-      })
-      const paneCss = paneFragments.map(p => {
-        return p.css
-      })
-      */
-      // separate object to two arrays
-      //
+      const thisPane = thisPayload[p]
       return (
         <StyledWrapperSection
           key={`${viewportKey}-${p}`}
           css={`
-            ${paneCss}
+            ${thisPane?.css}${thisPane?.cssAnimated}
           `}
         >
           <div id={`${viewportKey}-${p}`} className="pane">
-            {paneJsx}
+            {thisPane?.children}
           </div>
         </StyledWrapperSection>
       )
