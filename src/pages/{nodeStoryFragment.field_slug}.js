@@ -1,12 +1,13 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { getScrollbarSize, lispLexer } from "gatsby-plugin-tractstack"
+import { getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import storyFragmentPayloadThisViewportKey from "../components/storyfragment"
 import RenderedStoryFragment from "../components/storyfragment-rendered"
+import usePrefersReducedMotion from "../components/prefersReducedMotion"
 
 export const query = graphql`
   query ($id: String) {
@@ -272,6 +273,8 @@ const tractStackGraph = data => {
 
 const StoryFragment = props => {
   const [lispActionPayload, setLispActionPayload] = React.useState("")
+  const [panesVisible, setPanesVisible] = React.useState([])
+  const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
     ? "mobile"
@@ -289,12 +292,12 @@ const StoryFragment = props => {
   })
   //console.log(thisGraph)
   console.log(thisPayload)
+  console.log(prefersReducedMotion, panesVisible)
 
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
-        const astPayload = lispLexer(lispActionPayload)
-        console.log("doLispAction", astPayload)
+        console.log("doLispAction", lispActionPayload)
         // process payload!
       }
     },
@@ -316,7 +319,13 @@ const StoryFragment = props => {
           Welcome to <b>Tract Stack</b>
         </h1>
       </div>
-      <RenderedStoryFragment payload={thisPayload} viewportKey={viewportKey} />
+      <RenderedStoryFragment
+        payload={thisPayload}
+        viewportKey={viewportKey}
+        prefersReducedMotion={prefersReducedMotion?.prefersReducedMotion}
+        panesVisible={panesVisible}
+        setLispActionPayload={setLispActionPayload}
+      />
     </Layout>
   )
 }

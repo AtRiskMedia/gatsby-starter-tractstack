@@ -9,9 +9,7 @@ const storyFragmentPayload = props => {
   const storyFragmentId = props.data.id
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
-  const panesPayload = props.data.relationships.field_panes.sort((a, b) =>
-    a?.field_zindex > b?.field_zindex ? 1 : -1
-  )
+  const panesPayload = props.data.relationships.field_panes
   const compositedPayload = Compositor(
     panesPayload,
     setLispActionHook,
