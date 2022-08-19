@@ -309,9 +309,6 @@ const StoryFragment = props => {
   //console.log(payload)
   //console.log(prefersReducedMotion, panesVisible)
 
-  // need to pre-generate the correct number of useInView hooks
-  // ...for this viewportKey
-
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
@@ -352,7 +349,14 @@ const StoryFragment = props => {
 
       return (
         <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
-          <InView unobserveOnEnter>
+          <InView
+            onEnter={({}) => {
+              setLispActionPayload(["hookPaneVisible", p])
+            }}
+            onLeave={({}) => {
+              setLispActionPayload(["hookPaneHidden", p])
+            }}
+          >
             <Pane id={`${viewportKey}-${p}`} children={thisPane?.children} />
           </InView>
         </StyledWrapperSection>
