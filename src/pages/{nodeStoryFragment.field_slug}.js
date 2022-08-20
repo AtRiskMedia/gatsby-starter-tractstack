@@ -307,12 +307,12 @@ const StoryFragment = props => {
   })
   //console.log(thisGraph)
   //console.log(payload)
-  console.log(prefersReducedMotion, panesVisible)
+  //console.log(prefersReducedMotion )
+  console.log(panesVisible, typeof panesVisible)
 
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
-        console.log("doLispAction", lispActionPayload)
         const command = (lispActionPayload && lispActionPayload[0]) || false
         let parameter_one, parameter_two, parameter_three
         if (lispActionPayload && typeof lispActionPayload[1] === "object") {
@@ -320,26 +320,24 @@ const StoryFragment = props => {
           parameter_two = lispActionPayload[1][1] || false
           parameter_three = lispActionPayload[1][2] || false
         }
-        let remainingPanesVisible, newPanesVisible
+        let remainingPanesVisible = [],
+          newPanesVisible = []
         switch (command) {
           case "hookPaneVisible":
-            remainingPanesVisible = panesVisible?.filter(
-              p => p !== parameter_one
-            )
-            newPanesVisible = remainingPanesVisible?.length
-              ? remainingPanesVisible?.unshift(parameter_one)
-              : [parameter_one]
-            if (newPanesVisible !== panesVisible) {
-              setPanesVisible(newPanesVisible)
-            }
+            remainingPanesVisible =
+              panesVisible?.length ?
+                panesVisible?.filter(p => p !== parameter_one) : []
+            newPanesVisible = remainingPanesVisible?.length ?
+              remainingPanesVisible.unshift(parameter_one) : [parameter_one]
+            setPanesVisible(newPanesVisible)
+            console.log( 5, remainingPanesVisible, newPanesVisible )
             break
           case "hookPaneHidden":
-            remainingPanesVisible = panesVisible?.filter(
-              p => p !== parameter_one
-            )
-            if (newPanesVisible !== remainingPanesVisible) {
-              setPanesVisible(remainingPanesVisible)
-            }
+            remainingPanesVisible =
+              panesVisible?.length ?
+                panesVisible?.filter(p => p !== parameter_one) : []
+            setPanesVisible(remainingPanesVisible)
+            console.log( 55, remainingPanesVisible )
             break
           case "gotoStoryFragment":
             console.log("gotoStoryFragment")
