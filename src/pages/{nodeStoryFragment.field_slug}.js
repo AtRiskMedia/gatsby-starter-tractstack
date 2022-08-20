@@ -308,11 +308,13 @@ const StoryFragment = props => {
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
-  console.log(panesVisible, typeof panesVisible)
+  console.log(panesVisible)
 
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
+        const currentPanesVisible = panesVisible?.length ? [...panesVisible] : []
+        console.log( currentPanesVisible, panesVisible )
         const command = (lispActionPayload && lispActionPayload[0]) || false
         let parameter_one, parameter_two, parameter_three
         if (lispActionPayload && typeof lispActionPayload[1] === "object") {
@@ -324,20 +326,19 @@ const StoryFragment = props => {
           newPanesVisible = []
         switch (command) {
           case "hookPaneVisible":
-            remainingPanesVisible =
-              panesVisible?.length ?
-                panesVisible?.filter(p => p !== parameter_one) : []
-            newPanesVisible = remainingPanesVisible?.length ?
-              remainingPanesVisible.unshift(parameter_one) : [parameter_one]
+            remainingPanesVisible = currentPanesVisible?.length
+              ? currentPanesVisible?.filter(p => p !== parameter_one)
+              : []
+            newPanesVisible = remainingPanesVisible?.length
+              ? remainingPanesVisible.unshift(parameter_one)
+              : [parameter_one]
             setPanesVisible(newPanesVisible)
-            console.log( 5, remainingPanesVisible, newPanesVisible )
             break
           case "hookPaneHidden":
-            remainingPanesVisible =
-              panesVisible?.length ?
-                panesVisible?.filter(p => p !== parameter_one) : []
+            remainingPanesVisible = currentPanesVisible?.length
+              ? currentPanesVisible?.filter(p => p !== parameter_one)
+              : []
             setPanesVisible(remainingPanesVisible)
-            console.log( 55, remainingPanesVisible )
             break
           case "gotoStoryFragment":
             console.log("gotoStoryFragment")
