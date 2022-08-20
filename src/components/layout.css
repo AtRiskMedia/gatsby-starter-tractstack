@@ -268,6 +268,11 @@ button.pane {
 .paneFragmentParagraphOutside {
   fill: none;
 }
+.paneFragmentImage section,
+.paneFragmentImage__inner,
+.paneFragmentImage__inner div {
+  height: 100%;
+}
 
 // comic pane shapes
 .svg-shape-outside__pane-left--mobile,
