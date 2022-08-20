@@ -270,6 +270,8 @@ button.pane {
 }
 .paneFragmentImage section,
 .paneFragmentImage__inner,
+.paneFragmentVideo,
+.paneFragmentVideo video,
 .paneFragmentImage__inner div {
   height: 100%;
 }
