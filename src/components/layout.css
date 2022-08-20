@@ -432,3 +432,171 @@ button.pane {
 .svg-shape-outside__comic1920r3main2-right--desktop {
   width: calc((100vw - (var(--offset) * 1px)) / 1920 * 504);
 }
+
+// menu
+
+header {
+  text-align: left;
+  z-index: 10000;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+nav.menu-default {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: space-between;
+  width: 100%;
+  //font-family: URWDIN;
+  background: rgb(16, 18, 13);
+  background: linear-gradient(
+    90deg,
+    rgba(16, 18, 13, 0.4) 0%,
+    rgba(16, 18, 13, 0.8) 50%,
+    rgba(41, 63, 88, 1) 100%
+  );
+  overflow: hidden;
+  & p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+nav.menu-default.mobile {
+  height: calc((100vw - (var(--offset) * 1px)) / 600 * 140);
+  & .menu__branding {
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+  }
+  & .menu__logo {
+    margin: 0;
+    width: calc((100vw - (var(--offset) * 1px)) / 600 * 260);
+  }
+  & .menu__slogan {
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+    line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+    padding-top: calc((100vw - (var(--offset) * 1px)) / 600 * 4);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+  }
+  & .menu__menuitems {
+    padding-right: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+    line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 26);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+    & ul {
+      flex-direction: column;
+    }
+  }
+}
+
+nav.menu-default.tablet {
+  height: calc((100vw - (var(--offset) * 1px)) / 1080 * 211);
+  & .menu__branding {
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
+  }
+  & .menu__logo {
+    margin: 0;
+    width: calc((100vw - (var(--offset) * 1px)) / 1080 * 408);
+  }
+  & .menu__slogan {
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
+    padding-top: calc((100vw - (var(--offset) * 1px)) / 1080 * 4);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 28);
+  }
+  & .menu__menuitems {
+    padding-right: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
+    line-height: calc((100vw - (var(--offset) * 1px)) / 1080 * 44);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 36);
+    & ul {
+      flex-direction: column;
+    }
+  }
+}
+nav.menu-default.desktop {
+  height: calc((100vw - (var(--offset) * 1px)) / 1920 * 167);
+  & .menu__branding {
+    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
+    padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 40);
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 280);
+  }
+  & .menu__logo {
+    margin: 0;
+    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 407);
+  }
+  & .menu__slogan {
+    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
+    padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 35);
+    padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 51);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 48);
+  }
+  & .menu__menuitems {
+    line-height: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+    font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+  }
+  & .menu-row {
+    display: flex;
+    align-items: center;
+  }
+  & .menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  & .menu-top {
+    display: flex;
+  }
+  & .menu-items {
+    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 1400);
+    & ul {
+      width: 100%;
+      & li {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.menu__branding {
+  color: $green;
+}
+.menu__slogan {
+  color: $lightgrey;
+}
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+nav.menu-default ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+}
+nav.menu-default li {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav.menu-default a {
+  position: relative;
+  color: $white;
+  text-decoration: none;
+}
+
+nav.menu-default a.is-active {
+  color: $orange !important;
+}
+
+nav.menu-default a:hover {
+  color: $orange;
+}

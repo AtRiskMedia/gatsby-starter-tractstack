@@ -307,16 +307,60 @@ const StoryFragment = props => {
   })
   //console.log(thisGraph)
   //console.log(payload)
-  //console.log(prefersReducedMotion, panesVisible)
+  console.log(prefersReducedMotion, panesVisible)
 
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
         console.log("doLispAction", lispActionPayload)
-        // process payload!
+        const command = (lispActionPayload && lispActionPayload[0]) || false
+        let parameter_one, parameter_two, parameter_three
+        if (lispActionPayload && typeof lispActionPayload[1] === "object") {
+          parameter_one = lispActionPayload[1][0] || false
+          parameter_two = lispActionPayload[1][1] || false
+          parameter_three = lispActionPayload[1][2] || false
+        }
+        let remainingPanesVisible, newPanesVisible
+        switch (command) {
+          case "hookPaneVisible":
+            remainingPanesVisible = panesVisible?.filter(
+              p => p !== parameter_one
+            )
+            newPanesVisible = remainingPanesVisible?.length
+              ? remainingPanesVisible?.unshift(parameter_one)
+              : [parameter_one]
+            if (newPanesVisible !== panesVisible) {
+              setPanesVisible(newPanesVisible)
+            }
+            break
+          case "hookPaneHidden":
+            remainingPanesVisible = panesVisible?.filter(
+              p => p !== parameter_one
+            )
+            if (newPanesVisible !== remainingPanesVisible) {
+              setPanesVisible(remainingPanesVisible)
+            }
+            break
+          case "gotoStoryFragment":
+            console.log("gotoStoryFragment")
+            break
+          case "setCurrentPane":
+            console.log("setCurrentPane")
+            break
+          default:
+            console.log(
+              "LispActionPayload misfire",
+              command,
+              parameter_one,
+              parameter_two,
+              parameter_three
+            )
+            break
+        }
+        setLispActionPayload("")
       }
     },
-    [lispActionPayload]
+    [lispActionPayload, panesVisible]
   )
   React.useEffect(
     function checkScrollBarSize() {
@@ -340,21 +384,14 @@ const StoryFragment = props => {
         `
             ${thisPane?.css}${thisPane?.cssAnimated}
           `
-      function injectPayloadVisible() {
-        setLispActionPayload(["hookPaneVisible", p])
-      }
-      function injectPayloadHidden() {
-        setLispActionPayload(["hookPaneHidden", p])
-      }
-
       return (
         <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
           <InView
-            onEnter={({}) => {
-              setLispActionPayload(["hookPaneVisible", p])
+            onEnter={() => {
+              setLispActionPayload(["hookPaneVisible", [p]])
             }}
-            onLeave={({}) => {
-              setLispActionPayload(["hookPaneHidden", p])
+            onLeave={() => {
+              setLispActionPayload(["hookPaneHidden", [p]])
             }}
           >
             <Pane id={`${viewportKey}-${p}`} children={thisPane?.children} />
