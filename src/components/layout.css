@@ -30,7 +30,7 @@
   --space-4: 24px;
   --space-5: 32px;
   --space-6: 64px;
-  --size-content: 54rem;
+  --size-content: 2560px;
   --size-gutter: var(--space-5);
   --size-gap: var(--space-6);
 }
@@ -263,6 +263,10 @@ button.pane {
   height: 100%;
   overflow: hidden;
   justify-self: start;
+}
+
+.paneFragmentParagraphOutside {
+  fill: none;
 }
 
 // comic pane shapes
