@@ -313,8 +313,10 @@ const StoryFragment = props => {
   React.useEffect(
     function doLispAction() {
       if (lispActionPayload) {
-        const currentPanesVisible = panesVisible?.length ? [...panesVisible] : []
-        console.log( currentPanesVisible, panesVisible )
+        const currentPanesVisible = panesVisible?.length
+          ? [...panesVisible]
+          : []
+        console.log(currentPanesVisible, panesVisible)
         const command = (lispActionPayload && lispActionPayload[0]) || false
         let parameter_one, parameter_two, parameter_three
         if (lispActionPayload && typeof lispActionPayload[1] === "object") {
@@ -393,7 +395,10 @@ const StoryFragment = props => {
               setLispActionPayload(["hookPaneHidden", [p]])
             }}
           >
-            <Pane id={`${viewportKey}-${p}`} children={thisPane?.children} />
+            <Pane
+              thisId={`${viewportKey}-${p}`}
+              children={thisPane?.children}
+            />
           </InView>
         </StyledWrapperSection>
       )
