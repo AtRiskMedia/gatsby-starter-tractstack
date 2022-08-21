@@ -308,7 +308,7 @@ const StoryFragment = props => {
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
-  console.log(panesVisible)
+  //console.log(panesVisible)
 
   React.useEffect(
     function doLispAction() {
@@ -316,7 +316,6 @@ const StoryFragment = props => {
         const currentPanesVisible = panesVisible?.length
           ? [...panesVisible]
           : []
-        console.log(currentPanesVisible, panesVisible)
         const command = (lispActionPayload && lispActionPayload[0]) || false
         let parameter_one, parameter_two, parameter_three
         if (lispActionPayload && typeof lispActionPayload[1] === "object") {
@@ -324,23 +323,14 @@ const StoryFragment = props => {
           parameter_two = lispActionPayload[1][1] || false
           parameter_three = lispActionPayload[1][2] || false
         }
-        let remainingPanesVisible = [],
-          newPanesVisible = []
         switch (command) {
           case "hookPaneVisible":
-            remainingPanesVisible = currentPanesVisible?.length
-              ? currentPanesVisible?.filter(p => p !== parameter_one)
-              : []
-            newPanesVisible = remainingPanesVisible?.length
-              ? remainingPanesVisible.unshift(parameter_one)
-              : [parameter_one]
-            setPanesVisible(newPanesVisible)
+            if (currentPanesVisible?.length)
+              setPanesVisible([parameter_one, ...currentPanesVisible])
+            else setPanesVisible([parameter_one])
             break
           case "hookPaneHidden":
-            remainingPanesVisible = currentPanesVisible?.length
-              ? currentPanesVisible?.filter(p => p !== parameter_one)
-              : []
-            setPanesVisible(remainingPanesVisible)
+              setPanesVisible(currentPanesVisible?.filter(p => p !== parameter_one))
             break
           case "gotoStoryFragment":
             console.log("gotoStoryFragment")
