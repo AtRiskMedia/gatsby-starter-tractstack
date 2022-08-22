@@ -44,7 +44,7 @@ function Seo({ description, title, children }) {
 }
 
 Seo.defaultProps = {
-  description: `Tract Stack: your opinionated, headless no-code CMS for personal brand makers and community builders alike;  powered by learning science.`,
+  description: `Tract Stack: Your no-code funnel conceirge`,
 }
 
 Seo.propTypes = {

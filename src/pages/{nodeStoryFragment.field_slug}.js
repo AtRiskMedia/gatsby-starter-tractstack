@@ -330,7 +330,9 @@ const StoryFragment = props => {
             else setPanesVisible([parameter_one])
             break
           case "hookPaneHidden":
-              setPanesVisible(currentPanesVisible?.filter(p => p !== parameter_one))
+            setPanesVisible(
+              currentPanesVisible?.filter(p => p !== parameter_one)
+            )
             break
           case "gotoStoryFragment":
             console.log("gotoStoryFragment")

@@ -45,7 +45,11 @@ function Menu({ menuPayload, viewportKey, setLispActionHook }) {
     )
   return (
     <header role="banner">
-      <nav role="navigation" className={`menu menu-default ${viewportKey}`}>
+      <nav
+        role="navigation"
+        className={`menu menu-default`}
+        id={`menu-${viewportKey}`}
+      >
         {contents}
       </nav>
     </header>
