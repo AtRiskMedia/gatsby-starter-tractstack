@@ -44,7 +44,7 @@ function Menu({ menuPayload, viewportKey, setLispActionHook }) {
       </div>
     )
   return (
-    <header role="banner">
+    <div id="menu-default-container">
       <nav
         role="navigation"
         className={`menu menu-default`}
@@ -52,7 +52,7 @@ function Menu({ menuPayload, viewportKey, setLispActionHook }) {
       >
         {contents}
       </nav>
-    </header>
+    </div>
   )
 }
 

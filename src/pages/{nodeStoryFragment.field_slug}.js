@@ -407,11 +407,6 @@ const StoryFragment = props => {
   return (
     <Layout>
       <Seo title="StoryFragment Collections Route" />
-      <div>
-        <h1>
-          Welcome to <b>Tract Stack</b>
-        </h1>
-      </div>
       {renderedStoryFragment}
     </Layout>
   )

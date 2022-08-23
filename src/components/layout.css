@@ -1,17 +1,17 @@
 :root {
   --offset: 0;
   --border-radius: 4px;
-  --color-text: #10120d;
-  --color-primary: #f58333;
-  --color-white: #fcfcfc;
-  --color-lightgrey: #a7b1b7;
-  --color-blue: #293f58;
-  --color-green: #c8df8c;
-  --color-orange: #f58333;
-  --color-darkgrey: #393d34;
-  --color-black: #10120d;
-  --color-trueblack: #000;
-  --color-truewhite: #fff;
+  --colour-text: #10120d;
+  --colour-primary: #f58333;
+  --colour-white: #fcfcfc;
+  --colour-lightgrey: #a7b1b7;
+  --colour-blue: #293f58;
+  --colour-green: #c8df8c;
+  --colour-orange: #f58333;
+  --colour-darkgrey: #393d34;
+  --colour-black: #10120d;
+  --colour-trueblack: #000;
+  --colour-truewhite: #fff;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
@@ -52,7 +52,7 @@ html {
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  color: var(--color-text);
+  color: var(--colour-text);
   font-family: sans-serif;
   font-family: var(--font-sans);
   font-weight: normal;
@@ -61,7 +61,7 @@ body {
 }
 a {
   background-color: transparent;
-  color: var(--color-primary);
+  color: var(--colour-primary);
   text-decoration: none;
   font-weight: 500;
   text-decoration: underline;
@@ -94,7 +94,7 @@ h1 {
   letter-spacing: -0.01em;
 }
 h1 > b {
-  color: var(--color-primary);
+  color: var(--colour-primary);
 }
 img {
   border-style: none;
@@ -214,9 +214,9 @@ acronym {
 }
 tt,
 code {
-  background-color: var(--color-code-bg);
+  background-color: var(--colour-code-bg);
   border-radius: var(--border-radius);
-  color: var(--color-code);
+  color: var(--colour-code);
   font-family: var(--font-mono);
   padding-bottom: 0.25em;
   padding-top: 0.25em;
@@ -435,26 +435,23 @@ button.pane {
   width: calc((100vw - (var(--offset) * 1px)) / 1920 * 504);
 }
 
-// menu
-
-header {
-  text-align: left;
-  z-index: 10000;
-  width: 100%;
-  position: absolute;
-  top: 0;
+#menu-default-container {
+  font-family: var(--font-tract);
+  position: relative;
 }
 
 nav.menu-default {
   display: inline-flex;
+  position: absolute;
+  top: 0;
+  z-index: 10000;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: flex-start;
   align-content: space-between;
   width: 100%;
-  //font-family: URWDIN;
-  background: rgb(16, 18, 13);
+  text-align: left;
   background: linear-gradient(
     90deg,
     rgba(16, 18, 13, 0.4) 0%,
@@ -462,57 +459,57 @@ nav.menu-default {
     rgba(41, 63, 88, 1) 100%
   );
   overflow: hidden;
-  & p {
-    margin: 0;
-    padding: 0;
-  }
+}
+nav.menu-default p {
+  margin: 0;
+  padding: 0;
 }
 
 #menu-mobile.menu-default {
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 140);
 }
-#menu-mobile.menu__branding {
-    padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+#menu-mobile .menu__branding {
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
 }
-#menu-mobile.menu__logo {
-    margin: 0;
-    width: calc((100vw - (var(--offset) * 1px)) / 600 * 260);
+#menu-mobile .menu__logo {
+  margin: 0;
+  width: calc((100vw - (var(--offset) * 1px)) / 600 * 260);
 }
-#menu-mobile.menu__slogan {
-    padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
-    line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
-    padding-top: calc((100vw - (var(--offset) * 1px)) / 600 * 4);
-    font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+#menu-mobile .menu__slogan {
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+  line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+  padding-top: calc((100vw - (var(--offset) * 1px)) / 600 * 4);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
 }
-#menu-mobile.menu__menuitems {
-    padding-right: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
-    line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 26);
-    font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+#menu-mobile .menu__menuitems {
+  padding-right: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+  line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 26);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
 }
 #menu-mobile ul {
-      flex-direction: column;
-    }
-  
+  flex-direction: column;
+}
+
 #menu-tablet.menu-default {
   height: calc((100vw - (var(--offset) * 1px)) / 1080 * 211);
 }
 
-#menu-tablet.menu__branding {
+#menu-tablet .menu__branding {
   padding-left: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
 }
-#menu-tablet.menu__logo {
+#menu-tablet .menu__logo {
   margin: 0;
   width: calc((100vw - (var(--offset) * 1px)) / 1080 * 408);
 }
-#menu-tablet.menu__slogan {
+#menu-tablet .menu__slogan {
   padding-left: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
   padding-top: calc((100vw - (var(--offset) * 1px)) / 1080 * 4);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 28);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 20);
 }
-#menu-tablet.menu__menuitems {
+#menu-tablet .menu__menuitems {
   padding-right: calc((100vw - (var(--offset) * 1px)) / 1080 * 114);
-  line-height: calc((100vw - (var(--offset) * 1px)) / 1080 * 44);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 36);
+  line-height: calc((100vw - (var(--offset) * 1px)) / 1080 * 32);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 22);
 }
 #menu-tablet ul {
   flex-direction: column;
@@ -521,53 +518,53 @@ nav.menu-default {
 #menu-desktop.menu-default {
   height: calc((100vw - (var(--offset) * 1px)) / 1920 * 167);
 }
-#menu-desktop.menu__branding {
-    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
-    padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 40);
-    padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 280);
-  }
-#menu-desktop.menu__logo {
-    margin: 0;
-    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 407);
-  }
-#menu-desktop.menu__slogan {
-    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
-    padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 35);
-    padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 51);
-    font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 48);
+#menu-desktop .menu__branding {
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
+  padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 40);
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 280);
 }
-#menu-desktop.menu__menuitems {
-    line-height: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
-    font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+#menu-desktop .menu__logo {
+  margin: 0;
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 407);
 }
-#menu-desktop.menu-row {
-    display: flex;
-    align-items: center;
+#menu-desktop .menu__slogan {
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
+  padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 35);
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 51);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 48);
 }
-#menu-desktop.menu {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-#menu-desktop.menu-top {
-    display: flex;
-  }
-#menu-desktop.menu-items {
-    width: calc((100vw - (var(--offset) * 1px)) / 1920 * 1400);
+#menu-desktop .menu__menuitems {
+  line-height: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+}
+#menu-desktop .menu-row {
+  display: flex;
+  align-items: center;
+}
+#menu-desktop .menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+#menu-desktop .menu-top {
+  display: flex;
+}
+#menu-desktop .menu-items {
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 1400);
 }
 #menu-desktop ul {
-      width: 100%;
+  width: 100%;
 }
 #menu-desktop li {
-        text-align: center;
+  text-align: center;
 }
 
 .menu__branding {
-  color: $green;
+  color: var(--colour-green);
 }
 .menu__slogan {
-  color: $lightgrey;
+  color: var(--colour-lightgrey);
 }
 .menu {
   display: flex;
@@ -593,14 +590,14 @@ nav.menu-default li {
 
 nav.menu-default a {
   position: relative;
-  color: $white;
+  color: var(--colour-white);
   text-decoration: none;
 }
 
 nav.menu-default a.is-active {
-  color: $orange !important;
+  color: var(--colour-orange);
 }
 
 nav.menu-default a:hover {
-  color: $orange;
+  color: var(--colour-orange);
 }
