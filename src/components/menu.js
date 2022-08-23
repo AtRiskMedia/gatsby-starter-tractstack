@@ -17,7 +17,7 @@ function Menu({ menuPayload, viewportKey, setLispActionHook }) {
   const menuItems = menuItemsRaw && ParseMenuItems(menuItemsRaw)
   const slogan = (
     <p>
-      <span>Power-ups for creatives since 2002.</span>
+      <span>Fortifying the Web since 2002</span>
     </p>
   )
   const branding = <span>{logo}</span>

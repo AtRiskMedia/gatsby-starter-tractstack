@@ -59,6 +59,10 @@ body {
   margin: 0;
   word-wrap: break-word;
 }
+header a {
+color: var(--colour-black);
+}
+
 a {
   background-color: transparent;
   color: var(--colour-primary);
@@ -469,22 +473,21 @@ nav.menu-default p {
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 140);
 }
 #menu-mobile .menu__branding {
-  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 35);
 }
 #menu-mobile .menu__logo {
   margin: 0;
-  width: calc((100vw - (var(--offset) * 1px)) / 600 * 260);
+  width: calc((100vw - (var(--offset) * 1px)) / 600 * 200);
 }
 #menu-mobile .menu__slogan {
-  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
-  line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 600 * 35);
   padding-top: calc((100vw - (var(--offset) * 1px)) / 600 * 4);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 14);
 }
 #menu-mobile .menu__menuitems {
   padding-right: calc((100vw - (var(--offset) * 1px)) / 600 * 55);
-  line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 26);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 14);
+  line-height: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
 }
 #menu-mobile ul {
   flex-direction: column;
@@ -521,7 +524,7 @@ nav.menu-default p {
 #menu-desktop .menu__branding {
   width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
   padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 40);
-  padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 280);
+  padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 120);
 }
 #menu-desktop .menu__logo {
   margin: 0;
@@ -531,11 +534,10 @@ nav.menu-default p {
   width: calc((100vw - (var(--offset) * 1px)) / 1920 * 960);
   padding-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 35);
   padding-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 51);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 48);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 38);
 }
 #menu-desktop .menu__menuitems {
-  line-height: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
-  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 30);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 24);
 }
 #menu-desktop .menu-row {
   display: flex;
@@ -551,7 +553,7 @@ nav.menu-default p {
   display: flex;
 }
 #menu-desktop .menu-items {
-  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 1400);
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 1800);
 }
 #menu-desktop ul {
   width: 100%;

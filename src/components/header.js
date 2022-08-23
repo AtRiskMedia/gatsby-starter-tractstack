@@ -6,10 +6,11 @@ const Header = ({ siteTitle }) => (
   <header
     style={{
       margin: `0 auto`,
-      padding: `var(--space-4) var(--size-gutter)`,
+      padding: `var(--space-2) var(--size-gutter)`,
       display: `flex`,
       alignItems: `center`,
       justifyContent: `space-between`,
+      background: `var(--colour-lightgrey)`,
     }}
   >
     <Link
