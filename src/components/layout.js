@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
           © {new Date().getFullYear()} &middot;
           <a href="https://tractstack.com">Tract Stack</a> by{" "}
           <a href="https://atriskmedia.com">At Risk Media</a>.{` `}
-          Your no-code funnel conceirge Built with
+          No-code conversion funnel concierge. Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>.
         </footer>

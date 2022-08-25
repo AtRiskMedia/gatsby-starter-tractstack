@@ -60,7 +60,7 @@ body {
   word-wrap: break-word;
 }
 header a {
-color: var(--colour-black);
+  color: var(--colour-black);
 }
 
 a {
