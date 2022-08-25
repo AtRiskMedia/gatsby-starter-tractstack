@@ -2,12 +2,11 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
 import { getScrollbarSize } from "gatsby-plugin-tractstack"
-import styled from "styled-components"
-import { InView } from "react-cool-inview"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import storyFragmentPayloadThisViewportKey from "../components/storyfragment"
+import StoryFragmentCompositor from "../components/storyFragmentCompositor"
+import storyFragmentThisViewport from "../components/storyFragmentThisViewport"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 
 export const query = graphql`
@@ -244,10 +243,6 @@ export const query = graphql`
   }
 `
 
-const StyledWrapperSection = styled.section`
-  ${props => props.css};
-`
-
 const codeHooks = {
   "add-here": (
     <>
@@ -276,16 +271,6 @@ const tractStackGraph = data => {
   }
 }
 
-const Pane = ({ thisId, children, inView, observe }) => (
-  <div
-    id={thisId}
-    className={inView ? "pane visible" : "pane hidden"}
-    ref={observe}
-  >
-    {children}
-  </div>
-)
-
 const StoryFragment = props => {
   const [lispActionPayload, setLispActionPayload] = React.useState("")
   const [panesVisible, setPanesVisible] = React.useState([])
@@ -299,7 +284,7 @@ const StoryFragment = props => {
     ? "desktop"
     : "server"
   const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
-  const payload = storyFragmentPayloadThisViewportKey({
+  const payload = storyFragmentThisViewport({
     data: props.data.nodeStoryFragment,
     viewportKey: viewportKey,
     setLispActionHook: setLispActionPayload,
@@ -363,62 +348,12 @@ const StoryFragment = props => {
     [viewportKey]
   )
 
-  const panes =
-    typeof payload?.payload?.panes === "object" && payload?.payload?.panes
-  const menu = (typeof payload?.menu === "object" && payload?.menu) || <></>
-  const thisPayload =
-    typeof payload?.payload?.payload === "object" && payload?.payload?.payload
-  const rendering =
-    typeof panes === "object" &&
-    panes?.map(p => {
-      const thisPane = thisPayload[p]
-      const thisCss =
-        (!prefersReducedMotion &&
-          `${thisPane?.css} ${thisPane?.cssAnimated}`) ||
-        `${thisPane?.css}`
-      const hasAccessibleController =
-        prefersReducedMotion && thisPane?.impressions?.length
-      const accessibleController =
-        (hasAccessibleController && (
-          <ul id={`${viewportKey}-${p}-controller`}>
-            {thisPane?.impressions?.map(e => {
-              return e?.accessibleController
-            })}
-          </ul>
-        )) ||
-        ``
-      return (
-        <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
-          <InView
-            onEnter={() => {
-              setLispActionPayload(["hookPaneVisible", [p]])
-            }}
-            onLeave={() => {
-              setLispActionPayload(["hookPaneHidden", [p]])
-            }}
-          >
-            <Pane
-              thisId={`${viewportKey}-${p}`}
-              children={thisPane?.children}
-            />
-          </InView>
-          {accessibleController}
-        </StyledWrapperSection>
-      )
-    })
-  const renderedStoryFragment =
-    (menu && (
-      <>
-        {menu}
-        {rendering}
-      </>
-    )) ||
-    rendering
-
   return (
     <Layout>
-      <Seo title="StoryFragment Collections Route" />
-      {renderedStoryFragment}
+      <Seo title={thisGraph.title} />
+      <StoryFragmentCompositor payload={payload}
+prefersReducedMotion={prefersReducedMotion} viewportKey={viewportKey} setLispActionPayload={setLispActionPayload}
+    />
     </Layout>
   )
 }
