@@ -373,10 +373,20 @@ const StoryFragment = props => {
     panes?.map(p => {
       const thisPane = thisPayload[p]
       const thisCss =
-        (prefersReducedMotion && `${thisPane?.css}`) ||
-        `
-            ${thisPane?.css}${thisPane?.cssAnimated}
-          `
+        (!prefersReducedMotion &&
+          `${thisPane?.css} ${thisPane?.cssAnimated}`) ||
+        `${thisPane?.css}`
+      const hasAccessibleController =
+        prefersReducedMotion && thisPane?.impressions?.length
+      const accessibleController =
+        (hasAccessibleController && (
+          <ul id={`${viewportKey}-${p}-controller`}>
+            {thisPane?.impressions?.map(e => {
+              return e?.accessibleController
+            })}
+          </ul>
+        )) ||
+        ``
       return (
         <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
           <InView
@@ -392,6 +402,7 @@ const StoryFragment = props => {
               children={thisPane?.children}
             />
           </InView>
+          {accessibleController}
         </StyledWrapperSection>
       )
     })
