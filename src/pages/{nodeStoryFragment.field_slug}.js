@@ -272,8 +272,8 @@ const tractStackGraph = data => {
 }
 
 const StoryFragment = props => {
-  const [lispActionPayload, setLispActionPayload] = React.useState("")
-  const [panesVisible, setPanesVisible] = React.useState([])
+  const [lispActionPayload, setLispActionPayload] = React.useState([])
+  const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -284,6 +284,7 @@ const StoryFragment = props => {
     ? "desktop"
     : "server"
   const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
+  const title = props.data.nodeStoryFragment.title || `Loading...`
   const payload = storyFragmentThisViewport({
     data: props.data.nodeStoryFragment,
     viewportKey: viewportKey,
@@ -297,10 +298,7 @@ const StoryFragment = props => {
 
   React.useEffect(
     function doLispAction() {
-      if (lispActionPayload) {
-        const currentPanesVisible = panesVisible?.length
-          ? [...panesVisible]
-          : []
+      if (typeof lispActionPayload === "object" && lispActionPayload?.length) {
         const command = (lispActionPayload && lispActionPayload[0]) || false
         let parameter_one, parameter_two, parameter_three
         if (lispActionPayload && typeof lispActionPayload[1] === "object") {
@@ -310,35 +308,27 @@ const StoryFragment = props => {
         }
         switch (command) {
           case "hookPaneVisible":
-            if (currentPanesVisible?.length)
-              setPanesVisible([parameter_one, ...currentPanesVisible])
-            else setPanesVisible([parameter_one])
+            //console.log(parameter_one)
             break
           case "hookPaneHidden":
-            setPanesVisible(
-              currentPanesVisible?.filter(p => p !== parameter_one)
-            )
+            //console.log(parameter_one)
             break
           case "gotoStoryFragment":
-            console.log("gotoStoryFragment")
+            //console.log("gotoStoryFragment")
             break
           case "setCurrentPane":
-            console.log("setCurrentPane")
+            //console.log("setCurrentPane")
             break
           default:
             console.log(
               "LispActionPayload misfire",
-              command,
-              parameter_one,
-              parameter_two,
-              parameter_three
+             lispActionPayload 
             )
             break
         }
-        setLispActionPayload("")
       }
     },
-    [lispActionPayload, panesVisible]
+    [lispActionPayload]
   )
   React.useEffect(
     function checkScrollBarSize() {
@@ -349,11 +339,14 @@ const StoryFragment = props => {
   )
 
   return (
-    <Layout>
-      <Seo title={thisGraph.title} />
-      <StoryFragmentCompositor payload={payload}
-prefersReducedMotion={prefersReducedMotion} viewportKey={viewportKey} setLispActionPayload={setLispActionPayload}
-    />
+    <Layout title={title} setLispActionPayload={setLispActionPayload}>
+      <Seo title={title} />
+      <StoryFragmentCompositor
+        payload={payload}
+        prefersReducedMotion={prefersReducedMotion}
+        viewportKey={viewportKey}
+        setLispActionPayload={setLispActionPayload}
+      />
     </Layout>
   )
 }

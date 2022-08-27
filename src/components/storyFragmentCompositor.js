@@ -16,12 +16,13 @@ const Pane = ({ thisId, children, inView, observe }) => (
   </div>
 )
 
-const StoryFragmentCompositor = props => {
-  const payload = props.payload
-  const prefersReducedMotion = props.prefersReducedMotion
-  const viewportKey = props.viewportKey
-  const setLispActionPayload = props.setLispActionPayload
-const panes =
+const StoryFragmentCompositor = ({
+  payload,
+  prefersReducedMotion,
+  viewportKey,
+  setLispActionPayload,
+}) => {
+  const panes =
     typeof payload?.payload?.panes === "object" && payload?.payload?.panes
   const menu = (typeof payload?.menu === "object" && payload?.menu) || <></>
   const thisPayload =
