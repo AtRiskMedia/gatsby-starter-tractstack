@@ -2,16 +2,13 @@ import * as React from "react"
 import PropTypes from "prop-types"
 
 import Header from "./header"
+import Controller from "./controller"
 import "./layout.css"
 
-const Layout = props => {
-  const children = props?.children
-  const title = props?.title || `Title`
-  const setLispActionPayload = props.setLispActionPayload
-
+const Layout = ({ children, title, panesArray }) => {
   return (
     <>
-      <Header siteTitle={title} setLispActionPayload={setLispActionPayload} />
+      <Header siteTitle={title} />
       <div
         style={{
           margin: `0 auto`,
@@ -19,6 +16,7 @@ const Layout = props => {
         }}
       >
         <main>{children}</main>
+        <Controller panesArray={panesArray} />
         <footer
           style={{
             fontSize: `var(--font-sm)`,
@@ -38,6 +36,8 @@ const Layout = props => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  panesArray: PropTypes.array.isRequired,
 }
 
 export default Layout

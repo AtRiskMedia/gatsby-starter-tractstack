@@ -21,6 +21,8 @@ const StoryFragmentCompositor = ({
   prefersReducedMotion,
   viewportKey,
   setLispActionPayload,
+  setPanesArray,
+  panesArray,
 }) => {
   const panes =
     typeof payload?.payload?.panes === "object" && payload?.payload?.panes
@@ -50,10 +52,16 @@ const StoryFragmentCompositor = ({
         <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
           <InView
             onEnter={() => {
-              setLispActionPayload(["hookPaneVisible", [p]])
+              if (panesArray.indexOf(p) === -1)
+                setPanesArray([...panesArray, p])
             }}
             onLeave={() => {
-              setLispActionPayload(["hookPaneHidden", [p]])
+              const thisIndex = panesArray.indexOf(p)
+              if (thisIndex) {
+                setPanesArray(panesArray =>
+                  panesArray.filter((e, i) => i !== thisIndex)
+                )
+              }
             }}
           >
             <Pane

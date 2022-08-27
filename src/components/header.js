@@ -2,11 +2,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-const Header = ({ siteTitle, setLispActionPayload }) => {
-  function injectPayload() {
-    setLispActionPayload("(goto (storyFragment welcome))")
-  }
-
+const Header = ({ siteTitle }) => {
   return (
     <header
       style={{
@@ -21,7 +17,6 @@ const Header = ({ siteTitle, setLispActionPayload }) => {
       {siteTitle}
       <Link
         to="/"
-        onClick={() => injectPayload()}
         style={{
           fontSize: `var(--font-sm)`,
           textDecoration: `none`,

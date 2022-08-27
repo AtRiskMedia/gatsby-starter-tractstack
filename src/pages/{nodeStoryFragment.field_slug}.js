@@ -284,7 +284,7 @@ const StoryFragment = props => {
     ? "desktop"
     : "server"
   const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
-  const title = props.data.nodeStoryFragment.title || `Loading...`
+  const title = props.data.nodeStoryFragment.title
   const payload = storyFragmentThisViewport({
     data: props.data.nodeStoryFragment,
     viewportKey: viewportKey,
@@ -294,7 +294,7 @@ const StoryFragment = props => {
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
-  //console.log(panesVisible)
+  //console.log(panesArray)
 
   React.useEffect(
     function doLispAction() {
@@ -307,23 +307,12 @@ const StoryFragment = props => {
           parameter_three = lispActionPayload[1][2] || false
         }
         switch (command) {
-          case "hookPaneVisible":
-            //console.log(parameter_one)
-            break
-          case "hookPaneHidden":
-            //console.log(parameter_one)
-            break
           case "gotoStoryFragment":
-            //console.log("gotoStoryFragment")
             break
           case "setCurrentPane":
-            //console.log("setCurrentPane")
             break
           default:
-            console.log(
-              "LispActionPayload misfire",
-             lispActionPayload 
-            )
+            console.log("LispActionPayload misfire", lispActionPayload)
             break
         }
       }
@@ -337,15 +326,16 @@ const StoryFragment = props => {
     },
     [viewportKey]
   )
-
   return (
-    <Layout title={title} setLispActionPayload={setLispActionPayload}>
+    <Layout title={title} panesArray={panesArray}>
       <Seo title={title} />
       <StoryFragmentCompositor
         payload={payload}
         prefersReducedMotion={prefersReducedMotion}
         viewportKey={viewportKey}
         setLispActionPayload={setLispActionPayload}
+        setPanesArray={setPanesArray}
+        panesArray={panesArray}
       />
     </Layout>
   )

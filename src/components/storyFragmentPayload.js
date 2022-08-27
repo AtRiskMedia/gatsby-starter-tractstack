@@ -30,6 +30,9 @@ const storyFragmentPayload = props => {
         Menu({ menuPayload, viewportKey: "desktop", setLispActionHook })) ||
       false,
   }
+  //const thisPayload = compositedPayload.hasOwnProperty(viewportKey) && compositedPayload[viewportKey]?.payload
+  //const thisPayloadController = Object.keys(thisPayload).map((key) => thisPayload[key] = thisPayload[key].impressions )
+  //console.log( thisPayloadController )
   return {
     id: storyFragmentId,
     title: storyFragmentTitle,
