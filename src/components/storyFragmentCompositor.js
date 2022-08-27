@@ -38,12 +38,12 @@ const StoryFragmentCompositor = ({
           `${thisPane?.css} ${thisPane?.cssAnimated}`) ||
         `${thisPane?.css}`
       const hasAccessibleController =
-        prefersReducedMotion && thisPane?.impressions?.length
+        prefersReducedMotion && thisPane?.accessibleController?.length
       const accessibleController =
         (hasAccessibleController && (
           <ul id={`${viewportKey}-${p}-controller`}>
-            {thisPane?.impressions?.map(e => {
-              return e?.accessibleController
+            {thisPane?.accessibleController?.map(e => {
+              return e
             })}
           </ul>
         )) ||
