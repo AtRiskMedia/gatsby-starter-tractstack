@@ -3,9 +3,11 @@ import * as React from "react"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
+const title = `Home | Tract Stack by At Risk Media`
+
 const IndexPage = () => (
-  <Layout>
-    <Seo title="Home" />
+  <Layout title={title} panesArray={[]} impressions={[]}>
+    <Seo title={title} />
     <div>
       <h1>
         Welcome to <b>Tract Stack</b>
@@ -19,6 +21,6 @@ const IndexPage = () => (
  *
  * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
  */
-export const Head = () => <Seo title="Home | Tract Stack by At Risk Media" />
+export const Head = () => <Seo title={title} />
 
 export default IndexPage

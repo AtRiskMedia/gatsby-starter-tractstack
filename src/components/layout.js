@@ -5,7 +5,7 @@ import Header from "./header"
 import Controller from "./controller"
 import "./layout.css"
 
-const Layout = ({ children, title, panesArray }) => {
+const Layout = ({ children, title, panesArray, impressions }) => {
   return (
     <>
       <Header siteTitle={title} />
@@ -16,7 +16,7 @@ const Layout = ({ children, title, panesArray }) => {
         }}
       >
         <main>{children}</main>
-        <Controller panesArray={panesArray} />
+        <Controller panesArray={panesArray} impressions={impressions} />
         <footer
           style={{
             fontSize: `var(--font-sm)`,
@@ -38,6 +38,7 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   panesArray: PropTypes.array.isRequired,
+  impressions: PropTypes.object.isRequired,
 }
 
 export default Layout

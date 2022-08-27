@@ -603,3 +603,12 @@ nav.menu-default a.is-active {
 nav.menu-default a:hover {
   color: var(--colour-orange);
 }
+
+aside {
+  position: fixed;
+  bottom: 4vh;
+  left: 0;
+  width: auto;
+  z-index: 10001;
+  height: auto;
+}

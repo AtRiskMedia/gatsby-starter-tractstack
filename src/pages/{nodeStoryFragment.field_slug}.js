@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { getScrollbarSize } from "gatsby-plugin-tractstack"
+import { tractStackGraph, getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -251,27 +251,7 @@ const codeHooks = {
   ),
 }
 
-const tractStackGraph = data => {
-  const tractStackId = data[0].node.relationships.field_tract_stack.id
-  const tractStackTitle = data[0].node.relationships.field_tract_stack.title
-  const graph = data.map(e => {
-    const storyFragmentId = e.node.id
-    const storyFragmentTitle = e.node.title
-    const storyFragmentSlug = e.node.field_slug
-    return {
-      id: storyFragmentId,
-      title: storyFragmentTitle,
-      slug: storyFragmentSlug,
-    }
-  })
-  return {
-    id: tractStackId,
-    title: tractStackTitle,
-    graph: graph,
-  }
-}
-
-const StoryFragment = props => {
+const StoryFragment = ({ data }) => {
   const [lispActionPayload, setLispActionPayload] = React.useState([])
   const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -283,14 +263,18 @@ const StoryFragment = props => {
     : breakpoints.desktop
     ? "desktop"
     : "server"
-  const thisGraph = tractStackGraph(props.data.allNodeStoryFragment.edges)
-  const title = props.data.nodeStoryFragment.title
+  const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
+  const title = data.nodeStoryFragment.title
   const payload = storyFragmentThisViewport({
-    data: props.data.nodeStoryFragment,
+    data: data.nodeStoryFragment,
     viewportKey: viewportKey,
     setLispActionHook: setLispActionPayload,
     codeHooks: codeHooks,
   })
+  const impressions =
+    (payload?.payload?.impressions?.hasOwnProperty(viewportKey) &&
+      payload.payload.impressions[viewportKey]) ||
+    {}
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
@@ -327,7 +311,7 @@ const StoryFragment = props => {
     [viewportKey]
   )
   return (
-    <Layout title={title} panesArray={panesArray}>
+    <Layout title={title} panesArray={panesArray} impressions={impressions}>
       <Seo title={title} />
       <StoryFragmentCompositor
         payload={payload}
@@ -341,11 +325,6 @@ const StoryFragment = props => {
   )
 }
 
-/**
- * Head export to define metadata for the page
- *
- * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
- */
-export const Head = () => <Seo title="Story Fragment Collections Route" />
+export const Head = ({ data }) => <Seo title={data.nodeStoryFragment.title} />
 
 export default StoryFragment
