@@ -23,6 +23,7 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
         icons.push(impressions[p].icons)
         show = true
       }
+      return null
     })
   if (!show) return <></>
   if (isExpanded)
