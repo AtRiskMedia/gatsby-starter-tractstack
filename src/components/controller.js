@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 const Controller = ({ panesArray, impressions }) => {
   let thisImpressions = []
+  if( panesArray?.length )
   panesArray.map(p => {
     if (impressions.hasOwnProperty(p)) thisImpressions.push(impressions[p])
   })

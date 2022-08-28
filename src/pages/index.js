@@ -6,7 +6,7 @@ import Seo from "../components/seo"
 const title = `Home | Tract Stack by At Risk Media`
 
 const IndexPage = () => (
-  <Layout title={title} panesArray={[]} impressions={[]}>
+  <Layout title={title} panesArray={[]} impressions={{}}>
     <Seo title={title} />
     <div>
       <h1>
