@@ -2,12 +2,20 @@ import * as React from "react"
 import PropTypes from "prop-types"
 
 const Controller = ({ panesArray, impressions }) => {
-  let thisImpressions = []
-  if( panesArray?.length )
-  panesArray.map(p => {
-    if (impressions.hasOwnProperty(p)) thisImpressions.push(impressions[p])
-  })
-  return <aside>{thisImpressions}</aside>
+  let carouselSlides = []
+  let icons = []
+  if (panesArray?.length)
+    panesArray.map(p => {
+      if (impressions.hasOwnProperty(p)) {
+        carouselSlides.push(impressions[p].carouselSlides)
+        icons.push(impressions[p].icons)
+      }
+    })
+  return (
+    <aside>
+      {carouselSlides} {icons}
+    </aside>
+  )
 }
 
 Controller.propTypes = {

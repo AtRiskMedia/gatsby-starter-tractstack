@@ -275,6 +275,7 @@ const StoryFragment = ({ data }) => {
     (payload?.payload?.impressions?.hasOwnProperty(viewportKey) &&
       payload.payload.impressions[viewportKey]) ||
     {}
+  //console.log( impressions )
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
