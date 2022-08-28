@@ -312,7 +312,12 @@ const StoryFragment = ({ data }) => {
     [viewportKey]
   )
   return (
-    <Layout title={title} panesArray={panesArray} impressions={impressions}>
+    <Layout
+      title={title}
+      panesArray={panesArray}
+      impressions={impressions}
+      viewportKey={viewportKey}
+    >
       <Seo title={title} />
       <StoryFragmentCompositor
         payload={payload}
