@@ -601,6 +601,9 @@ aside {
   height: auto;
 }
 
+header.expanded {
+  height: 100vh;
+}
 
 @keyframes fadeIn {
   0% {
@@ -649,55 +652,55 @@ aside {
 
 @keyframes fadeInUp {
   0% {
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 10px, 0);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
 
 @-moz-keyframes fadeInUp {
   0% {
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 10px, 0);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
 
 @-webkit-keyframes fadeInUp {
   0% {
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 10px, 0);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
 
 @-o-keyframes fadeInUp {
   0% {
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 10px, 0);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
 
 @-ms-keyframes fadeInUp {
   0% {
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 10px, 0);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
 }
