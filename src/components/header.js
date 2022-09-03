@@ -2,7 +2,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import { Link } from "gatsby"
 
-import { AtRiskMediaIcon } from "gatsby-plugin-tractstack"
+import { TractStackIcon } from "gatsby-plugin-tractstack"
 
 const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
@@ -30,7 +30,7 @@ const Header = ({ siteTitle }) => {
           alt="At Risk Media logo"
           height={20}
           style={{ margin: 0 }}
-          src={AtRiskMediaIcon}
+          src={TractStackIcon}
         />
       </Link>
     </header>
