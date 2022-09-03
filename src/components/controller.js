@@ -37,30 +37,36 @@ const Controller = ({
   if (isExpanded)
     return (
       <StyledWrapperAside css={thisCss} id="controller">
-        <div className={`controller__expanded--${viewportKey}`} id={thisId}>
-          <div
+        <div
+          className={`controller__expanded controller__expanded--${viewportKey}`}
+          id={thisId}
+        >
+          <button
             className={`controller__expanded--toggle controller__expanded--toggle-${viewportKey}`}
             onClick={() => setIsExpanded(!isExpanded)}
             title="Minimize the Controller"
           >
             <span>&lt;</span>
-          </div>
+          </button>
           <div className={`controller__expanded--carousel-${viewportKey}`}>
             {carouselSlides}
+          </div>
+           <div className={`controller__expanded--icons-${viewportKey}`}>
+          <ul id={thisId}>{icons}</ul>
           </div>
         </div>
       </StyledWrapperAside>
     )
   return (
     <StyledWrapperAside css={thisCss} id="controller">
-      <div className={`controller__minimized--${viewportKey}`} id={thisId}>
-        <div
+      <div className={`controller__minimized controller__minimized--${viewportKey}`} id={thisId}>
+        <button
           className={`controller__minimized--toggle controller__minimized--toggle-${viewportKey}`}
           onClick={() => setIsExpanded(!isExpanded)}
           title="Expand the Controller"
         >
           <span>&gt;</span>
-        </div>
+        </button>
         <div className={`controller__minimized--icons-${viewportKey}`}>
           <ul id={thisId}>{icons}</ul>
         </div>
