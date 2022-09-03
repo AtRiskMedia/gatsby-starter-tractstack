@@ -5,7 +5,14 @@ import Header from "./header"
 import Controller from "./controller"
 import "./layout.css"
 
-const Layout = ({ children, title, panesArray, impressions, viewportKey }) => {
+const Layout = ({
+  children,
+  title,
+  panesArray,
+  impressions,
+  viewportKey,
+  prefersReducedMotion,
+}) => {
   return (
     <>
       <Header siteTitle={title} />
@@ -20,6 +27,7 @@ const Layout = ({ children, title, panesArray, impressions, viewportKey }) => {
           panesArray={panesArray}
           impressions={impressions}
           viewportKey={viewportKey}
+          prefersReducedMotion={prefersReducedMotion}
         />
         <footer
           style={{

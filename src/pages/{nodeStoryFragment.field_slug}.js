@@ -317,6 +317,7 @@ const StoryFragment = ({ data }) => {
       panesArray={panesArray}
       impressions={impressions}
       viewportKey={viewportKey}
+      prefersReducedMotion={prefersReducedMotion}
     >
       <Seo title={title} />
       <StoryFragmentCompositor

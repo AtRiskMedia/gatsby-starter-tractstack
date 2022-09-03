@@ -600,9 +600,47 @@ aside {
   z-index: 10001;
   height: auto;
 }
+.controller__expanded--toggle,
+.controller__minimized--toggle {
+  cursor: pointer;
+}
+
+.controller__expanded--mobile {
+  height: calc((100vw - (var(--offset) * 1px)) / 600 * 110);
+  width: calc((100vw - (var(--offset) * 1px)) / 600 * 327);
+}
+.controller__expanded--tablet {
+  height: calc((100vw - (var(--offset) * 1px)) / 1080 * 104);
+  width: calc((100vw - (var(--offset) * 1px)) / 1080 * 369);
+}
+.controller__expanded--desktop {
+  height: calc((100vw - (var(--offset) * 1px)) / 1920 * 124);
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 513);
+}
+.controller__minimized--mobile {
+  height: calc((100vw - (var(--offset) * 1px)) / 600 * 110);
+  width: calc((100vw - (var(--offset) * 1px)) / 600 * 70);
+}
+.controller__minimized--tablet {
+  height: calc((100vw - (var(--offset) * 1px)) / 1080 * 104);
+  width: calc((100vw - (var(--offset) * 1px)) / 1080 * 118);
+}
+.controller__minimized--desktop {
+  height: calc((100vw - (var(--offset) * 1px)) / 1920 * 124);
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 202);
+}
 
 header.expanded {
   height: 100vh;
+}
+.header__toggle img {
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+}
+.header__toggle img:hover {
+  cursor: default;
+  transform: rotate(15deg);
+  transition: all 0.3s ease-in-out 0s;
 }
 
 @keyframes fadeIn {

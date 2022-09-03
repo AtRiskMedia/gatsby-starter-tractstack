@@ -1,6 +1,5 @@
 import * as React from "react"
 import PropTypes from "prop-types"
-import { Link } from "gatsby"
 
 import { TractStackIcon } from "gatsby-plugin-tractstack"
 
@@ -19,8 +18,9 @@ const Header = ({ siteTitle }) => {
       }}
     >
       {siteTitle}
-      <Link
-        to="/"
+      <div
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="header__toggle"
         style={{
           fontSize: `var(--font-sm)`,
           textDecoration: `none`,
@@ -28,11 +28,11 @@ const Header = ({ siteTitle }) => {
       >
         <img
           alt="At Risk Media logo"
-          height={20}
+          height={30}
           style={{ margin: 0 }}
           src={TractStackIcon}
         />
-      </Link>
+      </div>
     </header>
   )
 }
