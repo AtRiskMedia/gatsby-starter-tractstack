@@ -35,7 +35,6 @@ const Controller = ({
       }
       return null
     })
-
   if (carouselSlides.length) {
     carouselSlides.push(
       <button key={0}>
@@ -49,6 +48,7 @@ const Controller = ({
       </button>
     )
   }
+
   if (!show) return <></>
   if (isExpanded)
     return (
@@ -94,7 +94,12 @@ const Controller = ({
           <span>&gt;</span>
         </button>
         <div className={`controller__minimized--icons-${viewportKey}`}>
-          <ul id={thisId}>{icons}</ul>
+          <ul
+            id="controller__icons"
+            className={`controller__icons controller__icons--${viewportKey}`}
+          >
+            {icons}
+          </ul>
         </div>
       </div>
     </StyledWrapperAside>

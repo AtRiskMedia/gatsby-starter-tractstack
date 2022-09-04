@@ -671,6 +671,38 @@ aside {
   margin: calc((100vw - (var(--offset) * 1px)) / 1920 * 8);
   background: #0f0;
 }
+.controller__icons {
+padding: 0;
+margin: 0;
+}
+.controller__icons li {
+  background: red;
+  overflow: hidden;
+}
+.controller__icons--mobile li {
+  width: calc((100vw - (var(--offset) * 1px)) / 600 * 24);
+  height: calc((100vw - (var(--offset) * 1px)) / 600 * 24);
+  margin-top: calc((100vw - (var(--offset) * 1px)) / 600 * 1);
+  margin-left: calc((100vw - (var(--offset) * 1px)) / 600 * 6);
+  margin-right: calc((100vw - (var(--offset) * 1px)) / 600 * 6);
+  margin-bottom: calc((100vw - (var(--offset) * 1px)) / 600 * 0);
+}
+.controller__icons--tablet li {
+  width: calc((100vw - (var(--offset) * 1px)) / 1080 * 26);
+  height: calc((100vw - (var(--offset) * 1px)) / 1080 * 26);
+  margin-top: calc((100vw - (var(--offset) * 1px)) / 1080 * 4);
+  margin-left: calc((100vw - (var(--offset) * 1px)) / 1080 * 2);
+  margin-right: calc((100vw - (var(--offset) * 1px)) / 1080 * 1);
+  margin-bottom: calc((100vw - (var(--offset) * 1px)) / 1080 * 1);
+}
+.controller__icons--desktop li {
+  width: calc((100vw - (var(--offset) * 1px)) / 1920 * 38);
+  height: calc((100vw - (var(--offset) * 1px)) / 1920 * 38);
+  margin-top: calc((100vw - (var(--offset) * 1px)) / 1920 * 3);
+  margin-left: calc((100vw - (var(--offset) * 1px)) / 1920 * 4);
+  margin-right: calc((100vw - (var(--offset) * 1px)) / 1920 * 2);
+  margin-bottom: calc((100vw - (var(--offset) * 1px)) / 1920 * 3);
+}
 .controller__expanded--carousel {
   width: 100%;
 }
@@ -714,7 +746,6 @@ aside {
 .controller__expanded--carousel-desktop button {
   height: calc((100vw - (var(--offset) * 1px)) / 1920 * 108);
 }
-
 
 /*
 .slider-control-centerleft,
