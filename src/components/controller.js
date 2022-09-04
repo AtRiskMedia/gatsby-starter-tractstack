@@ -1,6 +1,7 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
+import Carousel from "nuka-carousel"
 
 import { getControllerPayload } from "gatsby-plugin-tractstack"
 
@@ -24,6 +25,7 @@ const Controller = ({
   let carouselSlides = []
   let icons = []
   let show = false
+
   if (panesArray?.length)
     panesArray.map(p => {
       if (impressions.hasOwnProperty(p)) {
@@ -33,6 +35,20 @@ const Controller = ({
       }
       return null
     })
+
+  if (carouselSlides.length) {
+    carouselSlides.push(
+      <button key={0}>
+        <div className="title">
+          Tract Stack | No-code conversion funnel concierge
+        </div>
+        <div className="headline">
+          This experience is powered by Tract Stack | No-code conversion funnel
+          concierge
+        </div>
+      </button>
+    )
+  }
   if (!show) return <></>
   if (isExpanded)
     return (
@@ -48,18 +64,28 @@ const Controller = ({
           >
             <span>&lt;</span>
           </button>
-          <div className={`controller__expanded--carousel-${viewportKey}`}>
-            {carouselSlides}
-          </div>
-           <div className={`controller__expanded--icons-${viewportKey}`}>
-          <ul id={thisId}>{icons}</ul>
+          <div
+            className={`controller__expanded--carousel controller__expanded--carousel-${viewportKey}`}
+          >
+            <Carousel
+              wrapAround={true}
+              autoplay={true}
+              autoplayInterval={12000}
+              slidesToShow={1}
+              withoutControls={true}
+            >
+              {carouselSlides}
+            </Carousel>
           </div>
         </div>
       </StyledWrapperAside>
     )
   return (
     <StyledWrapperAside css={thisCss} id="controller">
-      <div className={`controller__minimized controller__minimized--${viewportKey}`} id={thisId}>
+      <div
+        className={`controller__minimized controller__minimized--${viewportKey}`}
+        id={thisId}
+      >
         <button
           className={`controller__minimized--toggle controller__minimized--toggle-${viewportKey}`}
           onClick={() => setIsExpanded(!isExpanded)}
