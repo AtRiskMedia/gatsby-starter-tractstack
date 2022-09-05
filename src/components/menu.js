@@ -1,20 +1,26 @@
 import React from "react"
-import {
-  PreParseMenuItems,
-  ParseMenuItems,
-  getLogo,
-} from "gatsby-plugin-tractstack"
+import { Link } from "gatsby"
+import { getLogo } from "gatsby-plugin-tractstack"
+
+const NavLink = ({ children, to }) => (
+  <Link to={to} activeClassName="is-active">
+    {children}
+  </Link>
+)
 
 function Menu({ menuPayload, viewportKey, setLispActionHook }) {
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
     menuPayload.relationships?.field_image_logo
   )
-  const menuItemsRaw = PreParseMenuItems(
-    menuPayload.relationships?.field_menu_items,
-    setLispActionHook
-  )
-  const menuItems = menuItemsRaw && ParseMenuItems(menuItemsRaw)
+  const menuItems = menuPayload.relationships?.field_menu_items?.map(e => {
+    return (
+      <li key={`${viewportKey}-${e.field_slug}`}>
+        <NavLink to={`/${e.field_slug}`}>{e.field_title}</NavLink>
+      </li>
+    )
+  })
+
   const slogan = <p>Fortifying the Web since 2002</p>
   const branding = <span>{logo}</span>
   const contents = (
@@ -26,7 +32,7 @@ function Menu({ menuPayload, viewportKey, setLispActionHook }) {
         </div>
       </div>
       <div className="menu">
-        <div className="menu__menuitems">{menuItems}</div>
+        <ul className="menu__menuitems">{menuItems}</ul>
       </div>
     </>
   )

@@ -18,7 +18,7 @@ const Header = ({ siteTitle }) => {
       }}
     >
       {siteTitle}
-      <div
+      <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="header__toggle"
         style={{
@@ -32,7 +32,7 @@ const Header = ({ siteTitle }) => {
           style={{ margin: 0 }}
           src={TractStackIcon}
         />
-      </div>
+      </button>
     </header>
   )
 }

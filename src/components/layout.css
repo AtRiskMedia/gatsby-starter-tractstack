@@ -58,6 +58,7 @@ body {
   font-weight: normal;
   margin: 0;
   word-wrap: break-word;
+  background: var(--colour-darkgrey);
 }
 header a {
   color: var(--colour-black);
@@ -606,8 +607,8 @@ aside {
 }
 .controller__expanded--toggle:hover,
 .controller__minimized--toggle:hover {
-background: var(--colour-green);
-color: var(--colour-blue);
+  background: var(--colour-green);
+  color: var(--colour-blue);
 }
 .controller__expanded,
 .controller__minimized {
@@ -767,15 +768,19 @@ button .controller__carousel--title-desktop svg {
 .slider-control-centerright {
   display: none;
 }
-*/
 .slider-control-centerright {
   font-size: var(--font-sx);
   padding: 0;
 }
-
+*/
 header.expanded {
   height: 100vh;
 }
+button.header__toggle {
+  background: none;
+  border: none;
+}
+
 .header__toggle img {
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
@@ -883,5 +888,50 @@ header.expanded {
   100% {
     transform: translate3d(0, 0, 0);
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-o-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-ms-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
