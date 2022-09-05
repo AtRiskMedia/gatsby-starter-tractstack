@@ -604,6 +604,11 @@ aside {
 .controller__minimized--toggle {
   cursor: pointer;
 }
+.controller__expanded--toggle:hover,
+.controller__minimized--toggle:hover {
+background: var(--colour-green);
+color: var(--colour-blue);
+}
 .controller__expanded,
 .controller__minimized {
   display: flex;
@@ -688,6 +693,11 @@ ul.controller__icons--desktop {
   margin: 0;
   cursor: pointer;
 }
+.controller__icons li:hover {
+  cursor: pointer;
+  transform: rotate(-7deg);
+  transition: all 0.3s ease-in-out 0s;
+}
 .controller__icons--mobile li {
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 36);
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 25.5);
@@ -771,7 +781,7 @@ header.expanded {
   cursor: pointer;
 }
 .header__toggle img:hover {
-  cursor: default;
+  cursor: pointer;
   transform: rotate(15deg);
   transition: all 0.3s ease-in-out 0s;
 }
