@@ -22,10 +22,16 @@ const Controller = ({
     ? ``
     : `opacity:0; animation-fill-mode: both; animation-name: fadeIn; -webkit-animation-name: fadeIn;  animation-duration: 0.25s; -webkit-animation-duration: 0.25s;  animation-delay: 0s; `
   const thisCss = `#${thisId} { background: #fff; ${controllerPayload.css} ${thisCssAnimated} }`
+  const maxIconsConfig = {
+    mobile: 4,
+    tablet: 6,
+    desktop: 6,
+  }
+  const maxIcons =
+    maxIconsConfig.hasOwnProperty(viewportKey) && maxIconsConfig[viewportKey]
   let carouselSlides = []
   let icons = []
   let show = false
-
   if (panesArray?.length)
     panesArray.map(p => {
       if (impressions.hasOwnProperty(p)) {
@@ -48,7 +54,9 @@ const Controller = ({
       </button>
     )
   }
-
+  if (icons.length >= maxIcons) {
+    icons = icons.slice(0, maxIcons)
+  }
   if (!show) return <></>
   if (isExpanded)
     return (
