@@ -5,8 +5,8 @@ import { tractStackGraph, getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import StoryFragmentCompositor from "../components/storyFragmentCompositor"
-import storyFragmentThisViewport from "../components/storyFragmentThisViewport"
+import StoryFragmentRender from "../components/storyFragmentRender"
+import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 
 export const query = graphql`
@@ -265,7 +265,7 @@ const StoryFragment = ({ data }) => {
     : "server"
   const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const title = data.nodeStoryFragment.title
-  const payload = storyFragmentThisViewport({
+  const payload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
     viewportKey: viewportKey,
     setLispActionHook: setLispActionPayload,
@@ -335,7 +335,7 @@ const StoryFragment = ({ data }) => {
       prefersReducedMotion={prefersReducedMotion}
     >
       <Seo title={title} />
-      <StoryFragmentCompositor
+      <StoryFragmentRender
         payload={payload}
         prefersReducedMotion={prefersReducedMotion}
         viewportKey={viewportKey}

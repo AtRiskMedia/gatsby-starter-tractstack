@@ -276,13 +276,15 @@ button.pane {
 .paneFragmentImage section,
 .paneFragmentImage__inner,
 .paneFragmentVideo,
-.paneFragmentVideo video,
 .paneFragmentImage__inner div,
 .svg-shape-outside {
   height: 100%;
   width: 100%;
 }
-
+.paneFragmentVideo video {
+  height: 100%;
+  width: auto;
+}
 .svg-shape-outside__pane-left--mobile,
 .svg-shape-outside__pane-right--mobile {
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 300);
