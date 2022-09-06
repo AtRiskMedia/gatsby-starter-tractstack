@@ -291,16 +291,6 @@ const StoryFragment = ({ data }) => {
           (thisPayload && thisPayload[0] && thisPayload[0][1]) || null
         const parameterOne = (parameters && parameters[0]) || null
         const parameterTwo = (parameters && parameters[1]) || null
-        //const parameterThree = (parameters && parameters[2]) || null
-        /*
-        let parameter_one, parameter_two, parameter_three
-        if (lispActionPayload && typeof lispActionPayload[1] === "object") {
-          parameter_one = lispActionPayload[1][0] || false
-          parameter_two = lispActionPayload[1][1] || false
-          parameter_three = lispActionPayload[1][2] || false
-        }
-        */
-        //console.log(command, parameters, parameterOne, parameterTwo, parameterThree )
         switch (command) {
           case "goto":
             switch (parameterOne) {
