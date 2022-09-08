@@ -277,6 +277,8 @@ button.pane {
 .paneFragmentImage__inner,
 .paneFragmentVideo,
 .paneFragmentImage__inner div,
+.paneFragmentContainer,
+.paneFragmentCode,
 .svg-shape-outside {
   height: 100%;
   width: 100%;

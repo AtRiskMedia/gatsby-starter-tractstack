@@ -8,6 +8,8 @@ import Seo from "../components/seo"
 import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
+import FormContact from "../components/FormContact"
+import FormFunnel from "../components/FormFunnel"
 
 export const query = graphql`
   query ($id: String) {
@@ -249,6 +251,8 @@ const codeHooks = {
       <p>codehook!</p>
     </>
   ),
+  contact: <FormContact />,
+  funnel: <FormFunnel />,
 }
 
 const StoryFragment = ({ data }) => {
