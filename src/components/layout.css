@@ -197,9 +197,6 @@ p *:last-child {
 li > p {
   margin-bottom: calc(var(--space-4) / 2);
 }
-p {
-  max-width: 680px;
-}
 code {
   font-size: 0.875rem;
 }
@@ -287,6 +284,11 @@ button.pane {
   height: 100%;
   width: auto;
 }
+
+.svg__shape-outside {
+  visibility: hidden;
+}
+
 .svg-shape-outside__pane-left--mobile,
 .svg-shape-outside__pane-right--mobile {
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 300);
