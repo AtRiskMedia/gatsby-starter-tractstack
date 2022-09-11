@@ -41,6 +41,12 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-load-script',
+      options: {
+        src: '/h5p-resizer.js',
+      },
+    },
+    {
       resolve: `gatsby-plugin-breakpoints`,
       options: {
         queries: viewportWidths,
