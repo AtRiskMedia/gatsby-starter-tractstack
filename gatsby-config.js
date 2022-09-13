@@ -41,9 +41,9 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-load-script',
+      resolve: "gatsby-plugin-load-script",
       options: {
-        src: '/h5p-resizer.js',
+        src: "/h5p-resizer.js",
       },
     },
     {
