@@ -258,12 +258,6 @@ const codeHooks = {
 }
 
 const StoryFragment = ({ data }) => {
-  return (
-    <>
-      <p>a</p>
-      <H5p src="https://edit.tractstack.com/h5p/3/embed" title="a" />
-    </>
-  )
   const [lispActionPayload, setLispActionPayload] = React.useState([])
   const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()

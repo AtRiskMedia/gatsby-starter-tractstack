@@ -5,13 +5,10 @@ const H5p = ({ src, title }) => {
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
-        dom.contentWindow.H5p.externalDispatcher.on(
-          "xAPI",
-          function (event) {
-            console.log("hit")
-            console.log(event.data.statement)
-          }
-        )
+        dom.contentWindow.H5p.externalDispatcher.on("xAPI", function (event) {
+          console.log("hit")
+          console.log(event.data.statement)
+        })
       }
     }
   }
