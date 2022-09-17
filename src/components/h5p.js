@@ -5,6 +5,7 @@ const H5p = ({ src, title }) => {
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
+        console.log( 'listen' )
         dom.contentWindow.H5p.externalDispatcher.on("xAPI", function (event) {
           console.log("hit")
           console.log(event.data.statement)
