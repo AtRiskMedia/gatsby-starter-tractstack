@@ -6,6 +6,7 @@ const H5p = ({ src, title }) => {
     if (!node) {
       return
     }
+    console.log( 'h5p embed' )
     node.contentWindow.addEventListener("load", () => {
       node.contentWindow.H5P.externalDispatcher.on("xAPI", function (event) {
         console.log(event)
