@@ -1,26 +1,30 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const H5p = ({ src, title }) => {
-  const onIframeRef = node => {
-    if (!node) {
-      return
+const H5p = ({ src, title, slug }) => {
+  const handleContentRef = dom => {
+    console.log("listening", dom)
+    if (dom) {
+      dom.onload = () => {
+        console.log("listen")
+        dom?.contentWindow?.H5p?.externalDispatcher?.on(
+          "xAPI",
+          function (event) {
+            console.log("hit")
+            console.log(event.data.statement)
+          }
+        )
+      }
     }
-    console.log( 'h5p embed' )
-    node.contentWindow.addEventListener("load", () => {
-      node.contentWindow.H5P.externalDispatcher.on("xAPI", function (event) {
-        console.log(event)
-      })
-      console.log("h5p listener")
-    })
   }
-
   return (
     <iframe
-      ref={onIframeRef}
-      sandbox="allow-same-origin"
+      id={slug}
       title={title}
+      ref={handleContentRef}
       src={src}
+      frameBorder="0"
+      allowFullScreen="allowfullscreen"
     />
   )
 }
