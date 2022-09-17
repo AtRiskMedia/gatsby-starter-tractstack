@@ -5,6 +5,7 @@ import { tractStackGraph, getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import H5p from "../components/h5p"
 import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
@@ -253,9 +254,16 @@ const codeHooks = {
   ),
   contact: <FormContact />,
   funnel: <FormFunnel />,
+  H5p: H5p,
 }
 
 const StoryFragment = ({ data }) => {
+  return (
+    <>
+      <p>a</p>
+      <H5p src="https://edit.tractstack.com/h5p/3/embed" title="a" />
+    </>
+  )
   const [lispActionPayload, setLispActionPayload] = React.useState([])
   const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()
