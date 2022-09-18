@@ -5,7 +5,7 @@ import { tractStackGraph, getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import H5p from "../components/h5p"
+import H5p from "../components/H5p"
 import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
