@@ -9,7 +9,13 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
           "xAPI",
           function (event) {
             console.log(JSON.stringify(event.data.statement))
-            setLispActionHook(["h5p", [JSON.stringify(event.data.statement)]])
+            const verb = event?.data?.statement?.verb?.display?.en
+            const id = event?.data?.statement?.object?.id
+            const name = event?.data?.statement?.object?.name?.en
+            const type = event?.data?.statement?.object?.objectType
+            const result = event?.data?.statement?.result?.score?.scaled
+            console.log(verb, id, name, type, result)
+            //setLispActionHook(["h5p", [JSON.stringify(event.data.statement)]])
           }
         )
       }
