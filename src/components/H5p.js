@@ -9,9 +9,9 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
           "xAPI",
           function (event) {
             console.log(JSON.stringify(event.data.statement))
-            const verb = event?.data?.statement?.verb?.display?.en
+            const verb = event?.data?.statement?.verb?.display?.en-US
             const id = event?.data?.statement?.object?.id
-            const name = event?.data?.statement?.object?.name?.en
+            const name = event?.data?.statement?.object?.name?.en-US
             const type = event?.data?.statement?.object?.objectType
             const result = event?.data?.statement?.result?.score?.scaled
             console.log(verb, id, name, type, result)
