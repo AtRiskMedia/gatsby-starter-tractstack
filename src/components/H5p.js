@@ -23,8 +23,15 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
                 ? event.data.statement.object.name["en-US"]
                 : ``
             const result = event?.data?.statement?.result?.score?.scaled
-            console.log(verb, id, name, type, result)
-            //setLispActionHook(["h5p", [JSON.stringify(event.data.statement)]])
+            console.log(
+              "h5p xAPI event has occurred",
+              verb,
+              id,
+              name,
+              type,
+              result
+            )
+            setLispActionHook(["h5p", [verb, [id, name, type, result]]])
           }
         )
       }
