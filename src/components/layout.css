@@ -254,8 +254,8 @@ pre tt:after {
   padding: 0;
 }
 
-a.pane,
-button.pane {
+a,
+button {
   cursor: pointer;
 }
 
