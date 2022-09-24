@@ -8,11 +8,27 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
           function (event) {
+            console.log(1, event?.data?.statement?.verb)
+            console.log(0, typeof event?.data?.statement?.verb?.display)
+            console.log(
+              1,
+              event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
+            )
+
             console.log(JSON.stringify(event.data.statement))
-            const verb = event?.data?.statement?.verb?.display?.en-US
+
             const id = event?.data?.statement?.object?.id
-            const name = event?.data?.statement?.object?.name?.en-US
             const type = event?.data?.statement?.object?.objectType
+            const verb =
+              typeof event?.data?.statement?.verb?.display === "object" &&
+              event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
+                ? event.data.statement.verb.display["en-US"]
+                : ``
+            const name =
+              typeof event?.data?.statement?.object?.name === "object" &&
+              event?.data?.statement?.object?.name?.hasOwnProperty("en-US")
+                ? event.data.statement.verb.display["en-US"]
+                : ``
             const result = event?.data?.statement?.result?.score?.scaled
             console.log(verb, id, name, type, result)
             //setLispActionHook(["h5p", [JSON.stringify(event.data.statement)]])
