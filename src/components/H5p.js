@@ -23,16 +23,26 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
               )
                 ? event.data.statement.object.definition?.name["en-US"]
                 : ``
-            const result = event?.data?.statement?.result?.score?.scaled
+            const score = event?.data?.statement?.result?.score?.scaled
+            const durationRaw = event?.data?.statement?.result?.duration
+            const regex = /PT(\d+\.?\d*)S/g
+            const durationParsed = regex?.exec(durationRaw)
+            const durationInSeconds =
+              typeof durationParsed === "object" &&
+              durationParsed?.hasOwnProperty("1")
+                ? Number(durationParsed[1])
+                : null
+            //const durationInSeconds = typeof durationParsed === "object" ? durationParsed[1] : ``
             console.log(
               "h5p xAPI event has occurred",
               verb,
               id,
               name,
               type,
-              result
+              score,
+              durationInSeconds
             )
-            setLispActionHook(["h5p", [verb, [id, name, type, result]]])
+            setLispActionHook(["h5p", [verb, [id, name, type, score]]])
           }
         )
       }
