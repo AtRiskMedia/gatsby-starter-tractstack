@@ -8,7 +8,8 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
           function (event) {
-            setLispActionHook(["h5p", JSON.stringify(event.data.statement)])
+            console.log(JSON.stringify(event.data.statement))
+            setLispActionHook(["h5p", [JSON.stringify(event.data.statement)]])
           }
         )
       }
