@@ -8,13 +8,6 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
           function (event) {
-            console.log(1, event?.data?.statement?.verb)
-            console.log(0, typeof event?.data?.statement?.verb?.display)
-            console.log(
-              1,
-              event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
-            )
-
             console.log(JSON.stringify(event.data.statement))
 
             const id = event?.data?.statement?.object?.id
@@ -27,7 +20,7 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
             const name =
               typeof event?.data?.statement?.object?.name === "object" &&
               event?.data?.statement?.object?.name?.hasOwnProperty("en-US")
-                ? event.data.statement.verb.display["en-US"]
+                ? event.data.statement.object.name["en-US"]
                 : ``
             const result = event?.data?.statement?.result?.score?.scaled
             console.log(verb, id, name, type, result)
