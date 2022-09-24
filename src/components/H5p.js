@@ -18,9 +18,9 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
                 ? event.data.statement.verb.display["en-US"]
                 : ``
             const name =
-              typeof event?.data?.statement?.object?.name === "object" &&
-              event?.data?.statement?.object?.name?.hasOwnProperty("en-US")
-                ? event.data.statement.object.name["en-US"]
+              typeof event?.data?.statement?.object?.definition?.name === "object" &&
+              event?.data?.statement?.object?.definition?.name?.hasOwnProperty("en-US")
+                ? event.data.statement.object.definition?.name["en-US"]
                 : ``
             const result = event?.data?.statement?.result?.score?.scaled
             console.log(
