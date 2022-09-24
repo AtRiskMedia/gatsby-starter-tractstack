@@ -1,14 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const H5p = ({ src, title, slug }) => {
+const H5p = ({ src, title, slug, setLispActionHook }) => {
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
           function (event) {
-            console.log(event.data.statement)
+            setLispActionHook(["h5p", JSON.stringify(event.data.statement)])
           }
         )
       }

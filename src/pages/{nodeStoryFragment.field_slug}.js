@@ -307,6 +307,25 @@ const StoryFragment = ({ data }) => {
                 console.log("LispActionPayload misfire on goto", parameters)
             }
             break
+          case "h5p":
+            switch (parameterTwo) {
+              case "interacted":
+              case "answered":
+              case "scored":
+                console.log(
+                  "LispActionPayload for h5p todo",
+                  command,
+                  parameters
+                )
+                break
+              default:
+                console.log(
+                  "LispActionPayload for h5p todo",
+                  command,
+                  parameters
+                )
+            }
+            break
           default:
             console.log("LispActionPayload misfire", command, parameters)
             break
