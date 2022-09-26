@@ -40,12 +40,7 @@ module.exports = {
         icon: `assets/ARm-logo.svg`, // This path is relative to the root of the site.
       },
     },
-    {
-      resolve: "gatsby-plugin-load-script",
-      options: {
-        src: "/h5p-resizer.js",
-      },
-    },
+    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-breakpoints`,
       options: {
