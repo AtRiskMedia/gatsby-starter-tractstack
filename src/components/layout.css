@@ -284,6 +284,17 @@ button {
   width: auto;
 }
 
+.paneFragment-mobile {
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 24);
+}
+.paneFragment-tablet {
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 30);
+}
+.paneFragment-desktop {
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 32);
+}
+
+
 .svg__shape-outside {
   #visibility: hidden;
 }
