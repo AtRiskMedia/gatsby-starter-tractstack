@@ -275,8 +275,7 @@ button {
 .paneFragmentVideo,
 .paneFragmentImage__inner div,
 .paneFragmentContainer,
-.paneFragmentCode
-{
+.paneFragmentCode {
   height: 100%;
   width: 100%;
 }
