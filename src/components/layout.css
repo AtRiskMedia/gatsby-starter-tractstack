@@ -294,7 +294,6 @@ button {
   font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 32);
 }
 
-
 .svg__shape-outside {
   #visibility: hidden;
 }
