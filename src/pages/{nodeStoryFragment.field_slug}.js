@@ -10,7 +10,6 @@ import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 import FormContact from "../components/FormContact"
-import FormFunnel from "../components/FormFunnel"
 
 export const query = graphql`
   query ($id: String) {
@@ -253,7 +252,6 @@ const codeHooks = {
     </>
   ),
   contact: <FormContact />,
-  funnel: <FormFunnel />,
   H5p: H5p,
 }
 

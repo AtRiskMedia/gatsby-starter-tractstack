@@ -660,7 +660,7 @@ aside {
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 20);
   margin: 0 calc((100vw - (var(--offset) * 1px)) / 600 * 4);
   padding: 0;
-  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 14); 
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 14);
 }
 .controller__minimized--toggle-tablet,
 .controller__expanded--toggle-tablet {
@@ -708,7 +708,7 @@ ul.controller__icons--desktop {
 }
 .controller__icons li {
   margin: 0;
-  width:auto;
+  width: auto;
   max-height: 100%;
   max-width: 70%;
   padding: 0;
@@ -748,10 +748,6 @@ button.controller__carousel {
 .controller__expanded--carousel {
   width: 100%;
 }
-
-
-
-
 .controller__expanded--carousel-mobile {
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 102);
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 500);

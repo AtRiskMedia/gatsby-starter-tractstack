@@ -25,7 +25,6 @@ export default class FormContact extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault()
-
     if (
       this.state.name &&
       this.state.company &&
@@ -34,38 +33,39 @@ export default class FormContact extends React.Component {
       this.state.message
     ) {
       // first we add to CRM, if opt-in
+      // skip for now
       if (this.state.consent === "yes") {
-        var bodyFormData = new FormData()
-        bodyFormData.append("last_name", this.state.name)
-        bodyFormData.append("account_name", this.state.company)
-        bodyFormData.append("email1", this.state.email)
-        bodyFormData.append("campaign_id", this.state.campaign_id)
-        bodyFormData.append("assigned_user_id", this.state.assigned_user_id)
-        bodyFormData.append("moduleDir", this.state.moduleDir)
+        /*
+        var bodyFormData = new FormData();
+        bodyFormData.append("last_name", this.state.name);
+        bodyFormData.append("account_name", this.state.company);
+        bodyFormData.append("email1", this.state.email);
+        bodyFormData.append("campaign_id", this.state.campaign_id);
+        bodyFormData.append("assigned_user_id", this.state.assigned_user_id);
+        bodyFormData.append("moduleDir", this.state.moduleDir);
         axios({
           method: "post",
           url: config.url_suitecrm,
-          data: bodyFormData,
+          data: bodyFormData
         })
-          .then(function (response) {
+          .then(function(response) {
             //handle success
             //console.log(response);
           })
-          .catch(function (response) {
+          .catch(function(response) {
             //handle error
             //console.log(response);
-          })
-
-        // next we send email
-        var json = JSON.stringify({
-          name: this.state.name,
-          company: this.state.company,
-          email: this.state.email,
-          message: this.state.message,
-          secret: process.env.API_SECRET_KEY,
-        })
+          });
+          */
       }
-
+      // next we send email
+      var json = JSON.stringify({
+        name: this.state.name,
+        company: this.state.company,
+        email: this.state.email,
+        message: this.state.message,
+        secret: process.env.API_SECRET_KEY,
+      })
       axios({
         method: "post",
         url: config.url_sendmail,
@@ -73,13 +73,15 @@ export default class FormContact extends React.Component {
       })
         .then(function (response) {
           //handle success
+          document.getElementById("form__complete").style.visibility = "visible"
+          document.getElementById("form__complete").style.display = "block"
+          document.getElementById("form__incomplete").style.display = "none"
           //console.log(response);
         })
         .catch(function (response) {
           //handle error
           //console.log(response);
         })
-      document.getElementById("form__complete").style.visibility = "visible"
     } else {
       this.setState({
         submitted: true,
@@ -193,11 +195,8 @@ export default class FormContact extends React.Component {
 
           <button type="submit">Let&apos;s&nbsp;Engage</button>
         </form>
-        <div
-          id="form__complete"
-          className="form__complete form__complete--about"
-        >
-          Thank you for connecting. We will be in touch.
+        <div id="form__complete" className="form__complete">
+          We will be in touch!
         </div>
       </>
     )
