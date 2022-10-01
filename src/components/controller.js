@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import Carousel from "nuka-carousel"
 
-import { getControllerPayload } from "gatsby-plugin-tractstack"
+import { getControllerPayload, wordmark } from "gatsby-plugin-tractstack"
 
 const StyledWrapperAside = styled.aside`
   ${props => props.css};
@@ -12,6 +12,7 @@ const StyledWrapperAside = styled.aside`
 const Controller = ({
   panesArray,
   impressions,
+  setLispActionPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
@@ -41,19 +42,28 @@ const Controller = ({
       }
       return null
     })
+  const tractStackWordmark = wordmark("tractstack")
+  function injectPayload() {
+    const thisPayload = [[["goto", ["storyFragment", "tractstack"]]],""]
+    setLispActionPayload(thisPayload)
+  }
   if (carouselSlides.length) {
     carouselSlides.push(
-      <button key={0}>
-        <div className="title">
-          Tract Stack | No-code conversion funnel concierge
-        </div>
-        <div className="headline">
-          This experience is powered by Tract Stack | No-code conversion funnel
-          concierge
-        </div>
+      <button
+        key={0}
+        className="controller__carousel"
+        onClick={() => injectPayload()}
+      >
+        <p>
+          {tractStackWordmark}{" "}
+          <span className="headline">
+            No-code website builder + conversion funnel concierge
+          </span>
+        </p>
       </button>
     )
   }
+
   if (icons.length >= maxIcons) {
     icons = icons.slice(0, maxIcons)
   }

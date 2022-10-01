@@ -730,6 +730,16 @@ button.controller__carousel {
   background: var(--colour-white);
   cursor: pointer;
 }
+.controller__carousel svg {
+  max-height: 0.8rem;
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  fill: var(--colour-blue);
+}
+.controller__carousel p {
+  margin:0;
+}
 .controller__expanded--carousel {
   width: 100%;
 }
@@ -741,9 +751,8 @@ button.controller__carousel {
 .controller__expanded--carousel-mobile button {
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 102);
 }
-.controller__expanded--carousel-mobile .headline,
-.controller__expanded--carousel-mobile .title {
-  font-size: var(--font-sx);
+.controller__expanded--carousel-mobile .headline {
+  font-size: calc((100vw - (var(--offset) * 1px)) / 600 * 16);
 }
 .controller__expanded--carousel-tablet {
   height: calc((100vw - (var(--offset) * 1px)) / 1080 * 90);
@@ -754,16 +763,15 @@ button.controller__carousel {
   height: calc((100vw - (var(--offset) * 1px)) / 1080 * 90);
 }
 .controller__expanded--carousel-tablet .headline {
-  font-size: var(--font-sx);
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1080 * 16);
 }
 .controller__expanded--carousel-desktop {
   height: calc((100vw - (var(--offset) * 1px)) / 1920 * 108);
   width: calc((100vw - (var(--offset) * 1px)) / 1920 * 436);
   margin: calc((100vw - (var(--offset) * 1px)) / 1920 * 10);
 }
-.controller__expanded--carousel-desktop .headline,
-.controller__expanded--carousel-desktop .title {
-  font-size: var(--font-sm);
+.controller__expanded--carousel-desktop .headline {
+  font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 20);
 }
 .controller__expanded--carousel-desktop button {
   height: calc((100vw - (var(--offset) * 1px)) / 1920 * 108);

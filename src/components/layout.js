@@ -11,6 +11,7 @@ const Layout = ({
   title,
   panesArray,
   impressions,
+  setLispActionPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
@@ -30,6 +31,7 @@ const Layout = ({
         <Controller
           panesArray={panesArray}
           impressions={impressions}
+          setLispActionPayload={setLispActionPayload}
           viewportKey={viewportKey}
           prefersReducedMotion={prefersReducedMotion}
         />

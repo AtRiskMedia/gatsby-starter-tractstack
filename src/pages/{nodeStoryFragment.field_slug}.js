@@ -327,7 +327,7 @@ const StoryFragment = ({ data }) => {
             }
             break
           default:
-            console.log("LispActionPayload misfire", command, parameters)
+            console.log("LispActionPayload misfire", lispActionPayload)
             break
         }
       }
@@ -346,6 +346,7 @@ const StoryFragment = ({ data }) => {
       title={title}
       panesArray={panesArray}
       impressions={impressions}
+      setLispActionPayload={setLispActionPayload}
       viewportKey={viewportKey}
       prefersReducedMotion={prefersReducedMotion}
     >

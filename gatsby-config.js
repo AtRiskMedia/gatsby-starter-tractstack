@@ -3,8 +3,8 @@ require("dotenv").config({
 })
 
 const viewportWidths = {
-  mobile: "(max-width: 600px)", // renders as though 600px
-  tablet: "(min-width: 601px) and (max-width: 1366px)", // renders as though 1080px
+  mobile: "(max-width: 800px)", // renders as though 600px
+  tablet: "(min-width: 801px) and (max-width: 1366px)", // renders as though 1080px
   desktop: "(min-width: 1367px)", // renders as though 1920px
 }
 
