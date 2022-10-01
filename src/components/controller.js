@@ -44,7 +44,7 @@ const Controller = ({
     })
   const tractStackWordmark = wordmark("tractstack")
   function injectPayload() {
-    const thisPayload = [[["goto", ["storyFragment", "tractstack"]]],""]
+    const thisPayload = [[["goto", ["storyFragment", "tractstack"]]], ""]
     setLispActionPayload(thisPayload)
   }
   if (carouselSlides.length) {
