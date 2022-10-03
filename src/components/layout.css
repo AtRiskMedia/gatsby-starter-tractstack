@@ -294,6 +294,15 @@ button {
   font-size: calc((100vw - (var(--offset) * 1px)) / 1920 * 32);
 }
 
+.codehook {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.codehook__inner {
+}
+
 .svg__shape-outside {
   #visibility: hidden;
 }

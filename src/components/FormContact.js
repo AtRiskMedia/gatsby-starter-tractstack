@@ -9,9 +9,6 @@ export default class FormContact extends React.Component {
     email: "",
     consent: "",
     message: "",
-    campaign_id: "8f86263c-f597-af02-068e-60afc598d4c9",
-    assigned_user_id: "1",
-    moduleDir: "Leads",
   }
 
   handleInputChange = event => {
@@ -32,31 +29,8 @@ export default class FormContact extends React.Component {
       this.state.consent !== "-- select an option --" &&
       this.state.message
     ) {
-      // first we add to CRM, if opt-in
       // skip for now
       if (this.state.consent === "yes") {
-        /*
-        var bodyFormData = new FormData();
-        bodyFormData.append("last_name", this.state.name);
-        bodyFormData.append("account_name", this.state.company);
-        bodyFormData.append("email1", this.state.email);
-        bodyFormData.append("campaign_id", this.state.campaign_id);
-        bodyFormData.append("assigned_user_id", this.state.assigned_user_id);
-        bodyFormData.append("moduleDir", this.state.moduleDir);
-        axios({
-          method: "post",
-          url: config.url_suitecrm,
-          data: bodyFormData
-        })
-          .then(function(response) {
-            //handle success
-            //console.log(response);
-          })
-          .catch(function(response) {
-            //handle error
-            //console.log(response);
-          });
-          */
       }
       // next we send email
       var json = JSON.stringify({
@@ -92,113 +66,115 @@ export default class FormContact extends React.Component {
 
   render() {
     return (
-      <>
-        <h3 className="contact__subtitle">How can we help?</h3>
-        <form className="contact" onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Your Full Name </label>
-          {this.state.submitted && !this.state.message ? (
-            <span>*Required</span>
-          ) : (
-            ""
-          )}
-          <input
-            type="text"
-            id="name"
-            name="name"
-            defaultValue={this.state.name}
-            onBlur={this.handleInputChange}
-            className={
-              this.state.submitted && !this.state.name
-                ? "contact__container--required"
-                : ""
-            }
-          />
+      <div className="codehook codehook__form">
+        <div className="codehook__inner">
+          <h3 className="contact__subtitle">How can we help?</h3>
+          <form className="contact" onSubmit={this.handleSubmit}>
+            <label htmlFor="name">Your Full Name </label>
+            {this.state.submitted && !this.state.message ? (
+              <span>*Required</span>
+            ) : (
+              ""
+            )}
+            <input
+              type="text"
+              id="name"
+              name="name"
+              defaultValue={this.state.name}
+              onBlur={this.handleInputChange}
+              className={
+                this.state.submitted && !this.state.name
+                  ? "contact__container--required"
+                  : ""
+              }
+            />
 
-          <label htmlFor="email">Business Email </label>
-          {this.state.submitted && !this.state.message ? (
-            <span>*Required</span>
-          ) : (
-            ""
-          )}
-          <input
-            type="email"
-            id="email"
-            name="email"
-            defaultValue={this.state.email}
-            onBlur={this.handleInputChange}
-            className={
-              this.state.submitted && !this.state.email
-                ? "contact__container--required"
-                : ""
-            }
-          />
+            <label htmlFor="email">Business Email </label>
+            {this.state.submitted && !this.state.message ? (
+              <span>*Required</span>
+            ) : (
+              ""
+            )}
+            <input
+              type="email"
+              id="email"
+              name="email"
+              defaultValue={this.state.email}
+              onBlur={this.handleInputChange}
+              className={
+                this.state.submitted && !this.state.email
+                  ? "contact__container--required"
+                  : ""
+              }
+            />
 
-          <label htmlFor="company">Company </label>
-          {this.state.submitted && !this.state.message ? (
-            <span>*Required</span>
-          ) : (
-            ""
-          )}
-          <input
-            type="text"
-            id="company"
-            name="company"
-            defaultValue={this.state.company}
-            onBlur={this.handleInputChange}
-            className={
-              this.state.submitted && !this.state.company
-                ? "contact__container--required"
-                : ""
-            }
-          />
+            <label htmlFor="company">Company </label>
+            {this.state.submitted && !this.state.message ? (
+              <span>*Required</span>
+            ) : (
+              ""
+            )}
+            <input
+              type="text"
+              id="company"
+              name="company"
+              defaultValue={this.state.company}
+              onBlur={this.handleInputChange}
+              className={
+                this.state.submitted && !this.state.company
+                  ? "contact__container--required"
+                  : ""
+              }
+            />
 
-          <label htmlFor="message">Message </label>
-          {this.state.submitted && !this.state.message ? (
-            <span>*Required</span>
-          ) : (
-            ""
-          )}
-          <textarea
-            id="message"
-            name="message"
-            defaultValue={this.state.message}
-            onBlur={this.handleInputChange}
-            className={
-              this.state.submitted && !this.state.message
-                ? "contact__container--required"
-                : ""
-            }
-          />
+            <label htmlFor="message">Message </label>
+            {this.state.submitted && !this.state.message ? (
+              <span>*Required</span>
+            ) : (
+              ""
+            )}
+            <textarea
+              id="message"
+              name="message"
+              defaultValue={this.state.message}
+              onBlur={this.handleInputChange}
+              className={
+                this.state.submitted && !this.state.message
+                  ? "contact__container--required"
+                  : ""
+              }
+            />
 
-          <label htmlFor="consent">Add to contacts? </label>
-          {this.state.submitted && this.state.consent !== "yes" ? (
-            <span>*Required</span>
-          ) : (
-            ""
-          )}
-          <select
-            required
-            id="consent"
-            name="consent"
-            defaultValue="-- select an option --"
-            onBlur={this.handleInputChange}
-            className={
-              this.state.submitted && this.state.consent !== "yes"
-                ? "contact__container--required"
-                : ""
-            }
-          >
-            <option hidden>-- select an option --</option>
-            <option value="yes">Yes! Let&apos;s keep in touch.</option>
-            <option value="no">No.</option>
-          </select>
+            <label htmlFor="consent">Add to contacts? </label>
+            {this.state.submitted && this.state.consent !== "yes" ? (
+              <span>*Required</span>
+            ) : (
+              ""
+            )}
+            <select
+              required
+              id="consent"
+              name="consent"
+              defaultValue="-- select an option --"
+              onBlur={this.handleInputChange}
+              className={
+                this.state.submitted && this.state.consent !== "yes"
+                  ? "contact__container--required"
+                  : ""
+              }
+            >
+              <option hidden>-- select an option --</option>
+              <option value="yes">Yes! Let&apos;s keep in touch.</option>
+              <option value="no">No.</option>
+            </select>
 
-          <button type="submit">Let&apos;s&nbsp;Engage</button>
-        </form>
-        <div id="form__complete" className="form__complete">
-          We will be in touch!
+            <button type="submit">Let&apos;s&nbsp;Engage</button>
+          </form>
+          <div id="form__complete" className="form__complete">
+            We will be in touch!
+          </div>
         </div>
-      </>
+      </div>
     )
   }
 }
