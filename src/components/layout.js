@@ -1,10 +1,11 @@
 import * as React from "react"
 import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
 
 import Header from "./header"
 import Controller from "./controller"
 import "./layout.css"
+
+export const Head = () => <script src="/h5p-resizer.js" />
 
 const Layout = ({
   children,
@@ -17,9 +18,6 @@ const Layout = ({
 }) => {
   return (
     <>
-      <Helmet>
-        <script src="/h5p-resizer.js" />
-      </Helmet>
       <Header siteTitle={title} />
       <div
         style={{

@@ -40,7 +40,6 @@ module.exports = {
         icon: `assets/ARm-logo.svg`, // This path is relative to the root of the site.
       },
     },
-    `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-breakpoints`,
       options: {
