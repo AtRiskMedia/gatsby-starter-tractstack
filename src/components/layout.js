@@ -1,11 +1,12 @@
 import * as React from "react"
 import PropTypes from "prop-types"
+import { Script } from "gatsby"
 
 import Header from "./header"
 import Controller from "./controller"
 import "./layout.css"
 
-export const Head = () => <script src="/h5p-resizer.js" />
+export const Head = () => <Script src="/h5p-resizer.js" />
 
 const Layout = ({
   children,
