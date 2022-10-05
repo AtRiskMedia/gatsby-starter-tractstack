@@ -9,7 +9,7 @@ import H5p from "../components/H5p"
 import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
-import FormContact from "../components/FormContact"
+import CodeHook from "../components/FormContact"
 
 export const query = graphql`
   query ($id: String) {
@@ -246,12 +246,7 @@ export const query = graphql`
 `
 
 const codeHooks = {
-  "add-here": (
-    <>
-      <p>codehook!</p>
-    </>
-  ),
-  contact: <FormContact />,
+  contact: CodeHook,
   H5p: H5p,
 }
 

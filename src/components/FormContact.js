@@ -1,43 +1,46 @@
 import React from "react"
 import axios from "axios"
+import { useState } from 'react'
+
 import config from "../../data/SiteConfig"
 
-export default class FormContact extends React.Component {
-  state = {
+const FormContact = ({setLispActionHook}) => {
+  const initialState = {
     name: "",
     company: "",
     email: "",
     consent: "",
     message: "",
   }
+  const [state, setState] = useState(initialState);
 
-  handleInputChange = event => {
-    const target = event.target
-    const value = target.value
-    const name = target.name
-    this.setState({
-      [name]: value,
-    })
+  const handleInputChange = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    setState({ [name]: value });
   }
 
-  handleSubmit = event => {
-    event.preventDefault()
+  const handleSubmit = e => {
+    const thatPayload = ["codeHook", ["form", "submit","FormContact"]]
+    setLispActionHook(thatPayload)
+    e.preventDefault()
     if (
-      this.state.name &&
-      this.state.company &&
-      this.state.email &&
-      this.state.consent !== "-- select an option --" &&
-      this.state.message
+      state.name &&
+      state.company &&
+      state.email &&
+      state.consent !== "-- select an option --" &&
+      state.message
     ) {
       // skip for now
-      if (this.state.consent === "yes") {
+      if (state.consent === "yes") {
       }
       // next we send email
       var json = JSON.stringify({
-        name: this.state.name,
-        company: this.state.company,
-        email: this.state.email,
-        message: this.state.message,
+        name: state.name,
+        company: state.company,
+        email: state.email,
+        message: state.message,
         secret: process.env.API_SECRET_KEY,
       })
       axios({
@@ -51,27 +54,28 @@ export default class FormContact extends React.Component {
           document.getElementById("form__complete").style.display = "block"
           document.getElementById("form__incomplete").style.display = "none"
           //console.log(response);
+          const thisPayload = ["codeHook", ["form", "submit","FormContact"]]
+          setLispActionHook(thisPayload)
         })
         .catch(function (response) {
           //handle error
           //console.log(response);
         })
     } else {
-      this.setState({
+      setState({
         submitted: true,
       })
-      this.handleInputChange(event)
+      handleInputChange(e)
     }
   }
 
-  render() {
-    return (
+  return (
       <div className="codehook codehook__form">
         <div className="codehook__inner">
           <h3 className="contact__subtitle">How can we help?</h3>
-          <form className="contact" onSubmit={this.handleSubmit}>
+          <form className="contact" onSubmit={handleSubmit}>
             <label htmlFor="name">Your Full Name </label>
-            {this.state.submitted && !this.state.message ? (
+            {state.submitted && !state.message ? (
               <span>*Required</span>
             ) : (
               ""
@@ -80,17 +84,17 @@ export default class FormContact extends React.Component {
               type="text"
               id="name"
               name="name"
-              defaultValue={this.state.name}
-              onBlur={this.handleInputChange}
+              defaultValue={state.name}
+              onBlur={handleInputChange}
               className={
-                this.state.submitted && !this.state.name
+                state.submitted && !state.name
                   ? "contact__container--required"
                   : ""
               }
             />
 
             <label htmlFor="email">Business Email </label>
-            {this.state.submitted && !this.state.message ? (
+            {state.submitted && !state.message ? (
               <span>*Required</span>
             ) : (
               ""
@@ -99,17 +103,17 @@ export default class FormContact extends React.Component {
               type="email"
               id="email"
               name="email"
-              defaultValue={this.state.email}
-              onBlur={this.handleInputChange}
+              defaultValue={state.email}
+              onBlur={handleInputChange}
               className={
-                this.state.submitted && !this.state.email
+                state.submitted && !state.email
                   ? "contact__container--required"
                   : ""
               }
             />
 
             <label htmlFor="company">Company </label>
-            {this.state.submitted && !this.state.message ? (
+            {state.submitted && !state.message ? (
               <span>*Required</span>
             ) : (
               ""
@@ -118,17 +122,17 @@ export default class FormContact extends React.Component {
               type="text"
               id="company"
               name="company"
-              defaultValue={this.state.company}
-              onBlur={this.handleInputChange}
+              defaultValue={state.company}
+              onBlur={handleInputChange}
               className={
-                this.state.submitted && !this.state.company
+                state.submitted && !state.company
                   ? "contact__container--required"
                   : ""
               }
             />
 
             <label htmlFor="message">Message </label>
-            {this.state.submitted && !this.state.message ? (
+            {state.submitted && !state.message ? (
               <span>*Required</span>
             ) : (
               ""
@@ -136,17 +140,17 @@ export default class FormContact extends React.Component {
             <textarea
               id="message"
               name="message"
-              defaultValue={this.state.message}
-              onBlur={this.handleInputChange}
+              defaultValue={state.message}
+              onBlur={handleInputChange}
               className={
-                this.state.submitted && !this.state.message
+                state.submitted && !state.message
                   ? "contact__container--required"
                   : ""
               }
             />
 
             <label htmlFor="consent">Add to contacts? </label>
-            {this.state.submitted && this.state.consent !== "yes" ? (
+            {state.submitted && state.consent !== "yes" ? (
               <span>*Required</span>
             ) : (
               ""
@@ -156,9 +160,9 @@ export default class FormContact extends React.Component {
               id="consent"
               name="consent"
               defaultValue="-- select an option --"
-              onBlur={this.handleInputChange}
+              onBlur={handleInputChange}
               className={
-                this.state.submitted && this.state.consent !== "yes"
+                state.submitted && state.consent !== "yes"
                   ? "contact__container--required"
                   : ""
               }
@@ -176,5 +180,6 @@ export default class FormContact extends React.Component {
         </div>
       </div>
     )
-  }
 }
+
+export default FormContact
