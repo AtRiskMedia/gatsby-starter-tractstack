@@ -32,6 +32,9 @@ const Header = ({ siteTitle }) => {
           />
         </button>
       </div>
+      {isExpanded && (
+        <div className="header__graph"></div>
+      )}
     </header>
   )
 }

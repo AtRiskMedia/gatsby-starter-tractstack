@@ -967,6 +967,9 @@ button .controller__carousel--title-desktop svg {
 header.expanded {
   height: 100vh;
 }
+.header__graph {
+  background: var(--colour-white);
+}
 button.header__toggle {
   background: none;
   border: none;
