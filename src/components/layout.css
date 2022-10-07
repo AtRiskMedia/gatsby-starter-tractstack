@@ -813,23 +813,6 @@ button .controller__carousel--title-desktop svg {
   padding: 0;
 }
 */
-header.expanded {
-  height: 100vh;
-}
-button.header__toggle {
-  background: none;
-  border: none;
-}
-
-.header__toggle img {
-  transition: all 0.3s ease-in-out 0s;
-  cursor: pointer;
-}
-.header__toggle img:hover {
-  cursor: pointer;
-  transform: rotate(15deg);
-  transition: all 0.3s ease-in-out 0s;
-}
 
 @keyframes fadeIn {
   0% {
@@ -974,4 +957,27 @@ button.header__toggle {
   100% {
     opacity: 0;
   }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header.expanded {
+  height: 100vh;
+}
+button.header__toggle {
+  background: none;
+  border: none;
+}
+
+.header__toggle img {
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+}
+.header__toggle img:hover {
+  cursor: pointer;
+  transform: rotate(15deg);
+  transition: all 0.3s ease-in-out 0s;
 }

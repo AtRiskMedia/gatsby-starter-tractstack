@@ -11,28 +11,27 @@ const Header = ({ siteTitle }) => {
       style={{
         margin: `0 auto`,
         padding: `var(--space-2) var(--size-gutter)`,
-        display: `flex`,
-        alignItems: `center`,
-        justifyContent: `space-between`,
         background: `var(--colour-lightgrey)`,
       }}
     >
-      {siteTitle}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="header__toggle"
-        style={{
-          fontSize: `var(--font-sm)`,
-          textDecoration: `none`,
-        }}
-      >
-        <img
-          alt="At Risk Media logo"
-          height={30}
-          style={{ margin: 0 }}
-          src={TractStackIcon}
-        />
-      </button>
+      <div className="header">
+        {siteTitle}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="header__toggle"
+          style={{
+            fontSize: `var(--font-sm)`,
+            textDecoration: `none`,
+          }}
+        >
+          <img
+            alt="At Risk Media logo"
+            height={30}
+            style={{ margin: 0 }}
+            src={TractStackIcon}
+          />
+        </button>
+      </div>
     </header>
   )
 }
