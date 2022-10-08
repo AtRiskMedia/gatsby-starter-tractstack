@@ -7,7 +7,7 @@ const D3 = ({ options, slug, setLispActionPayload }) => {
     function injectD3() {
       // have to investigate ... possibly pass functions (with setLispActionPayload) by adding them to options
       console.log("d3 todo")
-      const d3 = new Neo4jd3(`#${slug}`, options).init
+      const d3 = new Neo4jd3(`#${slug}`, options)
       console.log(d3)
     },
     [slug, options]

@@ -969,6 +969,10 @@ header.expanded {
 }
 .header__graph {
   background: var(--colour-white);
+  height: 100%;
+}
+#concierge {
+  height: 100%;
 }
 button.header__toggle {
   background: none;
