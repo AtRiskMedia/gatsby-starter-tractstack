@@ -63,6 +63,8 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
 H5p.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  setLispActionHook: PropTypes.func.isRequired,
 }
 
 export default H5p

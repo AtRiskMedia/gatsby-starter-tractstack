@@ -20,7 +20,7 @@ const Layout = ({
       <Helmet>
         <script src="/h5p-resizer.js" />
       </Helmet>
-      <Header siteTitle={title} />
+      <Header siteTitle={title} setLispActionPayload={setLispActionPayload} />
       <div
         style={{
           margin: `0 auto`,
