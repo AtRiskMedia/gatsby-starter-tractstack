@@ -10,7 +10,6 @@ const D3 = ({ options, slug, setLispActionPayload }) => {
       if (JSON.stringify(options) !== JSON.stringify(thisOptions)) {
         setThisOptions(options)
       }
-      console.log(thisOptions)
       if (
         thisOptions.hasOwnProperty("neo4jData") ||
         thisOptions.hasOwnProperty("neo4jDataUrl")
