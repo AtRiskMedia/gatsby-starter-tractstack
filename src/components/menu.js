@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
-import { getLogo, concierge } from "gatsby-plugin-tractstack"
+import { getLogo } from "gatsby-plugin-tractstack"
 
 const NavLink = ({ children, to }) => (
   <Link to={to} activeClassName="is-active">
