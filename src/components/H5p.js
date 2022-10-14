@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { concierge } from "gatsby-plugin-tractstack"
 
-const H5p = ({ src, title, slug, setLispActionHook }) => {
+const H5p = ({ src, title, slug }) => {
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
@@ -42,7 +43,7 @@ const H5p = ({ src, title, slug, setLispActionHook }) => {
               score,
               durationInSeconds
             )
-            setLispActionHook(["h5p", [verb, [id, name, type, score]]])
+            concierge(["h5p", [verb, [id, name, type, score]]])
           }
         )
       }
@@ -64,7 +65,6 @@ H5p.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
-  setLispActionHook: PropTypes.func.isRequired,
 }
 
 export default H5p

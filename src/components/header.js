@@ -4,7 +4,7 @@ import { TractStackIcon } from "gatsby-plugin-tractstack"
 
 import D3 from "../components/D3"
 
-const Header = ({ siteTitle, setLispActionPayload }) => {
+const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const graphOptions = {
@@ -140,7 +140,7 @@ const Header = ({ siteTitle, setLispActionPayload }) => {
                     endNode: "9",
                     properties: {},
                   },
-                 {
+                  {
                     id: "10",
                     type: "SHARES",
                     startNode: "7",
@@ -200,11 +200,7 @@ const Header = ({ siteTitle, setLispActionPayload }) => {
       </div>
       {isExpanded && (
         <div className="header__graph">
-          <D3
-            options={graphOptions}
-            slug="concierge"
-            setLispActionPayload={setLispActionPayload}
-          />
+          <D3 options={graphOptions} slug="concierge" />
         </div>
       )}
     </header>
@@ -213,12 +209,10 @@ const Header = ({ siteTitle, setLispActionPayload }) => {
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
-  setLispActionPayload: PropTypes.func.isRequired,
 }
 
 Header.defaultProps = {
   siteTitle: ``,
-  setLispActionPayload: (function () {})(),
 }
 
 export default Header

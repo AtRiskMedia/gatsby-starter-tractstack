@@ -20,7 +20,6 @@ const StoryFragmentRender = ({
   payload,
   prefersReducedMotion,
   viewportKey,
-  setLispActionPayload,
   setPanesArray,
   panesArray,
 }) => {

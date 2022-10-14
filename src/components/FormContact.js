@@ -1,10 +1,11 @@
 import React from "react"
 import axios from "axios"
 import { useState } from "react"
+import { concierge } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"
 
-const FormContact = ({ setLispActionHook }) => {
+const FormContact = () => {
   const initialState = {
     name: "",
     company: "",
@@ -23,7 +24,7 @@ const FormContact = ({ setLispActionHook }) => {
 
   const handleSubmit = e => {
     const thatPayload = ["codeHook", ["form", "submit", "FormContact"]]
-    setLispActionHook(thatPayload)
+    concierge(thatPayload)
     e.preventDefault()
     if (
       state.name &&
@@ -55,7 +56,7 @@ const FormContact = ({ setLispActionHook }) => {
           document.getElementById("form__incomplete").style.display = "none"
           //console.log(response);
           const thisPayload = ["codeHook", ["form", "submit", "FormContact"]]
-          setLispActionHook(thisPayload)
+          concierge(thisPayload)
         })
         .catch(function (response) {
           //handle error

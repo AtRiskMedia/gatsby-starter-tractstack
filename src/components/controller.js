@@ -3,7 +3,11 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import Carousel from "nuka-carousel"
 
-import { getControllerPayload, wordmark } from "gatsby-plugin-tractstack"
+import {
+  getControllerPayload,
+  wordmark,
+  concierge,
+} from "gatsby-plugin-tractstack"
 
 const StyledWrapperAside = styled.aside`
   ${props => props.css};
@@ -12,7 +16,6 @@ const StyledWrapperAside = styled.aside`
 const Controller = ({
   panesArray,
   impressions,
-  setLispActionPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
@@ -45,7 +48,7 @@ const Controller = ({
   const tractStackWordmark = wordmark("tractstack")
   function injectPayload() {
     const thisPayload = [[["goto", ["storyFragment", "tractstack"]]], ""]
-    setLispActionPayload(thisPayload)
+    concierge(thisPayload)
   }
   if (carouselSlides.length) {
     carouselSlides.push(

@@ -1,7 +1,7 @@
 import * as React from "react"
-import { graphql, navigate } from "gatsby"
+import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { tractStackGraph, getScrollbarSize } from "gatsby-plugin-tractstack"
+import { getScrollbarSize } from "gatsby-plugin-tractstack"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -251,7 +251,6 @@ const codeHooks = {
 }
 
 const StoryFragment = ({ data }) => {
-  const [lispActionPayload, setLispActionPayload] = React.useState([])
   const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
@@ -262,12 +261,11 @@ const StoryFragment = ({ data }) => {
     : breakpoints.desktop
     ? "desktop"
     : "server"
-  const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
+  //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const title = data.nodeStoryFragment.title
   const payload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
     viewportKey: viewportKey,
-    setLispActionHook: setLispActionPayload,
     codeHooks: codeHooks,
   })
   const impressions =
@@ -281,53 +279,6 @@ const StoryFragment = ({ data }) => {
   //console.log(panesArray)
 
   React.useEffect(
-    function doLispAction() {
-      if (typeof lispActionPayload === "object" && lispActionPayload?.length) {
-        const thisPayload = (lispActionPayload && lispActionPayload[0]) || false
-        const command =
-          (thisPayload && thisPayload[0] && thisPayload[0][0]) || null
-        const parameters =
-          (thisPayload && thisPayload[0] && thisPayload[0][1]) || null
-        const parameterOne = (parameters && parameters[0]) || null
-        const parameterTwo = (parameters && parameters[1]) || null
-        switch (command) {
-          case "goto":
-            switch (parameterOne) {
-              case "storyFragment":
-                navigate(`/${parameterTwo}`)
-                break
-              default:
-                console.log("LispActionPayload misfire on goto", parameters)
-            }
-            break
-          case "h5p":
-            switch (parameterTwo) {
-              case "interacted":
-              case "answered":
-              case "scored":
-                console.log(
-                  "LispActionPayload for h5p todo",
-                  command,
-                  parameters
-                )
-                break
-              default:
-                console.log(
-                  "LispActionPayload for h5p todo",
-                  command,
-                  parameters
-                )
-            }
-            break
-          default:
-            console.log("LispActionPayload misfire", lispActionPayload)
-            break
-        }
-      }
-    },
-    [lispActionPayload]
-  )
-  React.useEffect(
     function checkScrollBarSize() {
       const currentSize = viewportKey === "server" ? 0 : getScrollbarSize()
       document.documentElement.style.setProperty("--offset", currentSize)
@@ -339,7 +290,6 @@ const StoryFragment = ({ data }) => {
       title={title}
       panesArray={panesArray}
       impressions={impressions}
-      setLispActionPayload={setLispActionPayload}
       viewportKey={viewportKey}
       prefersReducedMotion={prefersReducedMotion}
     >
@@ -348,7 +298,6 @@ const StoryFragment = ({ data }) => {
         payload={payload}
         prefersReducedMotion={prefersReducedMotion}
         viewportKey={viewportKey}
-        setLispActionPayload={setLispActionPayload}
         setPanesArray={setPanesArray}
         panesArray={panesArray}
       />

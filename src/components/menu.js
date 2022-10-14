@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
-import { getLogo } from "gatsby-plugin-tractstack"
+import { getLogo, concierge } from "gatsby-plugin-tractstack"
 
 const NavLink = ({ children, to }) => (
   <Link to={to} activeClassName="is-active">
@@ -8,7 +8,7 @@ const NavLink = ({ children, to }) => (
   </Link>
 )
 
-function Menu({ menuPayload, viewportKey, setLispActionHook }) {
+function Menu({ menuPayload, viewportKey }) {
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
     menuPayload.relationships?.field_image_logo

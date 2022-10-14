@@ -11,7 +11,6 @@ const Layout = ({
   title,
   panesArray,
   impressions,
-  setLispActionPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
@@ -20,7 +19,7 @@ const Layout = ({
       <Helmet>
         <script src="/h5p-resizer.js" />
       </Helmet>
-      <Header siteTitle={title} setLispActionPayload={setLispActionPayload} />
+      <Header siteTitle={title} />
       <div
         style={{
           margin: `0 auto`,
@@ -31,7 +30,6 @@ const Layout = ({
         <Controller
           panesArray={panesArray}
           impressions={impressions}
-          setLispActionPayload={setLispActionPayload}
           viewportKey={viewportKey}
           prefersReducedMotion={prefersReducedMotion}
         />
