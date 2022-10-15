@@ -241,6 +241,12 @@ pre tt:after {
   content: none;
 }
 
+.neo4jd3-info {
+  font-size: 16px;
+  padding: 10px;
+  position: absolute;
+}
+
 .pane {
   display: grid;
   max-width: 2560px;
