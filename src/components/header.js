@@ -8,8 +8,8 @@ const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const graphOptions = {
-    distance: 100,
-    labelFontSize: "14px",
+    distance: 120,
+    labelFontSize: "18px",
     legend: {
       StoryFragment: 0,
       Claim: 1,
@@ -17,7 +17,7 @@ const Header = ({ siteTitle }) => {
       Pane: 3,
       Activity: 4,
       Visitor: 5,
-      UNLOCKS: 6,
+      VISITS: 6,
       CLAIMS: 7,
       KNOWS: 8,
       BELIEVES: 9,
@@ -33,64 +33,82 @@ const Header = ({ siteTitle }) => {
                   {
                     id: "1",
                     labels: ["Visitor"],
-                    properties: {},
+                    properties: {
+                      id: 1000,
+                    },
                   },
                   {
                     id: "2",
                     labels: ["SecurityMatters"],
-                    properties: {},
+                    properties: {
+                      id: 500,
+                    },
                   },
                   {
                     id: "3",
                     labels: ["AtRiskMediaHelps"],
-                    properties: {},
+                    properties: {
+                      id: 501,
+                    },
                   },
                   {
                     id: "4",
                     labels: ["Hero"],
-                    properties: {},
+                    properties: {
+                      id: 800,
+                      type: "copy",
+                    },
                   },
                   {
                     id: "5",
                     labels: ["Impression"],
-                    properties: {},
+                    properties: {
+                      id: 900,
+                      type: "cta",
+                    },
                   },
                   {
                     id: "6",
                     labels: ["Activity"],
-                    properties: {},
+                    properties: {
+                      id: 700,
+                      type: "activity",
+                    },
                   },
                   {
                     id: "7",
                     labels: ["WelcomeToAtRiskMedia"],
-                    properties: {},
+                    properties: {
+                      id: 400,
+                      type: "story",
+                    },
                   },
                 ],
                 relationships: [
                   {
                     id: "1",
-                    type: "UNLOCKS",
+                    type: "VISITS",
                     startNode: "1",
                     endNode: "7",
                     properties: {},
                   },
                   {
                     id: "2",
-                    type: "UNLOCKS",
+                    type: "VISITS",
                     startNode: "7",
                     endNode: "5",
                     properties: {},
                   },
                   {
                     id: "3",
-                    type: "UNLOCKS",
+                    type: "VISITS",
                     startNode: "7",
                     endNode: "4",
                     properties: {},
                   },
                   {
                     id: "4",
-                    type: "UNLOCKS",
+                    type: "VISITS",
                     startNode: "7",
                     endNode: "6",
                     properties: {},
