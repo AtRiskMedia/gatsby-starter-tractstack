@@ -8,7 +8,8 @@ const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const graphOptions = {
-    distance: 75,
+    distance: 100,
+    labelFontSize: "14px",
     legend: {
       StoryFragment: 0,
       Claim: 1,
