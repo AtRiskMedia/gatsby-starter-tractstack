@@ -8,6 +8,7 @@ const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const graphOptions = {
+    distance: 75,
     legend: {
       StoryFragment: 0,
       Claim: 1,
@@ -121,11 +122,6 @@ const Header = ({ siteTitle }) => {
         },
       ],
       errors: [],
-    },
-    onRelationshipDoubleClick: function (relationship) {
-      console.log(
-        "double click on relationship: " + JSON.stringify(relationship)
-      )
     },
   }
 
