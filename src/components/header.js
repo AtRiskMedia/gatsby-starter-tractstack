@@ -8,19 +8,19 @@ const Header = ({ siteTitle }) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
 
   const graphOptions = {
-    distance: 120,
+    distance: 150,
+    strength: -350,
     labelFontSize: "18px",
     legend: {
-      StoryFragment: 0,
-      Claim: 1,
-      Impression: 2,
-      Pane: 3,
-      Activity: 4,
-      Visitor: 5,
-      VISITS: 6,
-      CLAIMS: 7,
-      KNOWS: 8,
-      BELIEVES: 9,
+      pane: 0,
+      INCLUDES: 0,
+      visitor: 1,
+      VISITS: 1,
+      KNOWS: 6,
+      BELIEVES: 7,
+      claim: 2,
+      impression: 3,
+      activity: 4,
     },
     neo4jData: {
       results: [
@@ -35,6 +35,7 @@ const Header = ({ siteTitle }) => {
                     labels: ["Visitor"],
                     properties: {
                       id: 1000,
+                      type: "visitor",
                     },
                   },
                   {
@@ -42,6 +43,7 @@ const Header = ({ siteTitle }) => {
                     labels: ["SecurityMatters"],
                     properties: {
                       id: 500,
+                      type: "claim",
                     },
                   },
                   {
@@ -49,6 +51,7 @@ const Header = ({ siteTitle }) => {
                     labels: ["AtRiskMediaHelps"],
                     properties: {
                       id: 501,
+                      type: "claim",
                     },
                   },
                   {
@@ -56,7 +59,7 @@ const Header = ({ siteTitle }) => {
                     labels: ["Hero"],
                     properties: {
                       id: 800,
-                      type: "copy",
+                      type: "pane",
                     },
                   },
                   {
@@ -64,23 +67,23 @@ const Header = ({ siteTitle }) => {
                     labels: ["Impression"],
                     properties: {
                       id: 900,
-                      type: "cta",
+                      type: "impression",
                     },
                   },
                   {
                     id: "6",
-                    labels: ["Activity"],
+                    labels: ["Pane"],
                     properties: {
                       id: 700,
-                      type: "activity",
+                      type: "pane",
                     },
                   },
                   {
                     id: "7",
-                    labels: ["WelcomeToAtRiskMedia"],
+                    labels: ["Activity"],
                     properties: {
-                      id: 400,
-                      type: "story",
+                      id: 701,
+                      type: "activity",
                     },
                   },
                 ],
@@ -89,28 +92,28 @@ const Header = ({ siteTitle }) => {
                     id: "1",
                     type: "VISITS",
                     startNode: "1",
-                    endNode: "7",
+                    endNode: "4",
                     properties: {},
                   },
                   {
                     id: "2",
                     type: "VISITS",
-                    startNode: "7",
-                    endNode: "5",
+                    startNode: "1",
+                    endNode: "6",
                     properties: {},
                   },
                   {
                     id: "3",
-                    type: "VISITS",
-                    startNode: "7",
-                    endNode: "4",
+                    type: "INCLUDES",
+                    startNode: "6",
+                    endNode: "5",
                     properties: {},
                   },
                   {
                     id: "4",
-                    type: "VISITS",
-                    startNode: "7",
-                    endNode: "6",
+                    type: "INCLUDES",
+                    startNode: "6",
+                    endNode: "7",
                     properties: {},
                   },
                   {
