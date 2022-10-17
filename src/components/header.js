@@ -150,8 +150,11 @@ const Header = ({ siteTitle }) => {
         </button>
       </div>
       {isExpanded && (
-        <div className="header__graph">
-          <D3 options={graphOptions} slug="conciergeGraph" />
+        <div className="concierge">
+          <div className="concierge__panel"></div>
+          <div className="concierge__graph">
+            <D3 options={graphOptions} slug="conciergeGraph" />
+          </div>
         </div>
       )}
     </header>

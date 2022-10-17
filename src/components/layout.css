@@ -963,24 +963,45 @@ button .controller__carousel--title-desktop svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 }
 header.expanded {
   height: 100vh;
 }
-.header__graph {
-  background: var(--colour-white);
+.concierge {
+  width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  flex: 1;
+}
+.concierge__panel {
+  height: 100%;
+  width: 60%;
+}
+.concierge__graph {
+  height: 100%;
+  width: 40%;
 }
 #conciergeGraph {
-  height: 100%;
+  height: 90%;
+  border: 1px solid var(--colour-darkgrey);
+  background: var(--colour-white);
+  margin: 5% 0;
 }
-#conciergeGraph .neo4jd3-graph {
+#conciergeGraph .header__panel {
+  background: red;
 }
+#conciergeGraph .header__graph {
+  width: 40%;
+  background: yellow;
+}
+
 #conciergeGraph .neo4jd3-info {
   position: relative;
-  top: 4rem;
-  left: 4rem;
-  height: 40px;
+  height: 1px;
+  padding: 1rem;
 }
 
 button.header__toggle {
