@@ -241,12 +241,6 @@ pre tt:after {
   content: none;
 }
 
-.neo4jd3-info {
-  font-size: 16px;
-  padding: 10px;
-  position: absolute;
-}
-
 .pane {
   display: grid;
   max-width: 2560px;
@@ -977,9 +971,18 @@ header.expanded {
   background: var(--colour-white);
   height: 100%;
 }
-#concierge {
+#conciergeGraph {
   height: 100%;
 }
+#conciergeGraph .neo4jd3-graph {
+}
+#conciergeGraph .neo4jd3-info {
+  position: relative;
+  top: 4rem;
+  left: 4rem;
+  height: 40px;
+}
+
 button.header__toggle {
   background: none;
   border: none;

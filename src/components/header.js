@@ -10,18 +10,8 @@ const Header = ({ siteTitle }) => {
   const graphOptions = {
     distance: 150,
     strength: -350,
+    infoPanel: true,
     labelFontSize: "18px",
-    legend: {
-      pane: 0,
-      INCLUDES: 0,
-      visitor: 1,
-      VISITS: 1,
-      KNOWS: 6,
-      BELIEVES: 7,
-      claim: 2,
-      impression: 3,
-      activity: 4,
-    },
     neo4jData: {
       results: [
         {
@@ -32,86 +22,71 @@ const Header = ({ siteTitle }) => {
                 nodes: [
                   {
                     id: "1",
+                    type: "visitor",
                     labels: ["Visitor"],
-                    properties: {
-                      id: 1000,
-                      type: "visitor",
-                    },
+                    properties: {},
                   },
                   {
                     id: "2",
+                    type: "claim",
                     labels: ["SecurityMatters"],
-                    properties: {
-                      id: 500,
-                      type: "claim",
-                    },
+                    properties: {},
                   },
                   {
                     id: "3",
+                    type: "claim",
                     labels: ["AtRiskMediaHelps"],
-                    properties: {
-                      id: 501,
-                      type: "claim",
-                    },
+                    properties: {},
                   },
                   {
                     id: "4",
+                    type: "pane",
                     labels: ["Hero"],
-                    properties: {
-                      id: 800,
-                      type: "pane",
-                    },
+                    properties: {},
                   },
                   {
                     id: "5",
+                    type: "impression",
                     labels: ["Impression"],
-                    properties: {
-                      id: 900,
-                      type: "impression",
-                    },
+                    properties: {},
                   },
                   {
                     id: "6",
+                    type: "pane",
                     labels: ["Pane"],
-                    properties: {
-                      id: 700,
-                      type: "pane",
-                    },
+                    properties: {},
                   },
                   {
                     id: "7",
                     labels: ["Activity"],
-                    properties: {
-                      id: 701,
-                      type: "activity",
-                    },
+                    properties: {},
                   },
                 ],
                 relationships: [
                   {
                     id: "1",
-                    type: "VISITS",
+                    type: "DISCOVERS",
                     startNode: "1",
                     endNode: "4",
                     properties: {},
                   },
                   {
                     id: "2",
-                    type: "VISITS",
+                    type: "DISCOVERS",
                     startNode: "1",
                     endNode: "6",
                     properties: {},
                   },
                   {
                     id: "3",
-                    type: "INCLUDES",
+                    type: "REVEALS",
                     startNode: "6",
                     endNode: "5",
                     properties: {},
                   },
                   {
                     id: "4",
-                    type: "INCLUDES",
+                    type: "REVEALS",
                     startNode: "6",
                     endNode: "7",
                     properties: {},
@@ -176,7 +151,7 @@ const Header = ({ siteTitle }) => {
       </div>
       {isExpanded && (
         <div className="header__graph">
-          <D3 options={graphOptions} slug="concierge" />
+          <D3 options={graphOptions} slug="conciergeGraph" />
         </div>
       )}
     </header>
