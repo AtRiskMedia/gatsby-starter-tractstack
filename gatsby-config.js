@@ -52,6 +52,7 @@ module.exports = {
         disableVendorPrefixes: true,
       },
     },
+    "gatsby-plugin-postcss",
     {
       resolve: `gatsby-transformer-remark`,
     },

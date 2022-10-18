@@ -143,8 +143,8 @@ const Header = ({ siteTitle }) => {
         >
           <img
             alt="At Risk Media logo"
-            height={30}
-            style={{ margin: 0 }}
+            height={"30px"}
+            style={{ margin: 0, maxHeight: "30px" }}
             src={TractStackIcon}
           />
         </button>
