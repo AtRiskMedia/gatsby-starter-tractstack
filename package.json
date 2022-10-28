@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "author": "Adon Irani <a@atriskmedia.com>",
   "dependencies": {
+    "@headlessui/react": "^1.7.3",
+    "@heroicons/react": "^2.0.12",
     "autoprefixer": "^10.4.12",
     "babel-plugin-styled-components": "^2.0.7",
     "gatsby": "^4.24.0",

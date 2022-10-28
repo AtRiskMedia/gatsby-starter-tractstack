@@ -1,12 +1,13 @@
 import * as React from "react"
 import PropTypes from "prop-types"
-import { TractStackIcon } from "gatsby-plugin-tractstack"
+import { Popover, Transition } from "@headlessui/react"
+import { TractStackIcon, classNames } from "gatsby-plugin-tractstack"
+import { Bars3Icon } from "@heroicons/react/24/outline"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
 import D3 from "../components/D3"
 
 const Header = ({ siteTitle }) => {
-  const [isExpanded, setIsExpanded] = React.useState(false)
-
   const graphOptions = {
     distance: 150,
     strength: -350,
@@ -123,40 +124,87 @@ const Header = ({ siteTitle }) => {
   }
 
   return (
-    <header
-      className={isExpanded ? "expanded" : ``}
-      style={{
-        margin: `0 auto`,
-        padding: `var(--space-2) var(--size-gutter)`,
-        background: `var(--colour-lightgrey)`,
-      }}
-    >
-      <div className="header">
-        {siteTitle}
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="header__toggle"
-          style={{
-            fontSize: `var(--font-sm)`,
-            textDecoration: `none`,
-          }}
-        >
-          <img
-            alt="At Risk Media logo"
-            height={"30px"}
-            style={{ margin: 0, maxHeight: "30px" }}
-            src={TractStackIcon}
-          />
-        </button>
-      </div>
-      {isExpanded && (
-        <div className="concierge">
-          <div className="concierge__panel"></div>
-          <div className="concierge__graph">
-            <D3 options={graphOptions} slug="conciergeGraph" />
+    <header>
+      <Popover className="relative bg-lightgrey">
+        <div
+          className="pointer-events-none absolute inset-0 z-70030 shadow"
+          aria-hidden="true"
+        />
+        <div className="relative z-70020">
+          <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8">
+            <div>{siteTitle}</div>
+            <div>
+              <div className="-my-2 -mr-2 md:hidden">
+                <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <span className="sr-only">Open menu</span>
+                  <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                </Popover.Button>
+              </div>
+              <div className="hidden md:flex md:flex-1 md:items-center md:justify-between">
+                <Popover>
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
+                        className={classNames(
+                          open ? "text-gray-900" : "text-gray-500",
+                          "group inline-flex items-center rounded-md text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        )}
+                      >
+                        <span>
+                          <img
+                            alt="At Risk Media logo"
+                            height={"30px"}
+                            style={{ margin: 0, maxHeight: "30px" }}
+                            src={TractStackIcon}
+                          />
+                        </span>
+                        <ChevronDownIcon
+                          className={classNames(
+                            open ? "text-gray-600" : "text-gray-400",
+                            "ml-2 h-5 w-5 group-hover:text-gray-500"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </Popover.Button>
+
+                      <Transition
+                        as={React.Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 -translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 -translate-y-1"
+                      >
+                        <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 hidden transform shadow-lg md:block">
+                          <div className="absolute inset-0 flex">
+                            <div className="w-1/2 bg-allwhite" />
+                            <div className="w-1/2 bg-white" />
+                          </div>
+                          <div className="relative h-screen mx-auto grid grid-cols-1 lg:grid-cols-2">
+                            <div className="px-4 py-8 sm:py-12 sm:px-6 lg:px-8 xl:pl-12">
+                              <p>
+                                This experience is powered by Tract Stack
+                                Concierge.
+                              </p>
+                            </div>
+                            <div className="px-4 py-8 sm:py-12 sm:px-6 lg:px-8 xl:pl-12">
+                              <D3
+                                options={graphOptions}
+                                slug="conciergeGraph"
+                              />
+                            </div>
+                          </div>
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </Popover>
     </header>
   )
 }

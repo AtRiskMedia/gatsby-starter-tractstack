@@ -622,9 +622,13 @@ aside {
   bottom: 4vh;
   left: 0;
   width: auto;
-  z-index: 10001;
+  z-index: 70001;
   height: auto;
 }
+
+
+
+
 .controller__expanded--toggle,
 .controller__minimized--toggle {
   cursor: pointer;
@@ -639,6 +643,11 @@ aside {
 .controller__minimized {
   display: flex;
 }
+
+
+
+
+
 .controller__expanded--mobile {
   height: calc((100vw - (var(--offset) * 1px)) / 600 * 110);
   width: calc((100vw - (var(--offset) * 1px)) / 600 * 600);
@@ -968,39 +977,14 @@ button .controller__carousel--title-desktop svg {
 header.expanded {
   height: 100vh;
 }
-.concierge {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-basis: 100%;
-  flex: 1;
-}
-.concierge__panel {
-  height: 100%;
-  width: 60%;
-}
-.concierge__graph {
-  height: 100%;
-  width: 40%;
-}
 #conciergeGraph {
-  height: 90%;
-  border: 1px solid var(--colour-darkgrey);
-  background: var(--colour-white);
-  margin: 5% 0;
+  height: 100%;
+  width: 100%;
 }
-#conciergeGraph .header__panel {
-  background: red;
-}
-#conciergeGraph .header__graph {
-  width: 40%;
-  background: yellow;
-}
-
 #conciergeGraph .neo4jd3-info {
-  position: relative;
-  height: 1px;
+  position: absolute;
+  height: auto;
+  top: 5rem;
   padding: 1rem;
 }
 
@@ -1013,7 +997,7 @@ button.header__toggle {
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
 }
-.header__toggle img:hover {
+header img:hover {
   cursor: pointer;
   transform: rotate(15deg);
   transition: all 0.3s ease-in-out 0s;
