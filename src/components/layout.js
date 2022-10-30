@@ -31,7 +31,6 @@ const Layout = ({
           panesArray={panesArray}
           impressions={impressions}
           viewportKey={viewportKey}
-          prefersReducedMotion={prefersReducedMotion}
         />
         <footer
           style={{

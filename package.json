@@ -19,7 +19,6 @@
     "gatsby-source-filesystem": "^4.24.0",
     "gatsby-transformer-remark": "^5.24.0",
     "gatsby-transformer-sharp": "^4.24.0",
-    "nuka-carousel": "^5.4.0",
     "postcss": "^8.4.18",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",

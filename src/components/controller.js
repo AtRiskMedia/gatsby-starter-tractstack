@@ -1,53 +1,41 @@
 import * as React from "react"
 import PropTypes from "prop-types"
+import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 import styled from "styled-components"
-import Carousel from "nuka-carousel"
 
 import {
   getControllerPayload,
   wordmark,
   concierge,
+  classNames,
 } from "gatsby-plugin-tractstack"
 
 const StyledWrapperAside = styled.aside`
   ${props => props.css};
 `
 
-const Controller = ({
-  panesArray,
-  impressions,
-  viewportKey,
-  prefersReducedMotion,
-}) => {
-  const [isExpanded, setIsExpanded] = React.useState(true)
-  const controllerPayload = getControllerPayload(isExpanded, viewportKey)
-  const thisId = isExpanded ? "controller__expanded" : "controller__minimized"
-  const thisCssAnimated = prefersReducedMotion
-    ? ``
-    : `opacity:0; animation-fill-mode: both; animation-name: fadeIn; -webkit-animation-name: fadeIn;  animation-duration: 0.25s; -webkit-animation-duration: 0.25s;  animation-delay: 0s; `
-  const thisCss = `#${thisId} { background: #fff; ${controllerPayload.css} ${thisCssAnimated} }`
-  const maxIconsConfig = {
-    mobile: 4,
-    tablet: 6,
-    desktop: 6,
-  }
-  const maxIcons =
-    maxIconsConfig.hasOwnProperty(viewportKey) && maxIconsConfig[viewportKey]
-  let carouselSlides = []
-  let icons = []
-  let show = false
-  if (panesArray?.length)
-    panesArray.map(p => {
+const Controller = ({ panesArray, impressions, viewportKey }) => {
+  const [open, setOpen] = React.useState(true)
+  //const controllerPayload = getControllerPayload(open, viewportKey)
+  const impressionPayloads = panesArray
+    .map(p => {
       if (impressions.hasOwnProperty(p)) {
-        carouselSlides.push(impressions[p].carouselSlides)
-        icons.push(impressions[p].icons)
-        show = true
+        return impressions[p].payload
       }
       return null
     })
+    .filter(x => x)
+  const visibleImpressions = Object.keys(impressionPayloads).length
+  const controllerPayload = getControllerPayload(open, viewportKey)
+  const thisCss = `.controller__expanded--${viewportKey} { ${controllerPayload.css} }`
+
+  /*
   const tractStackWordmark = wordmark("tractstack")
   function injectPayload() {
-    const thisPayload = [[["goto", ["storyFragment", "tractstack"]]], ""]
+    const thisPayload = [
+      [["goto", ["storyReact.React.Fragment", "tractstack"]]],
+      "",
+    ]
     concierge(thisPayload)
   }
   if (carouselSlides.length) {
@@ -66,64 +54,50 @@ const Controller = ({
       </button>
     )
   }
-
-  if (icons.length >= maxIcons) {
-    icons = icons.slice(0, maxIcons)
-  }
-  if (!show) return <></>
-  if (isExpanded)
+*/
+  if (visibleImpressions === 0) return <></>
+  if (open)
     return (
       <StyledWrapperAside css={thisCss} id="controller">
         <div
-          className={`controller__expanded controller__expanded--${viewportKey}`}
-          id={thisId}
+          className={`z-70010 bg-lightgrey controller__expanded controller__expanded--${viewportKey}`}
         >
-          <button
-            className={`controller__expanded--toggle controller__expanded--toggle-${viewportKey}`}
-            onClick={() => setIsExpanded(!isExpanded)}
-            title="Minimize the Controller"
-          >
-            <span>&lt;</span>
-          </button>
-          <div
-            className={`controller__expanded--carousel controller__expanded--carousel-${viewportKey}`}
-          >
-            <Carousel
-              wrapAround={true}
-              autoplay={true}
-              autoplayInterval={12000}
-              slidesToShow={1}
-              withoutControls={true}
+          <div className="px-4 py-5 sm:p-6">
+            <button
+              type="button"
+              className="z-70020 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => setOpen(!open)}
             >
-              {carouselSlides}
-            </Carousel>
+              <span className="sr-only">Hide controller</span>
+              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+     
+
+
+
+
           </div>
         </div>
       </StyledWrapperAside>
     )
   return (
-    <StyledWrapperAside css={thisCss} id="controller">
+    <aside id="controller">
       <div
-        className={`controller__minimized controller__minimized--${viewportKey}`}
-        id={thisId}
+        className={`z-70010 relative controller__minimized controller_minimized--${viewportKey}`}
       >
         <button
-          className={`controller__minimized--toggle controller__minimized--toggle-${viewportKey}`}
-          onClick={() => setIsExpanded(!isExpanded)}
-          title="Expand the Controller"
+          type="button"
+          className="z-70020 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => setOpen(!open)}
         >
-          <span>&gt;</span>
+          <span className="sr-only">Show controller</span>
+          <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
+          <span className="z-70030 absolute -top-5 -right-4 h-6 w-6 rounded-full bg-darkgrey text-white flex justify-center items-center items">
+            {visibleImpressions}
+          </span>
         </button>
-        <div className={`controller__minimized--icons-${viewportKey}`}>
-          <ul
-            id="controller__icons"
-            className={`controller__icons controller__icons--${viewportKey}`}
-          >
-            {icons}
-          </ul>
-        </div>
       </div>
-    </StyledWrapperAside>
+    </aside>
   )
 }
 
