@@ -28,6 +28,7 @@ function useInterval(callback, delay) {
 }
 
 const Impression = ({ payload }) => {
+  if (typeof payload !== "object") return <></>
   return (
     <>
       <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -70,7 +71,10 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
   }, delay)
 
   if (impressionCount === 0) return <></>
-  const thisImpression = impressionPayloads[offset]
+  const offsetImpression = impressionPayloads[offset]
+  const thisImpression =
+    typeof offsetImpression[0] === "object" ? offsetImpression[0] : null
+  if (!thisImpression) return <></>
   if (open)
     return (
       <aside id="controller">
@@ -86,7 +90,7 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
-            <Impression payload={thisImpression[0]} />
+            <Impression payload={thisImpression} />
           </div>
         </div>
       </aside>
@@ -103,7 +107,7 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
         >
           <span className="sr-only">Show controller</span>
           <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
-          <span className="z-70030 absolute -top-5 -right-4 h-6 w-6 rounded-full bg-darkgrey text-white flex justify-center items-center items">
+          <span className="z-70030 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
             {impressionCount}
           </span>
         </button>

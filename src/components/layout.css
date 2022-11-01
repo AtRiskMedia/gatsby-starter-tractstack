@@ -620,7 +620,7 @@ nav.menu-default a:hover {
 aside {
   position: fixed;
   bottom: 4vh;
-  left: 0;
+  right: 0;
   width: auto;
   z-index: 70001;
   height: auto;
