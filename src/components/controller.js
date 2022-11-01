@@ -1,7 +1,6 @@
 import * as React from "react"
 import PropTypes from "prop-types"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
-import styled from "styled-components"
 
 import {
   getControllerPayload,
@@ -10,57 +9,73 @@ import {
   classNames,
 } from "gatsby-plugin-tractstack"
 
-const StyledWrapperAside = styled.aside`
-  ${props => props.css};
-`
+function useInterval(callback, delay) {
+  const savedCallback = React.useRef()
+  // Remember the latest function.
+  React.useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+  // Set up the interval.
+  React.useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}
+
+const Impression = ({ payload }) => {
+  return (
+    <>
+      <h3 className="text-lg font-medium leading-6 text-gray-900">
+        {payload.altTitle}
+      </h3>
+      <div className="mt-2 sm:flex sm:items-start sm:justify-between">
+        <div className="max-w-xl text-sm text-gray-500">
+          <p>{payload.headline}</p>
+        </div>
+        <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center">
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
+          >
+            {payload.buttonText}
+          </button>
+        </div>
+      </div>
+    </>
+  )
+}
 
 const Controller = ({ panesArray, impressions, viewportKey }) => {
+  const [offset, setOffset] = React.useState(0)
+  //const [delay, setDelay] = React.useState(2200)
+  const delay = 22000
   const [open, setOpen] = React.useState(true)
-  //const controllerPayload = getControllerPayload(open, viewportKey)
-  const impressionPayloads = panesArray
-    .map(p => {
-      if (impressions.hasOwnProperty(p)) {
-        return impressions[p].payload
-      }
-      return null
-    })
-    .filter(x => x)
-  const visibleImpressions = Object.keys(impressionPayloads).length
-  const controllerPayload = getControllerPayload(open, viewportKey)
-  const thisCss = `.controller__expanded--${viewportKey} { ${controllerPayload.css} }`
+  let impressionPayloads = []
+  panesArray.forEach(p => {
+    if (impressions.hasOwnProperty(p)) {
+      impressionPayloads.push(impressions[p].payload)
+    }
+    return null
+  })
+  const impressionCount = impressionPayloads.length
 
-  /*
-  const tractStackWordmark = wordmark("tractstack")
-  function injectPayload() {
-    const thisPayload = [
-      [["goto", ["storyReact.React.Fragment", "tractstack"]]],
-      "",
-    ]
-    concierge(thisPayload)
-  }
-  if (carouselSlides.length) {
-    carouselSlides.push(
-      <button
-        key={0}
-        className="controller__carousel"
-        onClick={() => injectPayload()}
-      >
-        <p>
-          {tractStackWordmark}{" "}
-          <span className="headline">
-            No-code website builder + conversion funnel concierge
-          </span>
-        </p>
-      </button>
-    )
-  }
-*/
-  if (visibleImpressions === 0) return <></>
+  useInterval(() => {
+    if (impressionCount > offset + 1) setOffset(offset + 1)
+    else setOffset(0)
+  }, delay)
+
+  if (impressionCount === 0) return <></>
+  const thisImpression = impressionPayloads[offset]
   if (open)
     return (
-      <StyledWrapperAside css={thisCss} id="controller">
+      <aside id="controller">
         <div
-          className={`z-70010 bg-lightgrey controller__expanded controller__expanded--${viewportKey}`}
+          className={`z-70010 overflow-hidden bg-lightgrey controller__expanded controller__expanded--${viewportKey}`}
         >
           <div className="px-4 py-5 sm:p-6">
             <button
@@ -71,14 +86,10 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
-     
-
-
-
-
+            <Impression payload={thisImpression[0]} />
           </div>
         </div>
-      </StyledWrapperAside>
+      </aside>
     )
   return (
     <aside id="controller">
@@ -93,7 +104,7 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
           <span className="sr-only">Show controller</span>
           <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
           <span className="z-70030 absolute -top-5 -right-4 h-6 w-6 rounded-full bg-darkgrey text-white flex justify-center items-center items">
-            {visibleImpressions}
+            {impressionCount}
           </span>
         </button>
       </div>
