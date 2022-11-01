@@ -57,7 +57,7 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
   const delay = 22000
   const [open, setOpen] = React.useState(true)
   let impressionPayloads = []
-  panesArray.forEach(p => {
+  panesArray?.forEach(p => {
     if (impressions.hasOwnProperty(p)) {
       impressionPayloads.push(impressions[p].payload)
     }
