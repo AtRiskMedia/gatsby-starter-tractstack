@@ -73,7 +73,10 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
   if (impressionCount === 0) return <></>
   const offsetImpression = impressionPayloads[offset]
   const thisImpression =
-    typeof offsetImpression[0] === "object" ? offsetImpression[0] : null
+    typeof offsetImpression === "object" &&
+    typeof offsetImpression[0] === "object"
+      ? offsetImpression[0]
+      : null
   if (!thisImpression) return <></>
   if (open)
     return (

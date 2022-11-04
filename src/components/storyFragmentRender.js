@@ -32,27 +32,15 @@ const StoryFragmentRender = ({
     typeof panes === "object" &&
     panes?.map(p => {
       const thisPane = thisPayload[p]
-      const thisCss =
-        (!prefersReducedMotion &&
-          `${thisPane?.css} ${thisPane?.cssAnimated}`) ||
-        `${thisPane?.css}`
-      const hasAccessibleController =
-        prefersReducedMotion && thisPane?.accessibleController?.length
-      const accessibleController =
-        (hasAccessibleController && (
-          <ul id={`${viewportKey}-${p}-controller`}>
-            {thisPane?.accessibleController?.map(e => {
-              return e
-            })}
-          </ul>
-        )) ||
-        ``
+      const thisCss = !prefersReducedMotion
+        ? `${thisPane?.css} ${thisPane?.cssAnimated}`
+        : `${thisPane?.css}`
       return (
         <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
           <InView
             onEnter={() => {
               if (panesArray.indexOf(p) === -1)
-                setPanesArray([...panesArray, p])
+                setPanesArray([p, ...panesArray])
             }}
             onLeave={() => {
               const thisIndex = panesArray.indexOf(p)
@@ -68,7 +56,6 @@ const StoryFragmentRender = ({
               children={thisPane?.children}
             />
           </InView>
-          {accessibleController}
         </StyledWrapperSection>
       )
     })
@@ -80,6 +67,17 @@ const StoryFragmentRender = ({
       </>
     )) ||
     rendering
+  /*
+  return (
+    <>
+      <section className="apane apane__one">
+        <div className="apane__one--inner"></div>
+      </section>
+      <section className="apane apane__two">
+        <div className="apane__two--inner"></div>
+      </section>
+    </>
+  )*/
   return renderedStoryFragment
 }
 

@@ -250,6 +250,30 @@ const codeHooks = {
   H5p: H5p,
 }
 
+function useWindowScale() {
+  const [windowScale, setWindowScale] = React.useState({
+    scale: undefined,
+  })
+
+  React.useEffect(() => {
+    function handleResize() {
+      const thisWidth = window.innerWidth
+      setWindowScale({
+        scale:
+          thisWidth < 801
+            ? thisWidth / 600
+            : thisWidth < 1367
+            ? thisWidth / 1080
+            : thisWidth / 1920,
+      })
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+  return windowScale
+}
+
 const StoryFragment = ({ data }) => {
   const [panesArray, setPanesArray] = React.useState([])
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -277,7 +301,13 @@ const StoryFragment = ({ data }) => {
   //console.log(payload)
   //console.log(prefersReducedMotion )
   //console.log(panesArray)
-
+  const scale = useWindowScale()
+  React.useEffect(
+    function storeCssVariable() {
+      document.documentElement.style.setProperty("--scale", scale?.scale)
+    },
+    [scale]
+  )
   React.useEffect(
     function checkScrollBarSize() {
       const currentSize = viewportKey === "server" ? 0 : getScrollbarSize()
