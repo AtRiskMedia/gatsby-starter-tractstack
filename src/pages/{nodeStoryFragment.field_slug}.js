@@ -1,12 +1,10 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import { getScrollbarSize } from "gatsby-plugin-tractstack"
 
-import Layout from "../components/layout"
+import StoryFragment from "./StoryFragment"
 import Seo from "../components/seo"
 import H5p from "../components/H5p"
-import StoryFragmentRender from "../components/storyFragmentRender"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 import FormContact from "../components/FormContact"
@@ -274,8 +272,7 @@ function useWindowScale() {
   return windowScale
 }
 
-const StoryFragment = ({ data }) => {
-  const [panesArray, setPanesArray] = React.useState([])
+const RenderedStoryFragment = ({ data }) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -300,7 +297,6 @@ const StoryFragment = ({ data }) => {
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
-  //console.log(panesArray)
   const scale = useWindowScale()
   React.useEffect(
     function storeCssVariable() {
@@ -308,33 +304,19 @@ const StoryFragment = ({ data }) => {
     },
     [scale]
   )
-  React.useEffect(
-    function checkScrollBarSize() {
-      const currentSize = viewportKey === "server" ? 0 : getScrollbarSize()
-      document.documentElement.style.setProperty("--offset", currentSize)
-    },
-    [viewportKey]
-  )
   return (
-    <Layout
+    <StoryFragment
       title={title}
-      panesArray={panesArray}
+      payload={payload}
       impressions={impressions}
       viewportKey={viewportKey}
       prefersReducedMotion={prefersReducedMotion}
     >
       <Seo title={title} />
-      <StoryFragmentRender
-        payload={payload}
-        prefersReducedMotion={prefersReducedMotion}
-        viewportKey={viewportKey}
-        setPanesArray={setPanesArray}
-        panesArray={panesArray}
-      />
-    </Layout>
+    </StoryFragment>
   )
 }
 
 export const Head = ({ data }) => <Seo title={data.nodeStoryFragment.title} />
 
-export default StoryFragment
+export default RenderedStoryFragment

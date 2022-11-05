@@ -1,15 +1,14 @@
 import * as React from "react"
-import styled from "styled-components"
 import { InView } from "react-cool-inview"
-
-const StyledWrapperSection = styled.section`
-  ${props => props.css};
-`
+import { classNames } from "gatsby-plugin-tractstack"
 
 const Pane = ({ thisId, children, inView, observe }) => (
   <div
     id={thisId}
-    className={inView ? "pane visible" : "pane hidden"}
+    className={classNames(
+      inView ? "pane visible" : "pane hidden",
+      "w-full h-full grid grid-rows-1 grid-cols-1"
+    )}
     ref={observe}
   >
     {children}
@@ -18,7 +17,6 @@ const Pane = ({ thisId, children, inView, observe }) => (
 
 const StoryFragmentRender = ({
   payload,
-  prefersReducedMotion,
   viewportKey,
   setPanesArray,
   panesArray,
@@ -28,15 +26,16 @@ const StoryFragmentRender = ({
   const menu = (typeof payload?.menu === "object" && payload?.menu) || <></>
   const thisPayload =
     typeof payload?.payload?.payload === "object" && payload?.payload?.payload
-  const rendering =
+  const thisStoryFragment =
     typeof panes === "object" &&
     panes?.map(p => {
       const thisPane = thisPayload[p]
-      const thisCss = !prefersReducedMotion
-        ? `${thisPane?.css} ${thisPane?.cssAnimated}`
-        : `${thisPane?.css}`
       return (
-        <StyledWrapperSection key={`${viewportKey}-${p}`} css={thisCss}>
+        <section
+          className="w-full h-fit-content overflow-hidden"
+          id={`${viewportKey}-${p}`}
+          key={`${viewportKey}-${p}`}
+        >
           <InView
             onEnter={() => {
               if (panesArray.indexOf(p) === -1)
@@ -56,28 +55,17 @@ const StoryFragmentRender = ({
               children={thisPane?.children}
             />
           </InView>
-        </StyledWrapperSection>
+        </section>
       )
     })
   const renderedStoryFragment =
     (menu && (
       <>
         {menu}
-        {rendering}
+        {thisStoryFragment}
       </>
     )) ||
-    rendering
-  /*
-  return (
-    <>
-      <section className="apane apane__one">
-        <div className="apane__one--inner"></div>
-      </section>
-      <section className="apane apane__two">
-        <div className="apane__two--inner"></div>
-      </section>
-    </>
-  )*/
+    thisStoryFragment
   return renderedStoryFragment
 }
 
