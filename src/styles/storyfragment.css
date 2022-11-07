@@ -282,7 +282,7 @@ button {
   font-size: calc(var(--scale) * 30 * 1px);
 }
 .paneFragment-desktop {
-  font-size: calc(var(--scale) 32 * 1px);
+  font-size: calc(var(--scale) * 32 * 1px);
 }
 
 .codehook {
