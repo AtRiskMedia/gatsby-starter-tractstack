@@ -290,9 +290,7 @@ const RenderedStoryFragment = ({ data }) => {
     codeHooks: codeHooks,
   })
   const impressions =
-    (payload?.payload?.impressions?.hasOwnProperty(viewportKey) &&
-      payload.payload.impressions[viewportKey]) ||
-    {}
+    typeof payload?.payload?.impressions === "object" ? payload.payload.impressions : {}
   //console.log( impressions )
   //console.log(thisGraph)
   //console.log(payload)

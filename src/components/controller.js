@@ -52,6 +52,7 @@ const Impression = ({ payload }) => {
 }
 
 const Controller = ({ panesArray, impressions, viewportKey }) => {
+  console.log( impressions)
   const [offset, setOffset] = React.useState(0)
   //const [delay, setDelay] = React.useState(2200)
   const delay = 22000
