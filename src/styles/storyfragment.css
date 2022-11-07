@@ -243,15 +243,6 @@ pre tt:after {
 
 .pane {
   display: grid;
-  max-width: 2560px;
-  min-width: 320px;
-  width: 100%;
-  overflow: hidden;
-  z-index: 1;
-  clear: both;
-  float: left;
-  margin: 0;
-  padding: 0;
 }
 
 a,

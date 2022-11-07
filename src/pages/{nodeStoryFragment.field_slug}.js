@@ -290,7 +290,9 @@ const RenderedStoryFragment = ({ data }) => {
     codeHooks: codeHooks,
   })
   const impressions =
-    typeof payload?.payload?.impressions === "object" ? payload.payload.impressions : {}
+    typeof payload?.payload?.impressions === "object"
+      ? payload.payload.impressions
+      : {}
   //console.log( impressions )
   //console.log(thisGraph)
   //console.log(payload)
