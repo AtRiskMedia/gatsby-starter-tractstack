@@ -44,9 +44,7 @@ const StoryFragmentRender = ({
             onLeave={() => {
               const thisIndex = panesArray.indexOf(p)
               if (thisIndex) {
-                setPanesArray(panesArray =>
-                  panesArray.filter((e, i) => i !== thisIndex)
-                )
+                setPanesArray([...panesArray.filter((e, i) => i !== thisIndex)])
               }
             }}
           >
