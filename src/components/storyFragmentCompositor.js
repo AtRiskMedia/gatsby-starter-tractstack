@@ -9,10 +9,12 @@ const storyFragmentCompositor = props => {
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
   const panesPayload = props.data.relationships.field_panes
-  const compositedPayload = Compositor(panesPayload, codeHooks,viewportKey)
+  const compositedPayload = Compositor(panesPayload, codeHooks, viewportKey)
   const menuPayload = props?.data?.relationships?.field_menu
-  const compositedMenu = menuPayload ? Menu({ menuPayload, viewportKey: viewportKey }) : false
-  
+  const compositedMenu = menuPayload
+    ? Menu({ menuPayload, viewportKey: viewportKey })
+    : false
+
   return {
     id: storyFragmentId,
     title: storyFragmentTitle,

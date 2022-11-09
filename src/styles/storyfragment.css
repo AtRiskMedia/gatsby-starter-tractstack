@@ -261,19 +261,6 @@ button {
 .paneFragmentParagraphOutside {
   fill: none;
 }
-.paneFragmentImage section,
-.paneFragmentImage__inner,
-.paneFragmentVideo,
-.paneFragmentImage__inner div,
-.paneFragmentContainer,
-.paneFragmentCode {
-  height: 100%;
-  width: 100%;
-}
-.paneFragmentVideo video {
-  height: 100%;
-  width: auto;
-}
 
 .paneFragment-mobile {
   font-size: calc(var(--scale) * 24 * 1px);
