@@ -282,6 +282,14 @@ const RenderedStoryFragment = ({ data }) => {
     : breakpoints.desktop
     ? "desktop"
     : "server"
+  const scale = useWindowScale()
+  React.useEffect(
+    function storeCssVariable() {
+      document.documentElement.style.setProperty("--scale", scale?.scale)
+    },
+    [scale]
+  )
+  if (viewportKey === "server") return <></>
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const title = data.nodeStoryFragment.title
   const payload = storyFragmentCompositor({
@@ -297,14 +305,6 @@ const RenderedStoryFragment = ({ data }) => {
   //console.log(thisGraph)
   //console.log(payload)
   //console.log(prefersReducedMotion )
-  const scale = useWindowScale()
-  React.useEffect(
-    function storeCssVariable() {
-      document.documentElement.style.setProperty("--scale", scale?.scale)
-    },
-    [scale]
-  )
-  if (viewportKey === "server") return <></>
   return (
     <StoryFragment
       title={title}
