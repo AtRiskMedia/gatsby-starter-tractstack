@@ -32,9 +32,9 @@ const StoryFragmentRender = ({
       const thisPane = thisPayload[p]
       return (
         <section
+          key={`${viewportKey}-${p}-wrapper`}
           className="w-full h-fit-content overflow-hidden"
-          id={`${viewportKey}-${p}`}
-          key={`${viewportKey}-${p}`}
+          id={`${viewportKey}-${p}-wrapper`}
         >
           <InView
             onEnter={() => {

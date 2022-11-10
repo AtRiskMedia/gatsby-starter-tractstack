@@ -304,6 +304,7 @@ const RenderedStoryFragment = ({ data }) => {
     },
     [scale]
   )
+  if (viewportKey === "server") return <></>
   return (
     <StoryFragment
       title={title}
