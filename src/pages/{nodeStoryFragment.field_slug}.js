@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import loadable from '@loadable/component'
+import loadable from "@loadable/component"
 
 import Seo from "../components/seo"
 import H5p from "../components/H5p"
@@ -248,7 +248,7 @@ const codeHooks = {
   H5p: H5p,
 }
 
-const StoryFragment = loadable(() => import('./StoryFragment'))
+const StoryFragment = loadable(() => import("./StoryFragment"))
 
 function useWindowScale() {
   const [windowScale, setWindowScale] = React.useState({

@@ -27,6 +27,7 @@
     "react-cool-inview": "^3.0.1",
     "react-dom": "^18.1.0",
     "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.4.3",
     "styled-components": "^5.3.6",
     "tailwindcss": "^3.1.8",
     "yarn": "^1.22.19"

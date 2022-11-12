@@ -595,7 +595,7 @@ nav.menu-default a:hover {
   color: var(--colour-green);
 }
 
-aside {
+aside#controller {
   position: fixed;
   bottom: 4vh;
   right: 0;
