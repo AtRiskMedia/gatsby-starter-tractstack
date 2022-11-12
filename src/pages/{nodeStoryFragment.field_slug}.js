@@ -1,8 +1,8 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
+import loadable from '@loadable/component'
 
-import StoryFragment from "./StoryFragment"
 import Seo from "../components/seo"
 import H5p from "../components/H5p"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
@@ -247,6 +247,8 @@ const codeHooks = {
   contact: FormContact,
   H5p: H5p,
 }
+
+const StoryFragment = loadable(() => import('./StoryFragment'))
 
 function useWindowScale() {
   const [windowScale, setWindowScale] = React.useState({
