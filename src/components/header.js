@@ -14,12 +14,13 @@ import ConciergeProfile from "./conciergeProfile.js"
 import ConciergeGraph from "./conciergeGraph.js"
 
 const _subNavigation = hash => {
+  console.log(hash)
   return [
     {
       name: "Profile",
       href: "/profile",
       icon: UserCircleIcon,
-      current: hash === "#/profile" || hash === ``,
+      current: hash === "#/profile" || hash === `#/`,
     },
     {
       name: "Knowledge Graph",
@@ -55,7 +56,7 @@ const SubNav = () => {
       to={item.href}
       className={classNames(
         item.current
-          ? "bg-lightgrey border-blue text-black hover:text-black"
+          ? "bg-green border-blue text-black hover:text-black"
           : "border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
         "group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
       )}
