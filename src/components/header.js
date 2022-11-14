@@ -1,6 +1,6 @@
 import * as React from "react"
 import PropTypes from "prop-types"
-import { Routes, Route, Link, HashRouter } from "react-router-dom"
+import { Routes, Route, Link, HashRouter, useLocation } from "react-router-dom"
 import { Popover, Transition } from "@headlessui/react"
 import { TractStackIcon, classNames } from "gatsby-plugin-tractstack"
 import {
@@ -45,11 +45,37 @@ const TractStack = () => {
     </div>
   )
 }
+const SubNav = () => {
+  const location = useLocation()
+  const hash = `#${location.pathname}`
+  const subNavigation = _subNavigation(hash)
+  return subNavigation.map(item => (
+    <Link
+      key={item.name}
+      to={item.href}
+      className={classNames(
+        item.current
+          ? "bg-lightgrey border-blue text-black hover:text-black"
+          : "border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
+        "group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+      )}
+      aria-current={item.current ? "page" : undefined}
+    >
+      <item.icon
+        className={classNames(
+          item.current
+            ? "text-blue group-hover:text-blue"
+            : "text-gray-400 group-hover:text-gray-500",
+          "flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+        )}
+        aria-hidden="true"
+      />
+      <span className="truncate">{item.name}</span>
+    </Link>
+  ))
+}
 
 const Header = ({ siteTitle }) => {
-  const hash = window.location.hash
-  const subNavigation = _subNavigation(hash)
-  console.log(hash)
   return (
     <HashRouter>
       <header>
@@ -112,36 +138,12 @@ const Header = ({ siteTitle }) => {
                                     <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                                       <aside className="py-6 lg:col-span-3">
                                         <nav className="space-y-1">
-                                          {subNavigation.map(item => (
-                                            <Link
-                                              key={item.name}
-                                              to={item.href}
-                                              className={classNames(
-                                                item.current
-                                                  ? "bg-lightgrey border-blue text-black hover:text-black"
-                                                  : "border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
-                                                "group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
-                                              )}
-                                              aria-current={
-                                                item.current
-                                                  ? "page"
-                                                  : undefined
-                                              }
-                                            >
-                                              <item.icon
-                                                className={classNames(
-                                                  item.current
-                                                    ? "text-blue group-hover:text-blue"
-                                                    : "text-gray-400 group-hover:text-gray-500",
-                                                  "flex-shrink-0 -ml-1 mr-3 h-6 w-6"
-                                                )}
-                                                aria-hidden="true"
-                                              />
-                                              <span className="truncate">
-                                                {item.name}
-                                              </span>
-                                            </Link>
-                                          ))}
+                                          <Routes>
+                                            <Route
+                                              path="*"
+                                              element={<SubNav />}
+                                            />
+                                          </Routes>
                                         </nav>
                                       </aside>
                                       <Routes>
