@@ -7,7 +7,7 @@ import Seo from "../components/seo"
 import H5p from "../components/H5p"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
-import FormContact from "../components/FormContact"
+import Form from "../components/Form"
 
 export const query = graphql`
   query ($id: String) {
@@ -244,7 +244,7 @@ export const query = graphql`
 `
 
 const codeHooks = {
-  contact: FormContact,
+  contact: Form,
   H5p: H5p,
 }
 
