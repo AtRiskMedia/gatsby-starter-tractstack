@@ -31,20 +31,17 @@ const Impression = ({ payload }) => {
   if (typeof payload !== "object") return <></>
   return (
     <>
-      <h3 className="text-lg font-medium leading-6 text-gray-900">
+      <h3 className="text-rlg sm:text-lg font-medium leading-6 text-allblack">
         {payload.title}
       </h3>
       <div className="mt-2 sm:flex sm:items-start sm:justify-between">
-        <div className="max-w-xl text-sm text-gray-500">
-          <p>{payload.body}</p>
-        </div>
-        <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center">
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-green px-4 py-2 font-medium text-black shadow-sm hover:bg-orange focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
-          >
-            {payload.buttonText}
-          </button>
+        <div className="max-w-xl text-rsm sm:text-sm text-allblack">
+          <p>
+            {payload.body}{" "}
+            <button className="underline underline-offset-4 text-darkgrey hover:orange">
+              {payload.buttonText}
+            </button>
+          </p>
         </div>
       </div>
     </>
@@ -82,9 +79,9 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
     return (
       <aside id="controller">
         <div
-          className={`z-70010 overflow-hidden bg-lightgrey controller__expanded controller__expanded--${viewportKey}`}
+          className={`z-70010 overflow-hidden bg-neutral-200 rounded-md border border-black controller__expanded controller__expanded--${viewportKey}`}
         >
-          <div className="px-4 py-5 sm:p-6">
+          <div className="px-4 pt-4">
             <button
               type="button"
               className="z-70020 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

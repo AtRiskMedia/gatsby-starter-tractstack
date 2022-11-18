@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/pages/**/*.{js,jsx}", "./src/components/**/*.{js,jsx}"],
   theme: {
     extend: {
+      fontSize: {
+        rsm: "calc(var(--scale) * 0.875rem)",
+        rlg: "calc(var(--scale) * 1.125rem)",
+      },
       zIndex: {
         70010: "70010",
         70020: "70020",

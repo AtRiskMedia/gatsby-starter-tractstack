@@ -58,7 +58,10 @@ const FormContact = () => {
           <div className="md:col-span-1">
             <div className="flex flex-col justify-center h-full md:max-w-sm xs:pl-12">
               <h3 className="text-3xl font-bold text-black md:text-4xl">
-                At Risk Media <span className="text-orange tracking-tight">capabilities deck</span>
+                At Risk Media{" "}
+                <span className="text-orange tracking-tight">
+                  capabilities deck
+                </span>
               </h3>
               <p className="mt-4 text-xl text-gray-500">
                 To unlock our capabilities deck for download, please introduce
