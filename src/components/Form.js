@@ -53,14 +53,14 @@ const FormContact = () => {
 
   return (
     <form className="my-6" method="POST" onSubmit={handleSubmit}>
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+      <div className="bg-white px-4 py-5 shadow md:rounded-lg md:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
-            <div className="flex flex-col justify-center h-full">
-              <h3 className="text-xl font-medium leading-6 text-gray-900">
-                At Risk Media capabilities deck
+            <div className="flex flex-col justify-center h-full md:max-w-sm xs:pl-12">
+              <h3 className="text-3xl font-bold text-black md:text-4xl">
+                At Risk Media <span className="text-orange tracking-tight">capabilities deck</span>
               </h3>
-              <p className="mt-4 text-lg text-gray-500">
+              <p className="mt-4 text-xl text-gray-500">
                 To unlock our capabilities deck for download, please introduce
                 yourself.
               </p>
@@ -68,8 +68,8 @@ const FormContact = () => {
           </div>
           <div className="mt-5 md:col-span-2 md:mt-0">
             {success === 0 ? (
-              <div className="grid grid-cols-6 gap-4">
-                <div className="col-span-6 sm:col-span-2">
+              <div className="grid grid-cols-4 gap-4">
+                <div className="col-span-4 md:col-span-2">
                   <label
                     htmlFor="firstname"
                     className="block text-sm font-medium text-gray-700"
@@ -84,7 +84,7 @@ const FormContact = () => {
                     defaultValue={firstname}
                     onBlur={e => setFirstName(e.target.value)}
                     className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange sm:text-sm",
+                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
                       submitted && firstname === ""
                         ? "border-red-500"
                         : "border-gray-300"
@@ -97,7 +97,7 @@ const FormContact = () => {
                   )}
                 </div>
 
-                <div className="col-span-6 sm:col-span-2">
+                <div className="col-span-4 md:col-span-2">
                   <label
                     htmlFor="last-name"
                     className="block text-sm font-medium text-gray-700"
@@ -112,7 +112,7 @@ const FormContact = () => {
                     defaultValue={lastname}
                     onBlur={e => setLastName(e.target.value)}
                     className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange sm:text-sm",
+                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
                       submitted && firstname === ""
                         ? "border-red-500"
                         : "border-gray-300"
@@ -125,7 +125,7 @@ const FormContact = () => {
                   )}
                 </div>
 
-                <div className="col-span-6 sm:col-span-4">
+                <div className="col-span-4 lg:col-span-2">
                   <label
                     htmlFor="email-address"
                     className="block text-sm font-medium text-gray-700"
@@ -140,7 +140,7 @@ const FormContact = () => {
                     defaultValue={email}
                     onBlur={e => setEmail(e.target.value)}
                     className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange sm:text-sm",
+                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
                       submitted && firstname === ""
                         ? "border-red-500"
                         : "border-gray-300"
@@ -153,7 +153,7 @@ const FormContact = () => {
                   )}
                 </div>
 
-                <div className="col-span-6 sm:col-span-4">
+                <div className="col-span-4 lg:col-span-2">
                   <label
                     htmlFor="company"
                     className="block text-sm font-medium text-gray-700"
@@ -166,11 +166,11 @@ const FormContact = () => {
                     id="company"
                     defaultValue={company}
                     onBlur={e => setCompany(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
                   />
                 </div>
 
-                <div className="col-span-6 sm:col-span-4">
+                <div className="col-span-4 md:col-span-4">
                   <label
                     htmlFor="bio"
                     className="block text-sm font-medium text-gray-700"
@@ -182,7 +182,7 @@ const FormContact = () => {
                       id="bio"
                       name="bio"
                       rows={3}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
                       placeholder="Your one-liner bio"
                       defaultValue={""}
                       onBlur={e => setBio(e.target.value)}
@@ -190,7 +190,7 @@ const FormContact = () => {
                   </div>
                 </div>
 
-                <div className="col-span-6 sm:col-span-6">
+                <div className="col-span-4">
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-lightgrey py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
