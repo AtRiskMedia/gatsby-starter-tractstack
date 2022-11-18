@@ -35,10 +35,10 @@ const Impression = ({ payload }) => {
         {payload.title}
       </h3>
       <div className="mt-2 sm:flex sm:items-start sm:justify-between">
-        <div className="max-w-xl text-rsm sm:text-sm text-allblack">
+        <div className="max-w-xl text-rsm sm:text-sm text-darkgrey">
           <p>
             {payload.body}{" "}
-            <button className="underline underline-offset-4 text-darkgrey hover:orange">
+            <button className="underline underline-offset-4 text-allblack hover:orange">
               {payload.buttonText}
             </button>
           </p>
@@ -53,13 +53,14 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
   //const [delay, setDelay] = React.useState(2200)
   const delay = 22000
   const [open, setOpen] = React.useState(true)
-  let impressionPayloads = []
-  panesArray?.forEach(p => {
-    if (impressions.hasOwnProperty(p)) {
-      impressionPayloads.push(impressions[p].payload)
-    }
-    return null
-  })
+  const impressionPayloads = panesArray
+    ?.map(p => {
+      if (impressions.hasOwnProperty(p)) {
+        return impressions[p].payload
+      }
+      return null
+    })
+    .filter(x => x)
   const impressionCount = impressionPayloads.length
 
   useInterval(() => {
