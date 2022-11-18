@@ -75,9 +75,9 @@ const Controller = ({ impressionPayloads, impressionCount, viewportKey }) => {
   if (!thisImpression) return <></>
   if (open)
     return (
-      <aside id="controller">
+      <aside id="controller" className="mr-1">
         <div
-          className={`z-70010 overflow-hidden bg-neutral-200 rounded-md border border-black controller__expanded controller__expanded--${viewportKey}`}
+          className={`z-70010 overflow-hidden bg-neutral-200 rounded-md border border-darkgrey controller__expanded controller__expanded--${viewportKey}`}
         >
           <div className="px-4 pt-4">
             <button
