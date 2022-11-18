@@ -22,6 +22,16 @@ const StoryFragment = ({
   prefersReducedMotion,
 }) => {
   const [panesArray, setPanesArray] = React.useState([])
+  const impressionPayloads = panesArray
+    ?.map(p => {
+      if (impressions.hasOwnProperty(p)) {
+        return impressions[p].payload
+      }
+      return null
+    })
+    .filter(x => x)
+  const impressionCount = impressionPayloads.length
+
   const thisCss = !prefersReducedMotion
     ? `${payload?.payload?.css || ``} ${payload?.payload?.cssAnimated || ``}`
     : `${payload?.payload?.css || ``}`
@@ -47,11 +57,13 @@ const StoryFragment = ({
             />
           </StyledWrapperSection>
         </main>
-        <Controller
-          panesArray={panesArray}
-          impressions={impressions}
-          viewportKey={viewportKey}
-        />
+        {impressionCount && (
+          <Controller
+            impressionPayloads={impressionPayloads}
+            impressionCount={impressionCount}
+            viewportKey={viewportKey}
+          />
+        )}
       </div>
       <Footer />
     </>

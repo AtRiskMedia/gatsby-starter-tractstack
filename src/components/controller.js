@@ -4,9 +4,8 @@ import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 
 import {
   getControllerPayload,
-  wordmark,
   concierge,
-  classNames,
+  lispLexer,
 } from "gatsby-plugin-tractstack"
 
 function useInterval(callback, delay) {
@@ -29,6 +28,10 @@ function useInterval(callback, delay) {
 
 const Impression = ({ payload }) => {
   if (typeof payload !== "object") return <></>
+  const thisButtonPayload = lispLexer(payload.actionsLisp)
+  function injectPayload() {
+    concierge(thisButtonPayload)
+  }
   return (
     <>
       <h3 className="text-rlg sm:text-lg font-medium leading-6 text-allblack">
@@ -38,7 +41,11 @@ const Impression = ({ payload }) => {
         <div className="max-w-xl text-rsm sm:text-sm text-darkgrey">
           <p>
             {payload.body}{" "}
-            <button className="underline underline-offset-4 text-allblack hover:orange">
+            <button
+              type="button"
+              onClick={injectPayload}
+              className="underline underline-offset-4 text-allblack hover:orange"
+            >
               {payload.buttonText}
             </button>
           </p>
@@ -48,27 +55,17 @@ const Impression = ({ payload }) => {
   )
 }
 
-const Controller = ({ panesArray, impressions, viewportKey }) => {
+const Controller = ({ impressionPayloads, impressionCount, viewportKey }) => {
   const [offset, setOffset] = React.useState(0)
   //const [delay, setDelay] = React.useState(2200)
   const delay = 22000
   const [open, setOpen] = React.useState(true)
-  const impressionPayloads = panesArray
-    ?.map(p => {
-      if (impressions.hasOwnProperty(p)) {
-        return impressions[p].payload
-      }
-      return null
-    })
-    .filter(x => x)
-  const impressionCount = impressionPayloads.length
 
   useInterval(() => {
     if (impressionCount > offset + 1) setOffset(offset + 1)
     else setOffset(0)
   }, delay)
 
-  if (impressionCount === 0) return <></>
   const offsetImpression = impressionPayloads[offset]
   const thisImpression =
     typeof offsetImpression === "object" &&
@@ -118,8 +115,9 @@ const Controller = ({ panesArray, impressions, viewportKey }) => {
 }
 
 Controller.propTypes = {
-  panesArray: PropTypes.array.isRequired,
-  impressions: PropTypes.object.isRequired,
+  impressionCount: PropTypes.number.isRequired,
+  impressionPayloads: PropTypes.array.isRequired,
+  viewportKey: PropTypes.string.isRequired,
 }
 
 export default Controller
