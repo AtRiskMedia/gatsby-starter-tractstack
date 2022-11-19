@@ -56,7 +56,7 @@ const FormContact = () => {
       <div className="bg-white px-4 py-5 shadow md:rounded-lg md:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
-            <div className="flex flex-col justify-center h-full md:max-w-sm xs:pl-12">
+            <div className="flex flex-col justify-center h-full md:max-w-sm xl:pl-12">
               <h3 className="text-3xl font-bold text-black md:text-4xl">
                 At Risk Media{" "}
                 <span className="text-orange tracking-tight">

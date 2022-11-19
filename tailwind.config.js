@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/pages/**/*.{js,jsx}", "./src/components/**/*.{js,jsx}"],
   theme: {
     extend: {
+      screens: {
+        md: "801px",
+        xl: "1367px",
+      },
       fontSize: {
         rsm: "calc(var(--scale) * 0.875rem)",
         rlg: "calc(var(--scale) * 1.125rem)",

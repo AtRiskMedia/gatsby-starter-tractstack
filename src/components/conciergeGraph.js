@@ -4,7 +4,7 @@ import D3 from "../components/D3"
 
 const ConciergeGraph = () => {
   return (
-    <div className="divide-y divide-gray-200 lg:col-span-9 h-screen">
+    <div className="divide-y divide-gray-200 lg:col-span-9 h-screen max-h-[40rem]">
       <D3 options={graphOptions} slug="conciergeGraph" />
     </div>
   )

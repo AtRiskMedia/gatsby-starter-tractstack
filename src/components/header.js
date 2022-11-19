@@ -41,7 +41,30 @@ const TractStack = () => {
   return (
     <div className="divide-y divide-gray-200 lg:col-span-9">
       <div className="py-6 px-4 sm:p-6 lg:pb-8">
-        <div>a</div>
+        <h3 className="text-xl text-darkgrey mb-4">
+          This website has been created using{" "}
+          <span className="text-allblack font-bold">Tract Stack</span>
+        </h3>
+
+        <p className="text-md text-gray-500 mt-4 max-w-xl">
+          Think of this website as an interactive business pitch deck.
+        </p>
+        <p className="text-md text-gray-500 mt-4 max-w-xl">
+          We care about helping businesses build community and make meaningful
+          connections with prospective clients/customers. Above all, we want to
+          validate whether these products/services are a good fit for{" "}
+          <span className="italic">your</span> business.
+        </p>
+        <p className="text-md text-gray-500 mt-4 max-w-xl">
+          As you navigate this site, our special algorithms are taking note of
+          where you place your attention. Depending on your path through this
+          site, we may make recommendations for free supports and resources.
+          Check out the <Link to={"/graph"}>knowledge graph</Link> to see this
+          in real-time!
+        </p>
+        <p className="text-md text-gray-500 mt-4 max-w-xl font-bold">
+          All data is anonymized, though we do invite you to introduce yourself.
+        </p>
       </div>
     </div>
   )
@@ -87,7 +110,7 @@ const Header = ({ siteTitle }) => {
           />
           <div className="relative z-70020">
             <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8">
-              <div>{siteTitle}</div>
+              <h1 className="text-xl mb-0 flex items-center">{siteTitle}</h1>
               <div>
                 <div className="-my-2 -mr-2 hidden">
                   <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -132,9 +155,9 @@ const Header = ({ siteTitle }) => {
                           leaveTo="opacity-0 -translate-y-1"
                         >
                           <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
-                            <div className="w-full h-full bg-blue">
-                              <main className="relative">
-                                <div className="mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+                            <div className="w-full h-full">
+                              <main className="relative bg-darkgrey">
+                                <div className="mx-auto px-2 pb-6 sm:px-4 lg:px-6 lg:pb-16">
                                   <div className="overflow-hidden rounded-lg bg-white shadow">
                                     <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                                       <aside className="py-6 lg:col-span-3">
