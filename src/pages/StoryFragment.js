@@ -2,6 +2,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import styled from "styled-components"
+import create from "zustand"
 
 import Header from "../components/header"
 import Footer from "../components/footer"
@@ -14,6 +15,12 @@ const StyledWrapperSection = styled.section`
   ${props => props.css};
 `
 
+const useStore = create(set => ({
+  panesVisible: { last: null },
+  update: (key, value) =>
+    set(state => ({ panesVisible: { ...state.panesVisible, [key]: value } })),
+}))
+
 const StoryFragment = ({
   title,
   payload,
@@ -21,20 +28,19 @@ const StoryFragment = ({
   viewportKey,
   prefersReducedMotion,
 }) => {
-  const [panesArray, setPanesArray] = React.useState([])
-  const impressionPayloads = panesArray
-    ?.map(p => {
-      if (impressions.hasOwnProperty(p)) {
-        return impressions[p].payload
-      }
-      return null
-    })
-    .filter(x => x)
-  const impressionCount = impressionPayloads.length
-
+  const update = useStore(state => state.update)
+  const panesVisible = useStore(state => state.panesVisible)
   const thisCss = !prefersReducedMotion
     ? `${payload?.payload?.css || ``} ${payload?.payload?.cssAnimated || ``}`
     : `${payload?.payload?.css || ``}`
+  let impressionPanes = []
+  Object.keys(panesVisible).forEach(key => {
+    if (panesVisible[key] === true && impressions.hasOwnProperty(key)) {
+      if (panesVisible["last"] === key) impressionPanes.unshift(key)
+      else impressionPanes.push(key)
+    }
+  })
+
   return (
     <>
       <Helmet>
@@ -52,15 +58,14 @@ const StoryFragment = ({
             <StoryFragmentRender
               payload={payload}
               viewportKey={viewportKey}
-              setPanesArray={setPanesArray}
-              panesArray={panesArray}
+              update={update}
             />
           </StyledWrapperSection>
         </main>
-        {impressionCount && (
+        {impressionPanes.length && (
           <Controller
-            impressionPayloads={impressionPayloads}
-            impressionCount={impressionCount}
+            impressions={impressions}
+            impressionPanes={impressionPanes}
             viewportKey={viewportKey}
           />
         )}
@@ -72,7 +77,9 @@ const StoryFragment = ({
 
 StoryFragment.propTypes = {
   title: PropTypes.string.isRequired,
+  viewportKey: PropTypes.string.isRequired,
   impressions: PropTypes.object.isRequired,
+  payload: PropTypes.object.isRequired,
 }
 
 export default StoryFragment

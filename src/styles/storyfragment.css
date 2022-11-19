@@ -605,10 +605,10 @@ aside#controller {
 }
 
 .controller__expanded--mobile {
-  height: calc(var(--scale) * 135 * 1px);
-  width: calc(var(--scale) * 480 * 1px);
-  max-height: 135px;
-  max-width: 480px;
+  height: calc(var(--scale) * 152 * 1px);
+  width: calc(var(--scale) * 540 * 1px);
+  max-height: 152px;
+  max-width: 540px;
 }
 
 .controller__expanded--tablet,

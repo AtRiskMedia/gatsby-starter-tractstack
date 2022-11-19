@@ -15,12 +15,7 @@ const Pane = ({ thisId, children, inView, observe }) => (
   </div>
 )
 
-const StoryFragmentRender = ({
-  payload,
-  viewportKey,
-  setPanesArray,
-  panesArray,
-}) => {
+const StoryFragmentRender = ({ payload, viewportKey, update }) => {
   const panes =
     typeof payload?.payload?.panes === "object" && payload?.payload?.panes
   const menu = (typeof payload?.menu === "object" && payload?.menu) || <></>
@@ -38,14 +33,11 @@ const StoryFragmentRender = ({
         >
           <InView
             onEnter={() => {
-              if (panesArray.indexOf(p) === -1)
-                setPanesArray([p, ...panesArray])
+              update(p, true)
+              update("last", p)
             }}
             onLeave={() => {
-              const thisIndex = panesArray.indexOf(p)
-              if (thisIndex) {
-                setPanesArray([...panesArray.filter((e, i) => i !== thisIndex)])
-              }
+              update(p, false)
             }}
           >
             <Pane

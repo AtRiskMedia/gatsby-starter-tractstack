@@ -32,7 +32,8 @@
     "react-router-dom": "^6.4.3",
     "styled-components": "^5.3.6",
     "tailwindcss": "^3.1.8",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "zustand": "^4.1.4"
   },
   "devDependencies": {
     "prettier": "^2.7.1"

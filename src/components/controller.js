@@ -55,18 +55,17 @@ const Impression = ({ payload }) => {
   )
 }
 
-const Controller = ({ impressionPayloads, impressionCount, viewportKey }) => {
+const Controller = ({ impressions, impressionPanes, viewportKey }) => {
   const [offset, setOffset] = React.useState(0)
   //const [delay, setDelay] = React.useState(2200)
   const delay = 22000
   const [open, setOpen] = React.useState(true)
 
   useInterval(() => {
-    if (impressionCount > offset + 1) setOffset(offset + 1)
+    if (impressionPanes.length > offset + 1) setOffset(offset + 1)
     else setOffset(0)
   }, delay)
-
-  const offsetImpression = impressionPayloads[offset]
+  const offsetImpression = impressions[impressionPanes[offset]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
     typeof offsetImpression[0] === "object"
@@ -106,7 +105,7 @@ const Controller = ({ impressionPayloads, impressionCount, viewportKey }) => {
           <span className="sr-only">Show controller</span>
           <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
           <span className="z-70030 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
-            {impressionCount}
+            {impressionPanes.length}
           </span>
         </button>
       </div>
@@ -115,8 +114,8 @@ const Controller = ({ impressionPayloads, impressionCount, viewportKey }) => {
 }
 
 Controller.propTypes = {
-  impressionCount: PropTypes.number.isRequired,
-  impressionPayloads: PropTypes.array.isRequired,
+  impressions: PropTypes.object.isRequired,
+  impressionPanes: PropTypes.array.isRequired,
   viewportKey: PropTypes.string.isRequired,
 }
 

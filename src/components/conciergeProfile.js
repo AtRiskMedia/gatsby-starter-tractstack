@@ -215,7 +215,7 @@ const ConciergeProfile = () => {
               Ornare eu a volutpat eget vulputate. Fringilla commodo amet.
             </p>
           </div>
-          <ul role="list" className="mt-2 divide-y divide-gray-200">
+          <ul className="mt-2 divide-y divide-gray-200">
             <Switch.Group
               as="li"
               className="flex items-center justify-between py-4"
