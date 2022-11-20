@@ -62,13 +62,13 @@ const StoryFragment = ({
             />
           </StyledWrapperSection>
         </main>
-        {impressionPanes.length && (
+        {impressionPanes.length ? (
           <Controller
             impressions={impressions}
             impressionPanes={impressionPanes}
             viewportKey={viewportKey}
           />
-        )}
+        ) : (<></>)}
       </div>
       <Footer />
     </>
