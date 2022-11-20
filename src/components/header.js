@@ -14,7 +14,6 @@ import ConciergeProfile from "./conciergeProfile.js"
 import ConciergeGraph from "./conciergeGraph.js"
 
 const _subNavigation = hash => {
-  console.log(hash)
   return [
     {
       name: "Profile",

@@ -248,7 +248,7 @@ const codeHooks = {
   H5p: H5p,
 }
 
-const StoryFragment = loadable(() => import("./StoryFragment"))
+const StoryFragment = loadable(() => import("../components/StoryFragment"))
 
 function useWindowScale() {
   const [windowScale, setWindowScale] = React.useState({
