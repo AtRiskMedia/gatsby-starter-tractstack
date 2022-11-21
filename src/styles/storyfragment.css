@@ -58,7 +58,7 @@ body {
   font-weight: normal;
   margin: 0;
   word-wrap: break-word;
-  background: var(--colour-darkgrey);
+  background: var(--colour-white);
 }
 header a {
   color: var(--colour-black);
