@@ -78,8 +78,8 @@ const SubNav = () => {
       to={item.href}
       className={classNames(
         item.current
-          ? "bg-green border-blue text-black hover:text-black"
-          : "border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900",
+          ? "bg-slate-100 border-slate-200 text-black hover:text-black"
+          : "border-transparent text-gray-900 hover:bg-slate-200 hover:text-gray-900",
         "group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
       )}
       aria-current={item.current ? "page" : undefined}
@@ -155,8 +155,8 @@ const Header = ({ siteTitle }) => {
                         >
                           <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
                             <div className="w-full h-full">
-                              <main className="relative bg-darkgrey">
-                                <div className="mx-auto px-2 pb-6 sm:px-4 lg:px-6 lg:pb-16">
+                              <main className="relative bg-allwhite">
+                                <div className="mx-auto px-2 pb-4 sm:px-4 lg:px-6 lg:pb-6">
                                   <div className="overflow-hidden rounded-lg bg-white shadow">
                                     <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                                       <aside className="py-6 lg:col-span-3">
