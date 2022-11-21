@@ -287,7 +287,10 @@ const RenderedStoryFragment = ({ data }) => {
   const scale = useWindowScale()
   React.useEffect(
     function storeCssVariable() {
-      document.documentElement.style.setProperty("--scale", scale?.scale)
+      document.documentElement.style.setProperty(
+        "--scale",
+        scale?.scale * 0.99999
+      )
     },
     [scale]
   )

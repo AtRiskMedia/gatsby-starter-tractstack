@@ -280,10 +280,6 @@ button {
 .codehook__inner {
 }
 
-.svg__shape-outside {
-  #visibility: hidden;
-}
-
 .svg-shape-outside__pane-left--mobile,
 .svg-shape-outside__pane-right--mobile {
   width: calc(var(--scale) * 300 * 1px);
