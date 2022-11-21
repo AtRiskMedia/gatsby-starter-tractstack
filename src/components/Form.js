@@ -196,7 +196,7 @@ const FormContact = () => {
                 <div className="col-span-4">
                   <button
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-lightgrey py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-slate-200 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                   >
                     Submit
                   </button>
