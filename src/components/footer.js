@@ -27,7 +27,7 @@ const Footer = ({ observe }) => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-base text-gray-400 md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
+          <p className="mt-8 text-base text-darkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
             © {new Date().getFullYear()} &middot; {config.footer}
           </p>
         </div>
