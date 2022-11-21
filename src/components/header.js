@@ -155,7 +155,7 @@ const Header = ({ siteTitle }) => {
                         >
                           <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
                             <div className="w-full h-full">
-                              <main className="relative bg-allwhite">
+                              <main className="relative bg-black-seethrough">
                                 <div className="mx-auto px-2 pb-4 sm:px-4 lg:px-6 lg:pb-6">
                                   <div className="overflow-hidden rounded-lg bg-white shadow">
                                     <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">

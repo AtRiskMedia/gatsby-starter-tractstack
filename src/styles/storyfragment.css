@@ -240,6 +240,10 @@ pre tt:after {
   content: none;
 }
 
+.bg-black-seethrough {
+  background: rgba(0, 0,0, 0.8);
+}
+
 .pane {
   display: grid;
 }
