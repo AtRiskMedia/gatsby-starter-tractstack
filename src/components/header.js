@@ -137,8 +137,8 @@ const Header = ({ siteTitle }) => {
                           </span>
                           <ChevronDownIcon
                             className={classNames(
-                              open ? "text-gray-600" : "text-gray-400",
-                              "ml-2 h-5 w-5 group-hover:text-gray-500"
+                              open ? "text-darkgrey" : "text-blue",
+                              "ml-2 h-5 w-5 group-hover:text-blue"
                             )}
                             aria-hidden="true"
                           />

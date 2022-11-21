@@ -196,7 +196,7 @@ const FormContact = () => {
                 <div className="col-span-4">
                   <button
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-slate-200 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-slate-200 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-allwhite focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                   >
                     Submit
                   </button>
@@ -209,7 +209,7 @@ const FormContact = () => {
                 </h3>
                 <div className="text-lg text-gray-500">
                   Click here to download our{" "}
-                  <button className="inline-flex justify-center rounded-md border border-transparent bg-green py-2 px-3 text-sm font-medium text-allblack shadow-sm hover:bg-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2">
+                  <button className="inline-flex justify-center rounded-md border border-transparent bg-green py-2 px-3 text-sm font-medium text-allblack shadow-sm hover:bg-orange hover:text-allwhite focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2">
                     Capabilities Deck
                   </button>
                 </div>
