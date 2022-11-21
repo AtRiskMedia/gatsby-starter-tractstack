@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import styled from "styled-components"
 import create from "zustand"
+import { InView } from "react-cool-inview"
 
 import Header from "../components/header"
 import Footer from "../components/footer"
@@ -16,7 +17,7 @@ const StyledWrapperSection = styled.section`
 `
 
 const useStore = create(set => ({
-  panesVisible: { last: null },
+  panesVisible: { last: null, footer: false },
   update: (key, value) =>
     set(state => ({ panesVisible: { ...state.panesVisible, [key]: value } })),
 }))
@@ -40,7 +41,6 @@ const StoryFragment = ({
       else impressionPanes.push(key)
     }
   })
-
   return (
     <>
       <Helmet>
@@ -62,15 +62,26 @@ const StoryFragment = ({
             />
           </StyledWrapperSection>
         </main>
-        {impressionPanes.length ? (
+        {impressionPanes.length && panesVisible.footer === false ? (
           <Controller
             impressions={impressions}
             impressionPanes={impressionPanes}
             viewportKey={viewportKey}
           />
-        ) : (<></>)}
+        ) : (
+          <></>
+        )}
       </div>
-      <Footer />
+      <InView
+        onEnter={() => {
+          update("footer", true)
+        }}
+        onLeave={() => {
+          update("footer", false)
+        }}
+      >
+        <Footer />
+      </InView>
     </>
   )
 }

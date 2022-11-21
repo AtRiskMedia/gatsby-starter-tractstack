@@ -2,6 +2,8 @@ import React from "react"
 import { Link } from "gatsby"
 import { getLogo } from "gatsby-plugin-tractstack"
 
+import config from "../../data/SiteConfig"
+
 const NavLink = ({ children, to }) => (
   <Link to={to} activeClassName="is-active">
     {children}
@@ -21,7 +23,7 @@ function Menu({ menuPayload, viewportKey }) {
     )
   })
 
-  const slogan = <p>Fortifying the Web since 2002</p>
+  const slogan = <p>{config.slogan}</p>
   const branding = <span>{logo}</span>
   const contents = (
     <>

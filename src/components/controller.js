@@ -65,7 +65,9 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
     if (impressionPanes.length > offset + 1) setOffset(offset + 1)
     else setOffset(0)
   }, delay)
-  const offsetImpression = impressions[impressionPanes[offset]].payload
+  const offsetImpression = impressionPanes.hasOwnProperty(offset)
+    ? impressions[impressionPanes[offset]].payload
+    : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
     typeof offsetImpression[0] === "object"
