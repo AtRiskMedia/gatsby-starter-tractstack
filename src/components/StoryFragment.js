@@ -30,6 +30,7 @@ const StoryFragment = ({
   prefersReducedMotion,
 }) => {
   const update = useStore(state => state.update)
+  const [revealContext, setRevealContext] = React.useState(false)
   const panesVisible = useStore(state => state.panesVisible)
   const thisCss = !prefersReducedMotion
     ? `${payload?.payload?.css || ``} ${payload?.payload?.cssAnimated || ``}`
@@ -61,13 +62,22 @@ const StoryFragment = ({
               update={update}
             />
           </StyledWrapperSection>
+          {revealContext ? (
+            <div id="context" className="z-80010 bg-black-seethrough">
+              modal
+            </div>
+          ) : (
+            <></>
+          )}
         </main>
         {impressionPanes.length && panesVisible.footer === false ? (
-          <Controller
-            impressions={impressions}
-            impressionPanes={impressionPanes}
-            viewportKey={viewportKey}
-          />
+          <aside id="controller">
+            <Controller
+              impressions={impressions}
+              impressionPanes={impressionPanes}
+              viewportKey={viewportKey}
+            />
+          </aside>
         ) : (
           <></>
         )}

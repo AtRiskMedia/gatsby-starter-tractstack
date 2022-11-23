@@ -95,23 +95,21 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
       </aside>
     )
   return (
-    <aside id="controller">
-      <div
-        className={`z-70010 relative controller__minimized controller_minimized--${viewportKey}`}
+    <div
+      className={`z-70010 relative controller__minimized controller_minimized--${viewportKey}`}
+    >
+      <button
+        type="button"
+        className="z-70020 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        onClick={() => setOpen(!open)}
       >
-        <button
-          type="button"
-          className="z-70020 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          onClick={() => setOpen(!open)}
-        >
-          <span className="sr-only">Show controller</span>
-          <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
-          <span className="z-70030 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
-            {impressionPanes.length}
-          </span>
-        </button>
-      </div>
-    </aside>
+        <span className="sr-only">Show controller</span>
+        <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
+        <span className="z-70030 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
+          {impressionPanes.length}
+        </span>
+      </button>
+    </div>
   )
 }
 

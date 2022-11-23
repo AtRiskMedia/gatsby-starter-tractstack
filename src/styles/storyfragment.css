@@ -241,7 +241,7 @@ pre tt:after {
 }
 
 .bg-black-seethrough {
-  background: rgba(0, 0,0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .pane {
@@ -280,8 +280,6 @@ button {
   align-items: center;
   justify-content: center;
   height: 100%;
-}
-.codehook__inner {
 }
 
 .svg-shape-outside__pane-left--mobile,
@@ -592,6 +590,13 @@ nav.menu-default a.is-active {
 
 nav.menu-default a:hover {
   color: var(--colour-green);
+}
+
+div#context {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 aside#controller {
