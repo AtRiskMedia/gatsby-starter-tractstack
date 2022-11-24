@@ -205,6 +205,7 @@ export const query = graphql`
                 field_hidden_viewports
                 field_options
                 field_modal
+                field_context_pane
                 internal {
                   type
                 }
@@ -232,6 +233,45 @@ export const query = graphql`
                         gatsbyImageData(width: 2560, placeholder: BLURRED)
                       }
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        field_context_panes {
+          id
+          title
+          field_slug
+          relationships {
+            field_pane_fragments {
+              ... on paragraph__markdown {
+                id
+                field_markdown_body
+                field_zindex
+                field_css_styles_mobile
+                field_css_styles_tablet
+                field_css_styles_desktop
+                field_css_styles_parent_mobile
+                field_css_styles_parent_tablet
+                field_css_styles_parent_desktop
+                field_image_mask_shape_mobile
+                field_image_mask_shape_tablet
+                field_image_mask_shape_desktop
+                field_text_shape_outside_mobile
+                field_text_shape_outside_tablet
+                field_text_shape_outside_desktop
+                field_hidden_viewports
+                field_options
+                field_modal
+                field_context_pane
+                internal {
+                  type
+                }
+                childPaneFragment {
+                  childMarkdownRemark {
+                    htmlAst
                   }
                 }
               }
