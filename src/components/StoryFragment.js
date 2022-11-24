@@ -24,17 +24,18 @@ const useStore = create(set => ({
 
 const StoryFragment = ({
   title,
-  payload,
+  storyFragmentPayload,
   impressions,
   viewportKey,
   prefersReducedMotion,
 }) => {
   const update = useStore(state => state.update)
-  const [revealContext, setRevealContext] = React.useState(false)
   const panesVisible = useStore(state => state.panesVisible)
+  const revealContextId = panesVisible?.hasOwnProperty('revealContext') ? panesVisible['revealContext'] : null
   const thisCss = !prefersReducedMotion
-    ? `${payload?.payload?.css || ``} ${payload?.payload?.cssAnimated || ``}`
-    : `${payload?.payload?.css || ``}`
+    ? `${storyFragmentPayload?.payload?.css || ``} ${storyFragmentPayload?.payload?.cssAnimated || ``
+    }`
+    : `${storyFragmentPayload?.payload?.css || ``}`
   let impressionPanes = []
   Object.keys(panesVisible).forEach(key => {
     if (panesVisible[key] === true && impressions.hasOwnProperty(key)) {
@@ -57,12 +58,12 @@ const StoryFragment = ({
         <main>
           <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
             <StoryFragmentRender
-              payload={payload}
+              storyFragmentPayload={storyFragmentPayload}
               viewportKey={viewportKey}
               update={update}
             />
           </StyledWrapperSection>
-          {revealContext ? (
+          {revealContextId ? (
             <div id="context" className="z-80010 bg-black-seethrough">
               modal
             </div>
@@ -100,7 +101,7 @@ StoryFragment.propTypes = {
   title: PropTypes.string.isRequired,
   viewportKey: PropTypes.string.isRequired,
   impressions: PropTypes.object.isRequired,
-  payload: PropTypes.object.isRequired,
+  storyFragmentPayload: PropTypes.object.isRequired,
 }
 
 export default StoryFragment

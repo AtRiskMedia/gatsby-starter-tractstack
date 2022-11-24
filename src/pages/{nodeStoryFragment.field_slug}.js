@@ -337,14 +337,14 @@ const RenderedStoryFragment = ({ data }) => {
   if (viewportKey === "server") return <></>
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const title = data.nodeStoryFragment.title
-  const payload = storyFragmentCompositor({
+  const storyFragmentPayload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
     viewportKey: viewportKey,
     codeHooks: codeHooks,
   })
   const impressions =
-    typeof payload?.payload?.impressions === "object"
-      ? payload.payload.impressions
+    typeof storyFragmentPayload?.payload?.impressions === "object"
+      ? storyFragmentPayload.payload.impressions
       : {}
   //console.log( impressions )
   //console.log(thisGraph)
@@ -353,7 +353,7 @@ const RenderedStoryFragment = ({ data }) => {
   return (
     <StoryFragment
       title={title}
-      payload={payload}
+      storyFragmentPayload={storyFragmentPayload}
       impressions={impressions}
       viewportKey={viewportKey}
       prefersReducedMotion={prefersReducedMotion}
