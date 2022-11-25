@@ -8,11 +8,10 @@ const storyFragmentCompositor = props => {
   const storyFragmentId = props.data.id
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
-  const contextPanesPayload = props.data.relationships.field_context_panes
+  const contextPanesPayload = props.data.relationships.field_context_panes || {}
   const panesPayload = props.data.relationships.field_panes
-  const compositedPayload = Compositor(panesPayload, codeHooks, viewportKey)
-  const compositedContextPayload = Compositor(
-    contextPanesPayload,
+  const compositedPayload = Compositor(
+    panesPayload.concat(contextPanesPayload),
     codeHooks,
     viewportKey
   )
@@ -26,7 +25,6 @@ const storyFragmentCompositor = props => {
     title: storyFragmentTitle,
     slug: storyFragmentSlug,
     payload: compositedPayload,
-    contextPayload: compositedContextPayload,
     menu: compositedMenu,
   }
 }

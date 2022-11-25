@@ -2,12 +2,17 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
 import loadable from "@loadable/component"
+import { InView } from "react-cool-inview"
+import create from "zustand"
+import { Compositor } from "gatsby-plugin-tractstack"
 
+import Header from "../components/header"
 import Seo from "../components/seo"
 import H5p from "../components/H5p"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 import Form from "../components/Form"
+import Footer from "../components/footer"
 
 export const query = graphql`
   query ($id: String) {
@@ -31,6 +36,41 @@ export const query = graphql`
       id
       field_slug
       relationships {
+        node__tractstack {
+          id
+          relationships {
+            field_context_panes {
+              id
+              field_slug
+              relationships {
+                field_pane_fragments {
+                  ... on paragraph__markdown {
+                    id
+                    field_markdown_body
+                    field_zindex
+                    field_css_styles_mobile
+                    field_css_styles_tablet
+                    field_css_styles_desktop
+                    field_css_styles_parent_mobile
+                    field_css_styles_parent_tablet
+                    field_css_styles_parent_desktop
+                    field_hidden_viewports
+                    field_options
+                    field_context_pane
+                    internal {
+                      type
+                    }
+                    childPaneFragment {
+                      childMarkdownRemark {
+                        htmlAst
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         field_menu {
           field_options
           field_theme
@@ -256,15 +296,8 @@ export const query = graphql`
                 field_css_styles_parent_mobile
                 field_css_styles_parent_tablet
                 field_css_styles_parent_desktop
-                field_image_mask_shape_mobile
-                field_image_mask_shape_tablet
-                field_image_mask_shape_desktop
-                field_text_shape_outside_mobile
-                field_text_shape_outside_tablet
-                field_text_shape_outside_desktop
                 field_hidden_viewports
                 field_options
-                field_modal
                 field_context_pane
                 internal {
                   type
@@ -287,6 +320,20 @@ const codeHooks = {
   contact: Form,
   H5p: H5p,
 }
+
+const useStore = create(set => ({
+  storyStep: {
+    loaded: false,
+    last: null,
+    footer: false,
+    hasH5P: false,
+    hasContext: false,
+    contextLoaded: false,
+  },
+  panesVisible: { last: null, footer: false },
+  update: (key, value) =>
+    set(state => ({ panesVisible: { ...state.panesVisible, [key]: value } })),
+}))
 
 const StoryFragment = loadable(() => import("../components/StoryFragment"))
 
@@ -315,6 +362,9 @@ function useWindowScale() {
 }
 
 const RenderedStoryFragment = ({ data }) => {
+  const [bootstrapped, setBootstrapped] = React.useState(false)
+  const update = useStore(state => state.update)
+  const panesVisible = useStore(state => state.panesVisible)
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -334,32 +384,62 @@ const RenderedStoryFragment = ({ data }) => {
     },
     [scale]
   )
-  if (viewportKey === "server") return <></>
+  React.useEffect(
+    function bootstrapTractStack() {
+      const tractStackPayload =
+        viewportKey !== "server"
+          ? Compositor(
+              data.nodeStoryFragment.relationships.node__tractstack[0]
+                .relationships.field_context_panes,
+              null,
+              viewportKey
+            )
+          : null
+      const storyFragmentPayload =
+        viewportKey !== "server"
+          ? storyFragmentCompositor({
+              data: data.nodeStoryFragment,
+              viewportKey: viewportKey,
+              codeHooks: codeHooks,
+            })
+          : null
+      if (viewportKey !== "server") {
+        update(`${viewportKey}-context`, tractStackPayload)
+        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
+      }
+      setBootstrapped(true)
+    },
+    [bootstrapped, data.nodeStoryFragment, update, viewportKey]
+  )
+  if (viewportKey === "server" || bootstrapped === false) return <></>
+
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
-  const title = data.nodeStoryFragment.title
-  const storyFragmentPayload = storyFragmentCompositor({
-    data: data.nodeStoryFragment,
-    viewportKey: viewportKey,
-    codeHooks: codeHooks,
-  })
-  const impressions =
-    typeof storyFragmentPayload?.payload?.impressions === "object"
-      ? storyFragmentPayload.payload.impressions
-      : {}
-  //console.log( impressions )
-  //console.log(thisGraph)
-  //console.log(payload)
-  //console.log(prefersReducedMotion )
+  const storyFragmentTitle = data.nodeStoryFragment.title
+
   return (
-    <StoryFragment
-      title={title}
-      storyFragmentPayload={storyFragmentPayload}
-      impressions={impressions}
-      viewportKey={viewportKey}
-      prefersReducedMotion={prefersReducedMotion}
-    >
-      <Seo title={title} />
-    </StoryFragment>
+    <>
+      <Header siteTitle={storyFragmentTitle} />
+      <StoryFragment
+        update={update}
+        panesVisible={panesVisible}
+        storyFragmentPayload={panesVisible[`${viewportKey}-storyFragment`]}
+        tractStackContextPayload={panesVisible[`${viewportKey}-context`]}
+        viewportKey={viewportKey}
+        prefersReducedMotion={prefersReducedMotion}
+      >
+        <Seo title={storyFragmentTitle} />
+      </StoryFragment>
+      <InView
+        onEnter={() => {
+          update("footer", true)
+        }}
+        onLeave={() => {
+          update("footer", false)
+        }}
+      >
+        <Footer />
+      </InView>
+    </>
   )
 }
 
