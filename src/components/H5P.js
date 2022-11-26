@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { concierge } from "gatsby-plugin-tractstack"
 
 const H5p = ({ src, title, slug }) => {
@@ -8,20 +7,20 @@ const H5p = ({ src, title, slug }) => {
       dom.onload = () => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
-          function (event) {
+          function(event) {
             const id = event?.data?.statement?.object?.id
             const type = event?.data?.statement?.object?.objectType
             const verb =
               typeof event?.data?.statement?.verb?.display === "object" &&
-              event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
+                event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
                 ? event.data.statement.verb.display["en-US"]
                 : ``
             const name =
               typeof event?.data?.statement?.object?.definition?.name ===
                 "object" &&
-              event?.data?.statement?.object?.definition?.name?.hasOwnProperty(
-                "en-US"
-              )
+                event?.data?.statement?.object?.definition?.name?.hasOwnProperty(
+                  "en-US"
+                )
                 ? event.data.statement.object.definition?.name["en-US"]
                 : ``
             const score = event?.data?.statement?.result?.score?.scaled
@@ -30,7 +29,7 @@ const H5p = ({ src, title, slug }) => {
             const durationParsed = regex?.exec(durationRaw)
             const durationInSeconds =
               typeof durationParsed === "object" &&
-              durationParsed?.hasOwnProperty("1")
+                durationParsed?.hasOwnProperty("1")
                 ? Number(durationParsed[1])
                 : null
             //const durationInSeconds = typeof durationParsed === "object" ? durationParsed[1] : ``
@@ -59,12 +58,6 @@ const H5p = ({ src, title, slug }) => {
       allowFullScreen="allowfullscreen"
     />
   )
-}
-
-H5p.propTypes = {
-  src: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  slug: PropTypes.string.isRequired,
 }
 
 export default H5p

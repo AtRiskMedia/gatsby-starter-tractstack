@@ -9,7 +9,7 @@ import { Compositor } from "gatsby-plugin-tractstack"
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
 import Seo from "../components/seo"
-import H5p from "../components/H5p"
+import H5P from "../components/H5P"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 import Form from "../components/Form"
@@ -319,7 +319,7 @@ export const query = graphql`
 
 const codeHooks = {
   contact: Form,
-  H5p: H5p,
+  H5P: H5P,
 }
 
 const useStore = create(set => ({
