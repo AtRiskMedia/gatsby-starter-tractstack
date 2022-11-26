@@ -1,11 +1,11 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
-import loadable from "@loadable/component"
 import { InView } from "react-cool-inview"
 import create from "zustand"
 import { Compositor } from "gatsby-plugin-tractstack"
 
+import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
 import Seo from "../components/seo"
 import H5p from "../components/H5p"
@@ -335,8 +335,6 @@ const useStore = create(set => ({
       storyStep: { ...state.storyStep, [key]: value },
     })),
 }))
-
-const StoryFragment = loadable(() => import("../components/StoryFragment"))
 
 function useWindowScale() {
   const [windowScale, setWindowScale] = React.useState({
