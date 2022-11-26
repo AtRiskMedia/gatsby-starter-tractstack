@@ -23,8 +23,9 @@ const StoryFragment = ({
     ? storyStep["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
-    }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
+        storyFragmentPayload?.panesPayload?.cssAnimated || ``
+      }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(storyStep).forEach(key => {
@@ -35,9 +36,13 @@ const StoryFragment = ({
   })
   return (
     <>
-      <Helmet>
-        <script src="/h5p-resizer.js" />
-      </Helmet>
+      {storyStep["hasH5P"] ? (
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>
+      ) : (
+        <></>
+      )}
       <div
         style={{
           margin: `0 auto`,

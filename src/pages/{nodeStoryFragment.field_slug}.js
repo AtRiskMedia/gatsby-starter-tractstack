@@ -323,12 +323,9 @@ const codeHooks = {
 
 const useStore = create(set => ({
   storyStep: {
-    loaded: false,
     last: null,
     footer: false,
     hasH5P: false,
-    hasContext: false,
-    contextLoaded: false,
   },
   update: (key, value) =>
     set(state => ({
@@ -349,8 +346,8 @@ function useWindowScale() {
           thisWidth < 801
             ? thisWidth / 600
             : thisWidth < 1367
-              ? thisWidth / 1080
-              : thisWidth / 1920,
+            ? thisWidth / 1080
+            : thisWidth / 1920,
       })
     }
     window.addEventListener("resize", handleResize)
@@ -368,10 +365,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   const scale = useWindowScale()
   React.useEffect(
     function storeCssVariable() {
@@ -391,10 +388,10 @@ const RenderedStoryFragment = ({ data }) => {
         const storyFragmentPayload =
           viewportKey !== "server"
             ? storyFragmentCompositor({
-              data: data.nodeStoryFragment,
-              viewportKey: viewportKey,
-              codeHooks: codeHooks,
-            })
+                data: data.nodeStoryFragment,
+                viewportKey: viewportKey,
+                codeHooks: codeHooks,
+              })
             : null
         update(`${viewportKey}-storyFragment`, storyFragmentPayload)
       }
@@ -412,21 +409,16 @@ const RenderedStoryFragment = ({ data }) => {
         const tractStackPayload =
           viewportKey !== "server"
             ? Compositor(
-              data.nodeStoryFragment.relationships.node__tractstack[0]
-                .relationships.field_context_panes,
-              null,
-              viewportKey
-            )
+                data.nodeStoryFragment.relationships.node__tractstack[0]
+                  .relationships.field_context_panes,
+                null,
+                viewportKey
+              )
             : null
         update(`${viewportKey}-context`, tractStackPayload)
       }
     },
-    [
-      viewportKey,
-      data.nodeStoryFragment,
-      update,
-      storyStep,
-    ]
+    [viewportKey, data.nodeStoryFragment, update, storyStep]
   )
 
   if (viewportKey === "server") return <></>
@@ -436,9 +428,15 @@ const RenderedStoryFragment = ({ data }) => {
   return (
     <>
       <Header
-        siteTitle={storyStep.hasOwnProperty(`${viewportKey}-storyFragment`) ? storyFragmentTitle : "Loading"}
+        siteTitle={
+          storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+            ? storyFragmentTitle
+            : "Loading"
+        }
         tractStackContextPayload={
-          storyStep.hasOwnProperty(`${viewportKey}-context`) ? storyStep[`${viewportKey}-context`] : {}
+          storyStep.hasOwnProperty(`${viewportKey}-context`)
+            ? storyStep[`${viewportKey}-context`]
+            : {}
         }
       />
       <Seo title={storyFragmentTitle} />

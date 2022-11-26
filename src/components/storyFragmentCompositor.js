@@ -10,12 +10,15 @@ const storyFragmentCompositor = props => {
   const storyFragmentSlug = props.data.field_slug
   const contextPanesPayload = props.data.relationships.field_context_panes || {}
   const panesPayload = props.data.relationships.field_panes
-  const storyFragmentPanes = panesPayload.map(p => { return p.id })
+  const storyFragmentPanes = panesPayload.map(p => {
+    return p.id
+  })
   const compositedPayload = Compositor(
     panesPayload.concat(contextPanesPayload),
     codeHooks,
     viewportKey
   )
+  const hasH5P = compositedPayload?.hasH5P
   const menuPayload = props?.data?.relationships?.field_menu
   const compositedMenu = menuPayload
     ? Menu({ menuPayload, viewportKey: viewportKey })
@@ -27,6 +30,7 @@ const storyFragmentCompositor = props => {
     slug: storyFragmentSlug,
     panesPayload: compositedPayload,
     storyFragmentPanes: storyFragmentPanes,
+    hasH5P: hasH5P,
     menu: compositedMenu,
   }
 }
