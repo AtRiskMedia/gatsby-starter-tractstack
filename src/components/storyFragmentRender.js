@@ -26,7 +26,7 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey, update }) => {
     storyFragmentPayload?.panesPayload?.payload
   const thisStoryFragment =
     typeof panes === "object" &&
-    panes?.map(p => {
+    storyFragmentPayload?.storyFragmentPanes?.map(p => {
       const thisPane = thisPayload[p]
       return (
         <section
