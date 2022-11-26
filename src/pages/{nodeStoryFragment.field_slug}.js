@@ -323,7 +323,8 @@ const codeHooks = {
 
 const useStore = create(set => ({
   storyStep: {
-    last: null,
+    storyFragment: false,
+    last: false,
     footer: false,
     hasH5P: false,
   },
@@ -370,6 +371,8 @@ const RenderedStoryFragment = ({ data }) => {
     ? "desktop"
     : "server"
   const scale = useWindowScale()
+  const storyFragmentTitle = data.nodeStoryFragment.title
+  const storyFragmentId = data.nodeStoryFragment.id
   React.useEffect(
     function storeCssVariable() {
       document.documentElement.style.setProperty(
@@ -383,7 +386,7 @@ const RenderedStoryFragment = ({ data }) => {
     function bootstrapStoryFragment() {
       if (
         viewportKey !== "server" &&
-        !storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+        !storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
       ) {
         const storyFragmentPayload =
           viewportKey !== "server"
@@ -393,10 +396,10 @@ const RenderedStoryFragment = ({ data }) => {
                 codeHooks: codeHooks,
               })
             : null
-        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
+        update(`${viewportKey}-${storyFragmentId}`, storyFragmentPayload)
       }
     },
-    [viewportKey, data.nodeStoryFragment, update, storyStep]
+    [viewportKey, data.nodeStoryFragment, update, storyFragmentId, storyStep]
   )
 
   React.useEffect(
@@ -404,7 +407,7 @@ const RenderedStoryFragment = ({ data }) => {
       if (
         viewportKey !== "server" &&
         !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
-        storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+        storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
       ) {
         const tractStackPayload =
           viewportKey !== "server"
@@ -418,18 +421,17 @@ const RenderedStoryFragment = ({ data }) => {
         update(`${viewportKey}-context`, tractStackPayload)
       }
     },
-    [viewportKey, data.nodeStoryFragment, update, storyStep]
+    [viewportKey, data.nodeStoryFragment, update, storyFragmentId, storyStep]
   )
 
   if (viewportKey === "server") return <></>
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
-  const storyFragmentTitle = data.nodeStoryFragment.title
   return (
     <>
       <Header
         siteTitle={
-          storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+          storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
             ? storyFragmentTitle
             : "Loading"
         }
@@ -440,12 +442,14 @@ const RenderedStoryFragment = ({ data }) => {
         }
       />
       <Seo title={storyFragmentTitle} />
-      {storyStep.hasOwnProperty(`${viewportKey}-storyFragment`) ? (
+      {storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`) ? (
         <>
           <StoryFragment
             update={update}
             storyStep={storyStep}
-            storyFragmentPayload={storyStep[`${viewportKey}-storyFragment`]}
+            storyFragmentPayload={
+              storyStep[`${viewportKey}-${storyFragmentId}`]
+            }
             viewportKey={viewportKey}
             prefersReducedMotion={prefersReducedMotion}
           />
