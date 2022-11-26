@@ -13,15 +13,14 @@ const StyledWrapperSection = styled.section`
 
 const StoryFragment = ({
   update,
-  panesVisible,
+  storyStep,
   storyFragmentPayload,
-  tractStackContextPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
   const impressions = storyFragmentPayload?.payload?.impressions || {}
-  const revealContextId = panesVisible?.hasOwnProperty("revealContext")
-    ? panesVisible["revealContext"]
+  const revealContextId = storyStep?.hasOwnProperty("revealContext")
+    ? storyStep["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
     ? `${storyFragmentPayload?.payload?.css || ``} ${
@@ -29,9 +28,9 @@ const StoryFragment = ({
       }`
     : `${storyFragmentPayload?.payload?.css || ``}`
   let impressionPanes = []
-  Object.keys(panesVisible).forEach(key => {
-    if (panesVisible[key] === true && impressions.hasOwnProperty(key)) {
-      if (panesVisible["last"] === key) impressionPanes.unshift(key)
+  Object.keys(storyStep).forEach(key => {
+    if (storyStep[key] === true && impressions.hasOwnProperty(key)) {
+      if (storyStep["last"] === key) impressionPanes.unshift(key)
       else impressionPanes.push(key)
     }
   })
@@ -62,7 +61,7 @@ const StoryFragment = ({
             <></>
           )}
         </main>
-        {impressionPanes.length && panesVisible.footer === false ? (
+        {impressionPanes.length && storyStep.footer === false ? (
           <aside id="controller">
             <Controller
               impressions={impressions}

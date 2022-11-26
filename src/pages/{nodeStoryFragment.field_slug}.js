@@ -330,9 +330,10 @@ const useStore = create(set => ({
     hasContext: false,
     contextLoaded: false,
   },
-  panesVisible: { last: null, footer: false },
   update: (key, value) =>
-    set(state => ({ panesVisible: { ...state.panesVisible, [key]: value } })),
+    set(state => ({
+      storyStep: { ...state.storyStep, [key]: value },
+    })),
 }))
 
 const StoryFragment = loadable(() => import("../components/StoryFragment"))
@@ -362,9 +363,10 @@ function useWindowScale() {
 }
 
 const RenderedStoryFragment = ({ data }) => {
-  const [bootstrapped, setBootstrapped] = React.useState(false)
+  const [loaded, setLoaded] = React.useState(false)
+  const [contextLoaded, setContextLoaded] = React.useState(false)
   const update = useStore(state => state.update)
-  const panesVisible = useStore(state => state.panesVisible)
+  const storyStep = useStore(state => state.storyStep)
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -386,59 +388,91 @@ const RenderedStoryFragment = ({ data }) => {
   )
   React.useEffect(
     function bootstrapTractStack() {
-      const tractStackPayload =
-        viewportKey !== "server"
-          ? Compositor(
-              data.nodeStoryFragment.relationships.node__tractstack[0]
-                .relationships.field_context_panes,
-              null,
-              viewportKey
-            )
-          : null
-      const storyFragmentPayload =
-        viewportKey !== "server"
-          ? storyFragmentCompositor({
-              data: data.nodeStoryFragment,
-              viewportKey: viewportKey,
-              codeHooks: codeHooks,
-            })
-          : null
-      if (viewportKey !== "server") {
+      if (
+        viewportKey !== "server" &&
+        !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
+        loaded === true
+      ) {
+        const tractStackPayload =
+          viewportKey !== "server"
+            ? Compositor(
+                data.nodeStoryFragment.relationships.node__tractstack[0]
+                  .relationships.field_context_panes,
+                null,
+                viewportKey
+              )
+            : null
         update(`${viewportKey}-context`, tractStackPayload)
-        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
+        setContextLoaded(true)
       }
-      setBootstrapped(true)
     },
-    [bootstrapped, data.nodeStoryFragment, update, viewportKey]
+    [
+      loaded,
+      contextLoaded,
+      viewportKey,
+      data.nodeStoryFragment,
+      update,
+      storyStep,
+    ]
   )
-  if (viewportKey === "server" || bootstrapped === false) return <></>
+
+  React.useEffect(
+    function bootstrapStoryFragment() {
+      if (
+        viewportKey !== "server" &&
+        !storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+      ) {
+        const storyFragmentPayload =
+          viewportKey !== "server"
+            ? storyFragmentCompositor({
+                data: data.nodeStoryFragment,
+                viewportKey: viewportKey,
+                codeHooks: codeHooks,
+              })
+            : null
+        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
+        setLoaded(true)
+      }
+    },
+    [loaded, viewportKey, data.nodeStoryFragment, update, storyStep]
+  )
+
+  if (viewportKey === "server") return <></>
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const storyFragmentTitle = data.nodeStoryFragment.title
-
   return (
     <>
-      <Header siteTitle={storyFragmentTitle} />
-      <StoryFragment
-        update={update}
-        panesVisible={panesVisible}
-        storyFragmentPayload={panesVisible[`${viewportKey}-storyFragment`]}
-        tractStackContextPayload={panesVisible[`${viewportKey}-context`]}
-        viewportKey={viewportKey}
-        prefersReducedMotion={prefersReducedMotion}
-      >
-        <Seo title={storyFragmentTitle} />
-      </StoryFragment>
-      <InView
-        onEnter={() => {
-          update("footer", true)
-        }}
-        onLeave={() => {
-          update("footer", false)
-        }}
-      >
-        <Footer />
-      </InView>
+      <Header
+        siteTitle={loaded ? storyFragmentTitle : "Loading"}
+        tractStackContextPayload={
+          contextLoaded ? storyStep[`${viewportKey}-context`] : null
+        }
+      />
+      <Seo title={storyFragmentTitle} />
+      {loaded ? (
+        <>
+          <StoryFragment
+            update={update}
+            storyStep={storyStep}
+            storyFragmentPayload={storyStep[`${viewportKey}-storyFragment`]}
+            viewportKey={viewportKey}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+          <InView
+            onEnter={() => {
+              update("footer", true)
+            }}
+            onLeave={() => {
+              update("footer", false)
+            }}
+          >
+            <Footer />
+          </InView>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   )
 }

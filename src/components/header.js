@@ -98,7 +98,7 @@ const SubNav = () => {
   ))
 }
 
-const Header = ({ siteTitle }) => {
+const Header = ({ siteTitle, tractStackContextPayload }) => {
   return (
     <HashRouter>
       <header>
