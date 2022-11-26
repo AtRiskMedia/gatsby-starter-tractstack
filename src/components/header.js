@@ -1,5 +1,4 @@
 import * as React from "react"
-import PropTypes from "prop-types"
 import { Routes, Route, Link, HashRouter, useLocation } from "react-router-dom"
 import { Popover, Transition } from "@headlessui/react"
 import { TractStackIcon, classNames } from "gatsby-plugin-tractstack"
@@ -99,6 +98,9 @@ const SubNav = () => {
 }
 
 const Header = ({ siteTitle, tractStackContextPayload }) => {
+  const contextLoaded = tractStackContextPayload.hasOwnProperty("payload")
+    ? true
+    : false
   return (
     <HashRouter>
       <header>
@@ -110,109 +112,105 @@ const Header = ({ siteTitle, tractStackContextPayload }) => {
           <div className="relative z-70020">
             <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8">
               <h1 className="text-xl mb-0 flex items-center">{siteTitle}</h1>
-              <div>
-                <div className="-my-2 -mr-2 hidden">
-                  <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange">
-                    <span className="sr-only">Open menu</span>
-                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                  </Popover.Button>
-                </div>
-                <div className="flex flex-1 items-center justify-between">
-                  <Popover>
-                    {({ open }) => (
-                      <>
-                        <Popover.Button
-                          className={classNames(
-                            open ? "text-gray-900" : "text-gray-500",
-                            "group inline-flex items-center rounded-md text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
-                          )}
-                        >
-                          <span>
-                            <img
-                              alt="At Risk Media logo"
-                              height={"30px"}
-                              style={{ margin: 0, maxHeight: "30px" }}
-                              src={TractStackIcon}
-                            />
-                          </span>
-                          <ChevronDownIcon
+              {contextLoaded ? (
+                <div>
+                  <div className="-my-2 -mr-2 hidden">
+                    <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange">
+                      <span className="sr-only">Open menu</span>
+                      <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    </Popover.Button>
+                  </div>
+                  <div className="flex flex-1 items-center justify-between">
+                    <Popover>
+                      {({ open }) => (
+                        <>
+                          <Popover.Button
                             className={classNames(
-                              open ? "text-darkgrey" : "text-blue",
-                              "ml-2 h-5 w-5 group-hover:text-blue"
+                              open ? "text-gray-900" : "text-gray-500",
+                              "group inline-flex items-center rounded-md text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                             )}
-                            aria-hidden="true"
-                          />
-                        </Popover.Button>
+                          >
+                            <span>
+                              <img
+                                alt="At Risk Media logo"
+                                height={"30px"}
+                                style={{ margin: 0, maxHeight: "30px" }}
+                                src={TractStackIcon}
+                              />
+                            </span>
+                            <ChevronDownIcon
+                              className={classNames(
+                                open ? "text-darkgrey" : "text-blue",
+                                "ml-2 h-5 w-5 group-hover:text-blue"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </Popover.Button>
 
-                        <Transition
-                          as={React.Fragment}
-                          enter="transition ease-out duration-200"
-                          enterFrom="opacity-0 -translate-y-1"
-                          enterTo="opacity-100 translate-y-0"
-                          leave="transition ease-in duration-150"
-                          leaveFrom="opacity-100 translate-y-0"
-                          leaveTo="opacity-0 -translate-y-1"
-                        >
-                          <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
-                            <div className="w-full h-full">
-                              <main className="relative bg-black-seethrough">
-                                <div className="mx-auto px-2 pb-4 sm:px-4 lg:px-6 lg:pb-6">
-                                  <div className="overflow-hidden rounded-lg bg-white shadow">
-                                    <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
-                                      <aside className="py-6 lg:col-span-3">
-                                        <nav className="space-y-1">
-                                          <Routes>
-                                            <Route
-                                              path="*"
-                                              element={<SubNav />}
-                                            />
-                                          </Routes>
-                                        </nav>
-                                      </aside>
-                                      <Routes>
-                                        <Route
-                                          path="/"
-                                          element={<ConciergeProfile />}
-                                        />
-                                        <Route
-                                          path="/profile"
-                                          element={<ConciergeProfile />}
-                                        />
-                                        <Route
-                                          path="/graph"
-                                          element={<ConciergeGraph />}
-                                        />
-                                        <Route
-                                          path="/tractstack"
-                                          element={<TractStack />}
-                                        />
-                                      </Routes>
+                          <Transition
+                            as={React.Fragment}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 -translate-y-1"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition ease-in duration-150"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 -translate-y-1"
+                          >
+                            <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
+                              <div className="w-full h-full">
+                                <main className="relative bg-black-seethrough">
+                                  <div className="mx-auto px-2 pb-4 sm:px-4 lg:px-6 lg:pb-6">
+                                    <div className="overflow-hidden rounded-lg bg-white shadow">
+                                      <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+                                        <aside className="py-6 lg:col-span-3">
+                                          <nav className="space-y-1">
+                                            <Routes>
+                                              <Route
+                                                path="*"
+                                                element={<SubNav />}
+                                              />
+                                            </Routes>
+                                          </nav>
+                                        </aside>
+                                        <Routes>
+                                          <Route
+                                            path="/"
+                                            element={<ConciergeProfile />}
+                                          />
+                                          <Route
+                                            path="/profile"
+                                            element={<ConciergeProfile />}
+                                          />
+                                          <Route
+                                            path="/graph"
+                                            element={<ConciergeGraph />}
+                                          />
+                                          <Route
+                                            path="/tractstack"
+                                            element={<TractStack />}
+                                          />
+                                        </Routes>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </main>
-                            </div>
-                          </Popover.Panel>
-                        </Transition>
-                      </>
-                    )}
-                  </Popover>
+                                </main>
+                              </div>
+                            </Popover.Panel>
+                          </Transition>
+                        </>
+                      )}
+                    </Popover>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </Popover>
       </header>
     </HashRouter>
   )
-}
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
 }
 
 export default Header

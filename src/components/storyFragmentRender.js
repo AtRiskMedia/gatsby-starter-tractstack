@@ -15,7 +15,11 @@ const Pane = ({ thisId, children, inView, observe }) => (
   </div>
 )
 
-const StoryFragmentRender = ({ storyFragmentPayload, viewportKey, update }) => {
+const StoryFragmentRender = ({
+  storyFragmentPayload,
+  viewportKey,
+  updatePanesVisible,
+}) => {
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
     storyFragmentPayload?.panesPayload?.panes
@@ -36,11 +40,11 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey, update }) => {
         >
           <InView
             onEnter={() => {
-              update(p, true)
-              update("last", p)
+              updatePanesVisible(p, true)
+              updatePanesVisible("last", p)
             }}
             onLeave={() => {
-              update(p, false)
+              updatePanesVisible(p, false)
             }}
           >
             <Pane

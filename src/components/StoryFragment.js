@@ -11,25 +11,29 @@ const StyledWrapperSection = styled.section`
 `
 
 const StoryFragment = ({
-  update,
-  storyStep,
+  updatePanesVisible,
+  panesVisible,
   storyFragmentPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
-  const revealContextId = storyStep?.hasOwnProperty("revealContext")
-    ? storyStep["revealContext"]
+  const revealContextId = panesVisible?.hasOwnProperty("revealContext")
+    ? panesVisible["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
-        storyFragmentPayload?.panesPayload?.cssAnimated || ``
-      }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
+    }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
-  Object.keys(storyStep).forEach(key => {
-    if (storyStep[key] === true && impressions.hasOwnProperty(key)) {
-      if (storyStep["last"] === key) impressionPanes.unshift(key)
+  Object.keys(panesVisible).forEach(key => {
+    if (
+      key !== "last" &&
+      key !== "footer" &&
+      panesVisible[key] === true &&
+      impressions.hasOwnProperty(key)
+    ) {
+      if (panesVisible["last"] === key) impressionPanes.unshift(key)
       else impressionPanes.push(key)
     }
   })
@@ -46,7 +50,7 @@ const StoryFragment = ({
             <StoryFragmentRender
               storyFragmentPayload={storyFragmentPayload}
               viewportKey={viewportKey}
-              update={update}
+              updatePanesVisible={updatePanesVisible}
             />
           </StyledWrapperSection>
           {revealContextId ? (
@@ -57,7 +61,7 @@ const StoryFragment = ({
             <></>
           )}
         </main>
-        {impressionPanes.length && storyStep.footer === false ? (
+        {impressionPanes.length && panesVisible.footer === false ? (
           <aside id="controller">
             <Controller
               impressions={impressions}

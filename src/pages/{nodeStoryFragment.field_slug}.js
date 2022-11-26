@@ -329,9 +329,14 @@ const useStore = create(set => ({
     footer: false,
     hasH5P: false,
   },
-  update: (key, value) =>
+  panesVisible: {},
+  updateStoryStep: (key, value) =>
     set(state => ({
       storyStep: { ...state.storyStep, [key]: value },
+    })),
+  updatePanesVisible: (key, value) =>
+    set(state => ({
+      panesVisible: { ...state.panesVisible, [key]: value },
     })),
 }))
 
@@ -360,8 +365,10 @@ function useWindowScale() {
 }
 
 const RenderedStoryFragment = ({ data }) => {
-  const update = useStore(state => state.update)
+  const updateStoryStep = useStore(state => state.updateStoryStep)
+  const updatePanesVisible = useStore(state => state.updatePanesVisible)
   const storyStep = useStore(state => state.storyStep)
+  const panesVisible = useStore(state => state.panesVisible)
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -397,22 +404,31 @@ const RenderedStoryFragment = ({ data }) => {
                 codeHooks: codeHooks,
               })
             : null
-        if (storyFragmentPayload.hasH5P) update("hasH5P", true)
-        else if (storyStep["hasH5P"] !== false) update("hasH5P", false)
-        update(`${viewportKey}-${storyFragmentId}`, storyFragmentPayload)
+        if (storyFragmentPayload.hasH5P) updateStoryStep("hasH5P", true)
+        else if (storyStep["hasH5P"] !== false) updateStoryStep("hasH5P", false)
+        updateStoryStep(
+          `${viewportKey}-${storyFragmentId}`,
+          storyFragmentPayload
+        )
       }
     },
-    [viewportKey, data.nodeStoryFragment, update, storyFragmentId, storyStep]
+    [
+      viewportKey,
+      data.nodeStoryFragment,
+      updateStoryStep,
+      storyFragmentId,
+      storyStep,
+    ]
   )
 
   React.useEffect(
-    function bootstrapTractStack() {
+    function bootstrapTractStackContext() {
       if (
         viewportKey !== "server" &&
         !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
         storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
       ) {
-        const tractStackPayload =
+        const tractStackContextPayload =
           viewportKey !== "server"
             ? Compositor(
                 data.nodeStoryFragment.relationships.node__tractstack[0]
@@ -421,10 +437,16 @@ const RenderedStoryFragment = ({ data }) => {
                 viewportKey
               )
             : null
-        update(`${viewportKey}-context`, tractStackPayload)
+        updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
       }
     },
-    [viewportKey, data.nodeStoryFragment, update, storyFragmentId, storyStep]
+    [
+      viewportKey,
+      data.nodeStoryFragment,
+      updateStoryStep,
+      storyFragmentId,
+      storyStep,
+    ]
   )
 
   if (viewportKey === "server") return <></>
@@ -453,8 +475,8 @@ const RenderedStoryFragment = ({ data }) => {
       {storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`) ? (
         <>
           <StoryFragment
-            update={update}
-            storyStep={storyStep}
+            updatePanesVisible={updatePanesVisible}
+            panesVisible={panesVisible}
             storyFragmentPayload={
               storyStep[`${viewportKey}-${storyFragmentId}`]
             }
@@ -463,10 +485,10 @@ const RenderedStoryFragment = ({ data }) => {
           />
           <InView
             onEnter={() => {
-              update("footer", true)
+              updatePanesVisible("footer", true)
             }}
             onLeave={() => {
-              update("footer", false)
+              updatePanesVisible("footer", false)
             }}
           >
             <Footer />
