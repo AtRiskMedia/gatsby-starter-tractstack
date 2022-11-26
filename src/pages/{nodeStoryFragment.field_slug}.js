@@ -431,7 +431,8 @@ const RenderedStoryFragment = ({ data }) => {
   return (
     <>
       <Helmet>
-        <script src="/h5p-resizer.js" />
+        {storyStep["hasH5P"] &&
+          <script src="/h5p-resizer.js" />}
       </Helmet>
       <Header
         siteTitle={
