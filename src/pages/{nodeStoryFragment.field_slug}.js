@@ -430,9 +430,13 @@ const RenderedStoryFragment = ({ data }) => {
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
     <>
-      <Helmet>
-        <script src="/h5p-resizer.js" />
-      </Helmet>
+      {storyStep["hasH5P"] ? (
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>
+      ) : (
+        <></>
+      )}
       <Header
         siteTitle={
           storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
