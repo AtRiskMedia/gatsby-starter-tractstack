@@ -397,6 +397,8 @@ const RenderedStoryFragment = ({ data }) => {
               codeHooks: codeHooks,
             })
             : null
+        if (storyFragmentPayload.hasH5P) update("hasH5P", true)
+        else if (storyStep["hasH5P"] !== false) update("hasH5P", false)
         update(`${viewportKey}-${storyFragmentId}`, storyFragmentPayload)
       }
     },
@@ -430,10 +432,10 @@ const RenderedStoryFragment = ({ data }) => {
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
     <>
-      <Helmet>
-        {storyStep["hasH5P"] &&
-          <script src="/h5p-resizer.js" />}
-      </Helmet>
+      {storyStep["hasH5P"] &&
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>}
       <Header
         siteTitle={
           storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
