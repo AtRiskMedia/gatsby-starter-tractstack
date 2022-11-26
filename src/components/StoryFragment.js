@@ -22,8 +22,9 @@ const StoryFragment = ({
     ? storyStep["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
-    }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
+        storyFragmentPayload?.panesPayload?.cssAnimated || ``
+      }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(storyStep).forEach(key => {
