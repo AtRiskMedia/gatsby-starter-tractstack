@@ -17,13 +17,13 @@ const Pane = ({ thisId, children, inView, observe }) => (
 
 const StoryFragmentRender = ({ storyFragmentPayload, viewportKey, update }) => {
   const panes =
-    typeof storyFragmentPayload?.payload?.panes === "object" &&
-    storyFragmentPayload?.payload?.panes
+    typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
+    storyFragmentPayload?.panesPayload?.panes
   const menu = (typeof storyFragmentPayload?.menu === "object" &&
     storyFragmentPayload?.menu) || <></>
   const thisPayload =
-    typeof storyFragmentPayload?.payload?.payload === "object" &&
-    storyFragmentPayload?.payload?.payload
+    typeof storyFragmentPayload?.panesPayload?.payload === "object" &&
+    storyFragmentPayload?.panesPayload?.payload
   const thisStoryFragment =
     typeof panes === "object" &&
     panes?.map(p => {

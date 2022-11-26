@@ -361,8 +361,6 @@ function useWindowScale() {
 }
 
 const RenderedStoryFragment = ({ data }) => {
-  const [loaded, setLoaded] = React.useState(false)
-  const [contextLoaded, setContextLoaded] = React.useState(false)
   const update = useStore(state => state.update)
   const storyStep = useStore(state => state.storyStep)
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -384,7 +382,6 @@ const RenderedStoryFragment = ({ data }) => {
     },
     [scale]
   )
-
   React.useEffect(
     function bootstrapStoryFragment() {
       if (
@@ -400,10 +397,9 @@ const RenderedStoryFragment = ({ data }) => {
             })
             : null
         update(`${viewportKey}-storyFragment`, storyFragmentPayload)
-        setLoaded(true)
       }
     },
-    [loaded, viewportKey, data.nodeStoryFragment, update, storyStep]
+    [viewportKey, data.nodeStoryFragment, update, storyStep]
   )
 
   React.useEffect(
@@ -411,7 +407,7 @@ const RenderedStoryFragment = ({ data }) => {
       if (
         viewportKey !== "server" &&
         !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
-        loaded === true
+        storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
       ) {
         const tractStackPayload =
           viewportKey !== "server"
@@ -423,12 +419,9 @@ const RenderedStoryFragment = ({ data }) => {
             )
             : null
         update(`${viewportKey}-context`, tractStackPayload)
-        setContextLoaded(true)
       }
     },
     [
-      loaded,
-      contextLoaded,
       viewportKey,
       data.nodeStoryFragment,
       update,
@@ -443,13 +436,13 @@ const RenderedStoryFragment = ({ data }) => {
   return (
     <>
       <Header
-        siteTitle={loaded ? storyFragmentTitle : "Loading"}
+        siteTitle={storyStep.hasOwnProperty(`${viewportKey}-storyFragment`) ? storyFragmentTitle : "Loading"}
         tractStackContextPayload={
-          storyStep.hasOwnProperty(`${viewportKey}-context`) ? storyStep[`${viewportKey}-context`] : null
+          storyStep.hasOwnProperty(`${viewportKey}-context`) ? storyStep[`${viewportKey}-context`] : {}
         }
       />
       <Seo title={storyFragmentTitle} />
-      {storyStep.hasOwnProperty(`${viewportKey}-context`) ? (
+      {storyStep.hasOwnProperty(`${viewportKey}-storyFragment`) ? (
         <>
           <StoryFragment
             update={update}

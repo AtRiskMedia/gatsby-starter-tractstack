@@ -18,15 +18,14 @@ const StoryFragment = ({
   viewportKey,
   prefersReducedMotion,
 }) => {
-  const impressions = storyFragmentPayload?.payload?.impressions || {}
+  const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
   const revealContextId = storyStep?.hasOwnProperty("revealContext")
     ? storyStep["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.payload?.css || ``} ${
-        storyFragmentPayload?.payload?.cssAnimated || ``
-      }`
-    : `${storyFragmentPayload?.payload?.css || ``}`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
+    }`
+    : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(storyStep).forEach(key => {
     if (storyStep[key] === true && impressions.hasOwnProperty(key)) {
