@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Helmet } from "react-helmet"
 import styled from "styled-components"
 
 import Controller from "../components/controller"
@@ -23,9 +22,8 @@ const StoryFragment = ({
     ? storyStep["revealContext"]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
-        storyFragmentPayload?.panesPayload?.cssAnimated || ``
-      }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
+    }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(storyStep).forEach(key => {
@@ -36,13 +34,6 @@ const StoryFragment = ({
   })
   return (
     <>
-      {storyStep["hasH5P"] ? (
-        <Helmet>
-          <script src="/h5p-resizer.js" />
-        </Helmet>
-      ) : (
-        <></>
-      )}
       <div
         style={{
           margin: `0 auto`,

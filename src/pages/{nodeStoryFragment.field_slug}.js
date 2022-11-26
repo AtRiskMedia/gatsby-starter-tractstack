@@ -1,5 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
+import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
 import { InView } from "react-cool-inview"
 import create from "zustand"
@@ -347,8 +348,8 @@ function useWindowScale() {
           thisWidth < 801
             ? thisWidth / 600
             : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920,
+              ? thisWidth / 1080
+              : thisWidth / 1920,
       })
     }
     window.addEventListener("resize", handleResize)
@@ -366,10 +367,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
+      ? "tablet"
+      : breakpoints.desktop
+        ? "desktop"
+        : "server"
   const scale = useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -391,10 +392,10 @@ const RenderedStoryFragment = ({ data }) => {
         const storyFragmentPayload =
           viewportKey !== "server"
             ? storyFragmentCompositor({
-                data: data.nodeStoryFragment,
-                viewportKey: viewportKey,
-                codeHooks: codeHooks,
-              })
+              data: data.nodeStoryFragment,
+              viewportKey: viewportKey,
+              codeHooks: codeHooks,
+            })
             : null
         update(`${viewportKey}-${storyFragmentId}`, storyFragmentPayload)
       }
@@ -412,11 +413,11 @@ const RenderedStoryFragment = ({ data }) => {
         const tractStackPayload =
           viewportKey !== "server"
             ? Compositor(
-                data.nodeStoryFragment.relationships.node__tractstack[0]
-                  .relationships.field_context_panes,
-                null,
-                viewportKey
-              )
+              data.nodeStoryFragment.relationships.node__tractstack[0]
+                .relationships.field_context_panes,
+              null,
+              viewportKey
+            )
             : null
         update(`${viewportKey}-context`, tractStackPayload)
       }
@@ -429,6 +430,13 @@ const RenderedStoryFragment = ({ data }) => {
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
     <>
+      {storyStep["hasH5P"] ? (
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>
+      ) : (
+        <></>
+      )}
       <Header
         siteTitle={
           storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
