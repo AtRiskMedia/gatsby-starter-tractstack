@@ -384,6 +384,28 @@ const RenderedStoryFragment = ({ data }) => {
     },
     [scale]
   )
+
+  React.useEffect(
+    function bootstrapStoryFragment() {
+      if (
+        viewportKey !== "server" &&
+        !storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
+      ) {
+        const storyFragmentPayload =
+          viewportKey !== "server"
+            ? storyFragmentCompositor({
+                data: data.nodeStoryFragment,
+                viewportKey: viewportKey,
+                codeHooks: codeHooks,
+              })
+            : null
+        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
+        setLoaded(true)
+      }
+    },
+    [loaded, viewportKey, data.nodeStoryFragment, update, storyStep]
+  )
+
   React.useEffect(
     function bootstrapTractStack() {
       if (
@@ -414,29 +436,6 @@ const RenderedStoryFragment = ({ data }) => {
     ]
   )
 
-  React.useEffect(
-    function bootstrapStoryFragment() {
-      if (
-        viewportKey !== "server" &&
-        !storyStep.hasOwnProperty(`${viewportKey}-storyFragment`)
-      ) {
-        const storyFragmentPayload =
-          viewportKey !== "server"
-            ? storyFragmentCompositor({
-                data: data.nodeStoryFragment,
-                viewportKey: viewportKey,
-                codeHooks: codeHooks,
-              })
-            : null
-        update(`${viewportKey}-storyFragment`, storyFragmentPayload)
-        setLoaded(true)
-      }
-    },
-    [loaded, viewportKey, data.nodeStoryFragment, update, storyStep]
-  )
-
-  if (viewportKey === "server") return <></>
-
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const storyFragmentTitle = data.nodeStoryFragment.title
   return (
@@ -444,11 +443,13 @@ const RenderedStoryFragment = ({ data }) => {
       <Header
         siteTitle={loaded ? storyFragmentTitle : "Loading"}
         tractStackContextPayload={
-          contextLoaded ? storyStep[`${viewportKey}-context`] : null
+          storyStep.hasOwnProperty(`${viewportKey}-context`)
+            ? storyStep[`${viewportKey}-context`]
+            : null
         }
       />
       <Seo title={storyFragmentTitle} />
-      {loaded ? (
+      {storyStep.hasOwnProperty(`${viewportKey}-context`) ? (
         <>
           <StoryFragment
             update={update}
