@@ -386,7 +386,7 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentId = data.nodeStoryFragment.id
   React.useEffect(
     function storeCssVariable() {
-      document.documentElement.style.setProperty("--scale", scale?.scale * 0.99)
+      document.documentElement.style.setProperty("--scale", scale?.scale * 0.99999)
     },
     [scale]
   )
