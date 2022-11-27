@@ -3,18 +3,17 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 
 const Context = ({ children, updatePanesVisible }) => {
   function hideContext() {
-    console.log(1)
     updatePanesVisible("revealContext", false)
   }
   React.useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
-        hideContext()
+        updatePanesVisible("revealContext", false)
       }
     }
     document.addEventListener("keydown", handleEscapeKey)
     return () => document.removeEventListener("keydown", handleEscapeKey)
-  }, [hideContext])
+  }, [updatePanesVisible])
 
   return (
     <div id="context" className="z-80010 bg-allblack-seethrough">

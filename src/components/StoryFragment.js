@@ -21,7 +21,7 @@ const StoryFragment = ({
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
   const revealContextId =
     typeof panesVisible.revealContext === "string" &&
-      panesVisible.revealContext.length > 1
+    panesVisible.revealContext.length > 1
       ? panesVisible["revealContext"]
       : null
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
@@ -30,8 +30,9 @@ const StoryFragment = ({
     ? contextPayload.payload[revealContextId]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
-    }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
+        storyFragmentPayload?.panesPayload?.cssAnimated || ``
+      }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(panesVisible).forEach(key => {
