@@ -1,9 +1,9 @@
 import * as React from "react"
 import styled from "styled-components"
 
-import Controller from "../components/controller"
-import StoryFragmentRender from "../components/storyFragmentRender"
-
+import Controller from "./controller"
+import StoryFragmentRender from "./storyFragmentRender"
+import Context from "./Context"
 import "../styles/storyfragment.css"
 
 const StyledWrapperSection = styled.section`
@@ -14,12 +14,20 @@ const StoryFragment = ({
   updatePanesVisible,
   panesVisible,
   storyFragmentPayload,
+  contextPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
-  const revealContextId = panesVisible?.hasOwnProperty("revealContext")
-    ? panesVisible["revealContext"]
+  const revealContextId =
+    typeof panesVisible.revealContext === "string" &&
+      panesVisible.revealContext.length > 1
+      ? panesVisible["revealContext"]
+      : null
+  const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
+    revealContextId
+  )
+    ? contextPayload.payload[revealContextId]
     : null
   const thisCss = !prefersReducedMotion
     ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
@@ -30,6 +38,7 @@ const StoryFragment = ({
     if (
       key !== "last" &&
       key !== "footer" &&
+      key !== "revealContext" &&
       panesVisible[key] === true &&
       impressions.hasOwnProperty(key)
     ) {
@@ -54,14 +63,15 @@ const StoryFragment = ({
             />
           </StyledWrapperSection>
           {revealContextId ? (
-            <div id="context" className="z-80010 bg-black-seethrough">
-              modal
-            </div>
+            <Context
+              updatePanesVisible={updatePanesVisible}
+              children={thisContextPayload?.children}
+            />
           ) : (
             <></>
           )}
         </main>
-        {impressionPanes.length && panesVisible.footer === false ? (
+        {impressionPanes.length && panesVisible.footer !== true ? (
           <aside id="controller">
             <Controller
               impressions={impressions}

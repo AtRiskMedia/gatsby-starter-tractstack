@@ -1,6 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/pages/**/*.{js,jsx}", "./src/components/**/*.{js,jsx}"],
+  safelist: [
+    "text-r3xl",
+    "text-r5xl",
+    "text-orange",
+    "text-blue",
+    "p-6",
+    "p-4",
+    "mb-0",
+  ],
   theme: {
     extend: {
       screens: {
@@ -8,8 +17,19 @@ module.exports = {
         xl: "1367px",
       },
       fontSize: {
+        rxs: "calc(var(--scale) * 0.75rem)",
         rsm: "calc(var(--scale) * 0.875rem)",
+        rbase: "calc(var(--scale) * 1rem)",
         rlg: "calc(var(--scale) * 1.125rem)",
+        rxl: "calc(var(--scale) * 1.25rem)",
+        r2xl: "calc(var(--scale) * 1.5rem)",
+        r3xl: "calc(var(--scale) * 1.875rem)",
+        r4xl: "calc(var(--scale) * 2.25rem)",
+        r5xl: "calc(var(--scale) * 3rem)",
+        r6xl: "calc(var(--scale) * 3.75rem)",
+        r7xl: "calc(var(--scale) * 4.5rem)",
+        r8xl: "calc(var(--scale) * 6rem)",
+        r9xl: "calc(var(--scale) * 8rem)",
       },
       zIndex: {
         70010: "70010",

@@ -240,8 +240,14 @@ pre tt:after {
   content: none;
 }
 
+.bg-allblack-seethrough {
+  background: linear-gradient(rgba(0, 0, 0, 1), rgba(41, 63, 88, 0.98));
+}
 .bg-black-seethrough {
   background: rgba(0, 0, 0, 0.8);
+}
+.bg-white-seethrough {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .pane {
@@ -799,27 +805,4 @@ header img:hover {
   cursor: pointer;
   transform: rotate(15deg);
   transition: all 0.3s ease-in-out 0s;
-}
-
-.apane {
-}
-.apane__one {
-  background: yellow;
-  position: relative;
-}
-.apane__one--inner {
-  position: relative;
-  height: calc(400px * var(--scale));
-  width: 100%;
-  background: grey;
-}
-.apane__two {
-  background: green;
-  position: relative;
-}
-.apane__two--inner {
-  position: relative;
-  width: 100%;
-  height: calc(400px * var(--scale));
-  background: blue;
 }

@@ -325,11 +325,14 @@ const codeHooks = {
 const useStore = create(set => ({
   storyStep: {
     storyFragment: false,
-    last: false,
-    footer: false,
     hasH5P: false,
   },
-  panesVisible: {},
+  panesVisible: {
+    last: false,
+    footer: false,
+    revealContext: "8fc3aea8-5e15-5897-ad2d-244f871dc948",
+    //revealContext: false, // zeroParty = "8fc3aea8-5e15-5897-ad2d-244f871dc948"
+  },
   updateStoryStep: (key, value) =>
     set(state => ({
       storyStep: { ...state.storyStep, [key]: value },
@@ -479,6 +482,11 @@ const RenderedStoryFragment = ({ data }) => {
             panesVisible={panesVisible}
             storyFragmentPayload={
               storyStep[`${viewportKey}-${storyFragmentId}`]
+            }
+            contextPayload={
+              storyStep.hasOwnProperty(`${viewportKey}-context`)
+                ? storyStep[`${viewportKey}-context`]
+                : {}
             }
             viewportKey={viewportKey}
             prefersReducedMotion={prefersReducedMotion}

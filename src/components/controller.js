@@ -1,5 +1,4 @@
 import * as React from "react"
-import PropTypes from "prop-types"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 
 import {
@@ -111,12 +110,6 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
       </button>
     </div>
   )
-}
-
-Controller.propTypes = {
-  impressions: PropTypes.object.isRequired,
-  impressionPanes: PropTypes.array.isRequired,
-  viewportKey: PropTypes.string.isRequired,
 }
 
 export default Controller
