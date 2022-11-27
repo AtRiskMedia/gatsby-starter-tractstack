@@ -14,7 +14,7 @@ const Context = ({ children, updatePanesVisible }) => {
     }
     document.addEventListener("keydown", handleEscapeKey)
     return () => document.removeEventListener("keydown", handleEscapeKey)
-  }, [])
+  }, [hideContext])
 
   return (
     <div id="context" className="z-80010 bg-allblack-seethrough">
