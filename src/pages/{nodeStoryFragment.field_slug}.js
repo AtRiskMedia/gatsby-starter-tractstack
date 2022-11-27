@@ -356,8 +356,8 @@ function useWindowScale() {
           thisWidth < 801
             ? thisWidth / 600
             : thisWidth < 1367
-              ? thisWidth / 1080
-              : thisWidth / 1920,
+            ? thisWidth / 1080
+            : thisWidth / 1920,
       })
     }
     window.addEventListener("resize", handleResize)
@@ -377,16 +377,19 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   const scale = useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
   React.useEffect(
     function storeCssVariable() {
-      document.documentElement.style.setProperty("--scale", scale?.scale * 0.99999)
+      document.documentElement.style.setProperty(
+        "--scale",
+        scale?.scale * 0.99999
+      )
     },
     [scale]
   )
@@ -399,10 +402,10 @@ const RenderedStoryFragment = ({ data }) => {
         const storyFragmentPayload =
           viewportKey !== "server"
             ? storyFragmentCompositor({
-              data: data.nodeStoryFragment,
-              viewportKey: viewportKey,
-              codeHooks: codeHooks,
-            })
+                data: data.nodeStoryFragment,
+                viewportKey: viewportKey,
+                codeHooks: codeHooks,
+              })
             : null
         if (storyFragmentPayload.hasH5P) updateStoryStep("hasH5P", true)
         else if (storyStep["hasH5P"] !== false) updateStoryStep("hasH5P", false)
@@ -431,11 +434,11 @@ const RenderedStoryFragment = ({ data }) => {
         const tractStackContextPayload =
           viewportKey !== "server"
             ? Compositor(
-              data.nodeStoryFragment.relationships.node__tractstack[0]
-                .relationships.field_context_panes,
-              null,
-              viewportKey
-            )
+                data.nodeStoryFragment.relationships.node__tractstack[0]
+                  .relationships.field_context_panes,
+                null,
+                viewportKey
+              )
             : null
         updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
       }

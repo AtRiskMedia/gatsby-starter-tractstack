@@ -11,7 +11,7 @@ const viewportWidths = {
 module.exports = {
   siteMetadata: {
     title: `Tract Stack by At Risk Media - Gatsby Starter`,
-    description: `No-code conversion funnel concierge`,
+    description: `Validate your product-market-fit!`,
     author: `@AtRiskMedia`,
     siteUrl: `https://atriskmedia.com/`,
   },
