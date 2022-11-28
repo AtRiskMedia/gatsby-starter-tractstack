@@ -25,11 +25,11 @@ function useInterval(callback, delay) {
   }, [delay])
 }
 
-const Impression = ({ payload }) => {
+const Impression = ({ payload, updatePanesVisible, allContext }) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
   function injectPayload() {
-    concierge(thisButtonPayload)
+    concierge(thisButtonPayload, updatePanesVisible, allContext)
   }
   return (
     <>
@@ -54,7 +54,13 @@ const Impression = ({ payload }) => {
   )
 }
 
-const Controller = ({ impressions, impressionPanes, viewportKey }) => {
+const Controller = ({
+  impressions,
+  impressionPanes,
+  updatePanesVisible,
+  allContext,
+  viewportKey,
+}) => {
   const [offset, setOffset] = React.useState(0)
   //const [delay, setDelay] = React.useState(2200)
   const delay = 22000
@@ -88,7 +94,11 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
-            <Impression payload={thisImpression} />
+            <Impression
+              payload={thisImpression}
+              updatePanesVisible={updatePanesVisible}
+              allContext={allContext}
+            />
           </div>
         </div>
       </aside>

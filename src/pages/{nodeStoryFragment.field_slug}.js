@@ -17,27 +17,12 @@ import Footer from "../components/footer"
 
 export const query = graphql`
   query ($id: String) {
-    allNodeStoryFragment {
-      edges {
-        node {
-          id
-          title
-          field_slug
-          relationships {
-            field_tract_stack {
-              title
-              id
-            }
-          }
-        }
-      }
-    }
     nodeStoryFragment(id: { eq: $id }) {
       title
       id
       field_slug
       relationships {
-        node__tractstack {
+        field_tract_stack {
           id
           relationships {
             field_context_panes {
@@ -434,7 +419,7 @@ const RenderedStoryFragment = ({ data }) => {
         const tractStackContextPayload =
           viewportKey !== "server"
             ? Compositor(
-                data.nodeStoryFragment.relationships.node__tractstack[0]
+                data.nodeStoryFragment.relationships.field_tract_stack
                   .relationships.field_context_panes,
                 null,
                 viewportKey
@@ -454,6 +439,22 @@ const RenderedStoryFragment = ({ data }) => {
 
   if (viewportKey === "server") return <></>
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
+  const allGlobalContext = Object.assign(
+    {},
+    ...data.nodeStoryFragment.relationships.field_tract_stack.relationships.field_context_panes.map(
+      p => {
+        const thisVal = { [p.field_slug]: [p.id] }
+        return thisVal
+      }
+    )
+  )
+  const allLocalContext = Object.assign(
+    {},
+    ...data.nodeStoryFragment.relationships.field_context_panes.map(p => {
+      const thisVal = { [p.field_slug]: [p.id] }
+      return thisVal
+    })
+  )
 
   return (
     <>
@@ -488,6 +489,7 @@ const RenderedStoryFragment = ({ data }) => {
                 ? storyStep[`${viewportKey}-context`]
                 : {}
             }
+            allContext={{ ...allGlobalContext, ...allLocalContext }}
             viewportKey={viewportKey}
             prefersReducedMotion={prefersReducedMotion}
           />

@@ -13,6 +13,7 @@ const StyledWrapperSection = styled.section`
 const StoryFragment = ({
   updatePanesVisible,
   panesVisible,
+  allContext,
   storyFragmentPayload,
   contextPayload,
   viewportKey,
@@ -77,6 +78,8 @@ const StoryFragment = ({
             <Controller
               impressions={impressions}
               impressionPanes={impressionPanes}
+              updatePanesVisible={updatePanesVisible}
+              allContext={allContext}
               viewportKey={viewportKey}
             />
           </aside>
