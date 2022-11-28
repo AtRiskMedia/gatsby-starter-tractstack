@@ -443,7 +443,7 @@ const RenderedStoryFragment = ({ data }) => {
     {},
     ...data.nodeStoryFragment.relationships.field_tract_stack.relationships.field_context_panes.map(
       p => {
-        const thisVal = { [p.field_slug]: [p.id] }
+        const thisVal = { [p.field_slug]: p.id }
         return thisVal
       }
     )
@@ -451,7 +451,7 @@ const RenderedStoryFragment = ({ data }) => {
   const allLocalContext = Object.assign(
     {},
     ...data.nodeStoryFragment.relationships.field_context_panes.map(p => {
-      const thisVal = { [p.field_slug]: [p.id] }
+      const thisVal = { [p.field_slug]: p.id }
       return thisVal
     })
   )
