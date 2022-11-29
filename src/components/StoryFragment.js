@@ -24,7 +24,7 @@ const StoryFragment = ({
     typeof panesVisible.revealContext === "string" &&
     panesVisible.revealContext.length > 1
       ? panesVisible["revealContext"]
-      : null
+      : false
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
   )
@@ -39,6 +39,7 @@ const StoryFragment = ({
   Object.keys(panesVisible).forEach(key => {
     if (
       key !== "last" &&
+      key !== "gotoLast" &&
       key !== "footer" &&
       key !== "revealContext" &&
       panesVisible[key] === true &&
@@ -57,23 +58,25 @@ const StoryFragment = ({
         }}
       >
         <main>
-          <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
-            <StoryFragmentRender
-              storyFragmentPayload={storyFragmentPayload}
-              viewportKey={viewportKey}
-              updatePanesVisible={updatePanesVisible}
-            />
-          </StyledWrapperSection>
           {revealContextId ? (
             <Context
               updatePanesVisible={updatePanesVisible}
               children={thisContextPayload?.children}
+              last={panesVisible.last}
             />
           ) : (
-            <></>
+            <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
+              <StoryFragmentRender
+                storyFragmentPayload={storyFragmentPayload}
+                viewportKey={viewportKey}
+                updatePanesVisible={updatePanesVisible}
+              />
+            </StyledWrapperSection>
           )}
         </main>
-        {impressionPanes.length && panesVisible.footer !== true ? (
+        {revealContextId === false &&
+        impressionPanes.length &&
+        panesVisible.footer !== true ? (
           <aside id="controller">
             <Controller
               impressions={impressions}

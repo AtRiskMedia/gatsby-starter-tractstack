@@ -317,6 +317,7 @@ const useStore = create(set => ({
     footer: false,
     //revealContext: "8fc3aea8-5e15-5897-ad2d-244f871dc948",
     revealContext: false, // zeroParty = "8fc3aea8-5e15-5897-ad2d-244f871dc948"
+    gotoLast: false,
   },
   updateStoryStep: (key, value) =>
     set(state => ({
@@ -437,7 +438,32 @@ const RenderedStoryFragment = ({ data }) => {
     ]
   )
 
+  React.useEffect(
+    function gotoLast() {
+      if (
+        viewportKey !== "server" &&
+        typeof panesVisible["last"] === "string" &&
+        panesVisible["gotoLast"] === true
+      ) {
+        updatePanesVisible("gotoLast", false)
+        const element = document.getElementById(
+          `wrapper-${panesVisible["last"]}`
+        )
+        element.scrollIntoView()
+      } else if (
+        viewportKey !== "server" &&
+        typeof panesVisible["gotoLast"] === "undefined"
+      ) {
+        updatePanesVisible("gotoLast", false)
+        const element = document.getElementById(`context`)
+        element.scrollIntoView()
+      }
+    },
+    [panesVisible, updatePanesVisible, viewportKey]
+  )
+
   if (viewportKey === "server") return <></>
+
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   const allGlobalContext = Object.assign(
     {},

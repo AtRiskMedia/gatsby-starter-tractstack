@@ -1,14 +1,16 @@
 import * as React from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
-const Context = ({ children, updatePanesVisible }) => {
+const Context = ({ children, last, updatePanesVisible }) => {
   function hideContext() {
     updatePanesVisible("revealContext", false)
+    updatePanesVisible("gotoLast", true)
   }
   React.useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
         updatePanesVisible("revealContext", false)
+        updatePanesVisible("gotoLast", true)
       }
     }
     document.addEventListener("keydown", handleEscapeKey)
