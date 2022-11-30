@@ -423,19 +423,6 @@ const RenderedStoryFragment = ({ data }) => {
           storyFragmentPayload
         )
       }
-    },
-    [
-      viewportKey,
-      data.nodeStoryFragment,
-      storyFragmentId,
-      updateStoryStep,
-      storyStep,
-      updateRevealContext,
-    ]
-  )
-
-  React.useEffect(
-    function bootstrapTractStackContext() {
       if (
         viewportKey !== "server" &&
         !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
@@ -459,8 +446,8 @@ const RenderedStoryFragment = ({ data }) => {
       data.nodeStoryFragment,
       storyFragmentId,
       updateStoryStep,
-      updateRevealContext,
       storyStep,
+      updateRevealContext,
     ]
   )
 
