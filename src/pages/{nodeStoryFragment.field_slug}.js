@@ -309,15 +309,15 @@ const codeHooks = {
 
 const useStore = create(set => ({
   storyStep: {
-    storyFragment: false,
     hasH5P: false,
   },
   panesVisible: {
     last: false,
     footer: false,
-    //revealContext: "8fc3aea8-5e15-5897-ad2d-244f871dc948",
-    revealContext: false, // zeroParty = "8fc3aea8-5e15-5897-ad2d-244f871dc948"
-    gotoLast: false,
+  },
+  revealContext: {
+    slug: false,
+    reveal: undefined,
   },
   updateStoryStep: (key, value) =>
     set(state => ({
@@ -326,6 +326,10 @@ const useStore = create(set => ({
   updatePanesVisible: (key, value) =>
     set(state => ({
       panesVisible: { ...state.panesVisible, [key]: value },
+    })),
+  updateRevealContext: (key, value) =>
+    set(state => ({
+      revealContext: { ...state.revealContext, [key]: value },
     })),
 }))
 
@@ -356,8 +360,10 @@ function useWindowScale() {
 const RenderedStoryFragment = ({ data }) => {
   const updateStoryStep = useStore(state => state.updateStoryStep)
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
+  const updateRevealContext = useStore(state => state.updateRevealContext)
   const storyStep = useStore(state => state.storyStep)
   const panesVisible = useStore(state => state.panesVisible)
+  const revealContext = useStore(state => state.revealContext)
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
@@ -370,6 +376,23 @@ const RenderedStoryFragment = ({ data }) => {
   const scale = useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
+  const allGlobalContext = Object.assign(
+    {},
+    ...data.nodeStoryFragment.relationships.field_tract_stack.relationships.field_context_panes.map(
+      p => {
+        const thisVal = { [p.field_slug]: p.id }
+        return thisVal
+      }
+    )
+  )
+  const allLocalContext = Object.assign(
+    {},
+    ...data.nodeStoryFragment.relationships.field_context_panes.map(p => {
+      const thisVal = { [p.field_slug]: p.id }
+      return thisVal
+    })
+  )
+
   React.useEffect(
     function storeCssVariable() {
       document.documentElement.style.setProperty(
@@ -391,10 +414,10 @@ const RenderedStoryFragment = ({ data }) => {
                 data: data.nodeStoryFragment,
                 viewportKey: viewportKey,
                 codeHooks: codeHooks,
+                updateRevealContext: updateRevealContext,
               })
             : null
-        if (storyFragmentPayload.hasH5P) updateStoryStep("hasH5P", true)
-        else if (storyStep["hasH5P"] !== false) updateStoryStep("hasH5P", false)
+        updateStoryStep("hasH5P", storyFragmentPayload?.hasH5P || false)
         updateStoryStep(
           `${viewportKey}-${storyFragmentId}`,
           storyFragmentPayload
@@ -404,9 +427,10 @@ const RenderedStoryFragment = ({ data }) => {
     [
       viewportKey,
       data.nodeStoryFragment,
-      updateStoryStep,
       storyFragmentId,
+      updateStoryStep,
       storyStep,
+      updateRevealContext,
     ]
   )
 
@@ -423,7 +447,8 @@ const RenderedStoryFragment = ({ data }) => {
                 data.nodeStoryFragment.relationships.field_tract_stack
                   .relationships.field_context_panes,
                 null,
-                viewportKey
+                viewportKey,
+                updateRevealContext
               )
             : null
         updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
@@ -432,56 +457,41 @@ const RenderedStoryFragment = ({ data }) => {
     [
       viewportKey,
       data.nodeStoryFragment,
-      updateStoryStep,
       storyFragmentId,
+      updateStoryStep,
+      updateRevealContext,
       storyStep,
     ]
   )
 
   React.useEffect(
-    function gotoLast() {
+    function toggleContext() {
       if (
         viewportKey !== "server" &&
-        typeof panesVisible["last"] === "string" &&
-        panesVisible["gotoLast"] === true
+        revealContext["slug"] === undefined &&
+        typeof panesVisible["last"] === "string"
       ) {
-        updatePanesVisible("gotoLast", false)
+        updateRevealContext("slug", false)
         const element = document.getElementById(
           `wrapper-${panesVisible["last"]}`
         )
         element.scrollIntoView()
       } else if (
         viewportKey !== "server" &&
-        typeof panesVisible["gotoLast"] === "undefined"
+        typeof revealContext["slug"] === "string" &&
+        revealContext["reveal"] === true
       ) {
-        updatePanesVisible("gotoLast", false)
         const element = document.getElementById(`context`)
         element.scrollIntoView()
+        updateRevealContext("reveal", undefined)
       }
     },
-    [panesVisible, updatePanesVisible, viewportKey]
+    [updateRevealContext, panesVisible, revealContext, viewportKey]
   )
 
   if (viewportKey === "server") return <></>
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
-  const allGlobalContext = Object.assign(
-    {},
-    ...data.nodeStoryFragment.relationships.field_tract_stack.relationships.field_context_panes.map(
-      p => {
-        const thisVal = { [p.field_slug]: p.id }
-        return thisVal
-      }
-    )
-  )
-  const allLocalContext = Object.assign(
-    {},
-    ...data.nodeStoryFragment.relationships.field_context_panes.map(p => {
-      const thisVal = { [p.field_slug]: p.id }
-      return thisVal
-    })
-  )
-
   return (
     <>
       {storyStep["hasH5P"] && (
@@ -505,8 +515,10 @@ const RenderedStoryFragment = ({ data }) => {
       {storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`) ? (
         <>
           <StoryFragment
-            updatePanesVisible={updatePanesVisible}
+            revealContext={revealContext}
+            updateRevealContext={updateRevealContext}
             panesVisible={panesVisible}
+            updatePanesVisible={updatePanesVisible}
             storyFragmentPayload={
               storyStep[`${viewportKey}-${storyFragmentId}`]
             }

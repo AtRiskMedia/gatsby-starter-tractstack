@@ -1,27 +1,25 @@
 import * as React from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
-const Context = ({ children, last, updatePanesVisible }) => {
+const Context = ({ children, last, updateRevealContext }) => {
   function hideContext() {
-    updatePanesVisible("revealContext", false)
-    updatePanesVisible("gotoLast", true)
+    updateRevealContext("slug", undefined)
   }
   React.useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
-        updatePanesVisible("revealContext", false)
-        updatePanesVisible("gotoLast", true)
+        updateRevealContext("slug", undefined)
       }
     }
     document.addEventListener("keydown", handleEscapeKey)
     return () => document.removeEventListener("keydown", handleEscapeKey)
-  }, [updatePanesVisible])
+  }, [updateRevealContext])
 
   return (
     <div id="context" className="z-80010 bg-allblack-seethrough">
       <button
         type="button"
-        className="z-70020 absolute right-8 top-8 rounded-md bg-lightgrey text-black hover:text-white hover:bg-orange focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+        className="z-70020 fixed right-8 top-8 rounded-md bg-lightgrey text-black hover:text-white hover:bg-orange focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
         onClick={() => hideContext()}
       >
         <span className="sr-only">Hide controller</span>

@@ -11,19 +11,24 @@ const StyledWrapperSection = styled.section`
 `
 
 const StoryFragment = ({
-  updatePanesVisible,
   panesVisible,
-  allContext,
+  updatePanesVisible,
+  revealContext,
+  updateRevealContext,
   storyFragmentPayload,
   contextPayload,
+  allContext,
   viewportKey,
   prefersReducedMotion,
 }) => {
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
+  const revealContextSlug =
+    typeof revealContext?.slug === "string" && revealContext.slug.length > 1
+      ? revealContext.slug
+      : false
   const revealContextId =
-    typeof panesVisible.revealContext === "string" &&
-    panesVisible.revealContext.length > 1
-      ? panesVisible["revealContext"]
+    revealContextSlug && allContext.hasOwnProperty(revealContextSlug)
+      ? allContext[revealContextSlug]
       : false
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
@@ -39,9 +44,7 @@ const StoryFragment = ({
   Object.keys(panesVisible).forEach(key => {
     if (
       key !== "last" &&
-      key !== "gotoLast" &&
       key !== "footer" &&
-      key !== "revealContext" &&
       panesVisible[key] === true &&
       impressions.hasOwnProperty(key)
     ) {
@@ -60,9 +63,8 @@ const StoryFragment = ({
         <main>
           {revealContextId ? (
             <Context
-              updatePanesVisible={updatePanesVisible}
+              updateRevealContext={updateRevealContext}
               children={thisContextPayload?.children}
-              last={panesVisible.last}
             />
           ) : (
             <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
@@ -81,8 +83,7 @@ const StoryFragment = ({
             <Controller
               impressions={impressions}
               impressionPanes={impressionPanes}
-              updatePanesVisible={updatePanesVisible}
-              allContext={allContext}
+              updateRevealContext={updateRevealContext}
               viewportKey={viewportKey}
             />
           </aside>

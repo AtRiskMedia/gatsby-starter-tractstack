@@ -603,9 +603,6 @@ div#context {
   position: absolute;
   top: 0;
 }
-div#context__body {
-  overflow-y: auto;
-}
 aside#controller {
   position: fixed;
   bottom: 4vh;

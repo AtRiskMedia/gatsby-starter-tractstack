@@ -5,6 +5,7 @@ import Menu from "../components/menu"
 const storyFragmentCompositor = props => {
   const viewportKey = props.viewportKey
   const codeHooks = props?.codeHooks || {}
+  const updateRevealContext = props?.updateRevealContext || null
   const storyFragmentId = props.data.id
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
@@ -16,7 +17,8 @@ const storyFragmentCompositor = props => {
   const compositedPayload = Compositor(
     panesPayload.concat(contextPanesPayload),
     codeHooks,
-    viewportKey
+    viewportKey,
+    updateRevealContext
   )
   const hasH5P = compositedPayload?.hasH5P
   const menuPayload = props?.data?.relationships?.field_menu

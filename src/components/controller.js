@@ -25,11 +25,11 @@ function useInterval(callback, delay) {
   }, [delay])
 }
 
-const Impression = ({ payload, updatePanesVisible, allContext }) => {
+const Impression = ({ payload, updateRevealContext }) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
   function injectPayload() {
-    concierge(thisButtonPayload, updatePanesVisible, allContext)
+    concierge(thisButtonPayload, updateRevealContext)
   }
   return (
     <>
@@ -57,8 +57,7 @@ const Impression = ({ payload, updatePanesVisible, allContext }) => {
 const Controller = ({
   impressions,
   impressionPanes,
-  updatePanesVisible,
-  allContext,
+  updateRevealContext,
   viewportKey,
 }) => {
   const [offset, setOffset] = React.useState(0)
@@ -96,8 +95,7 @@ const Controller = ({
             </button>
             <Impression
               payload={thisImpression}
-              updatePanesVisible={updatePanesVisible}
-              allContext={allContext}
+              updateRevealContext={updateRevealContext}
             />
           </div>
         </div>
