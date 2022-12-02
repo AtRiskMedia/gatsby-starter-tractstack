@@ -61,7 +61,7 @@ module.exports = {
     {
       resolve: "gatsby-source-drupal",
       options: {
-        baseUrl: "https://edit.tractstack.com/",
+        baseUrl: "https://dev.atriskmedia.com/d/",
         basicAuth: {
           username: process.env.BASIC_AUTH_USERNAME,
           password: process.env.BASIC_AUTH_PASSWORD,
