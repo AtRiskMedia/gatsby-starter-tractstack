@@ -346,8 +346,8 @@ function useWindowScale() {
           thisWidth < 801
             ? thisWidth / 600
             : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920,
+              ? thisWidth / 1080
+              : thisWidth / 1920,
       })
     }
     window.addEventListener("resize", handleResize)
@@ -369,10 +369,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
+      ? "tablet"
+      : breakpoints.desktop
+        ? "desktop"
+        : "server"
   const scale = useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -397,7 +397,7 @@ const RenderedStoryFragment = ({ data }) => {
     function storeCssVariable() {
       document.documentElement.style.setProperty(
         "--scale",
-        scale?.scale * 0.99999
+        scale?.scale * 0.99
       )
     },
     [scale]
@@ -411,11 +411,11 @@ const RenderedStoryFragment = ({ data }) => {
         const storyFragmentPayload =
           viewportKey !== "server"
             ? storyFragmentCompositor({
-                data: data.nodeStoryFragment,
-                viewportKey: viewportKey,
-                codeHooks: codeHooks,
-                updateRevealContext: updateRevealContext,
-              })
+              data: data.nodeStoryFragment,
+              viewportKey: viewportKey,
+              codeHooks: codeHooks,
+              updateRevealContext: updateRevealContext,
+            })
             : null
         updateStoryStep("hasH5P", storyFragmentPayload?.hasH5P || false)
         updateStoryStep(
@@ -431,12 +431,12 @@ const RenderedStoryFragment = ({ data }) => {
         const tractStackContextPayload =
           viewportKey !== "server"
             ? Compositor(
-                data.nodeStoryFragment.relationships.field_tract_stack
-                  .relationships.field_context_panes,
-                null,
-                viewportKey,
-                updateRevealContext
-              )
+              data.nodeStoryFragment.relationships.field_tract_stack
+                .relationships.field_context_panes,
+              null,
+              viewportKey,
+              updateRevealContext
+            )
             : null
         updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
       }
