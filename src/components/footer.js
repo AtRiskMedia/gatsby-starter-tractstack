@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { SocialIcons } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"

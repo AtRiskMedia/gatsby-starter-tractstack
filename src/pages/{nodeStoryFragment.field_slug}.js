@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState, useEffect } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
@@ -334,11 +334,11 @@ const useStore = create(set => ({
 }))
 
 function useWindowScale() {
-  const [windowScale, setWindowScale] = React.useState({
+  const [windowScale, setWindowScale] = useState({
     scale: undefined,
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleResize() {
       const thisWidth = window.innerWidth
       setWindowScale({
@@ -393,16 +393,13 @@ const RenderedStoryFragment = ({ data }) => {
     })
   )
 
-  React.useEffect(
+  useEffect(
     function storeCssVariable() {
-      document.documentElement.style.setProperty(
-        "--scale",
-        scale?.scale * 0.99
-      )
+      document.documentElement.style.setProperty("--scale", scale?.scale * 0.99)
     },
     [scale]
   )
-  React.useEffect(
+  useEffect(
     function bootstrapStoryFragment() {
       if (
         viewportKey !== "server" &&
@@ -451,7 +448,7 @@ const RenderedStoryFragment = ({ data }) => {
     ]
   )
 
-  React.useEffect(
+  useEffect(
     function toggleContext() {
       if (
         viewportKey !== "server" &&
@@ -477,6 +474,19 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   if (viewportKey === "server") return <></>
+
+  /*
+  const [cooldown, setCooldown] = useState(false)
+  const throttle = (func, limit) => {
+    return (...args) => {
+      if (!cooldown) {
+        func(...args)
+        cooldown = setTimeout(() => (cooldown = false), limit)
+      }
+    }
+  }
+  throttle(console.log(2, command), 10000)
+  */
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (

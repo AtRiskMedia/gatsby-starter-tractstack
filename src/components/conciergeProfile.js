@@ -1,17 +1,17 @@
-import * as React from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { concierge, classNames } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"
 
 const ConciergeProfile = () => {
-  const [firstname, setFirstName] = React.useState("")
-  const [lastname, setLastName] = React.useState("")
-  const [email, setEmail] = React.useState("")
-  const [company, setCompany] = React.useState("")
-  const [bio, setBio] = React.useState("")
-  const [submitted, setSubmitted] = React.useState(false)
-  const [success, setSuccess] = React.useState(0)
+  const [firstname, setFirstName] = useState("")
+  const [lastname, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [company, setCompany] = useState("")
+  const [bio, setBio] = useState("")
+  const [submitted, setSubmitted] = useState(false)
+  const [success, setSuccess] = useState(0)
 
   const handleSubmit = e => {
     e.preventDefault()

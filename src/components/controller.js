@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useRef, useEffect } from "react"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 
 import {
@@ -8,13 +8,13 @@ import {
 } from "gatsby-plugin-tractstack"
 
 function useInterval(callback, delay) {
-  const savedCallback = React.useRef()
+  const savedCallback = useRef()
   // Remember the latest function.
-  React.useEffect(() => {
+  useEffect(() => {
     savedCallback.current = callback
   }, [callback])
   // Set up the interval.
-  React.useEffect(() => {
+  useEffect(() => {
     function tick() {
       savedCallback.current()
     }

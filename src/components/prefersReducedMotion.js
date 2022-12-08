@@ -1,10 +1,10 @@
-import * as React from "react"
+import { useEffect, useState } from "react"
 
 const mediaQuery = "(prefers-reduced-motion: no-preference)"
 
 function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(true)
-  React.useEffect(() => {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true)
+  useEffect(() => {
     const mediaQueryList = window.matchMedia(mediaQuery)
     setPrefersReducedMotion(!window.matchMedia(mediaQuery).matches)
     const listener = event => {

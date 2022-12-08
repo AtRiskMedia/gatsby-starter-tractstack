@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 
 import D3 from "../components/D3"
 

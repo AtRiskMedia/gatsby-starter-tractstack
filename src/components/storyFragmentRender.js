@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { InView } from "react-cool-inview"
 import { classNames } from "gatsby-plugin-tractstack"
 

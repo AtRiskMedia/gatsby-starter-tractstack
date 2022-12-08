@@ -1,11 +1,11 @@
-import * as React from "react"
+import React, { useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
 const Context = ({ children, last, updateRevealContext }) => {
   function hideContext() {
     updateRevealContext("slug", undefined)
   }
-  React.useEffect(() => {
+  useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
         updateRevealContext("slug", undefined)
