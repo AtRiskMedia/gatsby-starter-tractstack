@@ -1,27 +1,12 @@
-import React, { useRef, useEffect } from "react"
+import React from "react"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 
 import {
   getControllerPayload,
   concierge,
   lispLexer,
+  useInterval,
 } from "gatsby-plugin-tractstack"
-
-function useInterval(callback, delay) {
-  const savedCallback = useRef()
-  useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
-  useEffect(() => {
-    function tick() {
-      savedCallback.current()
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay)
-      return () => clearInterval(id)
-    }
-  }, [delay])
-}
 
 const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
   if (typeof payload !== "object") return <></>

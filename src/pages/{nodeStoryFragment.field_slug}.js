@@ -4,7 +4,11 @@ import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
 import { InView } from "react-cool-inview"
 import create from "zustand"
-import { Compositor } from "gatsby-plugin-tractstack"
+import {
+  Compositor,
+  useInterval,
+  getScrollbarSize,
+} from "gatsby-plugin-tractstack"
 
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
@@ -319,9 +323,7 @@ const useStore = create(set => ({
     slug: false,
     reveal: undefined,
   },
-  eventStream: {
-    lastRun: 0,
-  },
+  eventStream: {},
   updateStoryStep: (key, value) =>
     set(state => ({
       storyStep: { ...state.storyStep, [key]: value },
@@ -343,14 +345,15 @@ const useStore = create(set => ({
 function useWindowScale() {
   useEffect(() => {
     function handleResize() {
-      const thisWidth = window.innerWidth
+      const scrollBarOffset = getScrollbarSize()
+      const thisWidth = window.innerWidth - scrollBarOffset
       const thisScale =
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
             ? thisWidth / 1080
             : thisWidth / 1920
-      document.documentElement.style.setProperty("--scale", thisScale * 0.97)
+      document.documentElement.style.setProperty("--scale", thisScale * 1)
     }
     window.addEventListener("resize", handleResize)
     handleResize()
@@ -416,6 +419,12 @@ const RenderedStoryFragment = ({ data }) => {
         updateEventStream
       )
       : null
+
+  //const [delay, setDelay] = React.useState(2200)
+  const delay = 22000
+  useInterval(() => {
+    //console.log(Date.now(), eventStream)
+  }, delay)
 
   useEffect(
     function bootstrapStoryFragment() {
