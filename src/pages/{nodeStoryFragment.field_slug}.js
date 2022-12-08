@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
@@ -319,6 +319,9 @@ const useStore = create(set => ({
     slug: false,
     reveal: undefined,
   },
+  eventStream: {
+    lastRun: 0,
+  },
   updateStoryStep: (key, value) =>
     set(state => ({
       storyStep: { ...state.storyStep, [key]: value },
@@ -331,49 +334,49 @@ const useStore = create(set => ({
     set(state => ({
       revealContext: { ...state.revealContext, [key]: value },
     })),
+  updateEventStream: (key, value) =>
+    set(state => ({
+      eventStream: { ...state.eventStream, [key]: value },
+    })),
 }))
 
 function useWindowScale() {
-  const [windowScale, setWindowScale] = useState({
-    scale: undefined,
-  })
-
   useEffect(() => {
     function handleResize() {
       const thisWidth = window.innerWidth
-      setWindowScale({
-        scale:
-          thisWidth < 801
-            ? thisWidth / 600
-            : thisWidth < 1367
-              ? thisWidth / 1080
-              : thisWidth / 1920,
-      })
+      const thisScale =
+        thisWidth < 801
+          ? thisWidth / 600
+          : thisWidth < 1367
+          ? thisWidth / 1080
+          : thisWidth / 1920
+      document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
     handleResize()
     return () => window.removeEventListener("resize", handleResize)
   }, [])
-  return windowScale
 }
 
 const RenderedStoryFragment = ({ data }) => {
   const updateStoryStep = useStore(state => state.updateStoryStep)
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
   const updateRevealContext = useStore(state => state.updateRevealContext)
+  const updateEventStream = useStore(state => state.updateEventStream)
   const storyStep = useStore(state => state.storyStep)
   const panesVisible = useStore(state => state.panesVisible)
   const revealContext = useStore(state => state.revealContext)
+  const eventStream = useStore(state => state.eventStream)
   const prefersReducedMotion = usePrefersReducedMotion()
   const breakpoints = useBreakpoint()
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
-  const scale = useWindowScale()
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
+  useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
   const allGlobalContext = Object.assign(
@@ -392,28 +395,35 @@ const RenderedStoryFragment = ({ data }) => {
       return thisVal
     })
   )
+  const storyFragmentPayload =
+    viewportKey !== "server"
+      ? storyFragmentCompositor({
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          updateRevealContext: updateRevealContext,
+          updateEventStream: updateEventStream,
+        })
+      : null
+  const tractStackContextPayload =
+    viewportKey !== "server" && typeof storyFragmentPayload === "object"
+      ? Compositor(
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          updateRevealContext,
+          updateEventStream
+        )
+      : null
 
-  useEffect(
-    function storeCssVariable() {
-      document.documentElement.style.setProperty("--scale", scale?.scale * 0.99)
-    },
-    [scale]
-  )
   useEffect(
     function bootstrapStoryFragment() {
       if (
         viewportKey !== "server" &&
+        typeof storyFragmentPayload === "object" &&
         !storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
       ) {
-        const storyFragmentPayload =
-          viewportKey !== "server"
-            ? storyFragmentCompositor({
-              data: data.nodeStoryFragment,
-              viewportKey: viewportKey,
-              codeHooks: codeHooks,
-              updateRevealContext: updateRevealContext,
-            })
-            : null
         updateStoryStep("hasH5P", storyFragmentPayload?.hasH5P || false)
         updateStoryStep(
           `${viewportKey}-${storyFragmentId}`,
@@ -422,29 +432,20 @@ const RenderedStoryFragment = ({ data }) => {
       }
       if (
         viewportKey !== "server" &&
+        typeof tractStackContextPayload === "object" &&
         !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
         storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
       ) {
-        const tractStackContextPayload =
-          viewportKey !== "server"
-            ? Compositor(
-              data.nodeStoryFragment.relationships.field_tract_stack
-                .relationships.field_context_panes,
-              null,
-              viewportKey,
-              updateRevealContext
-            )
-            : null
         updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
       }
     },
     [
       viewportKey,
-      data.nodeStoryFragment,
       storyFragmentId,
+      storyFragmentPayload,
+      tractStackContextPayload,
       updateStoryStep,
       storyStep,
-      updateRevealContext,
     ]
   )
 
@@ -474,7 +475,7 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   if (viewportKey === "server") return <></>
-
+  //console.log("eventStream", eventStream)
   /*
   const [cooldown, setCooldown] = useState(false)
   const throttle = (func, limit) => {
@@ -514,6 +515,7 @@ const RenderedStoryFragment = ({ data }) => {
           <StoryFragment
             revealContext={revealContext}
             updateRevealContext={updateRevealContext}
+            updateEventStream={updateEventStream}
             panesVisible={panesVisible}
             updatePanesVisible={updatePanesVisible}
             storyFragmentPayload={

@@ -6,6 +6,7 @@ const storyFragmentCompositor = props => {
   const viewportKey = props.viewportKey
   const codeHooks = props?.codeHooks || {}
   const updateRevealContext = props?.updateRevealContext || null
+  const updateEventStream = props?.updateEventStream || null
   const storyFragmentId = props.data.id
   const storyFragmentTitle = props.data.title
   const storyFragmentSlug = props.data.field_slug
@@ -18,7 +19,8 @@ const storyFragmentCompositor = props => {
     panesPayload.concat(contextPanesPayload),
     codeHooks,
     viewportKey,
-    updateRevealContext
+    updateRevealContext,
+    updateEventStream
   )
   const hasH5P = compositedPayload?.hasH5P
   const menuPayload = props?.data?.relationships?.field_menu

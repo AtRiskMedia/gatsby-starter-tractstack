@@ -9,11 +9,9 @@ import {
 
 function useInterval(callback, delay) {
   const savedCallback = useRef()
-  // Remember the latest function.
   useEffect(() => {
     savedCallback.current = callback
   }, [callback])
-  // Set up the interval.
   useEffect(() => {
     function tick() {
       savedCallback.current()
@@ -25,11 +23,11 @@ function useInterval(callback, delay) {
   }, [delay])
 }
 
-const Impression = ({ payload, updateRevealContext }) => {
+const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
   function injectPayload() {
-    concierge(thisButtonPayload, updateRevealContext)
+    concierge(thisButtonPayload, updateRevealContext, updateEventStream)
   }
   return (
     <>
@@ -58,6 +56,7 @@ const Controller = ({
   impressions,
   impressionPanes,
   updateRevealContext,
+  updateEventStream,
   viewportKey,
 }) => {
   const [offset, setOffset] = React.useState(0)
@@ -96,6 +95,7 @@ const Controller = ({
             <Impression
               payload={thisImpression}
               updateRevealContext={updateRevealContext}
+              updateEventStream={updateEventStream}
             />
           </div>
         </div>

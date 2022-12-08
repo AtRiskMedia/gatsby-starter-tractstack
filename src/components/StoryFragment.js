@@ -15,6 +15,7 @@ const StoryFragment = ({
   updatePanesVisible,
   revealContext,
   updateRevealContext,
+  updateEventStream,
   storyFragmentPayload,
   contextPayload,
   allContext,
@@ -84,6 +85,7 @@ const StoryFragment = ({
               impressions={impressions}
               impressionPanes={impressionPanes}
               updateRevealContext={updateRevealContext}
+              updateEventStream={updateEventStream}
               viewportKey={viewportKey}
             />
           </aside>
