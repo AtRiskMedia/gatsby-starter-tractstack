@@ -98,6 +98,7 @@ export const query = graphql`
           id
           title
           field_slug
+          field_options
           field_height_ratio_mobile
           field_height_ratio_tablet
           field_height_ratio_desktop
@@ -340,6 +341,17 @@ const useStore = create(set => ({
     set(state => ({
       eventStream: { ...state.eventStream, [key]: value },
     })),
+  updateEventStreamCleanup: lastRun =>
+    set(state => ({
+      eventStream: {
+        ...Object.keys(state.eventStream)
+          .filter(k => k > lastRun)
+          .reduce((obj, key) => {
+            obj[key] = state.eventStream[key]
+            return obj
+          }, {}),
+      },
+    })),
 }))
 
 function useWindowScale() {
@@ -366,6 +378,9 @@ const RenderedStoryFragment = ({ data }) => {
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
   const updateRevealContext = useStore(state => state.updateRevealContext)
   const updateEventStream = useStore(state => state.updateEventStream)
+  const updateEventStreamCleanup = useStore(
+    state => state.updateEventStreamCleanup
+  )
   const storyStep = useStore(state => state.storyStep)
   const panesVisible = useStore(state => state.panesVisible)
   const revealContext = useStore(state => state.revealContext)
@@ -421,9 +436,22 @@ const RenderedStoryFragment = ({ data }) => {
       : null
 
   //const [delay, setDelay] = React.useState(2200)
+  const [lastRun, setLastRun] = React.useState(0)
   const delay = 20000
   useInterval(() => {
-    console.log(Date.now(), eventStream)
+    const now = Date.now()
+    console.log(now, eventStream)
+    const payload =
+      typeof eventStream === "object"
+        ? Object.keys(eventStream)
+            .filter(k => k <= now && k > lastRun)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
+        : {}
+    updateEventStreamCleanup(now)
+    setLastRun(now)
   }, delay)
 
   useEffect(
@@ -484,19 +512,6 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   if (viewportKey === "server") return <></>
-  //console.log("eventStream", eventStream)
-  /*
-  const [cooldown, setCooldown] = useState(false)
-  const throttle = (func, limit) => {
-    return (...args) => {
-      if (!cooldown) {
-        func(...args)
-        cooldown = setTimeout(() => (cooldown = false), limit)
-      }
-    }
-  }
-  throttle(console.log(2, command), 10000)
-  */
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (

@@ -46,7 +46,7 @@ const StoryFragment = ({
     if (
       key !== "last" &&
       key !== "footer" &&
-      panesVisible[key] === true &&
+      typeof panesVisible[key] === "number" &&
       impressions.hasOwnProperty(key)
     ) {
       if (panesVisible["last"] === key) impressionPanes.unshift(key)
@@ -72,7 +72,9 @@ const StoryFragment = ({
               <StoryFragmentRender
                 storyFragmentPayload={storyFragmentPayload}
                 viewportKey={viewportKey}
+                panesVisible={panesVisible}
                 updatePanesVisible={updatePanesVisible}
+                updateEventStream={updateEventStream}
               />
             </StyledWrapperSection>
           )}
