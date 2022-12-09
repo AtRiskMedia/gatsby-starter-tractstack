@@ -440,7 +440,6 @@ const RenderedStoryFragment = ({ data }) => {
   const delay = config.threshold
   useInterval(() => {
     const now = Date.now()
-    console.log(now, eventStream)
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
