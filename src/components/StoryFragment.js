@@ -64,7 +64,9 @@ const StoryFragment = ({
         <main>
           {revealContextId ? (
             <Context
+              revealContext={revealContext}
               updateRevealContext={updateRevealContext}
+              updateEventStream={updateEventStream}
               children={thisContextPayload?.children}
             />
           ) : (

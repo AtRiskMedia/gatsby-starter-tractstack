@@ -1,14 +1,35 @@
 import React, { useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
-const Context = ({ children, last, updateRevealContext }) => {
+import config from "../../data/SiteConfig"
+
+const threshold = config.threshold
+
+const Context = ({
+  children,
+  updateRevealContext,
+  updateEventStream,
+  revealContext,
+}) => {
+  let duration = 0
   function hideContext() {
+    duration = Date.now() - revealContext.reveal
+    console.log(duration, threshold)
+    if (duration > threshold)
+      updateEventStream(Date.now(), {
+        command: "read",
+        payload: {
+          slug: revealContext.slug,
+          type: "context",
+          duration: duration,
+        },
+      })
     updateRevealContext("slug", undefined)
   }
   useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
-        updateRevealContext("slug", undefined)
+        hideContext()
       }
     }
     document.addEventListener("keydown", handleEscapeKey)

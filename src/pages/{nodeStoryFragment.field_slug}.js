@@ -10,6 +10,7 @@ import {
   getScrollbarSize,
 } from "gatsby-plugin-tractstack"
 
+import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
 import Seo from "../components/seo"
@@ -363,8 +364,8 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 1)
     }
     window.addEventListener("resize", handleResize)
@@ -390,10 +391,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
+      ? "tablet"
+      : breakpoints.desktop
+        ? "desktop"
+        : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -416,39 +417,38 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+        updateEventStream: updateEventStream,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext,
+        updateEventStream
+      )
       : null
 
-  //const [delay, setDelay] = React.useState(2200)
   const [lastRun, setLastRun] = React.useState(0)
-  const delay = 20000
+  const delay = config.threshold
   useInterval(() => {
     const now = Date.now()
     console.log(now, eventStream)
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastRun)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastRun)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
     updateEventStreamCleanup(now)
     setLastRun(now)
@@ -488,6 +488,7 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function toggleContext() {
+      const now = Date.now()
       if (
         viewportKey !== "server" &&
         revealContext["slug"] === undefined &&
@@ -501,7 +502,7 @@ const RenderedStoryFragment = ({ data }) => {
       } else if (
         viewportKey !== "server" &&
         typeof revealContext["slug"] === "string" &&
-        revealContext["reveal"] === true
+        revealContext["reveal"] === Date.now()
       ) {
         const element = document.getElementById(`context`)
         element.scrollIntoView()

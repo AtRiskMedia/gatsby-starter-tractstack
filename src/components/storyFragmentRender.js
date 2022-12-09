@@ -2,7 +2,9 @@ import React from "react"
 import { InView } from "react-cool-inview"
 import { classNames } from "gatsby-plugin-tractstack"
 
-const threshold = 22000
+import config from "../../data/SiteConfig"
+
+const threshold = config.threshold
 
 const Pane = ({ thisId, children, inView, observe, hasMaxHScreen }) => (
   <div
