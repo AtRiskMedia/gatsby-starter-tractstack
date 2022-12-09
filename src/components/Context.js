@@ -11,10 +11,8 @@ const Context = ({
   updateEventStream,
   revealContext,
 }) => {
-  let duration = 0
   function hideContext() {
-    duration = Date.now() - revealContext.reveal
-    console.log(duration, threshold)
+    const duration = Date.now() - revealContext.reveal
     if (duration > threshold)
       updateEventStream(Date.now(), {
         command: "read",
@@ -29,12 +27,27 @@ const Context = ({
   useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
-        hideContext()
+        const duration = Date.now() - revealContext.reveal
+        if (duration > threshold)
+          updateEventStream(Date.now(), {
+            command: "read",
+            payload: {
+              slug: revealContext.slug,
+              type: "context",
+              duration: duration,
+            },
+          })
+        updateRevealContext("slug", undefined)
       }
     }
     document.addEventListener("keydown", handleEscapeKey)
     return () => document.removeEventListener("keydown", handleEscapeKey)
-  }, [updateRevealContext])
+  }, [
+    updateRevealContext,
+    revealContext.reveal,
+    revealContext.slug,
+    updateEventStream,
+  ])
 
   return (
     <div id="context" className="z-80010 bg-allblack-seethrough">

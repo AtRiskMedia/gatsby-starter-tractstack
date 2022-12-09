@@ -78,21 +78,21 @@ const FormContact = updateEventStream => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     First name
+                    <input
+                      type="text"
+                      name="firstname"
+                      id="firstname"
+                      autoComplete="given-name"
+                      defaultValue={firstname}
+                      onBlur={e => setFirstName(e.target.value)}
+                      className={classNames(
+                        "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                        submitted && firstname === ""
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      )}
+                    />
                   </label>
-                  <input
-                    type="text"
-                    name="firstname"
-                    id="firstname"
-                    autoComplete="given-name"
-                    defaultValue={firstname}
-                    onBlur={e => setFirstName(e.target.value)}
-                    className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                      submitted && firstname === ""
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    )}
-                  />
                   {submitted && firstname === "" && (
                     <span className="text-xs px-2 text-red-500">
                       Required field.
@@ -102,58 +102,58 @@ const FormContact = updateEventStream => {
 
                 <div className="col-span-4 md:col-span-2">
                   <label
-                    htmlFor="last-name"
+                    htmlFor="lastname"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Last name
-                  </label>
-                  <input
-                    type="text"
-                    name="lastname"
-                    id="lastname"
-                    autoComplete="family-name"
-                    defaultValue={lastname}
-                    onBlur={e => setLastName(e.target.value)}
-                    className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                      submitted && firstname === ""
-                        ? "border-red-500"
-                        : "border-gray-300"
+                    <input
+                      type="text"
+                      name="lastname"
+                      id="lastname"
+                      autoComplete="family-name"
+                      defaultValue={lastname}
+                      onBlur={e => setLastName(e.target.value)}
+                      className={classNames(
+                        "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                        submitted && firstname === ""
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      )}
+                    />
+                    {submitted && lastname === "" && (
+                      <span className="text-xs px-2 text-red-500">
+                        Required field.
+                      </span>
                     )}
-                  />
-                  {submitted && lastname === "" && (
-                    <span className="text-xs px-2 text-red-500">
-                      Required field.
-                    </span>
-                  )}
+                  </label>
                 </div>
 
                 <div className="col-span-4 lg:col-span-2">
                   <label
-                    htmlFor="email-address"
+                    htmlFor="email"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Email address
-                  </label>
-                  <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    autoComplete="email"
-                    defaultValue={email}
-                    onBlur={e => setEmail(e.target.value)}
-                    className={classNames(
-                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                      submitted && firstname === ""
-                        ? "border-red-500"
-                        : "border-gray-300"
+                    <input
+                      type="text"
+                      name="email"
+                      id="email"
+                      autoComplete="email"
+                      defaultValue={email}
+                      onBlur={e => setEmail(e.target.value)}
+                      className={classNames(
+                        "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                        submitted && firstname === ""
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      )}
+                    />
+                    {submitted && email === "" && (
+                      <span className="text-xs px-2 text-red-500">
+                        Required field.
+                      </span>
                     )}
-                  />
-                  {submitted && email === "" && (
-                    <span className="text-xs px-2 text-red-500">
-                      Required field.
-                    </span>
-                  )}
+                  </label>
                 </div>
 
                 <div className="col-span-4 lg:col-span-2">
@@ -162,15 +162,15 @@ const FormContact = updateEventStream => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Company
+                    <input
+                      type="text"
+                      name="company"
+                      id="company"
+                      defaultValue={company}
+                      onBlur={e => setCompany(e.target.value)}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                    />
                   </label>
-                  <input
-                    type="text"
-                    name="company"
-                    id="company"
-                    defaultValue={company}
-                    onBlur={e => setCompany(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
-                  />
                 </div>
 
                 <div className="col-span-4 md:col-span-4">
@@ -179,18 +179,18 @@ const FormContact = updateEventStream => {
                     className="block text-sm font-medium text-gray-700"
                   >
                     Short Bio
+                    <div className="mt-1">
+                      <textarea
+                        id="bio"
+                        name="bio"
+                        rows={3}
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                        placeholder="Your one-liner bio"
+                        defaultValue={""}
+                        onBlur={e => setBio(e.target.value)}
+                      />
+                    </div>
                   </label>
-                  <div className="mt-1">
-                    <textarea
-                      id="bio"
-                      name="bio"
-                      rows={3}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
-                      placeholder="Your one-liner bio"
-                      defaultValue={""}
-                      onBlur={e => setBio(e.target.value)}
-                    />
-                  </div>
                 </div>
 
                 <div className="col-span-4">

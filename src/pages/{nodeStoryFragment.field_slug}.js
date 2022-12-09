@@ -364,9 +364,9 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
-      document.documentElement.style.setProperty("--scale", thisScale * 1)
+          ? thisWidth / 1080
+          : thisWidth / 1920
+      document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
     handleResize()
@@ -391,10 +391,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -417,23 +417,23 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        updateRevealContext: updateRevealContext,
-        updateEventStream: updateEventStream,
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          updateRevealContext: updateRevealContext,
+          updateEventStream: updateEventStream,
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        updateRevealContext,
-        updateEventStream
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          updateRevealContext,
+          updateEventStream
+        )
       : null
 
   const [lastRun, setLastRun] = React.useState(0)
@@ -443,11 +443,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k <= now && k > lastRun)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k <= now && k > lastRun)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     updateEventStreamCleanup(now)
     setLastRun(now)
