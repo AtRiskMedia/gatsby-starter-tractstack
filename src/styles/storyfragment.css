@@ -288,13 +288,6 @@ button {
   height: 100%;
 }
 
-.svg-shape-outside-left {
-  fill: red;
-}
-.svg-shape-outside-right {
-  fill: yellow;
-}
-
 .svg-shape-outside__pane-left--mobile,
 .svg-shape-outside__pane-right--mobile {
   width: calc(var(--scale) * 300 * 1px);

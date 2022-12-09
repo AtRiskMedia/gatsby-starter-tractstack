@@ -351,8 +351,8 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 1)
     }
     window.addEventListener("resize", handleResize)
@@ -375,10 +375,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -401,29 +401,29 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        updateRevealContext: updateRevealContext,
-        updateEventStream: updateEventStream,
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          updateRevealContext: updateRevealContext,
+          updateEventStream: updateEventStream,
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        updateRevealContext,
-        updateEventStream
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          updateRevealContext,
+          updateEventStream
+        )
       : null
 
   //const [delay, setDelay] = React.useState(2200)
-  const delay = 22000
+  const delay = 20000
   useInterval(() => {
-    //console.log(Date.now(), eventStream)
+    console.log(Date.now(), eventStream)
   }, delay)
 
   useEffect(

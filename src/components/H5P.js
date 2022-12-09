@@ -1,7 +1,7 @@
 import React from "react"
 import { concierge } from "gatsby-plugin-tractstack"
 
-const H5p = ({ src, title, slug }) => {
+const H5P = ({ src, title, slug, updateEventStream }) => {
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
@@ -42,7 +42,11 @@ const H5p = ({ src, title, slug }) => {
               score,
               durationInSeconds
             )
-            concierge(["h5p", [verb, [id, name, type, score]]])
+            concierge(
+              ["h5p", [verb, [id, name, type, score]]],
+              false,
+              updateEventStream
+            )
           }
         )
       }
@@ -60,4 +64,4 @@ const H5p = ({ src, title, slug }) => {
   )
 }
 
-export default H5p
+export default H5P
