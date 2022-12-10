@@ -8,6 +8,10 @@ import {
   useInterval,
 } from "gatsby-plugin-tractstack"
 
+import config from "../../data/SiteConfig"
+
+const impressionsDelay = config.impressionsDelay
+
 const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
@@ -45,14 +49,12 @@ const Controller = ({
   viewportKey,
 }) => {
   const [offset, setOffset] = React.useState(0)
-  //const [delay, setDelay] = React.useState(2200)
-  const delay = 22000
   const [open, setOpen] = React.useState(true)
 
   useInterval(() => {
     if (impressionPanes.length > offset + 1) setOffset(offset + 1)
     else setOffset(0)
-  }, delay)
+  }, impressionsDelay)
   const offsetImpression = impressionPanes.hasOwnProperty(offset)
     ? impressions[impressionPanes[offset]].payload
     : impressions[impressionPanes[0]].payload

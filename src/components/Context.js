@@ -3,7 +3,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 
 import config from "../../data/SiteConfig"
 
-const threshold = config.threshold
+const readThreshold = config.readThreshold
 
 const Context = ({
   children,
@@ -13,7 +13,7 @@ const Context = ({
 }) => {
   function hideContext() {
     const duration = Date.now() - revealContext.reveal
-    if (duration > threshold)
+    if (duration > readThreshold)
       updateEventStream(Date.now(), {
         command: "read",
         payload: {
@@ -28,7 +28,7 @@ const Context = ({
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
         const duration = Date.now() - revealContext.reveal
-        if (duration > threshold)
+        if (duration > readThreshold)
           updateEventStream(Date.now(), {
             command: "read",
             payload: {

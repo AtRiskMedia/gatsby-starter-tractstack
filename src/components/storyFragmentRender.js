@@ -4,7 +4,7 @@ import { classNames } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"
 
-const threshold = config.threshold
+const readThreshold = config.readThreshold
 
 const Pane = ({ thisId, children, inView, observe, hasMaxHScreen }) => (
   <div
@@ -53,7 +53,7 @@ const StoryFragmentRender = ({
             }}
             onLeave={() => {
               const duration = Date.now() - panesVisible[p]
-              if (duration > threshold)
+              if (duration > readThreshold)
                 updateEventStream(Date.now(), {
                   command: "read",
                   payload: { paneId: p, type: "pane", duration: duration },

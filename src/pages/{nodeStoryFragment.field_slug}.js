@@ -342,11 +342,11 @@ const useStore = create(set => ({
     set(state => ({
       eventStream: { ...state.eventStream, [key]: value },
     })),
-  updateEventStreamCleanup: lastRun =>
+  updateEventStreamCleanup: lastSync =>
     set(state => ({
       eventStream: {
         ...Object.keys(state.eventStream)
-          .filter(k => k > lastRun)
+          .filter(k => k > lastSync)
           .reduce((obj, key) => {
             obj[key] = state.eventStream[key]
             return obj
@@ -364,8 +364,8 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -391,10 +391,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
+      ? "tablet"
+      : breakpoints.desktop
+        ? "desktop"
+        : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -417,41 +417,55 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+        updateEventStream: updateEventStream,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext,
+        updateEventStream
+      )
       : null
 
-  const [lastRun, setLastRun] = React.useState(0)
-  const delay = config.threshold
+  const [lastSync, setLastSync] = React.useState(0)
+  const [lastRead, setLastRead] = React.useState(0)
   useInterval(() => {
     const now = Date.now()
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastRun)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
+    const currentPaneId = panesVisible.last
+    const detectRead =
+      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
+        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
+        : null
+    if (detectRead) {
+      console.log("read", Date.now())
+      const duration = Date.now() - panesVisible[currentPaneId]
+      setLastRead(currentPaneId)
+      updateEventStream(Date.now() + 1, {
+        command: "read",
+        payload: { id: currentPaneId, duration: duration },
+      })
+    }
     updateEventStreamCleanup(now)
-    setLastRun(now)
-  }, delay)
+    setLastSync(now)
+  }, config.conciergeSync)
 
   useEffect(
     function bootstrapStoryFragment() {
@@ -487,7 +501,6 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function toggleContext() {
-      const now = Date.now()
       if (
         viewportKey !== "server" &&
         revealContext["slug"] === undefined &&
