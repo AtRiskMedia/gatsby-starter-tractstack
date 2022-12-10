@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
@@ -9,6 +9,7 @@ import {
   useInterval,
   getScrollbarSize,
 } from "gatsby-plugin-tractstack"
+import { getCurrentBrowserFingerPrint } from "@rajesh896/broprint.js"
 
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
@@ -375,6 +376,37 @@ function useWindowScale() {
 }
 
 const RenderedStoryFragment = ({ data }) => {
+  const [fingerprint, setFingerprint] = useState(() => {
+    const item = localStorage.getItem("fingerprint")
+    const val = JSON.parse(item) || false
+    return val
+  })
+  const [fingerprintCheck, setFingerprintCheck] = useState(() => {
+    const item = localStorage.getItem("fingerprint")
+    const val = JSON.parse(item) || false
+    if (val === "masked") return undefined
+    if (val && String(fingerprint) === val) {
+      return true
+    }
+    return false
+  })
+  if (fingerprint === false)
+    getCurrentBrowserFingerPrint().then(fingerprint1 => {
+      setFingerprint(String(fingerprint1))
+    })
+  if (fingerprint !== false && fingerprintCheck === false)
+    getCurrentBrowserFingerPrint().then(fingerprint2 => {
+      if (fingerprint !== String(fingerprint2)) {
+        console.log("bad match", fingerprint, fingerprint2)
+        setFingerprint("masked")
+        setFingerprintCheck(undefined)
+        localStorage.setItem("fingerprint", "masked")
+      } else {
+        console.log("found")
+        setFingerprintCheck(true)
+        localStorage.setItem("fingerprint", fingerprint)
+      }
+    })
   const updateStoryStep = useStore(state => state.updateStoryStep)
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
   const updateRevealContext = useStore(state => state.updateRevealContext)
@@ -466,6 +498,10 @@ const RenderedStoryFragment = ({ data }) => {
     updateEventStreamCleanup(now)
     setLastSync(now)
   }, config.conciergeSync)
+
+  useEffect(() => {
+    localStorage.setItem("fingerprint", JSON.stringify(fingerprint))
+  }, [fingerprint])
 
   useEffect(
     function bootstrapStoryFragment() {

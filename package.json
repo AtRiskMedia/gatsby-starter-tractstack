@@ -6,6 +6,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.5",
     "@heroicons/react": "^2.0.13",
+    "@rajesh896/broprint.js": "^2.1.1",
     "@tailwindcss/forms": "^0.5.3",
     "add": "^2.0.6",
     "autoprefixer": "^10.4.13",
@@ -21,6 +22,8 @@
     "gatsby-source-filesystem": "^5.2.0",
     "gatsby-transformer-remark": "^6.2.0",
     "gatsby-transformer-sharp": "^5.2.0",
+    "i": "^0.3.7",
+    "npm": "^9.2.0",
     "postcss": "^8.4.19",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
