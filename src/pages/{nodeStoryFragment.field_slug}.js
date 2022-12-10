@@ -9,6 +9,7 @@ import {
   useInterval,
   getScrollbarSize,
 } from "gatsby-plugin-tractstack"
+import { FpjsProvider } from "@fingerprintjs/fingerprintjs-pro-react"
 
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
@@ -364,8 +365,8 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -391,10 +392,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-      ? "tablet"
-      : breakpoints.desktop
-        ? "desktop"
-        : "server"
+    ? "tablet"
+    : breakpoints.desktop
+    ? "desktop"
+    : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -417,23 +418,23 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        updateRevealContext: updateRevealContext,
-        updateEventStream: updateEventStream,
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          updateRevealContext: updateRevealContext,
+          updateEventStream: updateEventStream,
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        updateRevealContext,
-        updateEventStream
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          updateRevealContext,
+          updateEventStream
+        )
       : null
 
   const [lastSync, setLastSync] = React.useState(0)
@@ -443,11 +444,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k <= now && k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k <= now && k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     const currentPaneId = panesVisible.last
     const detectRead =
@@ -527,7 +528,15 @@ const RenderedStoryFragment = ({ data }) => {
 
   //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
-    <>
+    <FpjsProvider
+      loadOptions={{
+        apiKey: "qKSRaRD0VobVDkaUKoIf",
+        scriptUrlPattern:
+          "https://dev.atriskmedia.com/8jAfVYQ0yFeAVLK4/EJPZvEDNK59Z10aJ?apiKey=<apiKey>&version=<version>&loaderVersion=<loaderVersion>",
+        endpoint:
+          "https://dev.atriskmedia.com/8jAfVYQ0yFeAVLK4/xqEs8GmKE36RcXDN",
+      }}
+    >
       {storyStep["hasH5P"] && (
         <Helmet>
           <script src="/h5p-resizer.js" />
@@ -580,7 +589,7 @@ const RenderedStoryFragment = ({ data }) => {
       ) : (
         <></>
       )}
-    </>
+    </FpjsProvider>
   )
 }
 
