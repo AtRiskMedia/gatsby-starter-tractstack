@@ -455,7 +455,6 @@ const RenderedStoryFragment = ({ data }) => {
         ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
         : null
     if (detectRead) {
-      console.log("read", Date.now())
       const duration = Date.now() - panesVisible[currentPaneId]
       setLastRead(currentPaneId)
       updateEventStream(Date.now() + 1, {
