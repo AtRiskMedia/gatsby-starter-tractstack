@@ -377,12 +377,18 @@ function useWindowScale() {
 
 const RenderedStoryFragment = ({ data }) => {
   const [fingerprint, setFingerprint] = useState(() => {
-    const item = localStorage.getItem("fingerprint")
+    const item =
+      typeof localStorage === "object"
+        ? localStorage.getItem("fingerprint")
+        : null
     const val = JSON.parse(item) || false
     return val
   })
   const [fingerprintCheck, setFingerprintCheck] = useState(() => {
-    const item = localStorage.getItem("fingerprint")
+    const item =
+      typeof localStorage === "object"
+        ? localStorage.getItem("fingerprint")
+        : null
     const val = JSON.parse(item) || false
     if (val === "masked") return undefined
     if (val && String(fingerprint) === val) {
@@ -400,11 +406,13 @@ const RenderedStoryFragment = ({ data }) => {
         console.log("bad match", fingerprint, fingerprint2)
         setFingerprint("masked")
         setFingerprintCheck(undefined)
-        localStorage.setItem("fingerprint", "masked")
+        if (typeof localStorage === "object")
+          localStorage.setItem("fingerprint", "masked")
       } else {
         console.log("found")
         setFingerprintCheck(true)
-        localStorage.setItem("fingerprint", fingerprint)
+        if (typeof localStorage === "object")
+          localStorage.setItem("fingerprint", fingerprint)
       }
     })
   const updateStoryStep = useStore(state => state.updateStoryStep)
