@@ -382,7 +382,6 @@ const RenderedStoryFragment = ({ data }) => {
         ? localStorage.getItem("fingerprint")
         : null
     const val = JSON.parse(item) || false
-    console.log("cached", val)
     return val
   })
   const [fingerprintCheck, setFingerprintCheck] = useState(() => {
@@ -391,7 +390,7 @@ const RenderedStoryFragment = ({ data }) => {
         ? localStorage.getItem("fingerprint")
         : null
     const val = JSON.parse(item) || false
-    if (val === "masked") return undefined
+    if (val === -1) return undefined
     if (val && fingerprint === val) {
       return true
     }
@@ -404,13 +403,11 @@ const RenderedStoryFragment = ({ data }) => {
   if (fingerprint !== false && fingerprintCheck === false)
     getCurrentBrowserFingerPrint().then(fingerprint2 => {
       if (fingerprint !== fingerprint2) {
-        console.log("masked")
-        setFingerprint("masked")
+        setFingerprint(-1)
         setFingerprintCheck(undefined)
         if (typeof localStorage === "object")
-          localStorage.setItem("fingerprint", "masked")
+          localStorage.setItem("fingerprint", -1)
       } else {
-        console.log("found")
         setFingerprintCheck(true)
         if (typeof localStorage === "object")
           localStorage.setItem("fingerprint", fingerprint)
