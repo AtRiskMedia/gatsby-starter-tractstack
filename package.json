@@ -23,6 +23,7 @@
     "gatsby-transformer-remark": "^6.2.0",
     "gatsby-transformer-sharp": "^5.2.0",
     "i": "^0.3.7",
+    "isbot": "^3.6.5",
     "npm": "^9.2.0",
     "postcss": "^8.4.19",
     "prop-types": "^15.8.1",
