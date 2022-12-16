@@ -12,6 +12,8 @@ import {
 import { getCurrentBrowserFingerPrint } from "@rajesh896/broprint.js"
 import isbot from "isbot"
 
+import { useAuthStore } from "../api/authStore";
+import { register } from "../api/services"
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
@@ -315,8 +317,6 @@ const codeHooks = {
   H5P: H5P,
 }
 
-const LOGIN_URL = "/login.php"
-
 const useStore = create(set => ({
   storyStep: {
     hasH5P: false,
@@ -368,8 +368,8 @@ function useWindowScale() {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -378,7 +378,24 @@ function useWindowScale() {
   }, [])
 }
 
+const getTokens = async (fingerprint) => {
+  try {
+    const response = await register({ fingerprint })
+    const accessToken = response.data.jwt
+    return { tokens: accessToken, error: null }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      tokens: null,
+    }
+  }
+}
+
 const RenderedStoryFragment = ({ data }) => {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
+  const login = useAuthStore((state) => state.login);
+  const httpReferrer = document !== undefined ? document.referrer : ``
+  const httpUserAgent = navigator !== undefined ? navigator.userAgent : ``
   const botCheck =
     typeof navigator === "object" ? isbot(navigator.userAgent) : false
   const [fingerprint, setFingerprint] = useState(() => {
@@ -435,10 +452,10 @@ const RenderedStoryFragment = ({ data }) => {
   const viewportKey = breakpoints.mobile
     ? "mobile"
     : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
+      ? "tablet"
+      : breakpoints.desktop
+        ? "desktop"
+        : "server"
   useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -461,55 +478,24 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+        updateEventStream: updateEventStream,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext,
+        updateEventStream
+      )
       : null
-
-  const [lastSync, setLastSync] = React.useState(0)
-  const [lastRead, setLastRead] = React.useState(0)
-  useInterval(() => {
-    const now = Date.now()
-    const payload =
-      typeof eventStream === "object"
-        ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
-        : {}
-    const currentPaneId = panesVisible.last
-    const detectRead =
-      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
-        : null
-    if (detectRead) {
-      console.log("read", Date.now())
-      const duration = Date.now() - panesVisible[currentPaneId]
-      setLastRead(currentPaneId)
-      updateEventStream(Date.now() + 1, {
-        command: "read",
-        payload: { id: currentPaneId, duration: duration },
-      })
-    }
-    updateEventStreamCleanup(now)
-    setLastSync(now)
-  }, config.conciergeSync)
 
   useEffect(
     function bootstrapStoryFragment() {
@@ -568,12 +554,54 @@ const RenderedStoryFragment = ({ data }) => {
     [updateRevealContext, panesVisible, revealContext, viewportKey]
   )
 
+  const [lastSync, setLastSync] = React.useState(0)
+  const [lastRead, setLastRead] = React.useState(0)
+  useInterval(() => {
+    const now = Date.now()
+    const payload =
+      typeof eventStream === "object"
+        ? Object.keys(eventStream)
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
+        : {}
+    const currentPaneId = panesVisible.last
+    const detectRead =
+      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
+        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
+        : null
+    if (detectRead) {
+      console.log("read", Date.now())
+      const duration = Date.now() - panesVisible[currentPaneId]
+      setLastRead(currentPaneId)
+      updateEventStream(Date.now() + 1, {
+        command: "read",
+        payload: { id: currentPaneId, duration: duration },
+      })
+    }
+    if (fingerprint > 0 && !isLoggedIn) {
+      getTokens(fingerprint, httpReferrer, httpUserAgent).then(res => {
+        const accessToken = typeof (res.tokens) === "string" ? res.tokens : false
+        if (accessToken) login({ accessToken: accessToken })
+      })
+    }
+    if (isLoggedIn && Object.keys(payload).length > 0) {
+      console.log('sync to concierge', payload)
+      // do something with payload
+      // then
+      // updateEventStreamCleanup(now)
+      // setLastSync(now)
+    }
+    else if (fingerprint === -1) {
+      updateEventStreamCleanup(now)
+      setLastSync(now)
+    }
+  }, config.conciergeSync)
+
   if (viewportKey === "server") return <></>
 
-  if (fingerprint) {
-    console.log(`Fingerprint: ${fingerprint}. Need to connect to API`)
-  }
-  //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
     <>
       {storyStep["hasH5P"] && (
