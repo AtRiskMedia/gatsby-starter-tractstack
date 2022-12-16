@@ -13,7 +13,7 @@ import { getCurrentBrowserFingerPrint } from "@rajesh896/broprint.js"
 import isbot from "isbot"
 
 import { useAuthStore } from "../api/authStore";
-import { register } from "../api/services"
+import { register, graph } from "../api/services"
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
@@ -391,6 +391,20 @@ const getTokens = async (fingerprint) => {
   }
 }
 
+const getGraph = async (fingerprint) => {
+  try {
+    const response = await graph({ fingerprint })
+    console.log(response)
+    return { graph: null, error: null }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      graph: null,
+    }
+  }
+}
+
+
 const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn());
   const login = useAuthStore((state) => state.login);
@@ -423,11 +437,12 @@ const RenderedStoryFragment = ({ data }) => {
   if (fingerprint === false && fingerprintCheck === false)
     getCurrentBrowserFingerPrint().then(fingerprint1 => {
       getCurrentBrowserFingerPrint().then(fingerprint2 => {
+        console.log('debug: fingerprint check', fingerprint1, fingerprint2, fingerprint1 === fingerprint2)
         if (fingerprint1 !== fingerprint2) {
           setFingerprint(-1)
           setFingerprintCheck(undefined)
           if (typeof localStorage === "object")
-            localStorage.setItem("fingerprint", -1)
+            localStorage.clear()
         } else {
           setFingerprint(fingerprint2)
           setFingerprintCheck(true)
@@ -584,9 +599,12 @@ const RenderedStoryFragment = ({ data }) => {
     if (fingerprint > 0 && !isLoggedIn) {
       getTokens(fingerprint, httpReferrer, httpUserAgent).then(res => {
         const accessToken = typeof (res.tokens) === "string" ? res.tokens : false
-        if (accessToken) login({ accessToken: accessToken })
+        if (accessToken) {
+          login({ accessToken: accessToken })
+        }
       })
     }
+    console.log('isLoggedIn', isLoggedIn, 'payload', payload)
     if (isLoggedIn && Object.keys(payload).length > 0) {
       console.log('sync to concierge', payload)
       // do something with payload
@@ -599,6 +617,12 @@ const RenderedStoryFragment = ({ data }) => {
       setLastSync(now)
     }
   }, config.conciergeSync)
+
+  if (isLoggedIn) {
+    getGraph(fingerprint).then(res => {
+      console.log(4, res)
+    })
+  }
 
   if (viewportKey === "server") return <></>
 

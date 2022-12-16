@@ -5,6 +5,6 @@ export function register({ fingerprint, httpReferrer, httpUserAgent }) {
   return client.post("auth/register", payload, { authorization: false })
 }
 
-export function getGraph() {
+export function graph() {
   return client.get("/users/graph")
 }
