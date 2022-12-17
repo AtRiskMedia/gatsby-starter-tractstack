@@ -1,18 +1,22 @@
 import create from "zustand"
 
 function setTokensToLocalStorage(tokens) {
-  localStorage.setItem("accessToken", tokens.accessToken)
-  localStorage.setItem("fingerprint", tokens.fingerprint)
+  if (typeof localStorage === "object") {
+    localStorage.setItem("accessToken", tokens.accessToken)
+    localStorage.setItem("fingerprint", tokens.fingerprint)
+  }
 }
 
 function removeTokensFromLocalStorage() {
-  localStorage.removeItem("accessToken")
-  localStorage.removeItem("fingerprint")
+  if (typeof localStorage === "object") {
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("fingerprint")
+  }
 }
 
 export const useAuthStore = create((set, get) => ({
-  accessToken: localStorage.getItem("accessToken") || null,
-  fingerprint: localStorage.getItem("fingerprint") || false,
+  accessToken: typeof localStorage === "object" ? localStorage.getItem("accessToken") : null,
+  fingerprint: typeof localStorage === "object" ? localStorage.getItem("fingerprint") : false,
   fingerprintCheck: false,
   setFingerprint: fingerprint => {
     set(state => ({ ...state, fingerprint: fingerprint }))
