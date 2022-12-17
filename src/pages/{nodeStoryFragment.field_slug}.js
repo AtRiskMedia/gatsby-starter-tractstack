@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { useBreakpoint } from "gatsby-plugin-breakpoints"
@@ -10,8 +10,9 @@ import {
   getScrollbarSize,
 } from "gatsby-plugin-tractstack"
 import { getCurrentBrowserFingerPrint } from "@rajesh896/broprint.js"
-import isbot from "isbot"
 
+import { useAuthStore } from "../api/authStore"
+import { register, graph } from "../api/services"
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
@@ -376,10 +377,22 @@ function useWindowScale() {
   }, [])
 }
 
-const RenderedStoryFragment = ({ data }) => {
-  const botCheck =
-    typeof navigator === "object" ? isbot(navigator.userAgent) : false
-  const [fingerprint, setFingerprint] = useState(() => {
+const getTokens = async fingerprint => {
+  try {
+    const response = await register({ fingerprint })
+    console.log("getting token", response)
+    const accessToken = response.data.jwt
+    return { tokens: accessToken, error: null }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      tokens: null,
+    }
+  }
+}
+
+/*    const botCheck =
+      typeof navigator === "object" ? isbot(navigator.userAgent) : false
     if (botCheck) return 0
     const item =
       typeof localStorage === "object"
@@ -387,8 +400,10 @@ const RenderedStoryFragment = ({ data }) => {
         : null
     const val = JSON.parse(item) || false
     return val
-  })
-  const [fingerprintCheck, setFingerprintCheck] = useState(() => {
+  },
+  fingerprintCheck: fingerprint => {
+    const botCheck =
+      typeof navigator === "object" ? isbot(navigator.userAgent) : false
     if (botCheck) return true
     const item =
       typeof localStorage === "object"
@@ -396,29 +411,22 @@ const RenderedStoryFragment = ({ data }) => {
         : null
     const val = JSON.parse(item) || false
     if (val === -1) return undefined
-    if (val && fingerprint === val) {
+    if (val && !!get().fingerprint === val) {
       return true
     }
     return false
-  })
-  if (fingerprint === false)
-    getCurrentBrowserFingerPrint().then(fingerprint1 => {
-      setFingerprint(fingerprint1)
-    })
-  if (fingerprint !== false && fingerprintCheck === false)
-    getCurrentBrowserFingerPrint().then(fingerprint2 => {
-      if (fingerprint !== fingerprint2) {
-        setFingerprint(-1)
-        setFingerprintCheck(undefined)
-        if (typeof localStorage === "object")
-          localStorage.setItem("fingerprint", -1)
-      } else {
-        setFingerprintCheck(true)
-        if (typeof localStorage === "object")
-          localStorage.setItem("fingerprint", fingerprint)
-      }
-    })
-  console.log(`fingerprint: ${fingerprint}`)
+  },
+ */
+
+const RenderedStoryFragment = ({ data }) => {
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn())
+  const login = useAuthStore(state => state.login)
+  const fingerprint = useAuthStore(state => state.fingerprint)
+  const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
+  const setFingerprint = useAuthStore(state => state.setFingerprint)
+  const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
+  const [lastSync, setLastSync] = React.useState(0)
+  const [lastRead, setLastRead] = React.useState(0)
   const updateStoryStep = useStore(state => state.updateStoryStep)
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
   const updateRevealContext = useStore(state => state.updateRevealContext)
@@ -480,40 +488,29 @@ const RenderedStoryFragment = ({ data }) => {
       )
       : null
 
-  const [lastSync, setLastSync] = React.useState(0)
-  const [lastRead, setLastRead] = React.useState(0)
-  useInterval(() => {
-    const now = Date.now()
-    const payload =
-      typeof eventStream === "object"
-        ? Object.keys(eventStream)
-          .filter(k => k <= now && k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
-        : {}
-    const currentPaneId = panesVisible.last
-    const detectRead =
-      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
-        : null
-    if (detectRead) {
-      console.log("read", Date.now())
-      const duration = Date.now() - panesVisible[currentPaneId]
-      setLastRead(currentPaneId)
-      updateEventStream(Date.now() + 1, {
-        command: "read",
-        payload: { id: currentPaneId, duration: duration },
+  if (
+    viewportKey !== "server" &&
+    fingerprint === false &&
+    fingerprintCheck === false
+  )
+    getCurrentBrowserFingerPrint().then(fingerprint1 => {
+      getCurrentBrowserFingerPrint().then(fingerprint2 => {
+        console.log(
+          "debug: fingerprint check",
+          fingerprint1,
+          fingerprint2,
+          fingerprint1 === fingerprint2
+        )
+        if (fingerprint1 !== fingerprint2) {
+          setFingerprint(-1)
+          setFingerprintCheck(undefined)
+          localStorage.clear()
+        } else {
+          setFingerprint(fingerprint2)
+          setFingerprintCheck(true)
+        }
       })
-    }
-    updateEventStreamCleanup(now)
-    setLastSync(now)
-  }, config.conciergeSync)
-
-  useEffect(() => {
-    localStorage.setItem("fingerprint", JSON.stringify(fingerprint))
-  }, [fingerprint])
+    })
 
   useEffect(
     function bootstrapStoryFragment() {
@@ -572,9 +569,63 @@ const RenderedStoryFragment = ({ data }) => {
     [updateRevealContext, panesVisible, revealContext, viewportKey]
   )
 
+  useEffect(
+    function loginToConcierge() {
+      if (!isLoggedIn && fingerprint > 0) {
+        getTokens(fingerprint).then(res => {
+          const accessToken =
+            typeof res.tokens === "string" ? res.tokens : false
+          console.log(accessToken)
+          if (accessToken) {
+            console.log("logged in")
+            console.log({ accessToken: accessToken, fingerprint: fingerprint })
+            login({ accessToken: accessToken, fingerprint: fingerprint })
+          }
+        })
+      }
+    },
+    [isLoggedIn, fingerprint, login]
+  )
+
+  useInterval(() => {
+    const now = Date.now()
+    const payload =
+      typeof eventStream === "object"
+        ? Object.keys(eventStream)
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
+        : {}
+    const currentPaneId = panesVisible.last
+    const detectRead =
+      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
+        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
+        : null
+    if (detectRead) {
+      console.log("read", Date.now())
+      const duration = Date.now() - panesVisible[currentPaneId]
+      setLastRead(currentPaneId)
+      updateEventStream(Date.now() + 1, {
+        command: "read",
+        payload: { id: currentPaneId, duration: duration },
+      })
+    }
+    if (isLoggedIn && Object.keys(payload).length > 0) {
+      console.log("sync to concierge", payload)
+      // do something with payload
+      // then
+      // updateEventStreamCleanup(now)
+      // setLastSync(now)
+    } else if (fingerprint === -1) {
+      updateEventStreamCleanup(now)
+      setLastSync(now)
+    }
+  }, config.conciergeSync)
+
   if (viewportKey === "server") return <></>
 
-  //const thisGraph = tractStackGraph(data.allNodeStoryFragment.edges)
   return (
     <>
       {storyStep["hasH5P"] && (
