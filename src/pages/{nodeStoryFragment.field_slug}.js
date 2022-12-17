@@ -625,7 +625,7 @@ const RenderedStoryFragment = ({ data }) => {
   }, config.conciergeSync)
 
   if (viewportKey === "server") return <></>
-  console.log(isLoggedIn, fingerprint, accessToken)
+  console.log(isLoggedIn, fingerprint)
   return (
     <>
       {storyStep["hasH5P"] && (
