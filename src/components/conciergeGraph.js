@@ -1,8 +1,30 @@
-import React from "react"
+import React, { useEffect } from "react"
 
+import { graph } from "../api/services"
 import D3 from "../components/D3"
 
+const getGraph = async fingerprint => {
+  try {
+    const response = await graph({ fingerprint })
+    console.log(response)
+    return { graph: null, error: null }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      graph: null,
+    }
+  }
+}
+
 const ConciergeGraph = () => {
+  useEffect(function conciergeGetGraph() {
+    getGraph().then(res => {
+      console.log(1, res)
+      //const accessToken =
+      //typeof res.tokens === "string" ? res.tokens : false
+    })
+  }, [])
+
   return (
     <>
       <p className="p-4">* coming soon; this isn't real data yet!</p>

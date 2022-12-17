@@ -18,10 +18,10 @@ const processQueue = error => {
 export function createAxiosClient({
   options,
   getCurrentAccessToken,
-  getCurrentRefreshToken,
   refreshTokenUrl,
-  logout,
   setRefreshedTokens,
+  logout,
+  fingerprint,
 }) {
   const client = axios.create(options)
 
@@ -31,6 +31,7 @@ export function createAxiosClient({
         const token = getCurrentAccessToken()
         if (token) {
           config.headers.Authorization = "Bearer " + token
+          config.withCredentials = true
         }
       }
       return config
@@ -49,18 +50,14 @@ export function createAxiosClient({
       originalRequest.headers = JSON.parse(
         JSON.stringify(originalRequest.headers || {})
       )
-      const refreshToken = getCurrentRefreshToken()
 
       const handleError = error => {
         processQueue(error)
         logout()
         return Promise.reject(error)
       }
-
       if (
-        refreshToken &&
         error.response?.status === 401 &&
-        error.response.data.message === "TokenExpiredError" &&
         originalRequest?.url !== refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
@@ -79,14 +76,13 @@ export function createAxiosClient({
         originalRequest._retry = true
         return client
           .post(refreshTokenUrl, {
-            refreshToken: refreshToken,
+            fingerprint: fingerprint,
           })
           .then(res => {
             const tokens = {
               accessToken: res.data?.accessToken,
-              refreshToken: res.data?.refreshToken,
             }
-            setRefreshedTokens(tokens)
+            setRefreshedTokens(tokens, fingerprint)
             processQueue(null)
             return client(originalRequest)
           }, handleError)

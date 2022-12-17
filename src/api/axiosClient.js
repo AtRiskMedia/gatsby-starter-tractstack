@@ -1,22 +1,24 @@
 import { createAxiosClient } from "./createAxiosClient"
-import { useAuthStore } from "./authStore"
+import { useAuthStore } from "../api/authStore"
 
 function getCurrentAccessToken() {
   return useAuthStore.getState().accessToken
 }
 
-function getCurrentRefreshToken() {
-  return useAuthStore.getState().refreshToken
-}
-
 function setRefreshedTokens(tokens) {
   const login = useAuthStore.getState().login
-  login(tokens)
+  const fingerprint = useAuthStore.getState().fingerprint
+  login(tokens, fingerprint)
 }
 
 async function logout() {
   const logout = useAuthStore.getState().logout
   logout()
+}
+
+function fingerprint() {
+  const fingerprint = useAuthStore.getState().fingerprint
+  return fingerprint
 }
 
 export const client = createAxiosClient({
@@ -28,8 +30,8 @@ export const client = createAxiosClient({
     },
   },
   getCurrentAccessToken,
-  getCurrentRefreshToken,
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
   logout,
   setRefreshedTokens,
+  fingerprint,
 })
