@@ -587,7 +587,7 @@ const RenderedStoryFragment = ({ data }) => {
     }
     if (isLoggedIn && Object.keys(payload).length > 0) {
       console.log("sync to concierge", payload)
-      pushPayload(payload).then(res => {
+      pushPayload({ payload }).then(res => {
         console.log(1, res, payload)
         //const accessToken =
         //typeof res.tokens === "string" ? res.tokens : false
