@@ -91,8 +91,7 @@ export function createAxiosClient({
       }
 
       if (
-        error.response?.status === 401 &&
-        error.response?.data?.message === "TokenExpiredError"
+        error.response?.status === 401
       ) {
         return handleError(error)
       }
