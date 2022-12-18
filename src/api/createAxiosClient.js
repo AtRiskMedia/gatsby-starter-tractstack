@@ -78,9 +78,8 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl)
           .then(res => {
-            console.log(2221, res);
             const tokens = {
-              accessToken: res.data?.accessToken,
+              accessToken: res.data?.jwt,
             }
             setRefreshedTokens(tokens)
             processQueue(null)

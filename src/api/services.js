@@ -1,6 +1,6 @@
 import { client } from "./axiosClient"
 
-export function register({ fingerprint, httpReferrer, httpUserAgent }) {
+export function register({ fingerprint }) {
   const payload = {
     fingerprint: fingerprint.toString(),
   }
