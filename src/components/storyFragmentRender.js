@@ -64,6 +64,7 @@ const StoryFragmentRender = ({
                   command: "scanned",
                   payload: { paneId: p, type: "pane", duration: duration },
                 })
+              console.log(duration, softReadThreshold, p)
               updatePanesVisible(p, false)
             }}
           >
