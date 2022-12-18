@@ -62,7 +62,7 @@ export function createAxiosClient({
         originalRequest?._retry !== true
       ) {
         if (isRefreshing) {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
@@ -74,7 +74,7 @@ export function createAxiosClient({
         }
         isRefreshing = true
         originalRequest._retry = true
-        console.log('no')
+        console.log("no")
         return client
           .post(refreshTokenUrl)
           .then(res => {
@@ -90,9 +90,7 @@ export function createAxiosClient({
           })
       }
 
-      if (
-        error.response?.status === 401
-      ) {
+      if (error.response?.status === 401) {
         return handleError(error)
       }
 
