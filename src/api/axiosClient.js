@@ -6,7 +6,6 @@ function getCurrentAccessToken() {
 }
 
 function setRefreshedTokens(tokens) {
-  console.log('hitty', tokens)
   const login = useAuthStore.getState().login
   const fingerprint = useAuthStore.getState().fingerprint
   login(tokens, fingerprint)
