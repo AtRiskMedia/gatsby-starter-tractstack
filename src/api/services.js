@@ -10,3 +10,7 @@ export function register({ fingerprint }) {
 export function graph() {
   return client.get("/users/graph")
 }
+
+export function pushPayload({ payload }) {
+  return client.post("/users/payload", payload)
+}
