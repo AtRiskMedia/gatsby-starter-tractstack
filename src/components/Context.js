@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import config from "../../data/SiteConfig"
 
 const readThreshold = config.readThreshold
+const softReadThreshold = config.softReadThreshold
 
 const Context = ({
   children,
