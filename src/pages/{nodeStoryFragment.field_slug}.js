@@ -449,6 +449,8 @@ const RenderedStoryFragment = ({ data }) => {
           updateEventStream: updateEventStream,
         })
       : null
+  if (storyFragmentPayload?.hasH5P)
+    updateStoryStep("hasH5P", storyFragmentPayload?.hasH5P)
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
@@ -486,38 +488,6 @@ const RenderedStoryFragment = ({ data }) => {
     })
 
   useEffect(
-    function bootstrapStoryFragment() {
-      if (
-        viewportKey !== "server" &&
-        typeof storyFragmentPayload === "object" &&
-        !storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
-      ) {
-        updateStoryStep("hasH5P", storyFragmentPayload?.hasH5P || false)
-        updateStoryStep(
-          `${viewportKey}-${storyFragmentId}`,
-          storyFragmentPayload
-        )
-      }
-      if (
-        viewportKey !== "server" &&
-        typeof tractStackContextPayload === "object" &&
-        !storyStep.hasOwnProperty(`${viewportKey}-context`) &&
-        storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
-      ) {
-        updateStoryStep(`${viewportKey}-context`, tractStackContextPayload)
-      }
-    },
-    [
-      viewportKey,
-      storyFragmentId,
-      storyFragmentPayload,
-      tractStackContextPayload,
-      updateStoryStep,
-      storyStep,
-    ]
-  )
-
-  useEffect(
     function toggleContext() {
       if (
         viewportKey !== "server" &&
@@ -550,7 +520,6 @@ const RenderedStoryFragment = ({ data }) => {
             typeof res.tokens === "string" ? res.tokens : false
           if (accessToken) {
             console.log("logged in")
-            console.log({ accessToken: accessToken, fingerprint: fingerprint })
             login({ accessToken: accessToken, fingerprint: fingerprint })
           }
         })
@@ -585,14 +554,10 @@ const RenderedStoryFragment = ({ data }) => {
       })
     }
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      console.log("sync to concierge", payload)
       pushPayload({ payload }).then(res => {
-        console.log(1, res, payload)
-        //const accessToken =
+        console.log("to sync to concierge", res, payload)
         //typeof res.tokens === "string" ? res.tokens : false
       })
-
-      // do something with payload
       // then
       // updateEventStreamCleanup(now)
       // setLastSync(now)
@@ -613,18 +578,18 @@ const RenderedStoryFragment = ({ data }) => {
       )}
       <Header
         siteTitle={
-          storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`)
+          typeof storyFragmentPayload === "object"
             ? storyFragmentTitle
             : "Loading"
         }
         tractStackContextPayload={
-          storyStep.hasOwnProperty(`${viewportKey}-context`)
-            ? storyStep[`${viewportKey}-context`]
+          typeof tractStackContextPayload === "object"
+            ? tractStackContextPayload
             : {}
         }
       />
       <Seo title={storyFragmentTitle} />
-      {storyStep.hasOwnProperty(`${viewportKey}-${storyFragmentId}`) ? (
+      {typeof storyFragmentPayload === "object" ? (
         <>
           <StoryFragment
             revealContext={revealContext}
@@ -632,9 +597,7 @@ const RenderedStoryFragment = ({ data }) => {
             updateEventStream={updateEventStream}
             panesVisible={panesVisible}
             updatePanesVisible={updatePanesVisible}
-            storyFragmentPayload={
-              storyStep[`${viewportKey}-${storyFragmentId}`]
-            }
+            storyFragmentPayload={storyFragmentPayload}
             contextPayload={
               storyStep.hasOwnProperty(`${viewportKey}-context`)
                 ? storyStep[`${viewportKey}-context`]
