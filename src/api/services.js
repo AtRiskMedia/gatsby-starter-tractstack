@@ -12,5 +12,5 @@ export function graph() {
 }
 
 export function pushPayload({ payload }) {
-  return client.post("/users/payload", payload)
+  return client.post("/users/eventSteam", payload)
 }
