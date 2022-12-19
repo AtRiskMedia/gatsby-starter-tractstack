@@ -548,7 +548,6 @@ const RenderedStoryFragment = ({ data }) => {
         getTokens(fingerprint).then(res => {
           const accessToken =
             typeof res.tokens === "string" ? res.tokens : false
-          console.log(accessToken)
           if (accessToken) {
             console.log("logged in")
             console.log({ accessToken: accessToken, fingerprint: fingerprint })
