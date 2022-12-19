@@ -22,6 +22,15 @@ const Context = ({
           duration: duration,
         },
       })
+    else if (duration > softReadThreshold)
+      updateEventStream(Date.now(), {
+        command: "scanned",
+        payload: {
+          slug: revealContext.slug,
+          type: "context",
+          duration: duration,
+        },
+      })
     updateRevealContext("slug", undefined)
   }
   useEffect(() => {
@@ -31,6 +40,15 @@ const Context = ({
         if (duration > readThreshold)
           updateEventStream(Date.now(), {
             command: "read",
+            payload: {
+              slug: revealContext.slug,
+              type: "context",
+              duration: duration,
+            },
+          })
+        else if (duration > softReadThreshold)
+          updateEventStream(Date.now(), {
+            command: "scanned",
             payload: {
               slug: revealContext.slug,
               type: "context",

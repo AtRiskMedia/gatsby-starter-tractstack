@@ -12,6 +12,5 @@ export function graph() {
 }
 
 export function pushPayload({ payload }) {
-  console.log(33, payload)
   return client.post("/users/payload", payload)
 }
