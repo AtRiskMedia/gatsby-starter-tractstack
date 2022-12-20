@@ -1,5 +1,4 @@
 import React from "react"
-import { concierge } from "gatsby-plugin-tractstack"
 
 import { useStoryStepStore } from "../stores/storyStep"
 
