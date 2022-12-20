@@ -17,7 +17,7 @@ const H5P = ({ src, title, slug }) => {
                 event?.data?.statement?.verb?.display?.hasOwnProperty("en-US")
                 ? event.data.statement.verb.display["en-US"]
                 : ``
-            const name =
+            const objectName =
               typeof event?.data?.statement?.object?.definition?.name ===
                 "object" &&
                 event?.data?.statement?.object?.definition?.name?.hasOwnProperty(
@@ -36,7 +36,7 @@ const H5P = ({ src, title, slug }) => {
                 : null
             updateEventStream(Date.now(), {
               verb: verb,
-              object_name: name,
+              object_name: objectName,
               object_id: id,
               object_type: objectType,
               duration: durationInSeconds,
