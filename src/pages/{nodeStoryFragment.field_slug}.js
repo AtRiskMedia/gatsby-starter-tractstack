@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
-import { useBreakpoint } from "gatsby-plugin-breakpoints"
 import { InView } from "react-cool-inview"
 import create from "zustand"
 import {
@@ -351,25 +350,6 @@ const useStore = create(set => ({
     })),
 }))
 
-function useWindowScale() {
-  useEffect(() => {
-    function handleResize() {
-      const scrollBarOffset = getScrollbarSize()
-      const thisWidth = window.innerWidth - scrollBarOffset
-      const thisScale =
-        thisWidth < 801
-          ? thisWidth / 600
-          : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
-      document.documentElement.style.setProperty("--scale", thisScale * 0.99)
-    }
-    window.addEventListener("resize", handleResize)
-    handleResize()
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-}
-
 const getTokens = async fingerprint => {
   try {
     const response = await register({ fingerprint })
@@ -391,6 +371,7 @@ const RenderedStoryFragment = ({ data }) => {
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
+  const [viewportKey, setViewportKey] = React.useState("server")
   const [lastSync, setLastSync] = React.useState(0)
   const [lastRead, setLastRead] = React.useState(0)
   const updatePanesVisible = useStore(state => state.updatePanesVisible)
@@ -403,15 +384,6 @@ const RenderedStoryFragment = ({ data }) => {
   const revealContext = useStore(state => state.revealContext)
   const eventStream = useStore(state => state.eventStream)
   const prefersReducedMotion = usePrefersReducedMotion()
-  const breakpoints = useBreakpoint()
-  const viewportKey = breakpoints.mobile
-    ? "mobile"
-    : breakpoints.tablet
-    ? "tablet"
-    : breakpoints.desktop
-    ? "desktop"
-    : "server"
-  useWindowScale()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
   const allGlobalContext = Object.assign(
@@ -475,6 +447,26 @@ const RenderedStoryFragment = ({ data }) => {
         }
       })
     })
+
+  useEffect(() => {
+    function handleResize() {
+      const scrollBarOffset = getScrollbarSize()
+      const thisWidth = window.innerWidth - scrollBarOffset
+      setViewportKey(
+        thisWidth < 801 ? "mobile" : thisWidth < 1367 ? "tablet" : "desktop"
+      )
+      const thisScale =
+        thisWidth < 801
+          ? thisWidth / 600
+          : thisWidth < 1367
+          ? thisWidth / 1080
+          : thisWidth / 1920
+      document.documentElement.style.setProperty("--scale", thisScale * 0.99)
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   useEffect(
     function toggleContext() {
