@@ -16,21 +16,20 @@ const Context = ({
     const duration = Date.now() - revealContext.reveal
     if (duration > readThreshold)
       updateEventStream(Date.now(), {
-        command: "read",
-        payload: {
-          slug: revealContext.slug,
-          type: "context",
-          duration: duration,
-        },
-      })
+        verb: "read",
+        object_name: revealContext.slug,
+        object_id: revealContext.slug,
+        object_type: "context",
+        duration: duration,
+      },
+      )
     else if (duration > softReadThreshold)
       updateEventStream(Date.now(), {
-        command: "glossedOver",
-        payload: {
-          slug: revealContext.slug,
-          type: "context",
-          duration: duration,
-        },
+        verb: "glossedOver",
+        object_name: revealContext.slug,
+        object_id: revealContext.slug,
+        object_type: "context",
+        duration: duration,
       })
   }
   function hideContext() {

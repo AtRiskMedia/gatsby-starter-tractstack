@@ -40,6 +40,7 @@ const H5P = ({ src, title, slug }) => {
               object_id: id,
               object_type: objectType,
               duration: durationInSeconds,
+              score: score,
             })
           }
         )

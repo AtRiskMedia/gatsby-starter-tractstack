@@ -56,13 +56,19 @@ const StoryFragmentRender = ({
               const duration = Date.now() - panesVisible[p]
               if (duration > readThreshold)
                 updateEventStream(Date.now(), {
-                  command: "read",
-                  payload: { paneId: p, type: "pane", duration: duration },
+                  verb: "read",
+                  object_name: p,
+                  object_id: p,
+                  object_type: "pane",
+                  duration: duration,
                 })
               else if (duration > softReadThreshold)
                 updateEventStream(Date.now(), {
-                  command: "glossedOver",
-                  payload: { paneId: p, type: "pane", duration: duration },
+                  verb: "glossedOver",
+                  object_name: p,
+                  object_id: p,
+                  object_type: "pane",
+                  duration: duration,
                 })
               updatePanesVisible(p, false)
             }}
