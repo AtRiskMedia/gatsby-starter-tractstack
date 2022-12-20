@@ -355,42 +355,24 @@ const RenderedStoryFragment = ({ data }) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
-  const allGlobalContext = Object.assign(
-    {},
-    ...data.nodeStoryFragment.relationships.field_tract_stack.relationships.field_context_panes.map(
-      p => {
-        const thisVal = { [p.field_slug]: p.id }
-        return thisVal
-      }
-    )
-  )
-  const allLocalContext = Object.assign(
-    {},
-    ...data.nodeStoryFragment.relationships.field_context_panes.map(p => {
-      const thisVal = { [p.field_slug]: p.id }
-      return thisVal
-    })
-  )
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext
+      )
       : null
 
   if (
@@ -428,8 +410,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -454,6 +436,7 @@ const RenderedStoryFragment = ({ data }) => {
         typeof revealContext["slug"] === "string" &&
         revealContext["reveal"] === Date.now()
       ) {
+        console.log("does this work?")
         const element = document.getElementById(`context`)
         element.scrollIntoView()
         updateRevealContext("reveal", undefined)
@@ -486,11 +469,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       pushPayload({ payload }).then(res => {
@@ -529,7 +512,6 @@ const RenderedStoryFragment = ({ data }) => {
           updatePanesVisible={updatePanesVisible}
           storyFragmentPayload={storyFragmentPayload}
           contextPayload={tractStackContextPayload}
-          allContext={{ ...allGlobalContext, ...allLocalContext }}
           viewportKey={viewportKey}
           prefersReducedMotion={prefersReducedMotion}
         />

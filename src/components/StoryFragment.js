@@ -18,28 +18,28 @@ const StoryFragment = ({
   updateEventStream,
   storyFragmentPayload,
   contextPayload,
-  allContext,
   viewportKey,
   prefersReducedMotion,
 }) => {
+  const contentMap = { ...contextPayload.contentMap, ...storyFragmentPayload.contentMap }
+  let revealContextId = false
+  Object.keys(contentMap).forEach(function(key) {
+    if (contentMap[key] === revealContext.slug) revealContextId = key
+  })
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
   const revealContextSlug =
     typeof revealContext?.slug === "string" && revealContext.slug.length > 1
       ? revealContext.slug
       : false
-  const revealContextId =
-    revealContextSlug && allContext.hasOwnProperty(revealContextSlug)
-      ? allContext[revealContextSlug]
-      : false
+
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
   )
     ? contextPayload.payload[revealContextId]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
-        storyFragmentPayload?.panesPayload?.cssAnimated || ``
-      }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
+    }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(panesVisible).forEach(key => {
@@ -64,7 +64,7 @@ const StoryFragment = ({
         <main>
           {revealContextId ? (
             <Context
-              revealContext={revealContext}
+              revealContext={{ id: revealContextId, ...revealContext }}
               updateRevealContext={updateRevealContext}
               updateEventStream={updateEventStream}
               children={thisContextPayload?.children}
@@ -82,8 +82,8 @@ const StoryFragment = ({
           )}
         </main>
         {revealContextId === false &&
-        impressionPanes.length &&
-        panesVisible.footer !== true ? (
+          impressionPanes.length &&
+          panesVisible.footer !== true ? (
           <aside id="controller">
             <Controller
               impressions={impressions}
