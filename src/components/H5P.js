@@ -10,8 +10,7 @@ const H5P = ({ src, title, slug }) => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           "xAPI",
           function(event) {
-            console.log(1, event)
-            const id = event?.data?.statement?.object?.id
+            const id = event?.data?.statement?.object?.id.slice(-36)
             const objectType = event?.data?.statement?.object?.objectType
             const verb =
               typeof event?.data?.statement?.verb?.display === "object" &&
