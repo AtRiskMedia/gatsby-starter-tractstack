@@ -16,7 +16,13 @@ const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
   function injectPayload() {
-    concierge(thisButtonPayload, updateRevealContext, updateEventStream)
+    updateEventStream(Date.now(), {
+      verb: "clicked",
+      objectType: "impression",
+      object_id: payload.id,
+      object_name: payload.slug,
+    })
+    concierge(thisButtonPayload, updateRevealContext)
   }
   return (
     <>
