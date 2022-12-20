@@ -339,7 +339,7 @@ const RenderedStoryFragment = ({ data }) => {
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
   const [viewportKey, setViewportKey] = React.useState("server")
   const [lastSync, setLastSync] = React.useState(0)
-  const [lastRead, setLastRead] = React.useState(0)
+  const [validateToken, setValidateToken] = React.useState(false)
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
   )
@@ -375,23 +375,23 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+        updateEventStream: updateEventStream,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext,
+        updateEventStream
+      )
       : null
 
   if (
@@ -429,8 +429,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -465,18 +465,22 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function loginToConcierge() {
-      if (!isLoggedIn && fingerprint > 0) {
+      if (!validateToken && fingerprint > 0) {
         getTokens(fingerprint).then(res => {
           const accessToken =
             typeof res.tokens === "string" ? res.tokens : false
           if (accessToken) {
             console.log("logged in")
             login({ accessToken: accessToken, fingerprint: fingerprint })
+            setValidateToken(true)
+          }
+          else {
+            console.log('error with token')
           }
         })
       }
     },
-    [isLoggedIn, fingerprint, login]
+    [validateToken, setValidateToken, fingerprint, login]
   )
 
   useInterval(() => {
@@ -484,34 +488,15 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
-    const currentPaneId = panesVisible.last
-    const detectRead =
-      lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold &&
-          "read"
-        : lastRead !== currentPaneId &&
-          panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.softReadThreshold &&
-          "glossedOver"
-        : null
-    if (detectRead) {
-      console.log(detectRead, currentPaneId)
-      const duration = Date.now() - panesVisible[currentPaneId]
-      setLastRead(currentPaneId)
-      updateEventStream(Date.now() + 1, {
-        command: detectRead,
-        payload: { id: currentPaneId, duration: duration },
-      })
-    }
     if (isLoggedIn && Object.keys(payload).length > 0) {
       pushPayload({ payload }).then(res => {
-        console.log("to sync to concierge", res, payload)
+        console.log("to sync to concierge", payload)
         //typeof res.tokens === "string" ? res.tokens : false
       })
       // then

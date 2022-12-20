@@ -76,7 +76,6 @@ const StoryFragment = ({
                 viewportKey={viewportKey}
                 panesVisible={panesVisible}
                 updatePanesVisible={updatePanesVisible}
-                updateEventStream={updateEventStream}
               />
             </StyledWrapperSection>
           )}
