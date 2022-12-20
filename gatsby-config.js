@@ -2,12 +2,6 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
-const viewportWidths = {
-  mobile: "(max-width: 800px)", // renders as though 600px
-  tablet: "(min-width: 801px) and (max-width: 1366px)", // renders as though 1080px
-  desktop: "(min-width: 1367px)", // renders as though 1920px
-}
-
 module.exports = {
   siteMetadata: {
     title: `Tract Stack by At Risk Media - Gatsby Starter`,
@@ -38,12 +32,6 @@ module.exports = {
         // theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `assets/ARm-logo.svg`, // This path is relative to the root of the site.
-      },
-    },
-    {
-      resolve: `gatsby-plugin-breakpoints`,
-      options: {
-        queries: viewportWidths,
       },
     },
     {
