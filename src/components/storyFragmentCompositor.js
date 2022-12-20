@@ -19,6 +19,7 @@ const storyFragmentCompositor = props => {
     viewportKey
   )
   const hasH5P = compositedPayload?.hasH5P
+  const contentMap = compositedPayload?.contentMap || {}
   const menuPayload = props?.data?.relationships?.field_menu
   const compositedMenu = menuPayload
     ? Menu({ menuPayload, viewportKey: viewportKey })
@@ -32,6 +33,7 @@ const storyFragmentCompositor = props => {
     storyFragmentPanes: storyFragmentPanes,
     hasH5P: hasH5P,
     menu: compositedMenu,
+    contentMap: contentMap,
   }
 }
 

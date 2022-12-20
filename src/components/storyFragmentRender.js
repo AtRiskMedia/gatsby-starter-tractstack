@@ -28,9 +28,12 @@ const StoryFragmentRender = ({
   updatePanesVisible,
   updateEventStream,
 }) => {
+  const contentMap = storyFragmentPayload?.panesPayload?.contentMap
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
-    storyFragmentPayload?.panesPayload?.panes
+      typeof contentMap === "object"
+      ? Object.keys(contentMap)
+      : []
   const menu = (typeof storyFragmentPayload?.menu === "object" &&
     storyFragmentPayload?.menu) || <></>
   const thisPayload =
@@ -57,7 +60,7 @@ const StoryFragmentRender = ({
               if (duration > readThreshold)
                 updateEventStream(Date.now(), {
                   verb: "read",
-                  object_name: p,
+                  object_name: contentMap[p] || `Unknown`,
                   object_id: p,
                   object_type: "pane",
                   duration: duration,
@@ -65,7 +68,7 @@ const StoryFragmentRender = ({
               else if (duration > softReadThreshold)
                 updateEventStream(Date.now(), {
                   verb: "glossedOver",
-                  object_name: p,
+                  object_name: contentMap[p] || `Unknown`,
                   object_id: p,
                   object_type: "pane",
                   duration: duration,
