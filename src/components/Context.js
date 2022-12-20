@@ -25,7 +25,7 @@ const Context = ({
       })
     else if (duration > softReadThreshold)
       updateEventStream(Date.now(), {
-        command: "scanned",
+        command: "glossedOver",
         payload: {
           slug: revealContext.slug,
           type: "context",
@@ -49,7 +49,7 @@ const Context = ({
           })
         else if (duration > softReadThreshold)
           updateEventStream(Date.now(), {
-            command: "scanned",
+            command: "glossedOver",
             payload: {
               slug: revealContext.slug,
               type: "context",

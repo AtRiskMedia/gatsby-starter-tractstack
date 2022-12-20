@@ -61,7 +61,7 @@ const StoryFragmentRender = ({
                 })
               else if (duration > softReadThreshold)
                 updateEventStream(Date.now(), {
-                  command: "scanned",
+                  command: "glossedOver",
                   payload: { paneId: p, type: "pane", duration: duration },
                 })
               updatePanesVisible(p, false)

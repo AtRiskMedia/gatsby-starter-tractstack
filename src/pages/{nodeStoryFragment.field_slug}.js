@@ -405,23 +405,23 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          updateRevealContext: updateRevealContext,
-          updateEventStream: updateEventStream,
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        updateRevealContext: updateRevealContext,
+        updateEventStream: updateEventStream,
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          updateRevealContext,
-          updateEventStream
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        updateRevealContext,
+        updateEventStream
+      )
       : null
 
   if (
@@ -459,8 +459,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -514,23 +514,25 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
     const currentPaneId = panesVisible.last
     const detectRead =
       lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold
-        : null
+        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold && "read"
+        : lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
+          ? Date.now() - panesVisible[currentPaneId] > config.softReadThreshold && "glossedOver"
+          : null
     if (detectRead) {
-      console.log("read", Date.now())
+      console.log(detectRead)
       const duration = Date.now() - panesVisible[currentPaneId]
       setLastRead(currentPaneId)
       updateEventStream(Date.now() + 1, {
-        command: "read",
+        command: detectRead,
         payload: { id: currentPaneId, duration: duration },
       })
     }
