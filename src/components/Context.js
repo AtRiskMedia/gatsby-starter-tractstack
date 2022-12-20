@@ -12,7 +12,7 @@ const Context = ({
   updateEventStream,
   revealContext,
 }) => {
-  function hideContext() {
+  function checkDuration() {
     const duration = Date.now() - revealContext.reveal
     if (duration > readThreshold)
       updateEventStream(Date.now(), {
@@ -32,30 +32,15 @@ const Context = ({
           duration: duration,
         },
       })
+  }
+  function hideContext() {
+    checkDuration()
     updateRevealContext("slug", undefined)
   }
   useEffect(() => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
-        const duration = Date.now() - revealContext.reveal
-        if (duration > readThreshold)
-          updateEventStream(Date.now(), {
-            command: "read",
-            payload: {
-              slug: revealContext.slug,
-              type: "context",
-              duration: duration,
-            },
-          })
-        else if (duration > softReadThreshold)
-          updateEventStream(Date.now(), {
-            command: "glossedOver",
-            payload: {
-              slug: revealContext.slug,
-              type: "context",
-              duration: duration,
-            },
-          })
+        checkDuration()
         updateRevealContext("slug", undefined)
       }
     }
