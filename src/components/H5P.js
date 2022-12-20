@@ -1,7 +1,10 @@
 import React from "react"
 import { concierge } from "gatsby-plugin-tractstack"
 
-const H5P = ({ src, title, slug, updateEventStream }) => {
+import { useStoryStepStore } from "../stores/storyStep"
+
+const H5P = ({ src, title, slug }) => {
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const handleContentRef = dom => {
     if (dom) {
       dom.onload = () => {
@@ -32,21 +35,14 @@ const H5P = ({ src, title, slug, updateEventStream }) => {
               durationParsed?.hasOwnProperty("1")
                 ? Number(durationParsed[1])
                 : null
-            //const durationInSeconds = typeof durationParsed === "object" ? durationParsed[1] : ``
             console.log(
               "h5p xAPI event has occurred",
-              verb,
-              id,
-              name,
-              type,
-              score,
-              durationInSeconds
+              `verb: ${verb}, id: ${id}, name: ${name}, type: ${type}, score: ${score}, durationInSeconds: ${durationInSeconds}.`
             )
-            concierge(
-              ["h5p", [verb, [id, name, type, score]]],
-              false,
-              updateEventStream
-            )
+            updateEventStream(Date.now(), {
+              command: verb,
+              payload: `verb: ${verb}, id: ${id}, name: ${name}, type: ${type}, score: ${score}, durationInSeconds: ${durationInSeconds}.`,
+            })
           }
         )
       }

@@ -1,5 +1,5 @@
 import { createAxiosClient } from "./createAxiosClient"
-import { useAuthStore } from "../api/authStore"
+import { useAuthStore } from "../stores/authStore"
 
 function getCurrentAccessToken() {
   return useAuthStore.getState().accessToken

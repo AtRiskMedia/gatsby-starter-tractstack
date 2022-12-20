@@ -4,7 +4,7 @@ import { concierge, classNames } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"
 
-const FormContact = updateEventStream => {
+const FormContact = () => {
   const [firstname, setFirstName] = React.useState("")
   const [lastname, setLastName] = React.useState("")
   const [email, setEmail] = React.useState("")

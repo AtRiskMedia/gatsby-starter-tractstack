@@ -10,7 +10,8 @@ import {
 } from "gatsby-plugin-tractstack"
 import { getCurrentBrowserFingerPrint } from "@rajesh896/broprint.js"
 
-import { useAuthStore } from "../api/authStore"
+import { useAuthStore } from "../stores/authStore"
+import { useStoryStepStore } from "../stores/storyStep"
 import { register, pushPayload } from "../api/services"
 import config from "../../data/SiteConfig"
 import StoryFragment from "../components/StoryFragment"
@@ -315,41 +316,6 @@ const codeHooks = {
   H5P: H5P,
 }
 
-const useStore = create(set => ({
-  panesVisible: {
-    last: false,
-    footer: false,
-  },
-  revealContext: {
-    slug: false,
-    reveal: undefined,
-  },
-  eventStream: {},
-  updatePanesVisible: (key, value) =>
-    set(state => ({
-      panesVisible: { ...state.panesVisible, [key]: value },
-    })),
-  updateRevealContext: (key, value) =>
-    set(state => ({
-      revealContext: { ...state.revealContext, [key]: value },
-    })),
-  updateEventStream: (key, value) =>
-    set(state => ({
-      eventStream: { ...state.eventStream, [key]: value },
-    })),
-  updateEventStreamCleanup: lastSync =>
-    set(state => ({
-      eventStream: {
-        ...Object.keys(state.eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = state.eventStream[key]
-            return obj
-          }, {}),
-      },
-    })),
-}))
-
 const getTokens = async fingerprint => {
   try {
     const response = await register({ fingerprint })
@@ -374,15 +340,19 @@ const RenderedStoryFragment = ({ data }) => {
   const [viewportKey, setViewportKey] = React.useState("server")
   const [lastSync, setLastSync] = React.useState(0)
   const [lastRead, setLastRead] = React.useState(0)
-  const updatePanesVisible = useStore(state => state.updatePanesVisible)
-  const updateRevealContext = useStore(state => state.updateRevealContext)
-  const updateEventStream = useStore(state => state.updateEventStream)
-  const updateEventStreamCleanup = useStore(
+  const updatePanesVisible = useStoryStepStore(
+    state => state.updatePanesVisible
+  )
+  const updateRevealContext = useStoryStepStore(
+    state => state.updateRevealContext
+  )
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
+  const updateEventStreamCleanup = useStoryStepStore(
     state => state.updateEventStreamCleanup
   )
-  const panesVisible = useStore(state => state.panesVisible)
-  const revealContext = useStore(state => state.revealContext)
-  const eventStream = useStore(state => state.eventStream)
+  const panesVisible = useStoryStepStore(state => state.panesVisible)
+  const revealContext = useStoryStepStore(state => state.revealContext)
+  const eventStream = useStoryStepStore(state => state.eventStream)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
   const storyFragmentId = data.nodeStoryFragment.id
@@ -405,23 +375,23 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        updateRevealContext: updateRevealContext,
-        updateEventStream: updateEventStream,
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          updateRevealContext: updateRevealContext,
+          updateEventStream: updateEventStream,
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        updateRevealContext,
-        updateEventStream
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          updateRevealContext,
+          updateEventStream
+        )
       : null
 
   if (
@@ -459,8 +429,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -514,19 +484,22 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k <= now && k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k <= now && k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     const currentPaneId = panesVisible.last
     const detectRead =
       lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold && "read"
-        : lastRead !== currentPaneId && panesVisible.hasOwnProperty(currentPaneId)
-          ? Date.now() - panesVisible[currentPaneId] > config.softReadThreshold && "glossedOver"
-          : null
+        ? Date.now() - panesVisible[currentPaneId] > config.readThreshold &&
+          "read"
+        : lastRead !== currentPaneId &&
+          panesVisible.hasOwnProperty(currentPaneId)
+        ? Date.now() - panesVisible[currentPaneId] > config.softReadThreshold &&
+          "glossedOver"
+        : null
     if (detectRead) {
       console.log(detectRead, currentPaneId)
       const duration = Date.now() - panesVisible[currentPaneId]
