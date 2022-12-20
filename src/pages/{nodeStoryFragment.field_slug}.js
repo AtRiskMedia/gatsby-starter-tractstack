@@ -528,7 +528,7 @@ const RenderedStoryFragment = ({ data }) => {
           ? Date.now() - panesVisible[currentPaneId] > config.softReadThreshold && "glossedOver"
           : null
     if (detectRead) {
-      console.log(detectRead)
+      console.log(detectRead, currentPaneId)
       const duration = Date.now() - panesVisible[currentPaneId]
       setLastRead(currentPaneId)
       updateEventStream(Date.now() + 1, {
