@@ -22,7 +22,7 @@ const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
       object_id: payload.id,
       object_type: "impression",
     })
-    concierge(thisButtonPayload, updateRevealContext)
+    concierge(thisButtonPayload, { updateRevealContext: updateRevealContext })
   }
   return (
     <>
