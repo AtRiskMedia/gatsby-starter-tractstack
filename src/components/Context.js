@@ -61,6 +61,7 @@ const Context = ({
     updateRevealContext,
     revealContext.reveal,
     revealContext.slug,
+    revealContext.id,
     updateEventStream,
   ])
 

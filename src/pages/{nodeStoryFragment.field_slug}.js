@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { InView } from "react-cool-inview"
@@ -336,9 +336,12 @@ const RenderedStoryFragment = ({ data }) => {
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
-  const [viewportKey, setViewportKey] = React.useState("server")
-  const [lastSync, setLastSync] = React.useState(0)
-  const [validateToken, setValidateToken] = React.useState(false)
+  const [viewportKey, setViewportKey] = useState("server")
+  const [lastSync, setLastSync] = useState(0)
+  const [validToken, setValidToken] = useState(() => {
+    const localData = localStorage.getItem('validToken');
+    return localData ? JSON.parse(localData) : false
+  });
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
   )
@@ -354,7 +357,7 @@ const RenderedStoryFragment = ({ data }) => {
   const eventStream = useStoryStepStore(state => state.eventStream)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
-  const storyFragmentId = data.nodeStoryFragment.id
+  //const storyFragmentId = data.nodeStoryFragment.id
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
@@ -434,9 +437,8 @@ const RenderedStoryFragment = ({ data }) => {
       } else if (
         viewportKey !== "server" &&
         typeof revealContext["slug"] === "string" &&
-        revealContext["reveal"] === Date.now()
+        Date.now() - revealContext["reveal"] < 1000
       ) {
-        console.log("does this work?")
         const element = document.getElementById(`context`)
         element.scrollIntoView()
         updateRevealContext("reveal", undefined)
@@ -447,21 +449,21 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function loginToConcierge() {
-      if (!validateToken && fingerprint > 0) {
+      if (!validToken && fingerprint > 0) {
         getTokens(fingerprint).then(res => {
           const accessToken =
             typeof res.tokens === "string" ? res.tokens : false
           if (accessToken) {
             console.log("logged in")
             login({ accessToken: accessToken, fingerprint: fingerprint })
-            setValidateToken(true)
+            setValidToken(true)
           } else {
             console.log("error with token")
           }
         })
       }
     },
-    [validateToken, setValidateToken, fingerprint, login]
+    [validToken, setValidToken, fingerprint, login]
   )
 
   useInterval(() => {

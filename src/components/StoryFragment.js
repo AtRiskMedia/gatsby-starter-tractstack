@@ -27,11 +27,6 @@ const StoryFragment = ({
     if (contentMap[key] === revealContext.slug) revealContextId = key
   })
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
-  const revealContextSlug =
-    typeof revealContext?.slug === "string" && revealContext.slug.length > 1
-      ? revealContext.slug
-      : false
-
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
   )

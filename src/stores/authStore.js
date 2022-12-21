@@ -4,6 +4,7 @@ function setTokensToLocalStorage(tokens) {
   if (typeof localStorage === "object") {
     localStorage.setItem("accessToken", tokens.accessToken)
     localStorage.setItem("fingerprint", tokens.fingerprint)
+    localStorage.setItem("validToken", true)
   }
 }
 
@@ -11,6 +12,7 @@ function removeTokensFromLocalStorage() {
   if (typeof localStorage === "object") {
     localStorage.removeItem("accessToken")
     localStorage.removeItem("fingerprint")
+    localStorage.setItem("validToken", false)
   }
 }
 
