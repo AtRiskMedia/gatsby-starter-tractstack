@@ -30,6 +30,7 @@ const Context = ({
         object_type: "context",
         duration: duration,
       })
+    updateRevealContext("reveal", undefined)
     updateRevealContext("slug", undefined)
   }
   useEffect(() => {

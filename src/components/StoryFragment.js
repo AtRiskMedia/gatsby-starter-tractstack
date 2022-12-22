@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
+import { useStoryStepStore } from "../stores/storyStep"
 import Controller from "./controller"
 import StoryFragmentRender from "./storyFragmentRender"
 import Context from "./Context"
@@ -11,24 +12,26 @@ const StyledWrapperSection = styled.section`
 `
 
 const StoryFragment = ({
-  panesVisible,
-  updatePanesVisible,
-  revealContext,
-  updateRevealContext,
-  updateEventStream,
   storyFragmentPayload,
   contextPayload,
   viewportKey,
   prefersReducedMotion,
 }) => {
-  const contentMap = {
-    ...contextPayload.contentMap,
-    ...storyFragmentPayload.contentMap,
-  }
-  let revealContextId = false
-  Object.keys(contentMap).forEach(function (key) {
-    if (contentMap[key] === revealContext.slug) revealContextId = key
-  })
+  const panesVisible = useStoryStepStore(state => state.panesVisible)
+  const revealContext = useStoryStepStore(state => state.revealContext)
+  const contentMap = useStoryStepStore(state => state.contentMap)
+  const updatePanesVisible = useStoryStepStore(
+    state => state.updatePanesVisible
+  )
+  const updateRevealContext = useStoryStepStore(
+    state => state.updateRevealContext
+  )
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
+  const processRead = useStoryStepStore(state => state.processRead)
+  const revealContextDetails = contentMap?.hasOwnProperty(revealContext.slug)
+    ? contentMap[revealContext.slug]
+    : false
+  const revealContextId = typeof revealContextDetails === "object" ? revealContextDetails.id : false
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
@@ -36,9 +39,8 @@ const StoryFragment = ({
     ? contextPayload.payload[revealContextId]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
-        storyFragmentPayload?.panesPayload?.cssAnimated || ``
-      }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
+    }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(panesVisible).forEach(key => {
@@ -81,14 +83,15 @@ const StoryFragment = ({
           )}
         </main>
         {revealContextId === false &&
-        impressionPanes.length &&
-        panesVisible.footer !== true ? (
+          impressionPanes.length &&
+          panesVisible.footer !== true ? (
           <aside id="controller">
             <Controller
               impressions={impressions}
               impressionPanes={impressionPanes}
               updateRevealContext={updateRevealContext}
               updateEventStream={updateEventStream}
+              processRead={processRead}
               viewportKey={viewportKey}
             />
           </aside>

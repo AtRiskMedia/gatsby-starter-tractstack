@@ -348,34 +348,43 @@ const RenderedStoryFragment = ({ data }) => {
   const updateRevealContext = useStoryStepStore(
     state => state.updateRevealContext
   )
-  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const updateEventStreamCleanup = useStoryStepStore(
     state => state.updateEventStreamCleanup
   )
+  const updateContentMap = useStoryStepStore(state => state.updateContentMap)
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const revealContext = useStoryStepStore(state => state.revealContext)
   const eventStream = useStoryStepStore(state => state.eventStream)
+  const processRead = useStoryStepStore(state => state.processRead)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
   //const storyFragmentId = data.nodeStoryFragment.id
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          hooks: { updateRevealContext: updateRevealContext },
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        hooks: {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+        },
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          { updateRevealContext: updateRevealContext }
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+        }
+      )
       : null
 
   if (
@@ -403,6 +412,24 @@ const RenderedStoryFragment = ({ data }) => {
     })
 
   useEffect(() => {
+    function getContentMap() {
+      Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
+        const [key, value] = entry;
+        updateContentMap(key, { id: key, slug: value, type: "pane" })
+        updateContentMap(value, { id: key, slug: value, type: "pane" })
+      });
+      Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
+        const [key, value] = entry;
+        updateContentMap(key, { id: key, slug: value, type: "context" })
+        updateContentMap(value, { id: key, slug: value, type: "context" })
+      });
+    }
+    if (typeof tractStackContextPayload === "object" && typeof storyFragmentPayload === "object" && tractStackContextPayload?.hasOwnProperty('contentMap') && storyFragmentPayload?.hasOwnProperty('contentMap'))
+      getContentMap()
+  }, [updateContentMap, tractStackContextPayload, storyFragmentPayload])
+
+
+  useEffect(() => {
     function handleResize() {
       const scrollBarOffset = getScrollbarSize()
       const thisWidth = window.innerWidth - scrollBarOffset
@@ -413,8 +440,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -441,7 +468,6 @@ const RenderedStoryFragment = ({ data }) => {
       ) {
         const element = document.getElementById(`context`)
         element.scrollIntoView()
-        updateRevealContext("reveal", undefined)
       }
     },
     [updateRevealContext, panesVisible, revealContext, viewportKey]
@@ -471,11 +497,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k <= now && k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k <= now && k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       pushPayload({ payload }).then(res => {
@@ -507,11 +533,6 @@ const RenderedStoryFragment = ({ data }) => {
       <Seo title={storyFragmentTitle} />
       <>
         <StoryFragment
-          revealContext={revealContext}
-          updateRevealContext={updateRevealContext}
-          updateEventStream={updateEventStream}
-          panesVisible={panesVisible}
-          updatePanesVisible={updatePanesVisible}
           storyFragmentPayload={storyFragmentPayload}
           contextPayload={tractStackContextPayload}
           viewportKey={viewportKey}

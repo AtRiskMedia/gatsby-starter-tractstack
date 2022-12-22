@@ -21,7 +21,6 @@ export function createAxiosClient({
   refreshTokenUrl,
   setRefreshedTokens,
   logout,
-  fingerprint,
 }) {
   const client = axios.create(options)
 
