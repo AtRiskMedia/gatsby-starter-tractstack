@@ -57,18 +57,16 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
             }}
             onLeave={() => {
               const duration = Date.now() - panesVisible[p]
-              if (duration > readThreshold)
+              const verb =
+                duration > readThreshold
+                  ? "read"
+                  : duration > softReadThreshold
+                  ? "glossedOver"
+                  : null
+              if (verb)
                 updateEventStream(Date.now(), {
-                  verb: "read",
-                  object_name: contentMap[p] || `Unknown`,
-                  object_id: p,
-                  object_type: "pane",
-                  duration: duration / 1000,
-                })
-              else if (duration > softReadThreshold)
-                updateEventStream(Date.now(), {
-                  verb: "glossedOver",
-                  object_name: contentMap[p] || `Unknown`,
+                  verb: verb,
+                  object_name: contentMap[p],
                   object_id: p,
                   object_type: "pane",
                   duration: duration / 1000,

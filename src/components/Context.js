@@ -16,17 +16,15 @@ const Context = ({ children }) => {
 
   function hideContext() {
     const duration = Date.now() - revealContext.reveal
-    if (duration > readThreshold)
+    const verb =
+      duration > readThreshold
+        ? "read"
+        : duration > softReadThreshold
+        ? "glossedOver"
+        : null
+    if (verb)
       updateEventStream(Date.now(), {
-        verb: "read",
-        object_name: revealContext.slug,
-        object_id: revealContext.id,
-        object_type: "context",
-        duration: duration / 1000,
-      })
-    else if (duration > softReadThreshold)
-      updateEventStream(Date.now(), {
-        verb: "glossedOver",
+        verb: verb,
         object_name: revealContext.slug,
         object_id: revealContext.id,
         object_type: "context",
@@ -39,17 +37,15 @@ const Context = ({ children }) => {
     function handleEscapeKey(event) {
       if (event.code === "Escape") {
         const duration = Date.now() - revealContext.reveal
-        if (duration > readThreshold)
+        const verb =
+          duration > readThreshold
+            ? "read"
+            : duration > softReadThreshold
+            ? "glossedOver"
+            : null
+        if (verb)
           updateEventStream(Date.now(), {
-            verb: "read",
-            object_name: revealContext.slug,
-            object_id: revealContext.id,
-            object_type: "context",
-            duration: duration / 1000,
-          })
-        else if (duration > softReadThreshold)
-          updateEventStream(Date.now(), {
-            verb: "glossedOver",
+            verb: verb,
             object_name: revealContext.slug,
             object_id: revealContext.id,
             object_type: "context",

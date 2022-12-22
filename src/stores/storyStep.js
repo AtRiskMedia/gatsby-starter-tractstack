@@ -19,7 +19,7 @@ export const useStoryStepStore = create((set, get) => ({
   processRead: () => {
     const now = Date.now()
     const panesVisible = get().panesVisible
-    const updatePanesVisible = get().updatePanesVisible
+    const updatePanesVisibleCleanup = get().updatePanesVisibleCleanup
     const contentMap = get().contentMap
     const updateEventStream = get().updateEventStream
     for (const [key, value] of Object.entries(panesVisible)) {
@@ -39,8 +39,8 @@ export const useStoryStepStore = create((set, get) => ({
           object_type: contentMap[key].type,
           duration: duration / 1000,
         })
-        updatePanesVisible(key, undefined)
       }
+      updatePanesVisibleCleanup()
     }
   },
   updateContentMap: (key, value) =>
@@ -50,6 +50,13 @@ export const useStoryStepStore = create((set, get) => ({
   updatePanesVisible: (key, value) =>
     set(state => ({
       panesVisible: { ...state.panesVisible, [key]: value },
+    })),
+  updatePanesVisibleCleanup: () =>
+    set(() => ({
+      panesVisible: {
+        last: false,
+        footer: false,
+      },
     })),
   updateRevealContext: (key, value) =>
     set(state => ({
