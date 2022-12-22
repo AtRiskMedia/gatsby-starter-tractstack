@@ -24,7 +24,7 @@ const storyFragmentCompositor = props => {
   const contentMap = compositedPayload?.contentMap || {}
   const menuPayload = props?.data?.relationships?.field_menu
   const compositedMenu = menuPayload
-    ? Menu({ menuPayload, viewportKey: viewportKey })
+    ? Menu({ menuPayload, viewportKey: viewportKey, hooks })
     : false
 
   return {

@@ -1,17 +1,19 @@
 import React, { useEffect } from "react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
+import { useStoryStepStore } from "../stores/storyStep"
 import config from "../../data/SiteConfig"
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
-const Context = ({
-  children,
-  updateRevealContext,
-  updateEventStream,
-  revealContext,
-}) => {
+const Context = ({ children }) => {
+  const revealContext = useStoryStepStore(state => state.revealContext)
+  const updateRevealContext = useStoryStepStore(
+    state => state.updateRevealContext
+  )
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
+
   function hideContext() {
     const duration = Date.now() - revealContext.reveal
     if (duration > readThreshold)
