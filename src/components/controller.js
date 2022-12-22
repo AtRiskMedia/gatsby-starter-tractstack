@@ -30,13 +30,6 @@ const Impression = ({
       object_id: payload.id,
       object_type: "impression",
     })
-    console.log({
-      now: now,
-      verb: "clicked",
-      object_name: payload.slug,
-      object_id: payload.id,
-      object_type: "impression",
-    })
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
       processRead: processRead,
