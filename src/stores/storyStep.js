@@ -23,10 +23,9 @@ export const useStoryStepStore = create((set, get) => ({
     const contentMap = get().contentMap
     const updateEventStream = get().updateEventStream
     console.log("processRead")
-    console.log('last', panesVisible.last, contentMap[panesVisible.last])
     for (const [key, value] of Object.entries(panesVisible)) {
-      if (key === "last" || key === "footer") continue
-      console.log(key, (now - value) / 1000, contentMap[key], panesVisible[key])
+      if (key === "last" || key === "footer" || typeof value !== "number") continue
+      console.log('*', contentMap[key])
       const duration = now - value
       const verb =
         duration > readThreshold
