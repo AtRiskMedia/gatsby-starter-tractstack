@@ -23,13 +23,15 @@ const Impression = ({
   const thisButtonPayload = lispLexer(payload.actionsLisp)
 
   function injectPayload() {
-    updateEventStream(Date.now(), {
+    const now = Date.now()
+    updateEventStream(now, {
       verb: "clicked",
       object_name: payload.slug,
       object_id: payload.id,
       object_type: "impression",
     })
     console.log({
+      now: now,
       verb: "clicked",
       object_name: payload.slug,
       object_id: payload.id,
