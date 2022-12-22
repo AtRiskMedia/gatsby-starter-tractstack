@@ -18,6 +18,7 @@ export const useStoryStepStore = create((set, get) => ({
   contentMap: {},
   processRead: () => {
     const now = Date.now()
+    let offset = 75 // to void collision with impression "clicked", other concierge action
     const panesVisible = get().panesVisible
     const updatePanesVisibleCleanup = get().updatePanesVisibleCleanup
     const contentMap = get().contentMap
@@ -34,13 +35,14 @@ export const useStoryStepStore = create((set, get) => ({
             ? "glossedOver"
             : null
       if (verb) {
-        updateEventStream(Date.now(), {
+        updateEventStream(now + offset, {
           verb: verb,
           object_name: contentMap[key].slug,
           object_id: contentMap[key].id,
           object_type: contentMap[key].type,
           duration: duration / 1000,
         })
+        offset = offset + 1
       }
       updatePanesVisibleCleanup()
     }
