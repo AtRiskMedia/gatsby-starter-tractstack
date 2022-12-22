@@ -20,7 +20,7 @@ const Context = ({
         object_name: revealContext.slug,
         object_id: revealContext.id,
         object_type: "context",
-        duration: duration,
+        duration: duration / 1000,
       })
     else if (duration > softReadThreshold)
       updateEventStream(Date.now(), {
@@ -28,7 +28,7 @@ const Context = ({
         object_name: revealContext.slug,
         object_id: revealContext.id,
         object_type: "context",
-        duration: duration,
+        duration: duration / 1000,
       })
     updateRevealContext("reveal", undefined)
     updateRevealContext("slug", undefined)
@@ -43,7 +43,7 @@ const Context = ({
             object_name: revealContext.slug,
             object_id: revealContext.id,
             object_type: "context",
-            duration: duration,
+            duration: duration / 1000,
           })
         else if (duration > softReadThreshold)
           updateEventStream(Date.now(), {
@@ -51,7 +51,7 @@ const Context = ({
             object_name: revealContext.slug,
             object_id: revealContext.id,
             object_type: "context",
-            duration: duration,
+            duration: duration / 1000,
           })
         updateRevealContext("slug", undefined)
       }
