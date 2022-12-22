@@ -73,7 +73,6 @@ export function createAxiosClient({
         }
         isRefreshing = true
         originalRequest._retry = true
-        console.log("no")
         return client
           .post(refreshTokenUrl)
           .then(res => {

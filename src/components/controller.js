@@ -1,6 +1,5 @@
 import React from "react"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
-
 import {
   getControllerPayload,
   concierge,
@@ -8,20 +7,29 @@ import {
   useInterval,
 } from "gatsby-plugin-tractstack"
 
+import { useStoryStepStore } from "../stores/storyStep"
 import config from "../../data/SiteConfig"
 
 const impressionsDelay = config.impressionsDelay
 
 const Impression = ({
   payload,
-  updateRevealContext,
-  updateEventStream,
-  processRead,
 }) => {
-  if (typeof payload !== "object") return <></>
+  const updateRevealContext = useStoryStepStore(
+    state => state.updateRevealContext
+  )
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
+  const processRead = useStoryStepStore(state => state.processRead)
   const thisButtonPayload = lispLexer(payload.actionsLisp)
+
   function injectPayload() {
     updateEventStream(Date.now(), {
+      verb: "clicked",
+      object_name: payload.slug,
+      object_id: payload.id,
+      object_type: "impression",
+    })
+    console.log({
       verb: "clicked",
       object_name: payload.slug,
       object_id: payload.id,
@@ -32,6 +40,8 @@ const Impression = ({
       processRead: processRead,
     })
   }
+
+  if (typeof payload !== "object") return <></>
   return (
     <>
       <h3 className="text-rlg sm:text-lg font-medium leading-6 text-allblack">
@@ -55,14 +65,7 @@ const Impression = ({
   )
 }
 
-const Controller = ({
-  impressions,
-  impressionPanes,
-  updateRevealContext,
-  updateEventStream,
-  processRead,
-  viewportKey,
-}) => {
+const Controller = ({ impressions, impressionPanes, viewportKey }) => {
   const [offset, setOffset] = React.useState(0)
   const [open, setOpen] = React.useState(true)
 
@@ -75,7 +78,7 @@ const Controller = ({
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-    typeof offsetImpression[0] === "object"
+      typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>
@@ -96,9 +99,6 @@ const Controller = ({
             </button>
             <Impression
               payload={thisImpression}
-              updateRevealContext={updateRevealContext}
-              updateEventStream={updateEventStream}
-              processRead={processRead}
             />
           </div>
         </div>
