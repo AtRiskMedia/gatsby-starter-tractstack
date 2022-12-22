@@ -30,7 +30,7 @@ export const useStoryStepStore = create((set, get) => ({
         object_name: contentMap[last].slug || `Unknown`,
         object_id: contentMap[last].id,
         object_type: contentMap[last].type,
-        duration: duration,
+        duration: duration / 1000,
       })
     else if (duration > softReadThreshold)
       updateEventStream(Date.now(), {
@@ -38,7 +38,7 @@ export const useStoryStepStore = create((set, get) => ({
         object_name: contentMap[last].slug || `Unknown`,
         object_id: contentMap[last].id,
         object_type: contentMap[last].type,
-        duration: duration,
+        duration: duration / 1000,
       })
   },
   updateContentMap: (key, value) =>
