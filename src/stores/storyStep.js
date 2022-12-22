@@ -17,29 +17,31 @@ export const useStoryStepStore = create((set, get) => ({
   eventStream: {},
   contentMap: {},
   processRead: () => {
+    const now = Date.now()
     const panesVisible = get().panesVisible
+    const updatePanesVisible = get().updatePanesVisible
     const contentMap = get().contentMap
     const updateEventStream = get().updateEventStream
-    const last =
-      typeof panesVisible["last"] === "string" ? panesVisible["last"] : false
-    const duration =
-      typeof last === "string" ? Date.now() - panesVisible[last] : false
-    if (duration > readThreshold)
-      updateEventStream(Date.now(), {
-        verb: "read",
-        object_name: contentMap[last].slug || `Unknown`,
-        object_id: contentMap[last].id,
-        object_type: contentMap[last].type,
-        duration: duration / 1000,
-      })
-    else if (duration > softReadThreshold)
-      updateEventStream(Date.now(), {
-        verb: "glossedOver",
-        object_name: contentMap[last].slug || `Unknown`,
-        object_id: contentMap[last].id,
-        object_type: contentMap[last].type,
-        duration: duration / 1000,
-      })
+    for (const [key, value] of Object.entries(panesVisible)) {
+      if (key === "last" || key === "footer") continue
+      const duration = now - value
+      const verb =
+        duration > readThreshold
+          ? "read"
+          : duration > softReadThreshold
+          ? "glossedOver"
+          : null
+      if (verb) {
+        updateEventStream(Date.now(), {
+          verb: verb,
+          object_name: contentMap[key].slug,
+          object_id: contentMap[key].id,
+          object_type: contentMap[key].type,
+          duration: duration / 1000,
+        })
+        updatePanesVisible(key, undefined)
+      }
+    }
   },
   updateContentMap: (key, value) =>
     set(state => ({
