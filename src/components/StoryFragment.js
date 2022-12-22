@@ -20,14 +20,6 @@ const StoryFragment = ({
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const revealContext = useStoryStepStore(state => state.revealContext)
   const contentMap = useStoryStepStore(state => state.contentMap)
-  const updatePanesVisible = useStoryStepStore(
-    state => state.updatePanesVisible
-  )
-  const updateRevealContext = useStoryStepStore(
-    state => state.updateRevealContext
-  )
-  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
-  const processRead = useStoryStepStore(state => state.processRead)
   const revealContextDetails = contentMap?.hasOwnProperty(revealContext.slug)
     ? contentMap[revealContext.slug]
     : false
@@ -66,20 +58,12 @@ const StoryFragment = ({
       >
         <main>
           {revealContextId ? (
-            <Context
-              revealContext={{ id: revealContextId, ...revealContext }}
-              updateRevealContext={updateRevealContext}
-              updateEventStream={updateEventStream}
-              children={thisContextPayload?.children}
-            />
+            <Context children={thisContextPayload?.children} />
           ) : (
             <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
               <StoryFragmentRender
                 storyFragmentPayload={storyFragmentPayload}
                 viewportKey={viewportKey}
-                panesVisible={panesVisible}
-                updateEventStream={updateEventStream}
-                updatePanesVisible={updatePanesVisible}
               />
             </StyledWrapperSection>
           )}
@@ -91,9 +75,6 @@ const StoryFragment = ({
             <Controller
               impressions={impressions}
               impressionPanes={impressionPanes}
-              updateRevealContext={updateRevealContext}
-              updateEventStream={updateEventStream}
-              processRead={processRead}
               viewportKey={viewportKey}
             />
           </aside>

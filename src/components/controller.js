@@ -12,9 +12,7 @@ import config from "../../data/SiteConfig"
 
 const impressionsDelay = config.impressionsDelay
 
-const Impression = ({
-  payload,
-}) => {
+const Impression = ({ payload }) => {
   const updateRevealContext = useStoryStepStore(
     state => state.updateRevealContext
   )
@@ -73,7 +71,7 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-      typeof offsetImpression[0] === "object"
+    typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>
@@ -92,9 +90,7 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
-            <Impression
-              payload={thisImpression}
-            />
+            <Impression payload={thisImpression} />
           </div>
         </div>
       </aside>

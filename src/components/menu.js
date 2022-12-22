@@ -4,21 +4,27 @@ import { getLogo } from "gatsby-plugin-tractstack"
 
 import config from "../../data/SiteConfig"
 
-const NavLink = ({ children, to }) => (
-  <Link to={to} activeClassName="is-active">
+const NavLink = ({ children, to, onClick }) => (
+  <Link to={to} onClick={onClick} activeClassName="is-active">
     {children}
   </Link>
 )
 
-function Menu({ menuPayload, viewportKey }) {
+function Menu({ menuPayload, viewportKey, hooks }) {
+  const processRead = hooks.processRead
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
     menuPayload.relationships?.field_image_logo
   )
   const menuItems = menuPayload.relationships?.field_menu_items?.map(e => {
+    function injectPayload() {
+      processRead()
+    }
     return (
       <li key={`${viewportKey}-${e.field_slug}`}>
-        <NavLink to={`/${e.field_slug}`}>{e.field_title}</NavLink>
+        <NavLink onClick={injectPayload} to={`/${e.field_slug}`}>
+          {e.field_title}
+        </NavLink>
       </li>
     )
   })
