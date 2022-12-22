@@ -30,6 +30,7 @@ const Context = ({
         object_type: "context",
         duration: duration,
       })
+    updateRevealContext("reveal", undefined)
     updateRevealContext("slug", undefined)
   }
   useEffect(() => {
@@ -61,6 +62,7 @@ const Context = ({
     updateRevealContext,
     revealContext.reveal,
     revealContext.slug,
+    revealContext.id,
     updateEventStream,
   ])
 

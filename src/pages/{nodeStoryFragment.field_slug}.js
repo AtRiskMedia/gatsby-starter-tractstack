@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
 import { InView } from "react-cool-inview"
@@ -336,32 +336,40 @@ const RenderedStoryFragment = ({ data }) => {
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
-  const [viewportKey, setViewportKey] = React.useState("server")
-  const [lastSync, setLastSync] = React.useState(0)
-  const [validateToken, setValidateToken] = React.useState(false)
+  const [viewportKey, setViewportKey] = useState("server")
+  const [lastSync, setLastSync] = useState(0)
+  const [validToken, setValidToken] = useState(() => {
+    const localData = localStorage.getItem("validToken")
+    return localData ? JSON.parse(localData) : false
+  })
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
   )
   const updateRevealContext = useStoryStepStore(
     state => state.updateRevealContext
   )
-  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const updateEventStreamCleanup = useStoryStepStore(
     state => state.updateEventStreamCleanup
   )
+  const updateContentMap = useStoryStepStore(state => state.updateContentMap)
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const revealContext = useStoryStepStore(state => state.revealContext)
   const eventStream = useStoryStepStore(state => state.eventStream)
+  const processRead = useStoryStepStore(state => state.processRead)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
-  const storyFragmentId = data.nodeStoryFragment.id
+  //const storyFragmentId = data.nodeStoryFragment.id
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
         data: data.nodeStoryFragment,
         viewportKey: viewportKey,
         codeHooks: codeHooks,
-        updateRevealContext: updateRevealContext,
+        hooks: {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+        },
       })
       : null
   const tractStackContextPayload =
@@ -371,7 +379,11 @@ const RenderedStoryFragment = ({ data }) => {
           .field_context_panes,
         null,
         viewportKey,
-        updateRevealContext
+        {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+        }
       )
       : null
 
@@ -398,6 +410,24 @@ const RenderedStoryFragment = ({ data }) => {
         }
       })
     })
+
+  useEffect(() => {
+    function getContentMap() {
+      Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
+        const [key, value] = entry;
+        updateContentMap(key, { id: key, slug: value, type: "pane" })
+        updateContentMap(value, { id: key, slug: value, type: "pane" })
+      });
+      Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
+        const [key, value] = entry;
+        updateContentMap(key, { id: key, slug: value, type: "context" })
+        updateContentMap(value, { id: key, slug: value, type: "context" })
+      });
+    }
+    if (typeof tractStackContextPayload === "object" && typeof storyFragmentPayload === "object" && tractStackContextPayload?.hasOwnProperty('contentMap') && storyFragmentPayload?.hasOwnProperty('contentMap'))
+      getContentMap()
+  }, [updateContentMap, tractStackContextPayload, storyFragmentPayload])
+
 
   useEffect(() => {
     function handleResize() {
@@ -434,12 +464,10 @@ const RenderedStoryFragment = ({ data }) => {
       } else if (
         viewportKey !== "server" &&
         typeof revealContext["slug"] === "string" &&
-        revealContext["reveal"] === Date.now()
+        Date.now() - revealContext["reveal"] < 1000
       ) {
-        console.log("does this work?")
         const element = document.getElementById(`context`)
         element.scrollIntoView()
-        updateRevealContext("reveal", undefined)
       }
     },
     [updateRevealContext, panesVisible, revealContext, viewportKey]
@@ -447,21 +475,21 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function loginToConcierge() {
-      if (!validateToken && fingerprint > 0) {
+      if (!validToken && fingerprint > 0) {
         getTokens(fingerprint).then(res => {
           const accessToken =
             typeof res.tokens === "string" ? res.tokens : false
           if (accessToken) {
             console.log("logged in")
             login({ accessToken: accessToken, fingerprint: fingerprint })
-            setValidateToken(true)
+            setValidToken(true)
           } else {
             console.log("error with token")
           }
         })
       }
     },
-    [validateToken, setValidateToken, fingerprint, login]
+    [validToken, setValidToken, fingerprint, login]
   )
 
   useInterval(() => {
@@ -505,11 +533,6 @@ const RenderedStoryFragment = ({ data }) => {
       <Seo title={storyFragmentTitle} />
       <>
         <StoryFragment
-          revealContext={revealContext}
-          updateRevealContext={updateRevealContext}
-          updateEventStream={updateEventStream}
-          panesVisible={panesVisible}
-          updatePanesVisible={updatePanesVisible}
           storyFragmentPayload={storyFragmentPayload}
           contextPayload={tractStackContextPayload}
           viewportKey={viewportKey}

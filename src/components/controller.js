@@ -12,7 +12,12 @@ import config from "../../data/SiteConfig"
 
 const impressionsDelay = config.impressionsDelay
 
-const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
+const Impression = ({
+  payload,
+  updateRevealContext,
+  updateEventStream,
+  processRead,
+}) => {
   if (typeof payload !== "object") return <></>
   const thisButtonPayload = lispLexer(payload.actionsLisp)
   function injectPayload() {
@@ -22,7 +27,10 @@ const Impression = ({ payload, updateRevealContext, updateEventStream }) => {
       object_id: payload.id,
       object_type: "impression",
     })
-    concierge(thisButtonPayload, updateRevealContext)
+    concierge(thisButtonPayload, {
+      updateRevealContext: updateRevealContext,
+      processRead: processRead,
+    })
   }
   return (
     <>
@@ -52,6 +60,7 @@ const Controller = ({
   impressionPanes,
   updateRevealContext,
   updateEventStream,
+  processRead,
   viewportKey,
 }) => {
   const [offset, setOffset] = React.useState(0)
@@ -66,7 +75,7 @@ const Controller = ({
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-    typeof offsetImpression[0] === "object"
+      typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>
@@ -89,6 +98,7 @@ const Controller = ({
               payload={thisImpression}
               updateRevealContext={updateRevealContext}
               updateEventStream={updateEventStream}
+              processRead={processRead}
             />
           </div>
         </div>

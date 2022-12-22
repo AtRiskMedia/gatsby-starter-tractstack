@@ -2,6 +2,7 @@ import React from "react"
 import { InView } from "react-cool-inview"
 import { classNames } from "gatsby-plugin-tractstack"
 
+import { useStoryStepStore } from "../stores/storyStep"
 import config from "../../data/SiteConfig"
 
 const readThreshold = config.readThreshold
@@ -24,10 +25,12 @@ const Pane = ({ thisId, children, inView, observe, hasMaxHScreen }) => (
 const StoryFragmentRender = ({
   storyFragmentPayload,
   viewportKey,
-  panesVisible,
-  updatePanesVisible,
-  updateEventStream,
 }) => {
+  const panesVisible = useStoryStepStore(state => state.panesVisible)
+  const updatePanesVisible = useStoryStepStore(
+    state => state.updatePanesVisible
+  )
+  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const contentMap = storyFragmentPayload?.panesPayload?.contentMap
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
