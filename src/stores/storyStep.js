@@ -22,15 +22,18 @@ export const useStoryStepStore = create((set, get) => ({
     const updatePanesVisibleCleanup = get().updatePanesVisibleCleanup
     const contentMap = get().contentMap
     const updateEventStream = get().updateEventStream
+    console.log("processRead")
+    console.log('last', panesVisible.last, contentMap[panesVisible.last])
     for (const [key, value] of Object.entries(panesVisible)) {
       if (key === "last" || key === "footer") continue
+      console.log(key, (now - value) / 1000, contentMap[key], panesVisible[key])
       const duration = now - value
       const verb =
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold
-          ? "glossedOver"
-          : null
+            ? "glossedOver"
+            : null
       if (verb) {
         updateEventStream(Date.now(), {
           verb: verb,
