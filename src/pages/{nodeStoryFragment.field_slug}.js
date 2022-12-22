@@ -339,7 +339,7 @@ const RenderedStoryFragment = ({ data }) => {
   const [viewportKey, setViewportKey] = useState("server")
   const [lastSync, setLastSync] = useState(0)
   const [validToken, setValidToken] = useState(() => {
-    const localData = localStorage.getItem("validToken")
+    const localData = localStorage !== undefined && localStorage.getItem("validToken")
     return localData ? JSON.parse(localData) : false
   })
   const updatePanesVisible = useStoryStepStore(
