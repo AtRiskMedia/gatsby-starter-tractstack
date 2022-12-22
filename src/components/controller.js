@@ -75,7 +75,7 @@ const Controller = ({
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-      typeof offsetImpression[0] === "object"
+    typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>

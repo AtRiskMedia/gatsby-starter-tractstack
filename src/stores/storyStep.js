@@ -20,8 +20,10 @@ export const useStoryStepStore = create((set, get) => ({
     const panesVisible = get().panesVisible
     const contentMap = get().contentMap
     const updateEventStream = get().updateEventStream
-    const last = typeof panesVisible["last"] === "string" ? panesVisible["last"] : false
-    const duration = typeof last === "string" ? Date.now() - panesVisible[last] : false
+    const last =
+      typeof panesVisible["last"] === "string" ? panesVisible["last"] : false
+    const duration =
+      typeof last === "string" ? Date.now() - panesVisible[last] : false
     if (duration > readThreshold)
       updateEventStream(Date.now(), {
         verb: "read",

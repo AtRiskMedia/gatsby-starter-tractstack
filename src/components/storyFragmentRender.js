@@ -22,10 +22,7 @@ const Pane = ({ thisId, children, inView, observe, hasMaxHScreen }) => (
   </div>
 )
 
-const StoryFragmentRender = ({
-  storyFragmentPayload,
-  viewportKey,
-}) => {
+const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
@@ -34,7 +31,7 @@ const StoryFragmentRender = ({
   const contentMap = storyFragmentPayload?.panesPayload?.contentMap
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
-      typeof contentMap === "object"
+    typeof contentMap === "object"
       ? Object.keys(contentMap)
       : []
   const menu = (typeof storyFragmentPayload?.menu === "object" &&

@@ -31,7 +31,8 @@ const StoryFragment = ({
   const revealContextDetails = contentMap?.hasOwnProperty(revealContext.slug)
     ? contentMap[revealContext.slug]
     : false
-  const revealContextId = typeof revealContextDetails === "object" ? revealContextDetails.id : false
+  const revealContextId =
+    typeof revealContextDetails === "object" ? revealContextDetails.id : false
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
   const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
     revealContextId
@@ -39,8 +40,9 @@ const StoryFragment = ({
     ? contextPayload.payload[revealContextId]
     : null
   const thisCss = !prefersReducedMotion
-    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${storyFragmentPayload?.panesPayload?.cssAnimated || ``
-    }`
+    ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
+        storyFragmentPayload?.panesPayload?.cssAnimated || ``
+      }`
     : `${storyFragmentPayload?.panesPayload?.css || ``}`
   let impressionPanes = []
   Object.keys(panesVisible).forEach(key => {
@@ -83,8 +85,8 @@ const StoryFragment = ({
           )}
         </main>
         {revealContextId === false &&
-          impressionPanes.length &&
-          panesVisible.footer !== true ? (
+        impressionPanes.length &&
+        panesVisible.footer !== true ? (
           <aside id="controller">
             <Controller
               impressions={impressions}
