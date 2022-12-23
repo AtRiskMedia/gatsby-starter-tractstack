@@ -32,11 +32,11 @@ export const useStoryStepStore = create((set, get) => ({
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold && bypass !== true
-          ? "glossedOver"
-          : null
+            ? "glossedOver"
+            : null
       console.log(verb, duration)
       if (verb) {
-        console.log(verb)
+        console.log(contentMap[key])
         updateEventStream(now + offset, {
           verb: verb,
           object_name: contentMap[key].slug,
