@@ -522,10 +522,11 @@ const RenderedStoryFragment = ({ data }) => {
       updateEventStreamCleanup(now)
       setLastSync(now)
     }
+    processRead(true)
   }, config.conciergeSync)
 
   if (viewportKey === "server") return <></>
-
+  console.log(panesVisible)
   return (
     <>
       {storyFragmentPayload?.hasH5P && (
