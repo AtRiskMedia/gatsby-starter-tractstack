@@ -500,6 +500,7 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   useInterval(() => {
+    const now = Date.now()
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
