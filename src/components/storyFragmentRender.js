@@ -31,7 +31,7 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
   const contentMap = storyFragmentPayload?.panesPayload?.contentMap
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
-    typeof contentMap === "object"
+      typeof contentMap === "object"
       ? Object.keys(contentMap)
       : []
   const menu = (typeof storyFragmentPayload?.menu === "object" &&
@@ -56,15 +56,16 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
               updatePanesVisible("last", p)
             }}
             onLeave={() => {
-              const duration = Date.now() - panesVisible[p]
+              const now = Date.now()
+              const duration = typeof panesVisible[p] === "number" ? now - panesVisible[p] : 0
               const verb =
                 duration > readThreshold
                   ? "read"
                   : duration > softReadThreshold
-                  ? "glossedOver"
-                  : null
+                    ? "glossedOver"
+                    : null
               if (verb)
-                updateEventStream(Date.now(), {
+                updateEventStream(now, {
                   verb: verb,
                   object_name: contentMap[p],
                   object_id: p,
