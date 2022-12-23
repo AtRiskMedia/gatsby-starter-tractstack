@@ -36,9 +36,9 @@ export const useStoryStepStore = create((set, get) => ({
             : null
       console.log(verb, duration)
       if (verb) {
+        const when = now + offset
         console.log(contentMap[key])
-        console.log(
-          now + offset,
+        console.log(when,
           {
             verb: verb,
             object_name: contentMap[key].slug,
@@ -47,7 +47,7 @@ export const useStoryStepStore = create((set, get) => ({
             duration: duration / 1000,
           }
         )
-        updateEventStream(now + offset, {
+        updateEventStream(when, {
           verb: verb,
           object_name: contentMap[key].slug,
           object_id: contentMap[key].id,
