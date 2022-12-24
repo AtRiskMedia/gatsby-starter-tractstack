@@ -21,8 +21,8 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-        ? "glossedOver"
-        : null
+          ? "glossedOver"
+          : null
     if (verb)
       updateEventStream(Date.now(), {
         verb: verb,
@@ -42,8 +42,8 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-            ? "glossedOver"
-            : null
+              ? "glossedOver"
+              : null
         if (verb)
           updateEventStream(Date.now(), {
             verb: verb,
@@ -59,10 +59,9 @@ const Context = ({ children }) => {
     return () => document.removeEventListener("keydown", handleEscapeKey)
   }, [
     updateRevealContext,
-    revealContext.reveal,
-    revealContext.slug,
-    revealContext.id,
+    revealContext,
     updateEventStream,
+    contentMap,
   ])
 
   return (
