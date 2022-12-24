@@ -365,29 +365,29 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        hooks: {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        },
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          hooks: {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          },
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        }
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          }
+        )
       : null
 
   if (
@@ -415,7 +415,7 @@ const RenderedStoryFragment = ({ data }) => {
     })
 
   useEffect(() => {
-    function getContentMap() {
+    function generateContentMap() {
       Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
         const [key, value] = entry
         updateContentMap(key, { id: key, slug: value, type: "pane" })
@@ -433,7 +433,7 @@ const RenderedStoryFragment = ({ data }) => {
       tractStackContextPayload?.hasOwnProperty("contentMap") &&
       storyFragmentPayload?.hasOwnProperty("contentMap")
     )
-      getContentMap()
+      generateContentMap()
   }, [updateContentMap, tractStackContextPayload, storyFragmentPayload])
 
   useEffect(() => {
@@ -447,8 +447,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -504,11 +504,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       pushPayload({ payload }).then(res => {

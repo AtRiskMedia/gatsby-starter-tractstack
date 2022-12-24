@@ -9,6 +9,7 @@ const softReadThreshold = config.softReadThreshold
 
 const Context = ({ children }) => {
   const revealContext = useStoryStepStore(state => state.revealContext)
+  const contentMap = useStoryStepStore(state => state.contentMap)
   const updateRevealContext = useStoryStepStore(
     state => state.updateRevealContext
   )
@@ -26,7 +27,7 @@ const Context = ({ children }) => {
       updateEventStream(Date.now(), {
         verb: verb,
         object_name: revealContext.slug,
-        object_id: revealContext.id,
+        object_id: contentMap[revealContext.slug].id,
         object_type: "context",
         duration: duration / 1000,
       })
@@ -47,7 +48,7 @@ const Context = ({ children }) => {
           updateEventStream(Date.now(), {
             verb: verb,
             object_name: revealContext.slug,
-            object_id: revealContext.id,
+            object_id: contentMap[revealContext.slug].id,
             object_type: "context",
             duration: duration / 1000,
           })
