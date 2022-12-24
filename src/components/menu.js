@@ -11,6 +11,7 @@ const NavLink = ({ children, to, onClick }) => (
 )
 
 function Menu({ menuPayload, viewportKey, hooks }) {
+  const updateEventStream = hooks.updateEventStream
   const processRead = hooks.processRead
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
@@ -18,6 +19,13 @@ function Menu({ menuPayload, viewportKey, hooks }) {
   )
   const menuItems = menuPayload.relationships?.field_menu_items?.map(e => {
     function injectPayload() {
+      const now = Date.now()
+      updateEventStream(now, {
+        verb: "clicked",
+        object_name: e.field_slug,
+        object_id: e.id,
+        object_type: "menuitem",
+      })
       processRead()
     }
     return (
