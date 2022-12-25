@@ -61,8 +61,9 @@ export function createAxiosClient({
         originalRequest?.url !== refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
+        localStorage.clear()
         if (isRefreshing) {
-          return new Promise(function (resolve, reject) {
+          return new Promise(function(resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
