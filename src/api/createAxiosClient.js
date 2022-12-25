@@ -55,6 +55,7 @@ export function createAxiosClient({
         logout()
         return Promise.reject(error)
       }
+
       if (
         error.response?.status === 401 &&
         originalRequest?.url !== refreshTokenUrl &&
@@ -89,6 +90,7 @@ export function createAxiosClient({
       }
 
       if (error.response?.status === 401) {
+        localStorage.clear()
         return handleError(error)
       }
 
