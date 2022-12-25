@@ -40,6 +40,7 @@ const H5P = ({ src, title, parent }) => {
               object_id: objectId,
               parent_id: parent.id,
               parent_name: parent.name,
+              parent_type: parent.objectType,
               object_type: objectType,
               duration: durationInSeconds,
               score: score,
@@ -55,7 +56,6 @@ const H5P = ({ src, title, parent }) => {
       title={title}
       ref={handleContentRef}
       src={src}
-      frameBorder="0"
       allowFullScreen="allowfullscreen"
     />
   )
