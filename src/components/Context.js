@@ -21,8 +21,8 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-          ? "glossedOver"
-          : null
+        ? "glossedOver"
+        : null
     if (verb)
       updateEventStream(Date.now(), {
         verb: verb,
@@ -42,8 +42,8 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-              ? "glossedOver"
-              : null
+            ? "glossedOver"
+            : null
         if (verb)
           updateEventStream(Date.now(), {
             verb: verb,
@@ -57,12 +57,7 @@ const Context = ({ children }) => {
     }
     document.addEventListener("keydown", handleEscapeKey)
     return () => document.removeEventListener("keydown", handleEscapeKey)
-  }, [
-    updateRevealContext,
-    revealContext,
-    updateEventStream,
-    contentMap,
-  ])
+  }, [updateRevealContext, revealContext, updateEventStream, contentMap])
 
   return (
     <div id="context" className="z-80010 bg-allblack-seethrough">
