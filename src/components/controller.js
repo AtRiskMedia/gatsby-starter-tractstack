@@ -27,6 +27,9 @@ const Impression = ({ payload }) => {
       object_name: payload.slug,
       object_id: payload.id,
       object_type: "impression",
+      parent_id: payload.parentId,
+      parent_name: payload.parentName,
+      parent_type: payload.parentType,
     })
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
