@@ -53,6 +53,7 @@ export function createAxiosClient({
       const handleError = error => {
         processQueue(error)
         logout()
+        localStorage.clear()
         return Promise.reject(error)
       }
 
@@ -61,7 +62,6 @@ export function createAxiosClient({
         originalRequest?.url !== refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
-        localStorage.clear()
         if (isRefreshing) {
           return new Promise(function(resolve, reject) {
             failQueue.push({ resolve, reject })
@@ -75,6 +75,8 @@ export function createAxiosClient({
         }
         isRefreshing = true
         originalRequest._retry = true
+        logout()
+        localStorage.clear()
         return client
           .post(refreshTokenUrl)
           .then(res => {
@@ -91,7 +93,6 @@ export function createAxiosClient({
       }
 
       if (error.response?.status === 401) {
-        localStorage.clear()
         return handleError(error)
       }
 
