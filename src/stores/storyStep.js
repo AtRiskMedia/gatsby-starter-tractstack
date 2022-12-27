@@ -17,12 +17,13 @@ export const useStoryStepStore = create((set, get) => ({
   eventStream: {},
   contentMap: {},
   processRead: bypass => {
+    let offset = 0
     const now = Date.now()
-    let offset = 75 // to void collision with impression "clicked", other concierge action
     const panesVisible = get().panesVisible
     const updatePanesVisible = get().updatePanesVisible
     const updatePanesVisibleCleanup = get().updatePanesVisibleCleanup
     const contentMap = get().contentMap
+    const eventStream = get().eventStream
     const updateEventStream = get().updateEventStream
     for (const [key, value] of Object.entries(panesVisible)) {
       if (key === "last" || key === "footer" || typeof value !== "number")
@@ -32,10 +33,14 @@ export const useStoryStepStore = create((set, get) => ({
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold && bypass !== true
-          ? "glossedOver"
-          : null
+            ? "glossedOver"
+            : null
       if (verb) {
-        const when = now + offset
+        let when = 0
+        while (!when) {
+          offset = offset + 1
+          if (eventStream[(now - offset).toString()] === undefined) when = now - offset
+        }
         updateEventStream(when, {
           verb: verb,
           object_name: contentMap[key].slug,
@@ -43,7 +48,6 @@ export const useStoryStepStore = create((set, get) => ({
           object_type: contentMap[key].type,
           duration: duration / 1000,
         })
-        offset = offset + 1
         if (bypass) {
           updatePanesVisible("last", false)
           updatePanesVisible(key, false)
