@@ -5,7 +5,7 @@ function getCurrentAccessToken() {
   return useAuthStore.getState().accessToken
 }
 
-function setRefreshedTokens(tokens) {
+async function setRefreshedTokens(tokens) {
   const login = useAuthStore.getState().login
   const fingerprint = useAuthStore.getState().fingerprint
   login(tokens, fingerprint)
