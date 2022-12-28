@@ -497,6 +497,7 @@ const RenderedStoryFragment = ({ data }) => {
           console.log("error with token", res)
         }
       })
+      console.log(accessToken, validToken, fingerprint, loggingIn)
       if (!validToken && fingerprint > 0 && !loggingIn) {
         setLoggingIn(1)
         loginToConcierge()
