@@ -8,7 +8,6 @@ const getGraph = async fingerprint => {
     const response = await graph({ fingerprint })
     const data = response?.data
     if (data) {
-      console.log('todo', data)
       let graphNodes = []
       let graphRelationships = []
       data.forEach((row) => {
@@ -49,7 +48,6 @@ const ConciergeGraph = () => {
   useEffect(() => {
     function goGetGraph() {
       getGraph().then(res => {
-        console.log(res)
         setGraphData(res?.graph)
       })
     }
@@ -59,7 +57,7 @@ const ConciergeGraph = () => {
   const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
   console.log(1, graphData)
   if (graphData && Object.keys(graphData).length === 0) return <></>
-  console.log(2, thisOptions)
+  console.log(2, knownGoodData)
   return (
     <>
       <p className="p-4">* coming soon; this isn't real data yet!</p>
