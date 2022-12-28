@@ -65,8 +65,8 @@ const ConciergeGraph = () => {
     }
     if (graphData && Object.keys(graphData).length === 0) goGetGraph()
   }, [graphData, setGraphData])
-  const thisOptions = { ...graphOptions, neo4jData: graphData }
-  //const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
+  //const thisOptions = { ...graphOptions, neo4jData: graphData }
+  const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
   console.log(1, graphData)
   if (graphData && Object.keys(graphData).length === 0) return <></>
   console.log(2, knownGoodData)
