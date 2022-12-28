@@ -87,36 +87,43 @@ const knownGoodData =
             nodes: [
               {
                 id: "1",
+                type: "visitor",
                 labels: ["Visitor"],
                 properties: {},
               },
               {
                 id: "2",
+                type: "claim",
                 labels: ["SecurityMatters"],
                 properties: {},
               },
               {
                 id: "3",
+                type: "claim",
                 labels: ["AtRiskMediaHelps"],
                 properties: {},
               },
               {
                 id: "4",
+                type: "pane",
                 labels: ["Hero"],
                 properties: {},
               },
               {
                 id: "5",
+                type: "impression",
                 labels: ["Impression"],
                 properties: {},
               },
               {
                 id: "6",
+                type: "pane",
                 labels: ["Pane"],
                 properties: {},
               },
               {
                 id: "7",
+                type: "activity",
                 labels: ["Activity"],
                 properties: {},
               },
