@@ -16,9 +16,9 @@ async function logout() {
   logout()
 }
 
-function fingerprint() {
-  const fingerprint = useAuthStore.getState().fingerprint
-  return fingerprint
+async function resetFingerprint() {
+  const setFingerprint = useAuthStore(state => state.setFingerprint)
+  setFingerprint(false)
 }
 
 export const client = createAxiosClient({
@@ -31,7 +31,7 @@ export const client = createAxiosClient({
   },
   getCurrentAccessToken,
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
-  logout,
   setRefreshedTokens,
-  fingerprint,
+  logout,
+  resetFingerprint,
 })
