@@ -338,6 +338,7 @@ const RenderedStoryFragment = ({ data }) => {
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
   const [viewportKey, setViewportKey] = useState("server")
   const [lastSync, setLastSync] = useState(0)
+  const [loggingIn, setLoggingIn] = useState(0)
   const [validToken, setValidToken] = useState(() => {
     const localData =
       typeof localStorage === "object"
@@ -493,14 +494,16 @@ const RenderedStoryFragment = ({ data }) => {
           login({ accessToken: accessToken, fingerprint: fingerprint })
           setValidToken(true)
         } else {
-          console.log("error with token")
+          console.log("error with token", res)
         }
       })
-      if (!validToken && fingerprint > 0) {
+      if (!validToken && fingerprint > 0 && !loggingIn) {
+        setLoggingIn(1)
         loginToConcierge()
+        setLoggingIn(0)
       }
     },
-    [validToken, setValidToken, fingerprint, login]
+    [validToken, setValidToken, fingerprint, login, loggingIn, setLoggingIn]
   )
 
   useInterval(() => {
