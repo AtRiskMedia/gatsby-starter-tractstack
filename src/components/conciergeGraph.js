@@ -19,7 +19,7 @@ const getGraph = async fingerprint => {
 const ConciergeGraph = () => {
   useEffect(function conciergeGetGraph() {
     getGraph().then(res => {
-      console.log(1, res)
+      console.log('graph', res.data)
       //const accessToken =
       //typeof res.tokens === "string" ? res.tokens : false
     })
