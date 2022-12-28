@@ -9,6 +9,7 @@
     "@rajesh896/broprint.js": "^2.1.1",
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
+    "format": "^0.2.2",
     "gatsby": "^5.3.3",
     "gatsby-plugin-image": "^3.3.2",
     "gatsby-plugin-manifest": "^5.3.1",
