@@ -33,13 +33,14 @@ export const useStoryStepStore = create((set, get) => ({
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold && bypass !== true
-            ? "glossedOver"
-            : null
+          ? "glossedOver"
+          : null
       if (verb) {
         let when = 0
         while (!when) {
           offset = offset + 1
-          if (eventStream[(now - offset).toString()] === undefined) when = now - offset
+          if (eventStream[(now - offset).toString()] === undefined)
+            when = now - offset
         }
         updateEventStream(when, {
           verb: verb,

@@ -1,16 +1,16 @@
 import { client } from "./axiosClient"
 
-export function register({ fingerprint }) {
+export async function register({ fingerprint }) {
   const payload = {
     fingerprint: fingerprint.toString(),
   }
   return client.post("auth/register", payload, { authorization: false })
 }
 
-export function graph() {
+export async function graph() {
   return client.get("/users/graph")
 }
 
-export function pushPayload({ payload }) {
+export async function pushPayload({ payload }) {
   return client.post("/users/eventStream", payload)
 }
