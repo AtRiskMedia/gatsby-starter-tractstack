@@ -69,7 +69,6 @@ const ConciergeGraph = () => {
   if (graphData && Object.keys(graphData).length === 0) return <></>
   return (
     <>
-      <p className="p-4">* coming soon; this isn't real data yet!</p>
       <div className="divide-y divide-gray-200 lg:col-span-9 h-screen max-h-[40rem]">
         <D3 options={thisOptions} slug="conciergeGraph" />
       </div>
