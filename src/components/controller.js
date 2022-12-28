@@ -1,7 +1,6 @@
 import React from "react"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 import {
-  getControllerPayload,
   concierge,
   lispLexer,
   useInterval,
@@ -31,6 +30,7 @@ const Impression = ({ payload }) => {
       parent_name: payload.parentName,
       parent_type: payload.parentType,
     })
+    console.log(thisButtonPayload, updateRevealContext, processRead)
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
       processRead: processRead,
@@ -74,7 +74,7 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-    typeof offsetImpression[0] === "object"
+      typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>
