@@ -486,22 +486,22 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function loginToConcierge() {
-      getTokens(fingerprint).then(res => {
-        const accessToken =
-          typeof res.tokens === "string" ? res.tokens : false
-        console.log(accessToken)
-        if (accessToken) {
-          console.log("logged in")
-          login({ accessToken: accessToken, fingerprint: fingerprint })
-          setValidToken(true)
-        } else {
-          console.log("error with token", res)
-        }
-      })
-      console.log(validToken, fingerprint, loggingIn)
+      console.log('check', validToken, fingerprint, loggingIn)
       if (!validToken && fingerprint > 0 && !loggingIn) {
+        console.log('do')
         setLoggingIn(1)
-        loginToConcierge()
+        getTokens(fingerprint).then(res => {
+          const accessToken =
+            typeof res.tokens === "string" ? res.tokens : false
+          console.log(accessToken)
+          if (accessToken) {
+            console.log("logged in")
+            login({ accessToken: accessToken, fingerprint: fingerprint })
+            setValidToken(true)
+          } else {
+            console.log("error with token", res)
+          }
+        })
         setLoggingIn(0)
       }
     },
