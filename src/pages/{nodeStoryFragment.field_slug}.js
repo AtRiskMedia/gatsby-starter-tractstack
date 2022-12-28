@@ -460,6 +460,7 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   useEffect(() => {
+    console.log(fingerprint === false, typeof fingerprint === "undefined", typeof fingerprint, fingerprint, fingerprintCheck)
     if (
       viewportKey !== "server" &&
       (fingerprint === false || typeof fingerprint === "undefined") &&
