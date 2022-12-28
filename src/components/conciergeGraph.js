@@ -9,12 +9,23 @@ const getGraph = async fingerprint => {
     const data = response?.data
     if (data) {
       console.log(data)
-      let graphNodes = []
-      let graphRelationships = []
-      data.forEach((row) => {
-        graphNodes.push(row.v)
-        graphNodes.push(row.c)
-        graphRelationships.push(row.r)
+      let graphNodes = [],
+        graphNodeIds = []
+      let graphRelationships = [],
+        graphRelationshipIds = []
+      data.forEach(row => {
+        if (!graphNodeIds.includes(row.v.id)) {
+          graphNodes.push(row.v)
+          graphNodeIds.push(row.v.id)
+        }
+        if (!graphNodeIds.includes(row.c.id)) {
+          graphNodes.push(row.c)
+          graphNodeIds.push(row.c.id)
+        }
+        if (!graphRelationshipIds.includes(row.r.id)) {
+          graphRelationships.push(row.r)
+          graphRelationshipIds.push(row.r.id)
+        }
       })
       const graph = {
         results: [
@@ -73,11 +84,10 @@ const graphOptions = {
   distance: 150,
   strength: -350,
   infoPanel: true,
-  labelFontSize: "18px"
+  labelFontSize: "18px",
 }
 
-const knownGoodData =
-{
+const knownGoodData = {
   results: [
     {
       columns: ["user", "entity"],
@@ -179,7 +189,5 @@ const knownGoodData =
   ],
   errors: [],
 }
-
-
 
 export default ConciergeGraph
