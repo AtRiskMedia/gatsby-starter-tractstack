@@ -86,6 +86,12 @@ export function createAxiosClient({
           .finally(() => {
             isRefreshing = false
           })
+      } else if (
+        error.response?.status === 401 &&
+        originalRequest?.url === refreshTokenUrl &&
+        originalRequest?._retry !== true
+      ) {
+        logout()
       }
 
       if (error.response?.status === 401) {
