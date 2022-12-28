@@ -9,6 +9,8 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+
+import { useAuthStore } from "../stores/authStore"
 import ConciergeProfile from "./conciergeProfile.js"
 import ConciergeGraph from "./conciergeGraph.js"
 
@@ -36,6 +38,14 @@ const _subNavigation = hash => {
 }
 
 const TractStack = () => {
+  const fingerprint = useAuthStore(state => state.fingerprint)
+  const masked = fingerprint === -1 ? true : false
+  const pClasses = classNames("text-md text-gray-500 mt-4 max-w-xl", masked ? "line-through" : "")
+  const graphLink =
+    <> Check out the <Link to={"/graph"}>knowledge graph</Link> to see this
+      in real-time! </>
+  const nograph =
+    <> {" "}You are using a privacy-first browser. No behavioural data will be collected.</>
   return (
     <div className="divide-y divide-gray-200 lg:col-span-9">
       <div className="py-6 px-4 sm:p-6 lg:pb-8">
@@ -51,17 +61,15 @@ const TractStack = () => {
           We care about helping businesses build community and make meaningful
           connections with prospective clients/customers. Above all, we want to
           validate whether these products/services are a good fit for{" "}
-          <span className="italic">your</span> business.
+          <span className="italic">you</span>.
         </p>
-        <p className="text-md text-gray-500 mt-4 max-w-xl">
+        <p className={pClasses}>
           As you navigate this site, our special algorithms are taking note of
           where you place your attention. Depending on your path through this
           site, we may make recommendations for free supports and resources.
-          Check out the <Link to={"/graph"}>knowledge graph</Link> to see this
-          in real-time!
         </p>
-        <p className="text-md text-gray-500 mt-4 max-w-xl font-bold">
-          All data is anonymized, though we do invite you to introduce yourself.
+        <p className="text-md text-gray-500 mt-4 max-w-xl italic">
+          {masked ? nograph : graphLink}
         </p>
       </div>
     </div>

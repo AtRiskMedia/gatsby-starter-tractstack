@@ -490,7 +490,7 @@ const RenderedStoryFragment = ({ data }) => {
   ])
 
   useEffect(() => {
-    console.log(`validToken:${validToken} fingerprint:${fingerprint}`)
+    console.log(`validToken:${validToken} fingerprint:${fingerprint} fingerprintCheck:${fingerprintCheck}`)
     if (fingerprint > 0 && !loggingIn && !validToken) {
       console.log("do login")
       setLoggingIn(1)
@@ -507,7 +507,10 @@ const RenderedStoryFragment = ({ data }) => {
         setLoggingIn(0)
       })
     }
-  }, [validToken, setValidToken, fingerprint, login, loggingIn, setLoggingIn])
+    else if (!validToken && fingerprint === false) {
+
+    }
+  }, [validToken, setValidToken, fingerprint, fingerprintCheck, login, loggingIn, setLoggingIn])
 
   useInterval(() => {
     const now = Date.now()

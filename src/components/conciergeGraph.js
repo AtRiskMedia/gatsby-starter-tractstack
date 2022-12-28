@@ -66,7 +66,7 @@ const ConciergeGraph = () => {
   }, [graphData, setGraphData])
   const thisOptions = { ...graphOptions, neo4jData: graphData }
   //const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
-  if (graphData && Object.keys(graphData).length === 0) return <></>
+  if (graphData && Object.keys(graphData).length === 0) return <>Loading...</>
   return (
     <>
       <div className="divide-y divide-gray-200 lg:col-span-9 h-screen max-h-[40rem]">
