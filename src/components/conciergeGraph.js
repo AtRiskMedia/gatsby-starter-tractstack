@@ -6,7 +6,28 @@ import D3 from "../components/D3"
 const getGraph = async fingerprint => {
   try {
     const response = await graph({ fingerprint })
-    console.log(response)
+    const data = response?.data
+    if (data) {
+      let graphNodes = []
+      let relationshipNodes = []
+      const graph = {
+        results: [
+          {
+            columns: ["user", "entity"],
+            data: [
+              {
+                graph: {
+                  nodes: graphNodes,
+                  relationships: relationshipNodes,
+                },
+              },
+            ],
+          },
+        ],
+        errors: [],
+      }
+      return { graph: graph, error: null }
+    }
     return { graph: null, error: null }
   } catch (error) {
     return {
@@ -18,11 +39,8 @@ const getGraph = async fingerprint => {
 
 const ConciergeGraph = () => {
   useEffect(function conciergeGetGraph() {
-    getGraph().then(res => {
-      console.log('graph', res.data)
-      //const accessToken =
-      //typeof res.tokens === "string" ? res.tokens : false
-    })
+    graph = getGraph()
+    console.log(graph)
   }, [])
 
   return (
