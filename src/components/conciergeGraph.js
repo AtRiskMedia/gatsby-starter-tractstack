@@ -8,6 +8,7 @@ const getGraph = async fingerprint => {
     const response = await graph({ fingerprint })
     const data = response?.data
     if (data) {
+      console.log(data)
       let graphNodes = []
       let graphRelationships = []
       data.forEach((row) => {
