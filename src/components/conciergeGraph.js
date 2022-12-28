@@ -58,6 +58,7 @@ const ConciergeGraph = () => {
   console.log(1, graphData)
   if (graphData && Object.keys(graphData).length === 0) return <></>
   console.log(2, knownGoodData)
+  return <></>
   return (
     <>
       <p className="p-4">* coming soon; this isn't real data yet!</p>
