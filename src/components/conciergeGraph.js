@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import { graph } from "../api/services"
 import D3 from "../components/D3"
@@ -45,12 +45,18 @@ const getGraph = async fingerprint => {
 
 const ConciergeGraph = () => {
   const [graphData, setGraphData] = useState({})
-  getGraph().then(res => {
-    console.log(res)
-    setGraphData(res)
-  })
-  if (graphData && Object.keys(graphData).length === 0) return <></>
+
+  useEffect(() => {
+    function goGetGraph() {
+      getGraph().then(res => {
+        console.log(res)
+        setGraphData(res?.graph)
+      })
+    }
+    if (graphData && Object.keys(graphData).length === 0) goGetGraph()
+  }, [graphData, setGraphData])
   const thisOptions = { ...graphOptions, neo4jData: graphData }
+  if (graphData && Object.keys(graphData).length === 0) return <></>
   console.log(thisOptions)
   return (
     <>
