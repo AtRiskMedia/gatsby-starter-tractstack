@@ -51,6 +51,7 @@ const ConciergeGraph = () => {
   })
   if (graphData && Object.keys(graphData).length === 0) return <></>
   const thisOptions = { ...graphOptions, neo4jData: graphData }
+  console.log(thisOptions)
   return (
     <>
       <p className="p-4">* coming soon; this isn't real data yet!</p>
