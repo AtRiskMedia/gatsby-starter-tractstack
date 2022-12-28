@@ -367,56 +367,32 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        hooks: {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-          updateEventStream: updateEventStream,
-          navigate: navigate,
-        },
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          hooks: {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+            updateEventStream: updateEventStream,
+            navigate: navigate,
+          },
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        }
-      )
-      : null
-
-  if (
-    viewportKey !== "server" &&
-    fingerprint === false &&
-    fingerprintCheck === false
-  )
-    getCurrentBrowserFingerPrint().then(fingerprint1 => {
-      getCurrentBrowserFingerPrint().then(fingerprint2 => {
-        console.log(
-          "debug: fingerprint check",
-          fingerprint1,
-          fingerprint2,
-          fingerprint1 === fingerprint2
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          }
         )
-        if (fingerprint1 !== fingerprint2) {
-          setFingerprint(-1)
-          setFingerprintCheck(undefined)
-          localStorage.clear()
-        } else {
-          setFingerprint(fingerprint2)
-          setFingerprintCheck(true)
-        }
-      })
-    })
+      : null
 
   useEffect(() => {
     function generateContentMap() {
@@ -451,8 +427,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -486,12 +462,33 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function loginToConcierge() {
-      console.log('check', validToken, fingerprint, loggingIn)
-      if (fingerprint === undefined && !loggingIn)
-        setLoggingIn(1)
+      console.log("check", validToken, fingerprint, fingerprintCheck, loggingIn)
+      if (
+        viewportKey !== "server" &&
+        fingerprint === false &&
+        fingerprintCheck === false
+      )
+        getCurrentBrowserFingerPrint().then(fingerprint1 => {
+          getCurrentBrowserFingerPrint().then(fingerprint2 => {
+            console.log(
+              "debug: fingerprint check",
+              fingerprint1,
+              fingerprint2,
+              fingerprint1 === fingerprint2
+            )
+            if (fingerprint1 !== fingerprint2) {
+              setFingerprint(-1)
+              setFingerprintCheck(undefined)
+              localStorage.clear()
+            } else {
+              setFingerprint(fingerprint2)
+              setFingerprintCheck(true)
+            }
+          })
+        })
+      if (fingerprint > 0 && !loggingIn && !validToken) setLoggingIn(1)
       getTokens(fingerprint).then(res => {
-        const accessToken =
-          typeof res.tokens === "string" ? res.tokens : false
+        const accessToken = typeof res.tokens === "string" ? res.tokens : false
         console.log(accessToken)
         if (accessToken) {
           console.log("logged in")
@@ -502,12 +499,18 @@ const RenderedStoryFragment = ({ data }) => {
         }
         setLoggingIn(0)
       })
-      if (!validToken) {
-        console.log('reset login')
-        setFingerprint(undefined)
-      }
     },
-    [validToken, setValidToken, fingerprint, setFingerprint, login, loggingIn, setLoggingIn]
+    [
+      validToken,
+      setValidToken,
+      fingerprint,
+      fingerprintCheck,
+      setFingerprint,
+      setFingerprintCheck,
+      login,
+      loggingIn,
+      setLoggingIn,
+    ]
   )
 
   useInterval(() => {
@@ -515,11 +518,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       pushPayload({ payload }).then(res => {
