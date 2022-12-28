@@ -10,7 +10,12 @@ const getGraph = async fingerprint => {
     if (data) {
       console.log('todo', data)
       let graphNodes = []
-      let relationshipNodes = []
+      let graphRelationships = []
+      data.forEach((row) => {
+        graphNodes.push(row.v)
+        graphNodes.push(row.c)
+        graphRelationships.push(row.r)
+      })
       const graph = {
         results: [
           {
