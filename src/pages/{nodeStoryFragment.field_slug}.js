@@ -439,7 +439,7 @@ const RenderedStoryFragment = ({ data }) => {
   useEffect(() => {
     if (
       viewportKey !== "server" &&
-      revealContext["slug"] === undefined &&
+      typeof revealContext["slug"] === "undefined" &&
       typeof panesVisible["last"] === "string"
     ) {
       updateRevealContext("slug", false)
@@ -460,19 +460,9 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   useEffect(() => {
-    console.log(viewportKey, fingerprint, fingerprintCheck,
-      viewportKey !== "server" &&
-      (fingerprint === false || fingerprint === undefined) &&
-      fingerprintCheck === false,
-      viewportKey !== "server",
-      (fingerprint === false || fingerprint === undefined),
-      fingerprint === false,
-      fingerprint === undefined,
-      fingerprintCheck === false,
-    )
     if (
       viewportKey !== "server" &&
-      (fingerprint === false || fingerprint === undefined) &&
+      (fingerprint === false || typeof fingerprint === "undefined") &&
       fingerprintCheck === false
     ) {
       console.log('do fingerprint')
