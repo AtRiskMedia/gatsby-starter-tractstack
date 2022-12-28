@@ -443,9 +443,7 @@ const RenderedStoryFragment = ({ data }) => {
       typeof panesVisible["last"] === "string"
     ) {
       updateRevealContext("slug", false)
-      const element = document.getElementById(
-        `wrapper-${panesVisible["last"]}`
-      )
+      const element = document.getElementById(`wrapper-${panesVisible["last"]}`)
       element.scrollIntoView()
     } else if (
       viewportKey !== "server" &&
@@ -455,18 +453,14 @@ const RenderedStoryFragment = ({ data }) => {
       const element = document.getElementById(`context`)
       element.scrollIntoView()
     }
-  },
-    [updateRevealContext, panesVisible, revealContext, viewportKey]
-  )
+  }, [updateRevealContext, panesVisible, revealContext, viewportKey])
 
   useEffect(() => {
-    console.log(fingerprint === false, typeof fingerprint === "undefined", typeof fingerprint, fingerprint, fingerprintCheck)
     if (
-      viewportKey !== "server" &&
-      (fingerprint === false || typeof fingerprint === "undefined") &&
-      fingerprintCheck === false
+      (viewportKey !== "server" && fingerprint === false,
+        fingerprintCheck === false)
     ) {
-      console.log('do fingerprint')
+      console.log("do fingerprint")
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
           console.log(
@@ -478,27 +472,27 @@ const RenderedStoryFragment = ({ data }) => {
           if (fingerprint1 !== fingerprint2) {
             setFingerprint(-1)
             setFingerprintCheck(undefined)
-          } else {
+          } else if (typeof fingerprint2 === "number") {
             setFingerprint(fingerprint2)
             setFingerprintCheck(true)
+          } else {
+            console.log("Unknonw error occurred during ident")
           }
         })
       })
     }
-  },
-    [
-      viewportKey,
-      fingerprint,
-      fingerprintCheck,
-      setFingerprint,
-      setFingerprintCheck,
-    ]
-  )
+  }, [
+    viewportKey,
+    fingerprint,
+    fingerprintCheck,
+    setFingerprint,
+    setFingerprintCheck,
+  ])
 
   useEffect(() => {
     console.log(`validToken:${validToken} fingerprint:${fingerprint}`)
     if (fingerprint > 0 && !loggingIn && !validToken) {
-      console.log('do login')
+      console.log("do login")
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
@@ -513,16 +507,7 @@ const RenderedStoryFragment = ({ data }) => {
         setLoggingIn(0)
       })
     }
-  },
-    [
-      validToken,
-      setValidToken,
-      fingerprint,
-      login,
-      loggingIn,
-      setLoggingIn,
-    ]
-  )
+  }, [validToken, setValidToken, fingerprint, login, loggingIn, setLoggingIn])
 
   useInterval(() => {
     const now = Date.now()
