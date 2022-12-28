@@ -8,7 +8,7 @@ export async function register({ fingerprint }) {
 }
 
 export async function graph() {
-  return client.get("/users/graph", { params: { "fingerprint_id": "1293801283" } })
+  return client.post("/users/graph")
 }
 
 export async function pushPayload({ payload }) {
