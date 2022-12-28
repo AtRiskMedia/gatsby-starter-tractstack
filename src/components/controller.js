@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from "gatsby"
 import { XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline"
 import { concierge, lispLexer, useInterval } from "gatsby-plugin-tractstack"
 
@@ -30,6 +31,7 @@ const Impression = ({ payload }) => {
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
       processRead: processRead,
+      navigate: navigate
     })
   }
 
@@ -70,7 +72,7 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-    typeof offsetImpression[0] === "object"
+      typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>
