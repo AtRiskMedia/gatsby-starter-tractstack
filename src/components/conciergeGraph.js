@@ -24,7 +24,7 @@ const getGraph = async fingerprint => {
               {
                 graph: {
                   nodes: graphNodes,
-                  relationships: relationshipNodes,
+                  relationships: graphRelationships,
                 },
               },
             ],
