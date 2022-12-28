@@ -55,9 +55,11 @@ const ConciergeGraph = () => {
     }
     if (graphData && Object.keys(graphData).length === 0) goGetGraph()
   }, [graphData, setGraphData])
-  const thisOptions = { ...graphOptions, neo4jData: graphData }
+  //const thisOptions = { ...graphOptions, neo4jData: graphData }
+  const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
+  console.log(1, graphData)
   if (graphData && Object.keys(graphData).length === 0) return <></>
-  console.log(thisOptions)
+  console.log(2, thisOptions)
   return (
     <>
       <p className="p-4">* coming soon; this isn't real data yet!</p>
@@ -74,5 +76,117 @@ const graphOptions = {
   infoPanel: true,
   labelFontSize: "18px"
 }
+
+const knownGoodData =
+{
+  results: [
+    {
+      columns: ["user", "entity"],
+      data: [
+        {
+          graph: {
+            nodes: [
+              {
+                id: "1",
+                type: "visitor",
+                labels: ["Visitor"],
+                properties: {},
+              },
+              {
+                id: "2",
+                type: "claim",
+                labels: ["SecurityMatters"],
+                properties: {},
+              },
+              {
+                id: "3",
+                type: "claim",
+                labels: ["AtRiskMediaHelps"],
+                properties: {},
+              },
+              {
+                id: "4",
+                type: "pane",
+                labels: ["Hero"],
+                properties: {},
+              },
+              {
+                id: "5",
+                type: "impression",
+                labels: ["Impression"],
+                properties: {},
+              },
+              {
+                id: "6",
+                type: "pane",
+                labels: ["Pane"],
+                properties: {},
+              },
+              {
+                id: "7",
+                labels: ["Activity"],
+                properties: {},
+              },
+            ],
+            relationships: [
+              {
+                id: "1",
+                type: "DISCOVERS",
+                startNode: "1",
+                endNode: "4",
+                properties: {},
+              },
+              {
+                id: "2",
+                type: "DISCOVERS",
+                startNode: "1",
+                endNode: "6",
+                properties: {},
+              },
+              {
+                id: "3",
+                type: "REVEALS",
+                startNode: "6",
+                endNode: "5",
+                properties: {},
+              },
+              {
+                id: "4",
+                type: "REVEALS",
+                startNode: "6",
+                endNode: "7",
+                properties: {},
+              },
+              {
+                id: "5",
+                type: "KNOWS",
+                startNode: "1",
+                endNode: "2",
+                properties: {},
+              },
+              {
+                id: "6",
+                type: "BELIEVES",
+                startNode: "1",
+                endNode: "2",
+                properties: {},
+              },
+              {
+                id: "7",
+                type: "KNOWS",
+                startNode: "1",
+                endNode: "3",
+                properties: {},
+              },
+            ],
+          },
+        },
+      ],
+    },
+  ],
+  errors: [],
+}
+
+
 
 export default ConciergeGraph
