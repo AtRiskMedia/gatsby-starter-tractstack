@@ -462,8 +462,8 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(
     function doFingerprint() {
+      console.log(viewportKey, fingerprint, fingerprintCheck)
       if (
-        viewportKey !== "server" &&
         (fingerprint === false || fingerprint === undefined) &&
         fingerprintCheck === false
       ) {
@@ -479,7 +479,6 @@ const RenderedStoryFragment = ({ data }) => {
             if (fingerprint1 !== fingerprint2) {
               setFingerprint(-1)
               setFingerprintCheck(undefined)
-              localStorage.clear()
             } else {
               setFingerprint(fingerprint2)
               setFingerprintCheck(true)
@@ -493,7 +492,6 @@ const RenderedStoryFragment = ({ data }) => {
       fingerprintCheck,
       setFingerprint,
       setFingerprintCheck,
-      viewportKey
     ]
   )
 
