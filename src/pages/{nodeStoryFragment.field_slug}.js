@@ -393,7 +393,7 @@ const RenderedStoryFragment = ({ data }) => {
         }
       )
       : null
-  console.log(viewportKey)
+
   useEffect(() => {
     function generateContentMap() {
       Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
@@ -418,7 +418,6 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     function handleResize() {
-      console.log('hhit')
       const scrollBarOffset = getScrollbarSize()
       const thisWidth = window.innerWidth - scrollBarOffset
       setViewportKey(
@@ -461,8 +460,9 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   useEffect(() => {
-    console.log(viewportKey, fingerprint, fingerprintCheck)
+    console.log(viewportKey, fingerprint, fingerprintCheck, viewportKey)
     if (
+      viewportKey !== "server" &&
       (fingerprint === false || fingerprint === undefined) &&
       fingerprintCheck === false
     ) {
@@ -487,6 +487,7 @@ const RenderedStoryFragment = ({ data }) => {
     }
   },
     [
+      viewportKey,
       fingerprint,
       fingerprintCheck,
       setFingerprint,
