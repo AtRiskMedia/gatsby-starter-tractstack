@@ -39,8 +39,9 @@ const getGraph = async fingerprint => {
 
 const ConciergeGraph = () => {
   useEffect(function conciergeGetGraph() {
-    graph = getGraph()
-    console.log(graph)
+    getGraph().then(res => {
+      console.log(res)
+    })
   }, [])
 
   return (
