@@ -464,7 +464,7 @@ const RenderedStoryFragment = ({ data }) => {
     function doFingerprint() {
       if (
         viewportKey !== "server" &&
-        fingerprint === false &&
+        (fingerprint === false || fingerprint === undefined) &&
         fingerprintCheck === false
       ) {
         console.log('do fingerprint')
