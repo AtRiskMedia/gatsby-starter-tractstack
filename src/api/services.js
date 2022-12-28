@@ -8,7 +8,7 @@ export async function register({ fingerprint }) {
 }
 
 export async function graph() {
-  return client.post("/users/graph")
+  return client.get("/users/graph")
 }
 
 export async function pushPayload({ payload }) {
