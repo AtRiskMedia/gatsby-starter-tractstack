@@ -489,6 +489,7 @@ const RenderedStoryFragment = ({ data }) => {
       getTokens(fingerprint).then(res => {
         const accessToken =
           typeof res.tokens === "string" ? res.tokens : false
+        console.log(accessToken)
         if (accessToken) {
           console.log("logged in")
           login({ accessToken: accessToken, fingerprint: fingerprint })
@@ -497,7 +498,7 @@ const RenderedStoryFragment = ({ data }) => {
           console.log("error with token", res)
         }
       })
-      console.log(accessToken, validToken, fingerprint, loggingIn)
+      console.log(validToken, fingerprint, loggingIn)
       if (!validToken && fingerprint > 0 && !loggingIn) {
         setLoggingIn(1)
         loginToConcierge()
