@@ -45,12 +45,10 @@ const getGraph = async fingerprint => {
 
 const ConciergeGraph = () => {
   const [graphData, setGraphData] = useState({})
-  useEffect(function conciergeGetGraph() {
-    getGraph().then(res => {
-      console.log(res)
-      setGraphData(res)
-    })
-  }, [])
+  getGraph().then(res => {
+    console.log(res)
+    setGraphData(res)
+  })
   if (graphData && Object.keys(graphData).length === 0) return <></>
   const thisOptions = { ...graphOptions, neo4jData: graphData }
   return (
