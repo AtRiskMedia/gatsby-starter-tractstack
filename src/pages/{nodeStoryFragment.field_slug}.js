@@ -461,8 +461,7 @@ const RenderedStoryFragment = ({ data }) => {
   )
 
   useEffect(
-    function loginToConcierge() {
-      console.log("check", validToken, fingerprint, fingerprintCheck, loggingIn)
+    function doFingerprint() {
       if (
         viewportKey !== "server" &&
         fingerprint === false &&
@@ -488,9 +487,21 @@ const RenderedStoryFragment = ({ data }) => {
           })
         })
       }
-      console.log('loop')
+    },
+    [
+      fingerprint,
+      fingerprintCheck,
+      setFingerprint,
+      setFingerprintCheck,
+      viewportKey
+    ]
+  )
+
+  useEffect(
+    function loginToConcierge() {
+      console.log(`validToken:${validToken} fingerprint:${fingerprint}`)
       if (fingerprint > 0 && !loggingIn && !validToken) {
-        console.log('in')
+        console.log('do login')
         setLoggingIn(1)
         getTokens(fingerprint).then(res => {
           const accessToken = typeof res.tokens === "string" ? res.tokens : false
@@ -510,13 +521,9 @@ const RenderedStoryFragment = ({ data }) => {
       validToken,
       setValidToken,
       fingerprint,
-      fingerprintCheck,
-      setFingerprint,
-      setFingerprintCheck,
       login,
       loggingIn,
       setLoggingIn,
-      viewportKey,
     ]
   )
 
