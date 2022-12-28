@@ -393,7 +393,7 @@ const RenderedStoryFragment = ({ data }) => {
         }
       )
       : null
-
+  console.log(viewportKey)
   useEffect(() => {
     function generateContentMap() {
       Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
@@ -418,6 +418,7 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     function handleResize() {
+      console.log('hhit')
       const scrollBarOffset = getScrollbarSize()
       const thisWidth = window.innerWidth - scrollBarOffset
       setViewportKey(
@@ -436,57 +437,55 @@ const RenderedStoryFragment = ({ data }) => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  useEffect(
-    function toggleContext() {
-      if (
-        viewportKey !== "server" &&
-        revealContext["slug"] === undefined &&
-        typeof panesVisible["last"] === "string"
-      ) {
-        updateRevealContext("slug", false)
-        const element = document.getElementById(
-          `wrapper-${panesVisible["last"]}`
-        )
-        element.scrollIntoView()
-      } else if (
-        viewportKey !== "server" &&
-        typeof revealContext["slug"] === "string" &&
-        Date.now() - revealContext["reveal"] < 1000
-      ) {
-        const element = document.getElementById(`context`)
-        element.scrollIntoView()
-      }
-    },
+  useEffect(() => {
+    if (
+      viewportKey !== "server" &&
+      revealContext["slug"] === undefined &&
+      typeof panesVisible["last"] === "string"
+    ) {
+      updateRevealContext("slug", false)
+      const element = document.getElementById(
+        `wrapper-${panesVisible["last"]}`
+      )
+      element.scrollIntoView()
+    } else if (
+      viewportKey !== "server" &&
+      typeof revealContext["slug"] === "string" &&
+      Date.now() - revealContext["reveal"] < 1000
+    ) {
+      const element = document.getElementById(`context`)
+      element.scrollIntoView()
+    }
+  },
     [updateRevealContext, panesVisible, revealContext, viewportKey]
   )
 
-  useEffect(
-    function doFingerprint() {
-      console.log(viewportKey, fingerprint, fingerprintCheck)
-      if (
-        (fingerprint === false || fingerprint === undefined) &&
-        fingerprintCheck === false
-      ) {
-        console.log('do fingerprint')
-        getCurrentBrowserFingerPrint().then(fingerprint1 => {
-          getCurrentBrowserFingerPrint().then(fingerprint2 => {
-            console.log(
-              "debug: fingerprint check",
-              fingerprint1,
-              fingerprint2,
-              fingerprint1 === fingerprint2
-            )
-            if (fingerprint1 !== fingerprint2) {
-              setFingerprint(-1)
-              setFingerprintCheck(undefined)
-            } else {
-              setFingerprint(fingerprint2)
-              setFingerprintCheck(true)
-            }
-          })
+  useEffect(() => {
+    console.log(viewportKey, fingerprint, fingerprintCheck)
+    if (
+      (fingerprint === false || fingerprint === undefined) &&
+      fingerprintCheck === false
+    ) {
+      console.log('do fingerprint')
+      getCurrentBrowserFingerPrint().then(fingerprint1 => {
+        getCurrentBrowserFingerPrint().then(fingerprint2 => {
+          console.log(
+            "debug: fingerprint check",
+            fingerprint1,
+            fingerprint2,
+            fingerprint1 === fingerprint2
+          )
+          if (fingerprint1 !== fingerprint2) {
+            setFingerprint(-1)
+            setFingerprintCheck(undefined)
+          } else {
+            setFingerprint(fingerprint2)
+            setFingerprintCheck(true)
+          }
         })
-      }
-    },
+      })
+    }
+  },
     [
       fingerprint,
       fingerprintCheck,
@@ -495,26 +494,25 @@ const RenderedStoryFragment = ({ data }) => {
     ]
   )
 
-  useEffect(
-    function loginToConcierge() {
-      console.log(`validToken:${validToken} fingerprint:${fingerprint}`)
-      if (fingerprint > 0 && !loggingIn && !validToken) {
-        console.log('do login')
-        setLoggingIn(1)
-        getTokens(fingerprint).then(res => {
-          const accessToken = typeof res.tokens === "string" ? res.tokens : false
-          console.log(accessToken)
-          if (accessToken) {
-            console.log("logged in")
-            login({ accessToken: accessToken, fingerprint: fingerprint })
-            setValidToken(true)
-          } else {
-            console.log("error with token", res)
-          }
-          setLoggingIn(0)
-        })
-      }
-    },
+  useEffect(() => {
+    console.log(`validToken:${validToken} fingerprint:${fingerprint}`)
+    if (fingerprint > 0 && !loggingIn && !validToken) {
+      console.log('do login')
+      setLoggingIn(1)
+      getTokens(fingerprint).then(res => {
+        const accessToken = typeof res.tokens === "string" ? res.tokens : false
+        console.log(accessToken)
+        if (accessToken) {
+          console.log("logged in")
+          login({ accessToken: accessToken, fingerprint: fingerprint })
+          setValidToken(true)
+        } else {
+          console.log("error with token", res)
+        }
+        setLoggingIn(0)
+      })
+    }
+  },
     [
       validToken,
       setValidToken,
