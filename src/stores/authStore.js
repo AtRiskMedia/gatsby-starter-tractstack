@@ -12,6 +12,7 @@ function removeTokensFromLocalStorage() {
   if (typeof localStorage === "object") {
     localStorage.removeItem("accessToken")
     localStorage.removeItem("fingerprint")
+    localStorage.setItem("fingerprintCheck", false)
     localStorage.setItem("validToken", false)
   }
 }
