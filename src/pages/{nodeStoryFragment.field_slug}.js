@@ -31,6 +31,7 @@ export const query = graphql`
       relationships {
         field_tract_stack {
           id
+          field_slug
           relationships {
             field_context_panes {
               id
@@ -363,48 +364,81 @@ const RenderedStoryFragment = ({ data }) => {
   const processRead = useStoryStepStore(state => state.processRead)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
-  //const storyFragmentId = data.nodeStoryFragment.id
+  const storyFragmentSlug = data.nodeStoryFragment.slug
+  const storyFragmentId = data.nodeStoryFragment.id
+  const tractStackId = data.nodeStoryFragment.relationships.field_tract_stack.id
+  const tractStackSlug =
+    data.nodeStoryFragment.relationships.field_tract_stack.field_slug
+  const storyFragment = {
+    id: storyFragmentId,
+    slug: storyFragmentSlug,
+    parentId: tractStackId,
+    parentSlug: tractStackSlug,
+  }
+
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        hooks: {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-          updateEventStream: updateEventStream,
-          navigate: navigate,
-        },
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          hooks: {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+            updateEventStream: updateEventStream,
+            navigate: navigate,
+          },
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        }
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          }
+        )
       : null
 
   useEffect(() => {
     function generateContentMap() {
       Object.entries(storyFragmentPayload.contentMap).forEach(entry => {
         const [key, value] = entry
-        updateContentMap(key, { id: key, slug: value, type: "pane" })
-        updateContentMap(value, { id: key, slug: value, type: "pane" })
+        updateContentMap(key, {
+          id: key,
+          slug: value,
+          type: "pane",
+          storyFragmentId: storyFragmentId,
+          tractStackId: tractStackId,
+        })
+        updateContentMap(value, {
+          id: key,
+          slug: value,
+          type: "pane",
+          storyFragmentId: storyFragmentId,
+          tractStackId: tractStackId,
+        })
       })
       Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
         const [key, value] = entry
-        updateContentMap(key, { id: key, slug: value, type: "context" })
-        updateContentMap(value, { id: key, slug: value, type: "context" })
+        updateContentMap(key, {
+          id: key,
+          slug: value,
+          type: "context",
+          tractStackId: tractStackId,
+        })
+        updateContentMap(value, {
+          id: key,
+          slug: value,
+          type: "context",
+          tractStackId: tractStackId,
+        })
       })
     }
     if (
@@ -414,7 +448,15 @@ const RenderedStoryFragment = ({ data }) => {
       storyFragmentPayload?.hasOwnProperty("contentMap")
     )
       generateContentMap()
-  }, [updateContentMap, tractStackContextPayload, storyFragmentPayload])
+  }, [
+    updateContentMap,
+    tractStackContextPayload,
+    storyFragmentPayload,
+    storyFragmentId,
+    storyFragmentSlug,
+    tractStackId,
+    tractStackSlug,
+  ])
 
   useEffect(() => {
     function handleResize() {
@@ -427,8 +469,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -457,7 +499,9 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     if (
-      viewportKey !== "server" && (fingerprint === false && fingerprintCheck === false) || typeof fingerprint === "undefined"
+      viewportKey !== "server" &&
+      ((fingerprint === false && fingerprintCheck === false) ||
+        typeof fingerprint === "undefined")
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
@@ -488,7 +532,9 @@ const RenderedStoryFragment = ({ data }) => {
   ])
 
   useEffect(() => {
-    console.log(`validToken:${validToken} fingerprint:${fingerprint} fingerprintCheck:${fingerprintCheck}`)
+    console.log(
+      `validToken:${validToken} fingerprint:${fingerprint} fingerprintCheck:${fingerprintCheck}`
+    )
     if (fingerprint > 0 && !loggingIn && !validToken) {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
@@ -501,25 +547,31 @@ const RenderedStoryFragment = ({ data }) => {
         }
         setLoggingIn(0)
       })
+    } else if (!validToken && fingerprint === false) {
     }
-    else if (!validToken && fingerprint === false) {
-
-    }
-  }, [validToken, setValidToken, fingerprint, fingerprintCheck, login, loggingIn, setLoggingIn])
+  }, [
+    validToken,
+    setValidToken,
+    fingerprint,
+    fingerprintCheck,
+    login,
+    loggingIn,
+    setLoggingIn,
+  ])
 
   useInterval(() => {
     const now = Date.now()
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      pushPayload({ payload }).then(res => {
+      pushPayload({ ...payload, storyFragment: storyFragment }).then(res => {
         console.log("to sync to concierge", payload)
         updateEventStreamCleanup(now)
         setLastSync(now)
