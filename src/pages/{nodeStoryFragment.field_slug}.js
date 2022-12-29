@@ -456,7 +456,14 @@ const RenderedStoryFragment = ({ data }) => {
   }, [updateRevealContext, panesVisible, revealContext, viewportKey])
 
   useEffect(() => {
-    console.log(typeof fingerprint, fingerprint, typeof fingerprintCheck, fingerprintCheck)
+    console.log(viewportKey, typeof fingerprint, fingerprint, typeof fingerprintCheck, fingerprintCheck)
+    console.log(
+      fingerprint === false, typeof fingerprint === "undefined", fingerprintCheck === false
+    )
+    console.log(
+      viewportKey !== "server" && (fingerprint === false || typeof fingerprint === "undefined")
+      && fingerprintCheck === false
+    )
     if (
       viewportKey !== "server" && (fingerprint === false || typeof fingerprint === "undefined")
       && fingerprintCheck === false
