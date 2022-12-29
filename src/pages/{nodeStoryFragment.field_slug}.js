@@ -414,14 +414,18 @@ const RenderedStoryFragment = ({ data }) => {
           slug: value,
           type: "pane",
           storyFragmentId: storyFragmentId,
+          storyFragmentSlug: storyFragmentSlug,
           tractStackId: tractStackId,
+          tractStackSlug: tractStackSlug
         })
         updateContentMap(value, {
           id: key,
           slug: value,
           type: "pane",
           storyFragmentId: storyFragmentId,
+          storyFragmentSlug: storyFragmentSlug,
           tractStackId: tractStackId,
+          tractStackSlug: tractStackSlug
         })
       })
       Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
@@ -431,12 +435,14 @@ const RenderedStoryFragment = ({ data }) => {
           slug: value,
           type: "context",
           tractStackId: tractStackId,
+          tractStackSlug: tractStackSlug
         })
         updateContentMap(value, {
           id: key,
           slug: value,
           type: "context",
           tractStackId: tractStackId,
+          tractStackSlug: tractStackSlug
         })
       })
     }
@@ -570,7 +576,7 @@ const RenderedStoryFragment = ({ data }) => {
           }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      const events = { ...payload, storyFragment: storyFragment }
+      const events = payload
       pushPayload({ events }).then(res => {
         console.log('response', res)
         console.log("to sync to concierge", payload, storyFragment)
