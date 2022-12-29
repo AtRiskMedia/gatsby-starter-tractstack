@@ -364,7 +364,7 @@ const RenderedStoryFragment = ({ data }) => {
   const processRead = useStoryStepStore(state => state.processRead)
   const prefersReducedMotion = usePrefersReducedMotion()
   const storyFragmentTitle = data.nodeStoryFragment.title
-  const storyFragmentSlug = data.nodeStoryFragment.slug
+  const storyFragmentSlug = data.nodeStoryFragment.field_slug
   const storyFragmentId = data.nodeStoryFragment.id
   const tractStackId = data.nodeStoryFragment.relationships.field_tract_stack.id
   const tractStackSlug =
