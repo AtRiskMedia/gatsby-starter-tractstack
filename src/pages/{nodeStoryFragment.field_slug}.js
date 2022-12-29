@@ -570,7 +570,8 @@ const RenderedStoryFragment = ({ data }) => {
           }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      pushPayload({ ...payload, storyFragment: storyFragment }).then(res => {
+      const thisPayload = { ...payload, storyFragment: storyFragment }
+      pushPayload(thisPayload).then(res => {
         console.log('response', res)
         console.log("to sync to concierge", payload, storyFragment)
         updateEventStreamCleanup(now)
