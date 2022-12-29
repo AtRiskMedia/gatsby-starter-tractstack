@@ -4,7 +4,7 @@ function setTokensToLocalStorage(tokens) {
   if (typeof localStorage === "object") {
     localStorage.setItem("accessToken", tokens.accessToken)
     localStorage.setItem("fingerprint", tokens.fingerprint)
-    localStorage.setItem("validToken", true)
+    localStorage.setItem("validToken", "true")
   }
 }
 
@@ -12,19 +12,20 @@ function removeTokensFromLocalStorage() {
   if (typeof localStorage === "object") {
     localStorage.removeItem("accessToken")
     localStorage.removeItem("fingerprint")
-    localStorage.setItem("fingerprintCheck", false)
-    localStorage.setItem("validToken", false)
+    localStorage.removeItem("validToken")
   }
 }
 
 export const useAuthStore = create((set, get) => ({
   accessToken:
-    typeof localStorage === "object" && localStorage.getItem("accessToken") !== null ?
-      localStorage.getItem("accessToken")
+    typeof localStorage === "object" &&
+    localStorage.getItem("accessToken") !== null
+      ? localStorage.getItem("accessToken")
       : null,
   fingerprint:
-    typeof localStorage === "object"
-      && localStorage.getItem("fingerprint") !== null ? localStorage.getItem("fingerprint")
+    typeof localStorage === "object" &&
+    localStorage.getItem("fingerprint") !== null
+      ? localStorage.getItem("fingerprint")
       : false,
   fingerprintCheck: false,
   setFingerprint: fingerprint => {

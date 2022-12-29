@@ -372,31 +372,31 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        hooks: {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-          updateEventStream: updateEventStream,
-          navigate: navigate,
-        },
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          hooks: {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+            updateEventStream: updateEventStream,
+            navigate: navigate,
+          },
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        }
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          }
+        )
       : null
 
   useEffect(() => {
@@ -410,7 +410,7 @@ const RenderedStoryFragment = ({ data }) => {
           storyFragmentId: storyFragmentId,
           storyFragmentSlug: storyFragmentSlug,
           tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug
+          tractStackSlug: tractStackSlug,
         })
         updateContentMap(value, {
           id: key,
@@ -419,7 +419,7 @@ const RenderedStoryFragment = ({ data }) => {
           storyFragmentId: storyFragmentId,
           storyFragmentSlug: storyFragmentSlug,
           tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug
+          tractStackSlug: tractStackSlug,
         })
       })
       Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
@@ -429,14 +429,14 @@ const RenderedStoryFragment = ({ data }) => {
           slug: value,
           type: "context",
           tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug
+          tractStackSlug: tractStackSlug,
         })
         updateContentMap(value, {
           id: key,
           slug: value,
           type: "context",
           tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug
+          tractStackSlug: tractStackSlug,
         })
       })
     }
@@ -468,8 +468,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -499,8 +499,9 @@ const RenderedStoryFragment = ({ data }) => {
   useEffect(() => {
     if (
       viewportKey !== "server" &&
-      ((fingerprint === false && fingerprintCheck === false) ||
-        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"))
+      fingerprint === false &&
+      (fingerprintCheck === false || !validToken)
+      //        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
@@ -511,11 +512,11 @@ const RenderedStoryFragment = ({ data }) => {
             fingerprint1 === fingerprint2
           )
           if (fingerprint1 !== fingerprint2) {
-            setFingerprint(-1)
-            setFingerprintCheck(undefined)
+            setFingerprint("masked")
+            setFingerprintCheck("masked")
           } else if (typeof fingerprint2 === "number") {
-            setFingerprint(fingerprint2)
-            setFingerprintCheck(true)
+            setFingerprint(fingerprint2.toString())
+            setFingerprintCheck("true")
           } else {
             console.log("Unknonw error occurred during ident.")
           }
@@ -528,13 +529,14 @@ const RenderedStoryFragment = ({ data }) => {
     fingerprintCheck,
     setFingerprint,
     setFingerprintCheck,
+    validToken,
   ])
 
   useEffect(() => {
     console.log(
-      `validToken:${validToken} fingerprint:${fingerprint} typeof fingerprint: ${typeof fingerprint} fingerprintCheck:${fingerprintCheck}`
+      `validToken:${validToken} typeof validToken: ${typeof validToken} fingerprint:${fingerprint} typeof fingerprint: ${typeof fingerprint} fingerprintCheck:${fingerprintCheck}`
     )
-    if (fingerprint > 0 && !loggingIn && !validToken) {
+    if (fingerprint && !loggingIn && !validToken) {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
@@ -563,21 +565,21 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       const events = payload
       pushPayload({ events }).then(res => {
-        console.log('response', res)
+        console.log("response", res)
         console.log("to sync to concierge", payload)
         updateEventStreamCleanup(now)
         setLastSync(now)
       })
-    } else if (fingerprint === -1) {
+    } else if (fingerprint === "masked") {
       updateEventStreamCleanup(now)
       setLastSync(now)
     }
