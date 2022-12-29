@@ -27,7 +27,6 @@ export const useAuthStore = create((set, get) => ({
       : false,
   fingerprintCheck: false,
   setFingerprint: fingerprint => {
-    console.log('set', fingerprint, typeof fingerprint)
     set(state => ({ ...state, fingerprint: fingerprint }))
   },
   setFingerprintCheck: fingerprintCheck => {

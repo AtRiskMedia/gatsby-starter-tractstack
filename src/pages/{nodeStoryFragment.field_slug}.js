@@ -456,19 +456,9 @@ const RenderedStoryFragment = ({ data }) => {
   }, [updateRevealContext, panesVisible, revealContext, viewportKey])
 
   useEffect(() => {
-    console.log(
-      'check1', fingerprint === false, typeof fingerprint === "undefined", fingerprintCheck === false
-    )
-    console.log(
-      'fingerprint', fingerprint, typeof fingerprint
-    )
-    console.log(
-      'fingerprintCheck', fingerprintCheck, typeof fingerprintCheck
-    )
     if (
       viewportKey !== "server" && (fingerprint === false && fingerprintCheck === false) || typeof fingerprint === "undefined"
     ) {
-      console.log("do fingerprint")
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
           console.log(
@@ -481,11 +471,10 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprint(-1)
             setFingerprintCheck(undefined)
           } else if (typeof fingerprint2 === "number") {
-            console.log('good', fingerprint2)
             setFingerprint(fingerprint2)
             setFingerprintCheck(true)
           } else {
-            console.log("Unknonw error occurred during ident")
+            console.log("Unknonw error occurred during ident.")
           }
         })
       })
@@ -501,13 +490,10 @@ const RenderedStoryFragment = ({ data }) => {
   useEffect(() => {
     console.log(`validToken:${validToken} fingerprint:${fingerprint} fingerprintCheck:${fingerprintCheck}`)
     if (fingerprint > 0 && !loggingIn && !validToken) {
-      console.log("do login")
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
-        console.log(accessToken)
         if (accessToken) {
-          console.log("logged in")
           login({ accessToken: accessToken, fingerprint: fingerprint })
           setValidToken(true)
         } else {
