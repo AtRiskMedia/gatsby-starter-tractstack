@@ -31,7 +31,7 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
   const contentMap = storyFragmentPayload?.panesPayload?.contentMap
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
-      typeof contentMap === "object"
+    typeof contentMap === "object"
       ? Object.keys(contentMap)
       : []
   const menu = (typeof storyFragmentPayload?.menu === "object" &&
@@ -63,8 +63,8 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
                 duration > readThreshold
                   ? "read"
                   : duration > softReadThreshold
-                    ? "glossedOver"
-                    : null
+                  ? "glossedOver"
+                  : null
               if (verb)
                 updateEventStream(now, {
                   verb: verb,

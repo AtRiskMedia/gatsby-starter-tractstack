@@ -33,8 +33,8 @@ export const useStoryStepStore = create((set, get) => ({
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold && bypass !== true
-            ? "glossedOver"
-            : null
+          ? "glossedOver"
+          : null
       if (verb) {
         let when = 0
         while (!when) {
@@ -42,7 +42,7 @@ export const useStoryStepStore = create((set, get) => ({
           if (eventStream[(now - offset).toString()] === undefined)
             when = now - offset
         }
-        console.log('update in processRead', contentMap[key])
+        console.log("update in processRead", contentMap[key])
         updateEventStream(when, {
           verb: verb,
           object_name: contentMap[key].slug,
