@@ -18,6 +18,7 @@ async function logout() {
 
 async function resetFingerprint() {
   const setFingerprint = useAuthStore(state => state.setFingerprint)
+  console.log(false)
   setFingerprint(false)
 }
 
