@@ -533,7 +533,7 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     console.log(
-      `validToken:${validToken} fingerprint:${fingerprint} fingerprintCheck:${fingerprintCheck}`
+      `validToken:${validToken} fingerprint:${fingerprint} typeof fingerprint: ${typeof fingerprint} fingerprintCheck:${fingerprintCheck}`
     )
     if (fingerprint > 0 && !loggingIn && !validToken) {
       setLoggingIn(1)
