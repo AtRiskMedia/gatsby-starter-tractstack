@@ -482,6 +482,7 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprint(-1)
             setFingerprintCheck(undefined)
           } else if (typeof fingerprint2 === "number") {
+            console.log('good', fingerprint2)
             setFingerprint(fingerprint2)
             setFingerprintCheck(true)
           } else {
