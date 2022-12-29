@@ -25,10 +25,6 @@ function Menu({ menuPayload, viewportKey, hooks }) {
         object_name: e.field_slug,
         object_id: e.id,
         object_type: "menuitem",
-        tractStackId: e.tractStackId,
-        tractStackSlug: e.tractStackSlug,
-        storyFragmentId: e.tractStackId,
-        storyFragmentSlug: e.tractStackSlug,
       })
       processRead()
     }
