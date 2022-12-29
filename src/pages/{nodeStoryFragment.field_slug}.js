@@ -570,7 +570,7 @@ const RenderedStoryFragment = ({ data }) => {
           }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      const events = { ...payload, 1: storyFragment }
+      const events = { ...payload, storyFragment: storyFragment }
       pushPayload({ events }).then(res => {
         console.log('response', res)
         console.log("to sync to concierge", payload, storyFragment)
