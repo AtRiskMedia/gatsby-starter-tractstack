@@ -92,6 +92,7 @@ export function createAxiosClient({
         originalRequest?.url === refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
+        console.log('reset')
         resetFingerprint()
       }
 
