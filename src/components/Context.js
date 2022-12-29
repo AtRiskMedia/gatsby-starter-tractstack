@@ -21,8 +21,8 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-        ? "glossedOver"
-        : null
+          ? "glossedOver"
+          : null
     if (verb)
       updateEventStream(Date.now(), {
         verb: verb,
@@ -30,6 +30,10 @@ const Context = ({ children }) => {
         object_id: contentMap[revealContext.slug].id,
         object_type: "context",
         duration: duration / 1000,
+        tractStackId: contentMap[revealContext.slug].tractStackId,
+        tractStackSlug: contentMap[revealContext.slug].tractStackSlug,
+        storyFragmentId: contentMap[revealContext.slug].tractStackId,
+        storyFragmentSlug: contentMap[revealContext.slug].tractStackSlug,
       })
     updateRevealContext("reveal", undefined)
     updateRevealContext("slug", undefined)
@@ -42,8 +46,8 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-            ? "glossedOver"
-            : null
+              ? "glossedOver"
+              : null
         if (verb)
           updateEventStream(Date.now(), {
             verb: verb,
