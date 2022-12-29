@@ -12,6 +12,5 @@ export async function graph() {
 }
 
 export async function pushPayload({ payload }) {
-  console.log(99, payload)
   return client.post("/users/eventStream", payload)
 }
