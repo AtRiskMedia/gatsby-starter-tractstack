@@ -27,7 +27,6 @@ const Impression = ({ payload }) => {
       parent_name: payload.parentName,
       parent_type: payload.parentType,
     })
-    console.log(thisButtonPayload, updateRevealContext, processRead)
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
       processRead: processRead,

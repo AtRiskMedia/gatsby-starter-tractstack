@@ -457,8 +457,8 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     if (
-      (viewportKey !== "server" && fingerprint === false,
-        fingerprintCheck === false)
+      viewportKey !== "server" && (fingerprint === false || typeof fingerprint === "undefined")
+      && fingerprintCheck === false
     ) {
       console.log("do fingerprint")
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
