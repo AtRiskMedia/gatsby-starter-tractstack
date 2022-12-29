@@ -344,8 +344,8 @@ const RenderedStoryFragment = ({ data }) => {
     const localData =
       typeof localStorage === "object" && localStorage.getItem("validToken") !== null
         ? localStorage.getItem("validToken")
-        : "false"
-    return localData ? JSON.parse(localData) : false
+        : "no"
+    return localData ? JSON.parse(localData) : "no"
   })
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
@@ -499,8 +499,8 @@ const RenderedStoryFragment = ({ data }) => {
   useEffect(() => {
     if (
       viewportKey !== "server" &&
-      fingerprint === false &&
-      (fingerprintCheck === false || validToken !== "true")
+      fingerprint === "none" &&
+      (fingerprintCheck === false || validToken !== "yes")
       //        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
@@ -516,7 +516,7 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprintCheck("masked")
           } else if (typeof fingerprint2 === "number") {
             setFingerprint(fingerprint2.toString())
-            setFingerprintCheck("true")
+            setFingerprintCheck("yes")
           } else {
             console.log("Unknonw error occurred during ident.")
           }
@@ -536,19 +536,18 @@ const RenderedStoryFragment = ({ data }) => {
     console.log(
       `validToken:${validToken} typeof validToken: ${typeof validToken} fingerprint:${fingerprint} typeof fingerprint: ${typeof fingerprint} fingerprintCheck:${fingerprintCheck}`
     )
-    if (fingerprint && !loggingIn && validToken !== "true") {
+    if (fingerprint !== "none" && !loggingIn && validToken !== "yes") {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
         if (accessToken) {
           login({ accessToken: accessToken, fingerprint: fingerprint })
-          setValidToken(true)
+          setValidToken("yes")
         } else {
           console.log("error with token", res)
         }
         setLoggingIn(0)
       })
-    } else if (!validToken && fingerprint === false) {
     }
   }, [
     validToken,
