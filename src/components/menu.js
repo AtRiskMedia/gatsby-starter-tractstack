@@ -19,6 +19,8 @@ function Menu({ menuPayload, viewportKey, hooks }) {
   )
   const menuItems = menuPayload.relationships?.field_menu_items?.map(e => {
     function injectPayload() {
+      processRead()
+      /*
       const now = Date.now()
       updateEventStream(now, {
         verb: "clicked",
@@ -26,7 +28,7 @@ function Menu({ menuPayload, viewportKey, hooks }) {
         object_id: e.id,
         object_type: "menuitem",
       })
-      processRead()
+      */
     }
     return (
       <li key={`${viewportKey}-${e.field_slug}`}>
