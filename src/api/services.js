@@ -11,6 +11,6 @@ export async function graph() {
   return client.get("/users/graph")
 }
 
-export async function pushPayload({ payload }) {
-  return client.post("/users/eventStream", payload)
+export async function pushPayload({ events }) {
+  return client.post("/users/eventStream", events)
 }
