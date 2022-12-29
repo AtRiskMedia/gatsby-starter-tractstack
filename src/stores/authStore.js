@@ -19,14 +19,14 @@ function removeTokensFromLocalStorage() {
 export const useAuthStore = create((set, get) => ({
   accessToken:
     typeof localStorage === "object" &&
-    localStorage.getItem("accessToken") !== null
+      localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
   fingerprint:
     typeof localStorage === "object" &&
-    localStorage.getItem("fingerprint") !== null
+      localStorage.getItem("fingerprint") !== null
       ? localStorage.getItem("fingerprint")
-      : false,
+      : "none",
   fingerprintCheck: false,
   setFingerprint: fingerprint => {
     set(state => ({ ...state, fingerprint: fingerprint }))
@@ -48,7 +48,7 @@ export const useAuthStore = create((set, get) => ({
     set(state => ({
       ...state,
       accessToken: null,
-      fingerprint: false,
+      fingerprint: "none",
     }))
   },
 }))
