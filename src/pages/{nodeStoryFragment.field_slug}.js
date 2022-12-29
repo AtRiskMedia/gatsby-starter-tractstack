@@ -343,8 +343,7 @@ const RenderedStoryFragment = ({ data }) => {
   const [validToken, setValidToken] = useState(() => {
     const localData =
       typeof localStorage === "object" && localStorage.getItem("validToken") !== null
-        ? localStorage.getItem("validToken")
-        : "no"
+        ? localStorage.getItem("validToken") : null
     return localData ? JSON.parse(localData) : "no"
   })
   const updatePanesVisible = useStoryStepStore(
