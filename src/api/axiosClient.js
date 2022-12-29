@@ -16,12 +16,6 @@ function logout() {
   logout()
 }
 
-function resetFingerprint() {
-  const setFingerprint = useAuthStore(state => state.setFingerprint)
-  console.log('setting fingerprint 0')
-  setFingerprint(0)
-}
-
 export const client = createAxiosClient({
   options: {
     baseURL: process.env.CONCIERGE_BASE_URL,
@@ -34,5 +28,4 @@ export const client = createAxiosClient({
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
   setRefreshedTokens,
   logout,
-  resetFingerprint,
 })

@@ -21,7 +21,6 @@ export function createAxiosClient({
   refreshTokenUrl,
   setRefreshedTokens,
   logout,
-  resetFingerprint,
 }) {
   const client = axios.create(options)
 
@@ -87,17 +86,12 @@ export function createAxiosClient({
           .finally(() => {
             isRefreshing = false
           })
-      } else if (
-        error.response?.status === 401 &&
-        originalRequest?.url === refreshTokenUrl &&
-        originalRequest?._retry !== true
-      ) {
-        console.log('reset')
-        resetFingerprint()
       }
 
       if (error.response?.status === 401) {
         return handleError(error)
+        console.log('logged out')
+        logout()
       }
 
       return Promise.reject(error)
