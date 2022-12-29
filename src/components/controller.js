@@ -14,6 +14,7 @@ const Impression = ({ payload }) => {
   )
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const processRead = useStoryStepStore(state => state.processRead)
+  const contentMap = useStoryStepStore(state => state.contentMap)
   const thisButtonPayload = lispLexer(payload.actionsLisp)
 
   function injectPayload() {
@@ -26,6 +27,10 @@ const Impression = ({ payload }) => {
       parent_id: payload.parentId,
       parent_name: payload.parentName,
       parent_type: payload.parentType,
+      tractStackId: contentMap[payload.parentId].tractStackId,
+      tractStackSlug: contentMap[payload.parentId].tractStackSlug,
+      storyFragmentId: contentMap[payload.parentId].tractStackId,
+      storyFragmentSlug: contentMap[payload.parentId].tractStackSlug,
     })
     concierge(thisButtonPayload, {
       updateRevealContext: updateRevealContext,
@@ -71,7 +76,7 @@ const Controller = ({ impressions, impressionPanes, viewportKey }) => {
     : impressions[impressionPanes[0]].payload
   const thisImpression =
     typeof offsetImpression === "object" &&
-    typeof offsetImpression[0] === "object"
+      typeof offsetImpression[0] === "object"
       ? offsetImpression[0]
       : null
   if (!thisImpression) return <></>

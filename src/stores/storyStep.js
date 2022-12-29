@@ -33,8 +33,8 @@ export const useStoryStepStore = create((set, get) => ({
         duration > readThreshold
           ? "read"
           : duration > softReadThreshold && bypass !== true
-          ? "glossedOver"
-          : null
+            ? "glossedOver"
+            : null
       if (verb) {
         let when = 0
         while (!when) {
@@ -48,6 +48,10 @@ export const useStoryStepStore = create((set, get) => ({
           object_id: contentMap[key].id,
           object_type: contentMap[key].type,
           duration: duration / 1000,
+          tractStackId: contentMap[key].tractStackId,
+          tractStackSlug: contentMap[key].tractStackSlug,
+          storyFragmentId: contentMap[key].tractStackId,
+          storyFragmentSlug: contentMap[key].tractStackSlug,
         })
         if (bypass) {
           updatePanesVisible("last", false)

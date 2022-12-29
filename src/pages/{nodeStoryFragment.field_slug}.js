@@ -369,12 +369,6 @@ const RenderedStoryFragment = ({ data }) => {
   const tractStackId = data.nodeStoryFragment.relationships.field_tract_stack.id
   const tractStackSlug =
     data.nodeStoryFragment.relationships.field_tract_stack.field_slug
-  const storyFragment = {
-    id: storyFragmentId,
-    slug: storyFragmentSlug,
-    parentId: tractStackId,
-    parentSlug: tractStackSlug,
-  }
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
@@ -579,7 +573,7 @@ const RenderedStoryFragment = ({ data }) => {
       const events = payload
       pushPayload({ events }).then(res => {
         console.log('response', res)
-        console.log("to sync to concierge", payload, storyFragment)
+        console.log("to sync to concierge", payload)
         updateEventStreamCleanup(now)
         setLastSync(now)
       })
