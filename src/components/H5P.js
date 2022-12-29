@@ -44,10 +44,6 @@ const H5P = ({ src, title, parent }) => {
               parent_type: parent.objectType,
               duration: durationInSeconds,
               score: score,
-              tractStackId: parent.tractStackId,
-              tractStackSlug: parent.tractStackSlug,
-              storyFragmentId: parent.tractStackId,
-              storyFragmentSlug: parent.tractStackSlug,
             })
           }
         )
