@@ -498,7 +498,7 @@ const RenderedStoryFragment = ({ data }) => {
   useEffect(() => {
     if (
       viewportKey !== "server" &&
-      fingerprint === "none" &&
+      (fingerprint === "none" || fingerprint === "undefined") &&
       (fingerprintCheck === false || validToken !== "yes")
       //        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"
     ) {
@@ -517,7 +517,7 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprint(fingerprint2.toString())
             setFingerprintCheck("yes")
           } else {
-            console.log("Unknonw error occurred during ident.")
+            console.log("Unknown error occurred during ident.")
           }
         })
       })
