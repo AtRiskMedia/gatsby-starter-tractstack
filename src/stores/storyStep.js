@@ -50,8 +50,8 @@ export const useStoryStepStore = create((set, get) => ({
           duration: duration / 1000,
           tractStackId: contentMap[key].tractStackId,
           tractStackSlug: contentMap[key].tractStackSlug,
-          storyFragmentId: contentMap[key].tractStackId,
-          storyFragmentSlug: contentMap[key].tractStackSlug,
+          storyFragmentId: contentMap[key].storyFragmentId,
+          storyFragmentSlug: contentMap[key].storyFragmentSlug,
         })
         if (bypass) {
           updatePanesVisible("last", false)

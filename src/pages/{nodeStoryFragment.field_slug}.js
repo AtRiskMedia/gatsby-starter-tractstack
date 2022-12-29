@@ -369,7 +369,6 @@ const RenderedStoryFragment = ({ data }) => {
   const tractStackId = data.nodeStoryFragment.relationships.field_tract_stack.id
   const tractStackSlug =
     data.nodeStoryFragment.relationships.field_tract_stack.field_slug
-  console.log(storyFragmentId, storyFragmentSlug, tractStackId, tractStackSlug)
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
