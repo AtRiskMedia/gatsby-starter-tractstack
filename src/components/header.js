@@ -40,12 +40,24 @@ const _subNavigation = hash => {
 const TractStack = () => {
   const fingerprint = useAuthStore(state => state.fingerprint)
   const masked = fingerprint === -1 ? true : false
-  const pClasses = classNames("text-md text-gray-500 mt-4 max-w-xl", masked ? "line-through" : "")
-  const graphLink =
-    <> Check out the <Link to={"/graph"}>knowledge graph</Link> to see this
-      in real-time! </>
-  const nograph =
-    <> {" "}You are using a privacy-first browser. No behavioural data will be collected.</>
+  const pClasses = classNames(
+    "text-md text-gray-500 mt-4 max-w-xl",
+    masked ? "line-through" : ""
+  )
+  const graphLink = (
+    <>
+      {" "}
+      Check out the <Link to={"/graph"}>knowledge graph</Link> to see this in
+      real-time!{" "}
+    </>
+  )
+  const nograph = (
+    <>
+      {" "}
+      You are using a privacy-first browser. No behavioural data will be
+      collected.
+    </>
+  )
   return (
     <div className="divide-y divide-gray-200 lg:col-span-9">
       <div className="py-6 px-4 sm:p-6 lg:pb-8">
