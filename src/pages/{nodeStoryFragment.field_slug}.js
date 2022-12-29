@@ -375,8 +375,6 @@ const RenderedStoryFragment = ({ data }) => {
     parentId: tractStackId,
     parentSlug: tractStackSlug,
   }
-  console.log(1, storyFragment)
-
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
@@ -571,10 +569,11 @@ const RenderedStoryFragment = ({ data }) => {
             return obj
           }, {})
         : {}
-    console.log(3, storyFragment)
     if (isLoggedIn && Object.keys(payload).length > 0) {
-      pushPayload({ ...payload, storyFragment: storyFragment }).then(res => {
-        console.log(2, storyFragment)
+      console.log(3, storyFragment)
+      console.log(1, payload)
+      console.log(typeof payload)
+      pushPayload(payload).then(res => {
         console.log("to sync to concierge", payload, storyFragment)
         updateEventStreamCleanup(now)
         setLastSync(now)
