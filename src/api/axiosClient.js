@@ -5,19 +5,20 @@ function getCurrentAccessToken() {
   return useAuthStore.getState().accessToken
 }
 
-async function setRefreshedTokens(tokens) {
+function setRefreshedTokens(tokens) {
   const login = useAuthStore.getState().login
   const fingerprint = useAuthStore.getState().fingerprint
   login(tokens, fingerprint)
 }
 
-async function logout() {
+function logout() {
   const logout = useAuthStore.getState().logout
   logout()
 }
 
-async function resetFingerprint() {
+function resetFingerprint() {
   const setFingerprint = useAuthStore(state => state.setFingerprint)
+  console.log('setting fingerprint 0')
   setFingerprint(0)
 }
 

@@ -92,7 +92,6 @@ export function createAxiosClient({
         originalRequest?.url === refreshTokenUrl &&
         originalRequest?._retry !== true
       ) {
-        logout()
         resetFingerprint()
       }
 
