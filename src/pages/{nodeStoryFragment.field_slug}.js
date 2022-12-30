@@ -344,7 +344,7 @@ const RenderedStoryFragment = ({ data }) => {
     const localData =
       typeof localStorage === "object" && localStorage.getItem("validToken") !== null
         ? localStorage.getItem("validToken") : null
-    return localData ? JSON.parse(localData) : "no"
+    return localData ? JSON.parse(localData) : false
   })
   const updatePanesVisible = useStoryStepStore(
     state => state.updatePanesVisible
@@ -499,7 +499,7 @@ const RenderedStoryFragment = ({ data }) => {
     if (
       viewportKey !== "server" &&
       (fingerprint === "none" || fingerprint === "undefined") &&
-      (fingerprintCheck === false || validToken !== "yes")
+      (fingerprintCheck === false || !validToken)
       //        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
@@ -515,7 +515,7 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprintCheck("masked")
           } else if (typeof fingerprint2 === "number") {
             setFingerprint(fingerprint2.toString())
-            setFingerprintCheck("yes")
+            setFingerprintCheck(true)
           } else {
             console.log("Unknown error occurred during ident.")
           }
@@ -533,15 +533,15 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     console.log(
-      `validToken:${validToken} typeof validToken: ${typeof validToken} fingerprint:${fingerprint} typeof fingerprint: ${typeof fingerprint} fingerprintCheck:${fingerprintCheck}`
+      `validToken:${validToken}-${typeof validToken} fingerprint:${fingerprint}-${typeof fingerprint} fingerprintCheck:${fingerprintCheck}-${typeof fingerprintCheck}`
     )
-    if ((fingerprint === "none" || fingerprint === "undefined") && !loggingIn && validToken !== "yes") {
+    if ((fingerprint !== "none" || fingerprint !== "undefined") && !loggingIn && !validToken) {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
         if (accessToken) {
           login({ accessToken: accessToken, fingerprint: fingerprint })
-          setValidToken("yes")
+          setValidToken(true)
         } else {
           console.log("error with token", res)
         }
