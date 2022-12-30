@@ -536,7 +536,8 @@ const RenderedStoryFragment = ({ data }) => {
     console.log(
       `validToken:${validToken}-${typeof validToken} fingerprint:${fingerprint}-${typeof fingerprint} fingerprintCheck:${fingerprintCheck}-${typeof fingerprintCheck}`
     )
-    if ((fingerprint !== "none" || fingerprint !== "undefined") && !loggingIn && !validToken) {
+    if (fingerprint === "undefined") console.log('HOW????')
+    if (fingerprint !== "none" && fingerprint !== "undefined" && !loggingIn && !validToken) {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
