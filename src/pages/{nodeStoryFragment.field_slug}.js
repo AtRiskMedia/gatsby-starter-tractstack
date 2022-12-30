@@ -318,7 +318,6 @@ const codeHooks = {
 
 const getTokens = async fingerprint => {
   try {
-    console.log(1, fingerprint)
     const response = await register({ fingerprint })
     console.log("getting token", response)
     const accessToken = response.data.jwt
