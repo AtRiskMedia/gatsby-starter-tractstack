@@ -4,7 +4,7 @@ function setTokensToLocalStorage(tokens) {
   if (typeof localStorage === "object") {
     localStorage.setItem("accessToken", tokens.accessToken)
     localStorage.setItem("fingerprint", tokens.fingerprint)
-    localStorage.setItem("validToken", "true")
+    localStorage.setItem("validToken", true)
   }
 }
 
