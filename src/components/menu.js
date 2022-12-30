@@ -11,7 +11,6 @@ const NavLink = ({ children, to, onClick }) => (
 )
 
 function Menu({ menuPayload, viewportKey, hooks }) {
-  const updateEventStream = hooks.updateEventStream
   const processRead = hooks.processRead
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
