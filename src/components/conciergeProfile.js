@@ -1,74 +1,115 @@
-import React, { useState } from "react"
-import axios from "axios"
-import { concierge, classNames } from "gatsby-plugin-tractstack"
+import React, { useState, Fragment } from "react"
+import { Link } from "react-router-dom"
+import { classNames } from "gatsby-plugin-tractstack"
+import { Listbox, Transition } from "@headlessui/react"
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
+import {
+  ArrowPathRoundedSquareIcon,
+  BellSlashIcon,
+  BoltIcon,
+} from "@heroicons/react/24/outline"
 
-import config from "../../data/SiteConfig"
+import { saveProfile } from "../api/services"
+
+const contactPersonaOptions = [
+  {
+    title: "Infrequent",
+    description: "Will keep you in the loop. Monthly updates at most.",
+    current: false,
+  },
+  {
+    title: "All Updates",
+    description: "Be fully in the know!",
+    current: false,
+  },
+  {
+    title: "Major Updates Only",
+    description: "Will only send major updates and do so infrequently.",
+    current: true,
+  },
+  {
+    title: "None",
+    description: "Disables all communications from us.",
+    current: false,
+  },
+]
 
 const ConciergeProfile = () => {
+  // if lead is known, pre-inject these values with an unlocking workflow - codeword match
   const [firstname, setFirstName] = useState("")
-  const [lastname, setLastName] = useState("")
   const [email, setEmail] = useState("")
-  const [company, setCompany] = useState("")
+  const [codeword, setCodeword] = useState("")
   const [bio, setBio] = useState("")
+  const [personaSelected, setPersonaSelected] = useState(contactPersonaOptions[0])
   const [submitted, setSubmitted] = useState(false)
   const [success, setSuccess] = useState(0)
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(firstname, lastname, company, email, bio)
-    const thatPayload = ["codeHook", ["form", "submit", "Form"]]
-    concierge(thatPayload)
-    if (firstname && lastname && email) {
-      // next we send email
-      var json = JSON.stringify({
-        firstname: firstname,
-        lastname: lastname,
-        company: company || ``,
-        email: email,
-        bio: bio || ``,
-        secret: process.env.API_SECRET_KEY,
-      })
-      axios({
-        method: "post",
-        url: config.url_sendmail,
-        data: json,
-      })
-        .then(function (response) {
-          setSuccess(1)
-          setSubmitted(true)
-          console.log(response)
-          const thisPayload = ["codeHook", ["form", "submit", "FormContact"]]
-          concierge(thisPayload)
-        })
-        .catch(function (response) {
-          setSuccess(-1)
-          setSubmitted(true)
-          console.log(response)
-        })
-    } else {
-      setSubmitted(true)
-      setSuccess(0)
+    if (firstname && email && codeword) {
+      const profile = { firstname: firstname, email: email, codeword: codeword, persona: personaSelected.title, bio: bio.substring(0, 280) }
+      console.log(profile)
+      saveProfile({ profile })
     }
+    setSubmitted(true)
   }
 
+  const Icon =
+    personaSelected.title === "Infrequent" ||
+      personaSelected.title === "Major Updates Only"
+      ? ArrowPathRoundedSquareIcon
+      : personaSelected.title === "All Updates"
+        ? BoltIcon
+        : BellSlashIcon
+  const iconClass =
+    personaSelected.title === "Infrequent"
+      ? "text-blue"
+      : personaSelected.title === "Major Updates Only"
+        ? "text-darkgrey"
+        : personaSelected.title === "All Updates"
+          ? "text-blue"
+          : "text-darkgrey"
+  const barClass =
+    personaSelected.title === "Infrequent"
+      ? "bg-blue"
+      : personaSelected.title === "Major Updates Only"
+        ? "bg-lightgrey"
+        : personaSelected.title === "All Updates"
+          ? "bg-green"
+          : "bg-darkgrey"
+  const barWidth =
+    personaSelected.title === "Infrequent"
+      ? "40%"
+      : personaSelected.title === "Major Updates Only"
+        ? "20%"
+        : personaSelected.title === "All Updates"
+          ? "98%"
+          : "2%"
+
   return (
-    <form
-      className="divide-y divide-gray-200 lg:col-span-9"
-      onSubmit={handleSubmit}
-      method="POST"
-    >
-      <div className="py-6 px-4 sm:p-6 lg:pb-8">
-        <div>
-          <h2 className="text-lg font-medium leading-6 text-gray-900">
-            Profile
-          </h2>
-          <p className="mt-1 mb-6 text-sm text-gray-500">
-            We believe in community! Please introduce yourself so we can stay in
-            touch.
-          </p>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="col-span-4 md:col-span-2">
+    <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
+          We are rooted in community.
+        </h2>
+        <p className="mt-4 mb-6 text-xl text-gray-700">
+          Introduce yourself to unlock special offers and personalized recommendations throughout the site.
+        </p>
+        <p className="text-gray-700 text-sm mb-10">
+          To read more on our data practices and professional standards, please
+          see our{" "}
+          <Link
+            to={"/data"}
+            className="underline underline-offset-1 hover:text-allblack"
+          >
+            Zero Party data privacy policy
+          </Link>
+          .
+        </p>
+      </div>
+      <form onSubmit={handleSubmit} method="POST">
+        <div className="grid grid-cols-3 gap-4 bg-slate-50">
+          <div className="col-span-3 sm:col-span-1">
             <label
               htmlFor="firstname"
               className="block text-sm font-medium text-gray-700"
@@ -94,33 +135,7 @@ const ConciergeProfile = () => {
             )}
           </div>
 
-          <div className="col-span-4 md:col-span-2">
-            <label
-              htmlFor="last-name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last name
-            </label>
-            <input
-              type="text"
-              name="lastname"
-              id="lastname"
-              autoComplete="family-name"
-              defaultValue={lastname}
-              onBlur={e => setLastName(e.target.value)}
-              className={classNames(
-                "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                submitted && firstname === ""
-                  ? "border-red-500"
-                  : "border-gray-300"
-              )}
-            />
-            {submitted && lastname === "" && (
-              <span className="text-xs px-2 text-red-500">Required field.</span>
-            )}
-          </div>
-
-          <div className="col-span-4 lg:col-span-2">
+          <div className="col-span-3 sm:col-span-2">
             <label
               htmlFor="email-address"
               className="block text-sm font-medium text-gray-700"
@@ -146,54 +161,176 @@ const ConciergeProfile = () => {
             )}
           </div>
 
-          <div className="col-span-4 lg:col-span-2">
-            <label
-              htmlFor="company"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Company
-            </label>
-            <input
-              type="text"
-              name="company"
-              id="company"
-              defaultValue={company}
-              onBlur={e => setCompany(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
-            />
-          </div>
+          <div className="col-span-3 mt-2">
+            <div className="space-y-3">
+              <label
+                htmlFor="contactpersona"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Communication Preferences
+              </label>
 
-          <div className="col-span-4 md:col-span-4">
-            <label
-              htmlFor="bio"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Short Bio
-            </label>
-            <div className="mt-1">
-              <textarea
-                id="bio"
-                name="bio"
-                rows={3}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
-                placeholder="Your one-liner bio"
-                defaultValue={""}
-                onBlur={e => setBio(e.target.value)}
-              />
+              <div className="flex items-center text-sm">
+                <div className="pr-8 text-sm text-black">
+                  <Listbox
+                    value={personaSelected}
+                    onChange={setPersonaSelected}
+                    name="contactpersona"
+                  >
+                    {({ open }) => (
+                      <>
+                        <Listbox.Label className="sr-only">
+                          {" "}
+                          Indicate communication preferences{" "}
+                        </Listbox.Label>
+                        <div className="relative">
+                          <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
+                            <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
+                              <div className="inline-flex items-center rounded-l-md border border-transparent bg-transparent py-1 pl-3 pr-4 text-black shadow-sm">
+                                <p className="ml-2.5 text-sm text-left font-medium w-36">
+                                  {personaSelected.title}
+                                </p>
+                              </div>
+                              <Listbox.Button className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm font-medium text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                                <span className="sr-only">
+                                  Change contact-persona setting
+                                </span>
+                                <ChevronDownIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              </Listbox.Button>
+                            </div>
+                          </div>
+
+                          <Transition
+                            show={open}
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                              {contactPersonaOptions.map(option => (
+                                <Listbox.Option
+                                  key={option.title}
+                                  className={({ active }) =>
+                                    classNames(
+                                      active
+                                        ? "text-black bg-slate-100"
+                                        : "text-allblack",
+                                      "cursor-default select-none p-2 text-sm"
+                                    )
+                                  }
+                                  value={option}
+                                >
+                                  {({ selected }) => (
+                                    <>
+                                      <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                        {option.title}
+                                      </span>
+                                    </>
+                                  )}
+                                </Listbox.Option>
+                              ))}
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </>
+                    )}
+                  </Listbox>
+                </div>
+                <div className="flex flex-1 items-center">
+                  <div
+                    aria-hidden="true"
+                    className="ml-1 flex flex-1 items-center"
+                  >
+                    <Icon
+                      className={classNames(iconClass, "flex-shrink-0 h-5 w-5")}
+                      aria-hidden="true"
+                    />
+                    <div className="relative ml-3 flex-1">
+                      <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
+                      <div
+                        className={classNames(
+                          "absolute inset-y-0 rounded-full border",
+                          barClass
+                        )}
+                        style={{ width: barWidth }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-right text-black">{personaSelected.description}</p>
             </div>
           </div>
 
-          <div className="col-span-4">
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {firstname ?
+            <>
+              <div className="col-span-2 mt-10">
+                <label
+                  htmlFor="bio"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Hello {firstname}. Is there anything else you would like to share?
+                </label>
+                <div className="mt-2">
+                  <textarea
+                    id="bio"
+                    name="bio"
+                    rows={3}
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                    placeholder="Your one-liner bio"
+                    defaultValue={""}
+                    onBlur={e => setBio(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <label
+                  htmlFor="codeword"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Secret code word to protect your account:
+                </label>
+                <input
+                  type="text"
+                  name="codeword"
+                  id="codeword"
+                  autoComplete="new-password"
+                  defaultValue={codeword}
+                  onBlur={e => setCodeword(e.target.value)}
+                  className={classNames(
+                    "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                    submitted && firstname === ""
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  )}
+                />
+                {submitted && codeword === "" && (
+                  <span className="text-xs px-2 text-red-500">Required field.</span>
+                )}
+              </div>
+            </>
+            : <></>}
+
+          <div className="col-span-2 mt-6">
             <button
               type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-slate-200 py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-orange hover:text-allwhite focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
             >
-              Submit
+              <span className="pr-4">Save Profile</span>
+              <ChevronRightIcon className="h-5 w-5 mr-3" aria-hidden="true" />
             </button>
           </div>
         </div>
-      </div>
-    </form>
+
+      </form>
+    </div>
   )
 }
 

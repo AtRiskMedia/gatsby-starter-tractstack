@@ -4,12 +4,14 @@ import { Popover, Transition } from "@headlessui/react"
 import { TractStackIcon, classNames } from "gatsby-plugin-tractstack"
 import {
   Bars3Icon,
-  CogIcon,
   KeyIcon,
   UserCircleIcon,
+  ChatBubbleBottomCenterIcon,
+  BeakerIcon,
 } from "@heroicons/react/24/outline"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
+import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
 import ConciergeProfile from "./conciergeProfile.js"
 import ConciergeGraph from "./conciergeGraph.js"
@@ -17,7 +19,7 @@ import ConciergeGraph from "./conciergeGraph.js"
 const _subNavigation = hash => {
   return [
     {
-      name: "Profile",
+      name: "Welcome",
       href: "/profile",
       icon: UserCircleIcon,
       current: hash === "#/profile" || hash === `#/`,
@@ -25,14 +27,20 @@ const _subNavigation = hash => {
     {
       name: "Knowledge Graph",
       href: "/graph",
-      icon: CogIcon,
+      icon: BeakerIcon,
       current: hash === "#/graph",
     },
     {
       name: "Tract Stack",
       href: "/tractstack",
-      icon: KeyIcon,
+      icon: ChatBubbleBottomCenterIcon,
       current: hash === "#/tractstack",
+    },
+    {
+      name: "Zero Party data policy",
+      href: "/data",
+      icon: KeyIcon,
+      current: hash === "#/data",
     },
   ]
 }
@@ -41,7 +49,7 @@ const TractStack = () => {
   const fingerprint = useAuthStore(state => state.fingerprint)
   const masked = fingerprint === -1 ? true : false
   const pClasses = classNames(
-    "text-md text-gray-500 mt-4 max-w-xl",
+    "text-md text-gray-500 mt-4 md:max-w-2xl",
     masked ? "line-through" : ""
   )
   const graphLink = (
@@ -66,10 +74,10 @@ const TractStack = () => {
           <span className="text-allblack font-bold">Tract Stack</span>
         </h3>
 
-        <p className="text-md text-gray-500 mt-4 max-w-xl">
+        <p className="text-md text-gray-500 mt-4 md:max-w-2xl">
           Think of this website as an interactive business pitch deck.
         </p>
-        <p className="text-md text-gray-500 mt-4 max-w-xl">
+        <p className="text-md text-gray-500 mt-4 md:max-w-2xl">
           We care about helping businesses build community and make meaningful
           connections with prospective clients/customers. Above all, we want to
           validate whether these products/services are a good fit for{" "}
@@ -80,13 +88,22 @@ const TractStack = () => {
           where you place your attention. Depending on your path through this
           site, we may make recommendations for free supports and resources.
         </p>
-        <p className="text-md text-gray-500 mt-4 max-w-xl italic">
+        <p className="text-md text-gray-500 mt-4 md:max-w-2xl italic">
           {masked ? nograph : graphLink}
         </p>
       </div>
     </div>
   )
 }
+
+const ZeroParty = ({ children }) => {
+  return (
+    <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl pb-44">
+      {children}
+    </div>
+  )
+}
+
 const SubNav = () => {
   const location = useLocation()
   const hash = `#${location.pathname}`
@@ -117,9 +134,14 @@ const SubNav = () => {
   ))
 }
 
-const Header = ({ siteTitle, tractStackContextPayload }) => {
-  const contextLoaded = tractStackContextPayload.hasOwnProperty("payload")
-    ? true
+const Header = ({ siteTitle, contextPayload }) => {
+  const contentMap = useStoryStepStore(state => state.contentMap)
+  let lookup = false
+  for (let [key, value] of Object.entries(contentMap)) {
+    if (value.slug === "zeroParty") lookup = key
+  }
+  const zeroPartyPayload = contextPayload?.payload?.hasOwnProperty(lookup)
+    ? contextPayload.payload[lookup]
     : false
   return (
     <HashRouter>
@@ -132,7 +154,7 @@ const Header = ({ siteTitle, tractStackContextPayload }) => {
           <div className="relative z-70020">
             <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8">
               <h1 className="text-xl mb-0 flex items-center">{siteTitle}</h1>
-              {contextLoaded ? (
+              {zeroPartyPayload && (
                 <div>
                   <div className="-my-2 -mr-2 hidden">
                     <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange">
@@ -176,11 +198,11 @@ const Header = ({ siteTitle, tractStackContextPayload }) => {
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 -translate-y-1"
                           >
-                            <Popover.Panel className="absolute h-screen inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
+                            <Popover.Panel className="absolute h-max inset-x-0 top-full z-70010 transform shadow-lg block mt-1">
                               <div className="w-full h-full">
                                 <main className="relative bg-black-seethrough">
                                   <div className="mx-auto px-2 pb-4 sm:px-4 lg:px-6 lg:pb-6">
-                                    <div className="overflow-hidden rounded-lg bg-white shadow">
+                                    <div className="overflow-hidden rounded-lg bg-white shadow h-max">
                                       <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                                         <aside className="py-6 lg:col-span-3">
                                           <nav className="space-y-1">
@@ -209,6 +231,16 @@ const Header = ({ siteTitle, tractStackContextPayload }) => {
                                             path="/tractstack"
                                             element={<TractStack />}
                                           />
+                                          <Route
+                                            path="/data"
+                                            element={
+                                              <ZeroParty
+                                                children={
+                                                  zeroPartyPayload.children
+                                                }
+                                              />
+                                            }
+                                          />
                                         </Routes>
                                       </div>
                                     </div>
@@ -222,8 +254,6 @@ const Header = ({ siteTitle, tractStackContextPayload }) => {
                     </Popover>
                   </div>
                 </div>
-              ) : (
-                <></>
               )}
             </div>
           </div>

@@ -1,8 +1,7 @@
 import React from "react"
-import axios from "axios"
 import { concierge, classNames } from "gatsby-plugin-tractstack"
 
-import config from "../../data/SiteConfig"
+//import config from "../../data/SiteConfig"
 
 const FormContact = () => {
   const [firstname, setFirstName] = React.useState("")
@@ -18,37 +17,6 @@ const FormContact = () => {
     console.log(firstname, lastname, company, email, bio)
     const thatPayload = ["codeHook", ["form", "submit", "Form"]]
     concierge(thatPayload)
-    if (firstname && lastname && email) {
-      // next we send email
-      var json = JSON.stringify({
-        firstname: firstname,
-        lastname: lastname,
-        company: company || ``,
-        email: email,
-        bio: bio || ``,
-        secret: process.env.API_SECRET_KEY,
-      })
-      axios({
-        method: "post",
-        url: config.url_sendmail,
-        data: json,
-      })
-        .then(function (response) {
-          setSuccess(1)
-          setSubmitted(true)
-          console.log(response)
-          const thisPayload = ["codeHook", ["form", "submit", "FormContact"]]
-          concierge(thisPayload)
-        })
-        .catch(function (response) {
-          setSuccess(-1)
-          setSubmitted(true)
-          console.log(response)
-        })
-    } else {
-      setSubmitted(true)
-      setSuccess(0)
-    }
   }
 
   return (

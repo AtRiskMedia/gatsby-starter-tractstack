@@ -65,7 +65,6 @@ const ConciergeGraph = () => {
     if (graphData && Object.keys(graphData).length === 0) goGetGraph()
   }, [graphData, setGraphData])
   const thisOptions = { ...graphOptions, neo4jData: graphData }
-  //const thisOptions = { ...graphOptions, neo4jData: knownGoodData }
   if (graphData && Object.keys(graphData).length === 0) return <>Loading...</>
   return (
     <>
@@ -81,109 +80,6 @@ const graphOptions = {
   strength: -350,
   infoPanel: true,
   labelFontSize: "18px",
-}
-
-const knownGoodData = {
-  results: [
-    {
-      columns: ["user", "entity"],
-      data: [
-        {
-          graph: {
-            nodes: [
-              {
-                id: "1",
-                labels: ["Visitor"],
-                properties: {},
-              },
-              {
-                id: "2",
-                labels: ["SecurityMatters"],
-                properties: {},
-              },
-              {
-                id: "3",
-                labels: ["AtRiskMediaHelps"],
-                properties: {},
-              },
-              {
-                id: "4",
-                labels: ["Hero"],
-                properties: {},
-              },
-              {
-                id: "5",
-                labels: ["Impression"],
-                properties: {},
-              },
-              {
-                id: "6",
-                labels: ["Pane"],
-                properties: {},
-              },
-              {
-                id: "7",
-                labels: ["Activity"],
-                properties: {},
-              },
-            ],
-            relationships: [
-              {
-                id: "1",
-                type: "DISCOVERS",
-                startNode: "1",
-                endNode: "4",
-                properties: {},
-              },
-              {
-                id: "2",
-                type: "DISCOVERS",
-                startNode: "1",
-                endNode: "6",
-                properties: {},
-              },
-              {
-                id: "3",
-                type: "REVEALS",
-                startNode: "6",
-                endNode: "5",
-                properties: {},
-              },
-              {
-                id: "4",
-                type: "REVEALS",
-                startNode: "6",
-                endNode: "7",
-                properties: {},
-              },
-              {
-                id: "5",
-                type: "KNOWS",
-                startNode: "1",
-                endNode: "2",
-                properties: {},
-              },
-              {
-                id: "6",
-                type: "BELIEVES",
-                startNode: "1",
-                endNode: "2",
-                properties: {},
-              },
-              {
-                id: "7",
-                type: "KNOWS",
-                startNode: "1",
-                endNode: "3",
-                properties: {},
-              },
-            ],
-          },
-        },
-      ],
-    },
-  ],
-  errors: [],
 }
 
 export default ConciergeGraph

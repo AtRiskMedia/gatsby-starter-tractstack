@@ -342,8 +342,10 @@ const RenderedStoryFragment = ({ data }) => {
   const [loggingIn, setLoggingIn] = useState(0)
   const [validToken, setValidToken] = useState(() => {
     const localData =
-      typeof localStorage === "object" && localStorage.getItem("validToken") !== null
-        ? localStorage.getItem("validToken") : null
+      typeof localStorage === "object" &&
+      localStorage.getItem("validToken") !== null
+        ? localStorage.getItem("validToken")
+        : null
     return localData ? JSON.parse(localData) : false
   })
   const updatePanesVisible = useStoryStepStore(
@@ -371,31 +373,31 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-        data: data.nodeStoryFragment,
-        viewportKey: viewportKey,
-        codeHooks: codeHooks,
-        hooks: {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-          updateEventStream: updateEventStream,
-          navigate: navigate,
-        },
-      })
+          data: data.nodeStoryFragment,
+          viewportKey: viewportKey,
+          codeHooks: codeHooks,
+          hooks: {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+            updateEventStream: updateEventStream,
+            navigate: navigate,
+          },
+        })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-        data.nodeStoryFragment.relationships.field_tract_stack.relationships
-          .field_context_panes,
-        null,
-        viewportKey,
-        {
-          updateRevealContext: updateRevealContext,
-          updateContentMap: updateContentMap,
-          processRead: processRead,
-        }
-      )
+          data.nodeStoryFragment.relationships.field_tract_stack.relationships
+            .field_context_panes,
+          null,
+          viewportKey,
+          {
+            updateRevealContext: updateRevealContext,
+            updateContentMap: updateContentMap,
+            processRead: processRead,
+          }
+        )
       : null
 
   useEffect(() => {
@@ -411,26 +413,10 @@ const RenderedStoryFragment = ({ data }) => {
           tractStackId: tractStackId,
           tractStackSlug: tractStackSlug,
         })
-        updateContentMap(value, {
-          id: key,
-          slug: value,
-          type: "pane",
-          storyFragmentId: storyFragmentId,
-          storyFragmentSlug: storyFragmentSlug,
-          tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug,
-        })
       })
       Object.entries(tractStackContextPayload.contentMap).forEach(entry => {
         const [key, value] = entry
         updateContentMap(key, {
-          id: key,
-          slug: value,
-          type: "context",
-          tractStackId: tractStackId,
-          tractStackSlug: tractStackSlug,
-        })
-        updateContentMap(value, {
           id: key,
           slug: value,
           type: "context",
@@ -467,8 +453,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-            ? thisWidth / 1080
-            : thisWidth / 1920
+          ? thisWidth / 1080
+          : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -535,8 +521,13 @@ const RenderedStoryFragment = ({ data }) => {
     console.log(
       `validToken:${validToken}-${typeof validToken} fingerprint:${fingerprint}-${typeof fingerprint} fingerprintCheck:${fingerprintCheck}-${typeof fingerprintCheck}`
     )
-    if (fingerprint === "undefined") console.log('HOW????')
-    if (fingerprint !== "none" && fingerprint !== "undefined" && !loggingIn && !validToken) {
+    if (fingerprint === "undefined") console.log("HOW????")
+    if (
+      fingerprint !== "none" &&
+      fingerprint !== "masked" &&
+      !loggingIn &&
+      !validToken
+    ) {
       setLoggingIn(1)
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
@@ -564,11 +555,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-          .filter(k => k > lastSync)
-          .reduce((obj, key) => {
-            obj[key] = eventStream[key]
-            return obj
-          }, {})
+            .filter(k => k > lastSync)
+            .reduce((obj, key) => {
+              obj[key] = eventStream[key]
+              return obj
+            }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       const events = payload
@@ -595,7 +586,7 @@ const RenderedStoryFragment = ({ data }) => {
       )}
       <Header
         siteTitle={storyFragmentTitle}
-        tractStackContextPayload={tractStackContextPayload}
+        contextPayload={tractStackContextPayload}
       />
       <Seo title={storyFragmentTitle} />
       <>

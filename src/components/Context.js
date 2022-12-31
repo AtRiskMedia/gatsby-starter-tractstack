@@ -21,31 +21,35 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-          ? "glossedOver"
-          : null
-    if (verb) console.log(
-      {
+        ? "glossedOver"
+        : null
+    let lookup = false
+    for (let [key, value] of Object.entries(contentMap)) {
+      if (value.slug === revealContext.slug) lookup = key
+    }
+    if (verb && lookup)
+      console.log({
         verb: verb,
         object_name: revealContext.slug,
-        object_id: contentMap[revealContext.slug].id,
+        object_id: contentMap[lookup].id,
         object_type: "context",
         duration: duration / 1000,
-        tractStackId: contentMap[revealContext.slug].tractStackId,
-        tractStackSlug: contentMap[revealContext.slug].tractStackSlug,
-        storyFragmentId: contentMap[revealContext.slug].tractStackId,
-        storyFragmentSlug: contentMap[revealContext.slug].tractStackSlug,
+        tractStackId: contentMap[lookup].tractStackId,
+        tractStackSlug: contentMap[lookup].tractStackSlug,
+        storyFragmentId: contentMap[lookup].tractStackId,
+        storyFragmentSlug: contentMap[lookup].tractStackSlug,
       })
-    if (verb)
+    if (verb && lookup)
       updateEventStream(Date.now(), {
         verb: verb,
         object_name: revealContext.slug,
-        object_id: contentMap[revealContext.slug].id,
+        object_id: contentMap[lookup].id,
         object_type: "context",
         duration: duration / 1000,
-        tractStackId: contentMap[revealContext.slug].tractStackId,
-        tractStackSlug: contentMap[revealContext.slug].tractStackSlug,
-        storyFragmentId: contentMap[revealContext.slug].tractStackId,
-        storyFragmentSlug: contentMap[revealContext.slug].tractStackSlug,
+        tractStackId: contentMap[lookup].tractStackId,
+        tractStackSlug: contentMap[lookup].tractStackSlug,
+        storyFragmentId: contentMap[lookup].tractStackId,
+        storyFragmentSlug: contentMap[lookup].tractStackSlug,
       })
     updateRevealContext("reveal", undefined)
     updateRevealContext("slug", undefined)
@@ -58,8 +62,8 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-              ? "glossedOver"
-              : null
+            ? "glossedOver"
+            : null
         if (verb)
           updateEventStream(Date.now(), {
             verb: verb,

@@ -20,17 +20,14 @@ const StoryFragment = ({
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const revealContext = useStoryStepStore(state => state.revealContext)
   const contentMap = useStoryStepStore(state => state.contentMap)
-  const revealContextDetails = contentMap?.hasOwnProperty(revealContext.slug)
-    ? contentMap[revealContext.slug]
+  let lookup = false
+  for (let [key, value] of Object.entries(contentMap)) {
+    if (value.slug === revealContext.slug) lookup = key
+  }
+  const thisContextPayload = contextPayload?.payload?.hasOwnProperty(lookup)
+    ? contextPayload.payload[lookup]
     : false
-  const revealContextId =
-    typeof revealContextDetails === "object" ? revealContextDetails.id : false
   const impressions = storyFragmentPayload?.panesPayload?.impressions || {}
-  const thisContextPayload = contextPayload?.payload?.hasOwnProperty(
-    revealContextId
-  )
-    ? contextPayload.payload[revealContextId]
-    : null
   const thisCss = !prefersReducedMotion
     ? `${storyFragmentPayload?.panesPayload?.css || ``} ${
         storyFragmentPayload?.panesPayload?.cssAnimated || ``
@@ -57,7 +54,7 @@ const StoryFragment = ({
         }}
       >
         <main>
-          {revealContextId ? (
+          {lookup ? (
             <Context children={thisContextPayload?.children} />
           ) : (
             <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
@@ -68,7 +65,7 @@ const StoryFragment = ({
             </StyledWrapperSection>
           )}
         </main>
-        {revealContextId === false &&
+        {lookup === false &&
         impressionPanes.length &&
         panesVisible.footer !== true ? (
           <aside id="controller">
