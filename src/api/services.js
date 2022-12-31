@@ -14,3 +14,7 @@ export async function graph() {
 export async function pushPayload({ events }) {
   return client.post("/users/eventStream", events)
 }
+
+export async function saveProfile({ profile }) {
+  return client.post("/users/profile", profile)
+}
