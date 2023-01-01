@@ -10,6 +10,8 @@ import {
 } from "@heroicons/react/24/outline"
 
 import { saveProfile } from "../api/services"
+import { useAuthStore } from "../stores/authStore"
+import { getTokens } from "../api/axiosClient"
 
 const contactPersonaOptions = [
   {
@@ -43,13 +45,36 @@ const ConciergeProfile = () => {
   const [personaSelected, setPersonaSelected] = useState(contactPersonaOptions[0])
   const [submitted, setSubmitted] = useState(false)
   const [success, setSuccess] = useState(0)
+  const fingerprint = useAuthStore(state => state.fingerprint)
+  const login = useAuthStore(state => state.login)
+  const setValidToken = useAuthStore(state => state.setValidToken)
+  const setAuth = useAuthStore(state => state.setAuth)
+  const [loggingIn, setLoggingIn] = useState(0)
 
   const handleSubmit = e => {
     e.preventDefault()
-    if (firstname && email && codeword) {
+    if (firstname && email && codeword && !loggingIn) {
       const profile = { firstname: firstname, email: email, codeword: codeword, persona: personaSelected.title, bio: bio.substring(0, 280) }
       console.log(profile)
-      saveProfile({ profile })
+      saveProfile({ profile }).then(res => {
+        if (res.status === 200) {
+          // try to re-login with codeword!
+          setLoggingIn(1)
+          getTokens(fingerprint, codeword).then(res => {
+            const accessToken = typeof res.tokens === "string" ? res.tokens : false
+            const auth = typeof res.auth === "boolean" ? res.auth : false
+            if (auth) setAuth(auth)
+            if (accessToken) {
+              login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
+              setValidToken(true)
+            } else {
+              console.log("error with token", res)
+            }
+            setLoggingIn(0)
+          })
+
+        }
+      })
     }
     setSubmitted(true)
   }

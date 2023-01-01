@@ -24,6 +24,11 @@ export const useAuthStore = create((set, get) => ({
       localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
+  firstName:
+    typeof localStorage === "object" &&
+      localStorage.getItem("firstName") !== null
+      ? localStorage.getItem("firstName")
+      : "false",
   auth:
     typeof localStorage === "object" &&
       localStorage.getItem("auth") !== null
@@ -35,6 +40,17 @@ export const useAuthStore = create((set, get) => ({
       ? localStorage.getItem("fingerprint")
       : "none",
   fingerprintCheck: false,
+  validToken:
+    typeof localStorage === "object" &&
+      localStorage.getItem("validToken") !== null
+      ? localStorage.getItem("validToken")
+      : false,
+  setValidToken: validToken => {
+    set(state => ({ ...state, validToken: validToken }))
+  },
+  setFirstName: firstName => {
+    set(state => ({ ...state, firstName: firstName }))
+  },
   setAuth: auth => {
     set(state => ({ ...state, auth: auth }))
   },

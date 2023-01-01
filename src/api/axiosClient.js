@@ -1,4 +1,5 @@
 import { createAxiosClient } from "./createAxiosClient"
+import { register } from "../api/services"
 import { useAuthStore } from "../stores/authStore"
 
 function getCurrentAccessToken() {
@@ -29,3 +30,19 @@ export const client = createAxiosClient({
   setRefreshedTokens,
   logout,
 })
+
+export const getTokens = async (fingerprint, codeword = false) => {
+  try {
+    const response = await register({ fingerprint, codeword })
+    console.log("getting token", response)
+    const accessToken = response.data.jwt
+    const auth = response.data.auth || false
+    return { tokens: accessToken, auth: auth, error: null }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      tokens: null,
+    }
+  }
+}
+

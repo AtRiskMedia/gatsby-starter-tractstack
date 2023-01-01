@@ -1,8 +1,9 @@
 import { client } from "./axiosClient"
 
-export async function register({ fingerprint }) {
+export async function register({ fingerprint, codeword = false }) {
   const payload = {
     fingerprint: fingerprint.toString(),
+    codeword: codeword,
   }
   return client.post("/auth/register", payload, { authorization: false })
 }
