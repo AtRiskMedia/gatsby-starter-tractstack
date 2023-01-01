@@ -29,9 +29,10 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
   )
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const contentMap = useStoryStepStore(state => state.contentMap)
+  console.log(contentMap)
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
-    typeof contentMap === "object"
+      typeof contentMap === "object"
       ? Object.keys(contentMap)
       : []
   const menu = (typeof storyFragmentPayload?.menu === "object" &&
@@ -63,12 +64,12 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
                 duration > readThreshold
                   ? "read"
                   : duration > softReadThreshold
-                  ? "glossedOver"
-                  : null
+                    ? "glossedOver"
+                    : null
               if (verb)
                 console.log({
                   verb: verb,
-                  object_name: contentMap[p],
+                  object_name: contentMap[p].slug,
                   object_id: p,
                   object_type: "pane",
                   duration: duration / 1000,
@@ -80,7 +81,7 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
               if (verb)
                 updateEventStream(now, {
                   verb: verb,
-                  object_name: contentMap[p],
+                  object_name: contentMap[p].slug,
                   object_id: p,
                   object_type: "pane",
                   duration: duration / 1000,
