@@ -29,7 +29,6 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
   )
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const contentMap = useStoryStepStore(state => state.contentMap)
-  console.log(contentMap)
   const panes =
     typeof storyFragmentPayload?.panesPayload?.panes === "object" &&
       typeof contentMap === "object"
