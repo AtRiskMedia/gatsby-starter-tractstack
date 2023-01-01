@@ -21,8 +21,8 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-        ? "glossedOver"
-        : null
+          ? "glossed"
+          : null
     let lookup = false
     for (let [key, value] of Object.entries(contentMap)) {
       if (value.slug === revealContext.slug) lookup = key
@@ -62,8 +62,8 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-            ? "glossedOver"
-            : null
+              ? "glossed"
+              : null
         if (verb)
           updateEventStream(Date.now(), {
             verb: verb,
