@@ -63,7 +63,7 @@ const StoryFragmentRender = ({ storyFragmentPayload, viewportKey }) => {
                 duration > readThreshold
                   ? "read"
                   : duration > softReadThreshold
-                    ? "glossedOver"
+                    ? "glossed"
                     : null
               if (verb)
                 console.log({
