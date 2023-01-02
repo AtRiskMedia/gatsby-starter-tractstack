@@ -61,7 +61,7 @@ export function createAxiosClient({
         originalRequest?._retry !== true
       ) {
         if (isRefreshing) {
-          return new Promise(function (resolve, reject) {
+          return new Promise(function(resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
@@ -88,7 +88,7 @@ export function createAxiosClient({
           })
       }
 
-      if (error.response?.status === 401) {
+      else if (error.response?.status === 401) {
         console.log("logged out")
         logout()
         return handleError(error)

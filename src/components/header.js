@@ -137,6 +137,7 @@ const SubNav = () => {
 const Header = ({ siteTitle, contextPayload }) => {
   const contentMap = useStoryStepStore(state => state.contentMap)
   const auth = useAuthStore(state => state.auth)
+  const firstName = useAuthStore(state => state.firstName)
   let lookup = false
   for (let [key, value] of Object.entries(contentMap)) {
     if (value.slug === "zeroParty") lookup = key
@@ -218,11 +219,11 @@ const Header = ({ siteTitle, contextPayload }) => {
                                         <Routes>
                                           <Route
                                             path="/"
-                                            element={auth ? <p>OK</p> : <ConciergeProfile />}
+                                            element={firstName && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
                                           />
                                           <Route
                                             path="/profile"
-                                            element={auth ? <p>OK</p> : <ConciergeProfile />}
+                                            element={firstName && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
                                           />
                                           <Route
                                             path="/graph"

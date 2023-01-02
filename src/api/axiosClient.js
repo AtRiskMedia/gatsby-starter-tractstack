@@ -34,10 +34,10 @@ export const client = createAxiosClient({
 export const getTokens = async (fingerprint, codeword = false) => {
   try {
     const response = await register({ fingerprint, codeword })
-    console.log("getting token", response)
     const accessToken = response.data.jwt
     const auth = response.data.auth || false
-    return { tokens: accessToken, auth: auth, error: null }
+    const firstName = response.data.first_name || false
+    return { tokens: accessToken, auth: auth, firstName: firstName, error: null }
   } catch (error) {
     return {
       error: error?.response?.data?.message || error.message,
