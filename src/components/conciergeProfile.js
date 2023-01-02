@@ -38,7 +38,8 @@ const contactPersonaOptions = [
 
 const ConciergeProfile = () => {
   // if lead is known, pre-inject these values with an unlocking workflow - codeword match
-  const [firstname, setFirstName] = useState("")
+  const storedFirstName = useAuthStore(state => state.firstName)
+  const [firstname, setFirstName] = useState(storedFirstName)
   const [email, setEmail] = useState("")
   const [codeword, setCodeword] = useState("")
   const [bio, setBio] = useState("")

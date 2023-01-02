@@ -325,6 +325,7 @@ const RenderedStoryFragment = ({ data }) => {
   const setValidToken = useAuthStore(state => state.setValidToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
+  const setFirstName = useAuthStore(state => state.setFirstName)
   const setFingerprintCheck = useAuthStore(state => state.setFingerprintCheck)
   const [viewportKey, setViewportKey] = useState("server")
   const [lastSync, setLastSync] = useState(0)
@@ -513,6 +514,8 @@ const RenderedStoryFragment = ({ data }) => {
       getTokens(fingerprint).then(res => {
         const accessToken = typeof res.tokens === "string" ? res.tokens : false
         const auth = typeof res.auth === "boolean" ? res.auth : false
+        const firstName = typeof res.firstName === "string" ? res.firstName : false
+        if (firstName) setFirstName(firstName)
         if (accessToken) {
           login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
           setValidToken(true)
@@ -527,6 +530,7 @@ const RenderedStoryFragment = ({ data }) => {
     setValidToken,
     fingerprint,
     fingerprintCheck,
+    setFirstName,
     login,
     loggingIn,
     setLoggingIn,
