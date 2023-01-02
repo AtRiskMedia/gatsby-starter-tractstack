@@ -35,8 +35,8 @@ export const getTokens = async (fingerprint, codeword = false) => {
   try {
     const response = await register({ fingerprint, codeword })
     const accessToken = response.data.jwt
-    const auth = response.data.auth || false
-    const firstName = response.data.first_name || false
+    const auth = response.data.auth
+    const firstName = response.data.first_name
     return { tokens: accessToken, auth: auth, firstName: firstName, error: null }
   } catch (error) {
     return {

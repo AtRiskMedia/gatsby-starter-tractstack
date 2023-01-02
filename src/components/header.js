@@ -221,11 +221,11 @@ const Header = ({ siteTitle, contextPayload }) => {
                                         <Routes>
                                           <Route
                                             path="/"
-                                            element={firstName && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
+                                            element={firstName !== "false" && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
                                           />
                                           <Route
                                             path="/profile"
-                                            element={firstName && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
+                                            element={firstName !== "false" && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
                                           />
                                           <Route
                                             path="/graph"
