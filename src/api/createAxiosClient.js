@@ -78,13 +78,19 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl)
           .then(res => {
+            console.log(res)
             const accessToken = typeof res.tokens === "string" ? res.tokens : false
+            console.log(accessToken)
             const auth = useAuthStore(state => state.auth)
+            console.log(auth)
             const firstName = useAuthStore(state => state.firstName)
+            console.log(firstName)
             const fingerprint = useAuthStore(state => state.firstName)
+            console.log(fingerprint)
             const tokens = {
               accessToken: accessToken, fingerprint: fingerprint, auth: auth, firstname: firstName
             }
+            console.log(tokens)
             setRefreshedTokens(tokens)
             processQueue(null)
             return client(originalRequest)
