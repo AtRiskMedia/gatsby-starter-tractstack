@@ -59,7 +59,7 @@ export const useAuthStore = create((set, get) => ({
       accessToken: tokens.accessToken,
       fingerprint: tokens.fingerprint,
     }))
-    if (auth)
+    if (tokens.auth)
       set(state => ({
         ...state,
         auth: tokens.auth,
