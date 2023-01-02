@@ -39,12 +39,6 @@ export const useAuthStore = create((set, get) => ({
       localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
-  setValidToken: validToken => {
-    set(state => ({ ...state, validToken: validToken }))
-  },
-  setFirstName: firstName => {
-    set(state => ({ ...state, firstName: firstName }))
-  },
   setFingerprint: fingerprint => {
     set(state => ({ ...state, fingerprint: fingerprint }))
   },
@@ -58,7 +52,13 @@ export const useAuthStore = create((set, get) => ({
       ...state,
       accessToken: tokens.accessToken,
       fingerprint: tokens.fingerprint,
+      validToken: true,
     }))
+    if (tokens.firstName)
+      set(state => ({
+        ...state,
+        firstName: tokens.firstName,
+      }))
     if (tokens.auth)
       set(state => ({
         ...state,
@@ -72,6 +72,7 @@ export const useAuthStore = create((set, get) => ({
       accessToken: null,
       fingerprint: "none",
       auth: null,
+      validToken: false,
     }))
   },
 }))
