@@ -470,12 +470,6 @@ const RenderedStoryFragment = ({ data }) => {
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
-          console.log(
-            "debug: fingerprint check",
-            fingerprint1,
-            fingerprint2,
-            fingerprint1 === fingerprint2
-          )
           if (fingerprint1 !== fingerprint2) {
             setFingerprint("masked")
             setFingerprintCheck("masked")
@@ -498,9 +492,6 @@ const RenderedStoryFragment = ({ data }) => {
   ])
 
   useEffect(() => {
-    console.log(
-      `validToken:${validToken}-${typeof validToken} fingerprint:${fingerprint}-${typeof fingerprint} fingerprintCheck:${fingerprintCheck}-${typeof fingerprintCheck}`
-    )
     if (fingerprint === "undefined") console.log("HOW????")
     if (
       fingerprint !== "none" &&
@@ -544,8 +535,7 @@ const RenderedStoryFragment = ({ data }) => {
     if (isLoggedIn && Object.keys(payload).length > 0) {
       const events = payload
       pushPayload({ events }).then(res => {
-        console.log("response", res)
-        console.log("to sync to concierge", payload)
+        console.log("to sync to concierge", payload, res)
         updateEventStreamCleanup(now)
         setLastSync(now)
       })
