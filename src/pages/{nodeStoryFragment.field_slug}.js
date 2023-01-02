@@ -493,9 +493,8 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     if (fingerprint === "undefined") console.log("HOW????")
-    if (
-      fingerprint !== "none" &&
-      fingerprint !== "masked" &&
+    const doCheck = fingerprint !== "none" && fingerprint !== "masked" ? true : fingerprint === "undefined" ? true : false
+    if (doCheck &&
       !loggingIn &&
       !validToken
     ) {
