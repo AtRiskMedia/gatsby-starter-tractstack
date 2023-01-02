@@ -63,7 +63,6 @@ const ConciergeProfile = () => {
           getTokens(fingerprint, codeword).then(res => {
             const accessToken = typeof res.tokens === "string" ? res.tokens : false
             const auth = typeof res.auth === "boolean" ? res.auth : false
-            if (auth) setAuth(auth)
             if (accessToken) {
               login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
             } else {
