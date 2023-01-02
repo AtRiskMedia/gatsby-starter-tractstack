@@ -138,10 +138,6 @@ const Header = ({ siteTitle, contextPayload }) => {
   const contentMap = useStoryStepStore(state => state.contentMap)
   const auth = useAuthStore(state => state.auth)
   const firstName = useAuthStore(state => state.firstName)
-  console.log('auth', auth, typeof auth)
-  console.log('firstName', firstName, typeof firstName)
-  console.log(firstName !== "false" && !auth)
-  console.log(firstName !== "false")
   let lookup = false
   for (let [key, value] of Object.entries(contentMap)) {
     if (value.slug === "zeroParty") lookup = key
