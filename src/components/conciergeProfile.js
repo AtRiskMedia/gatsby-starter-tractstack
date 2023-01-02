@@ -48,7 +48,8 @@ const ConciergeProfile = () => {
   const [success, setSuccess] = useState(0)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const login = useAuthStore(state => state.login)
-  const setAuth = useAuthStore(state => state.setAuth)
+  const auth = useAuthStore(state => state.auth)
+  console.log(storedFirstName, auth)
   const [loggingIn, setLoggingIn] = useState(0)
 
   const handleSubmit = e => {
