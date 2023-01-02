@@ -48,7 +48,6 @@ const ConciergeProfile = () => {
   const [success, setSuccess] = useState(0)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const login = useAuthStore(state => state.login)
-  const setValidToken = useAuthStore(state => state.setValidToken)
   const setAuth = useAuthStore(state => state.setAuth)
   const [loggingIn, setLoggingIn] = useState(0)
 
@@ -67,7 +66,6 @@ const ConciergeProfile = () => {
             if (auth) setAuth(auth)
             if (accessToken) {
               login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
-              setValidToken(true)
             } else {
               console.log("error with token", res)
             }
