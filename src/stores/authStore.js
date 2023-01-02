@@ -29,11 +29,7 @@ export const useAuthStore = create((set, get) => ({
       localStorage.getItem("firstName") !== null
       ? localStorage.getItem("firstName")
       : "false",
-  auth:
-    typeof localStorage === "object" &&
-      localStorage.getItem("auth") !== null
-      ? localStorage.getItem("auth")
-      : "false",
+  auth: false,
   fingerprint:
     typeof localStorage === "object" &&
       localStorage.getItem("fingerprint") !== null
