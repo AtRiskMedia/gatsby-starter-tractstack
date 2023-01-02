@@ -1,5 +1,7 @@
 import axios from "axios"
 
+import { useAuthStore } from "../stores/authStore"
+
 let failQueue = []
 let isRefreshing = false
 
@@ -76,8 +78,10 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl)
           .then(res => {
+            const auth = useAuthStore(state => state.auth)
+            const firstName = useAuthStore(state => state.firstName)
             const tokens = {
-              accessToken: res.data?.jwt,
+              accessToken: accessToken, fingerprint: fingerprint, auth: auth, firstname: firstName
             }
             setRefreshedTokens(tokens)
             processQueue(null)
