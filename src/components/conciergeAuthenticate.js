@@ -59,7 +59,7 @@ const ConciergeAuthenticate = () => {
       <form onSubmit={handleSubmit} method="POST">
         <div className="grid grid-cols-3 gap-4 bg-slate-50">
 
-          <div className="col-span-2 xs:col-span-3">
+          <div className="col-span-3 xs:col-span-2">
             <label
               htmlFor="email-address"
               className="block text-sm font-medium text-gray-700"
