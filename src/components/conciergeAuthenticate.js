@@ -59,7 +59,7 @@ const ConciergeAuthenticate = () => {
       <form onSubmit={handleSubmit} method="POST">
         <div className="grid grid-cols-3 gap-4 bg-slate-50">
 
-          <div className="col-span-3 sm:col-span-2">
+          <div className="col-span-2 xs:col-span-3">
             <label
               htmlFor="email-address"
               className="block text-sm font-medium text-gray-700"
@@ -85,12 +85,12 @@ const ConciergeAuthenticate = () => {
             )}
           </div>
 
-          <div className="col-span-1">
+          <div className="col-span-3 xs:col-span-1">
             <label
               htmlFor="codeword"
               className="block text-sm font-medium text-gray-700"
             >
-              Secret code word to protect your account:
+              Code word:
             </label>
             <input
               type="text"
@@ -111,7 +111,7 @@ const ConciergeAuthenticate = () => {
             )}
           </div>
 
-          <div className="col-span-2 mt-6">
+          <div className="col-span-3 mt-6">
             <button
               type="submit"
               className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
