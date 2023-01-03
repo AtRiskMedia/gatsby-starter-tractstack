@@ -14,6 +14,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
 import ConciergeProfile from "./conciergeProfile.js"
+import ConciergeAuthenticate from "./ConciergeAuthenticate.js"
 import ConciergeGraph from "./conciergeGraph.js"
 
 const _subNavigation = hash => {
@@ -219,11 +220,15 @@ const Header = ({ siteTitle, contextPayload }) => {
                                         <Routes>
                                           <Route
                                             path="/"
-                                            element={firstName !== "false" && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
+                                            element={firstName !== "false" && !auth ? <ConciergeAuthenticate /> : <ConciergeProfile />}
                                           />
                                           <Route
                                             path="/profile"
-                                            element={firstName !== "false" && !auth ? <p>Do log-in</p> : <ConciergeProfile />}
+                                            element={firstName !== "false" && !auth ? <ConciergeAuthenticate /> : <ConciergeProfile />}
+                                          />
+                                          <Route
+                                            path="/authenticate"
+                                            element={<ConciergeAuthenticate />}
                                           />
                                           <Route
                                             path="/graph"
