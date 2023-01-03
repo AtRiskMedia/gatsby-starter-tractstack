@@ -130,6 +130,16 @@ const ConciergeProfile = () => {
           </Link>
           .
         </p>
+        <p className="text-gray-700 text-sm mb-10">
+          Not your first visit?{" "}
+          <Link
+            to={"/authenticate"}
+            className="underline underline-offset-1 hover:text-allblack"
+          >
+            Log-in
+          </Link>
+          .
+        </p>
       </div>
       <form onSubmit={handleSubmit} method="POST">
         <div className="grid grid-cols-3 gap-4 bg-slate-50">
