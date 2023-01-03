@@ -14,7 +14,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
 import ConciergeProfile from "./conciergeProfile.js"
-import ConciergeAuthenticate from "./ConciergeAuthenticate.js"
+import ConciergeAuthenticate from "./conciergeAuthenticate.js"
 import ConciergeGraph from "./conciergeGraph.js"
 
 const _subNavigation = hash => {
