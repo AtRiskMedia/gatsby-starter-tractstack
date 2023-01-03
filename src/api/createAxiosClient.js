@@ -1,7 +1,5 @@
 import axios from "axios"
 
-import { useAuthStore } from "../stores/authStore"
-
 let failQueue = []
 let isRefreshing = false
 
@@ -23,6 +21,7 @@ export function createAxiosClient({
   refreshTokenUrl,
   setRefreshedTokens,
   logout,
+  getAuth,
 }) {
   const client = axios.create(options)
 
@@ -80,18 +79,14 @@ export function createAxiosClient({
           .then(response => {
             console.log(response)
             const accessToken = typeof response.data.jwt === "string" ? response.data.jwt : false
+            const authData = getAuth()
             console.log(accessToken)
-            const auth = useAuthStore(state => state.auth)
-            console.log(auth)
-            const firstName = useAuthStore(state => state.firstName)
-            console.log(firstName)
-            const fingerprint = useAuthStore(state => state.firstName)
-            console.log(fingerprint)
+            console.log(authData)
             const tokens = {
-              accessToken: accessToken, fingerprint: fingerprint, auth: auth, firstname: firstName
+              accessToken: accessToken, fingerprint: authData.fingerprint, auth: authData.auth, firstname: authData.firstName
             }
             console.log(tokens)
-            if (accessToken && fingerprint)
+            if (accessToken && tokens)
               setRefreshedTokens(tokens)
             processQueue(null)
             return client(originalRequest)

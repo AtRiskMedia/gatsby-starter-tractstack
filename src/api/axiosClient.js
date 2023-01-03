@@ -17,6 +17,13 @@ function logout() {
   logout()
 }
 
+function getAuth() {
+  const fingerprint = useAuthStore.getState().fingerprint
+  const auth = useAuthStore.getState().auth
+  const firstName = useAuthStore.getState().firstName
+  return { fingerprint: fingerprint, firstName: firstName, auth: auth }
+}
+
 export const client = createAxiosClient({
   options: {
     baseURL: process.env.CONCIERGE_BASE_URL,
@@ -29,6 +36,7 @@ export const client = createAxiosClient({
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
   setRefreshedTokens,
   logout,
+  getAuth,
 })
 
 export const getTokens = async (fingerprint, codeword = false) => {
