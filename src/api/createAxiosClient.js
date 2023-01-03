@@ -79,7 +79,7 @@ export function createAxiosClient({
           .post(refreshTokenUrl)
           .then(res => {
             console.log(res)
-            const accessToken = typeof res.tokens === "string" ? res.tokens : false
+            const accessToken = typeof response.data.jwt === "string" ? response.data.jwt : false
             console.log(accessToken)
             const auth = useAuthStore(state => state.auth)
             console.log(auth)
@@ -91,7 +91,8 @@ export function createAxiosClient({
               accessToken: accessToken, fingerprint: fingerprint, auth: auth, firstname: firstName
             }
             console.log(tokens)
-            setRefreshedTokens(tokens)
+            if (accessToken && fingerprint)
+              setRefreshedTokens(tokens)
             processQueue(null)
             return client(originalRequest)
           }, handleError)
