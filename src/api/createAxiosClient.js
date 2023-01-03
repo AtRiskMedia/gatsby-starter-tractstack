@@ -77,8 +77,8 @@ export function createAxiosClient({
         originalRequest._retry = true
         return client
           .post(refreshTokenUrl)
-          .then(res => {
-            console.log(res)
+          .then(response => {
+            console.log(response)
             const accessToken = typeof response.data.jwt === "string" ? response.data.jwt : false
             console.log(accessToken)
             const auth = useAuthStore(state => state.auth)
