@@ -62,7 +62,7 @@ export function createAxiosClient({
         originalRequest?._retry !== true
       ) {
         if (isRefreshing) {
-          return new Promise(function (resolve, reject) {
+          return new Promise(function(resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
@@ -79,7 +79,6 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl, authPayload)
           .then(res => {
-            console.log("zzzz")
             const newAccessToken =
               typeof res.data.jwt === "string" ? res.data.jwt : false
             if (newAccessToken) {
@@ -104,7 +103,7 @@ export function createAxiosClient({
             isRefreshing = false
           })
       } else if (error.response?.status === 401) {
-        console.log("logged out")
+        console.log("refresh failed. you are now logged out.")
         logout()
         return handleError(error)
       }
