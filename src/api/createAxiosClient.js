@@ -79,7 +79,7 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl, authPayload)
           .then(response => {
-            setRefreshedTokens(response)
+            setRefreshedTokens(response.data)
             processQueue(null)
             return client(originalRequest)
           }, handleError)
