@@ -1,13 +1,6 @@
-import React, { useState, Fragment } from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
 import { classNames } from "gatsby-plugin-tractstack"
-import { Listbox, Transition } from "@headlessui/react"
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/20/solid"
-import {
-  ArrowPathRoundedSquareIcon,
-  BellSlashIcon,
-  BoltIcon,
-} from "@heroicons/react/24/outline"
+import { ChevronRightIcon } from "@heroicons/react/20/solid"
 
 import { saveProfile } from "../api/services"
 import { useAuthStore } from "../stores/authStore"
@@ -15,7 +8,18 @@ import { getTokens } from "../api/axiosClient"
 
 const ConciergeAuthenticate = () => {
   // if lead is known, pre-inject these values with an unlocking workflow - codeword match
-  const [email, setEmail] = useState("")
+  const authData = useAuthStore(state => state.authData)
+  const emailAlreadyKnown = authData.emailAlreadyKnown
+  const knownEmail = authData.email
+  const knownFirstName = authData.firstname
+  const authenticated = authData.authenticated
+  const [email, setEmail] = useState(
+    typeof emailAlreadyKnown === "string" && emailAlreadyKnown
+      ? emailAlreadyKnown
+      : typeof knownEmail === "string" && knownEmail
+      ? knownEmail
+      : ""
+  )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const [success, setSuccess] = useState(0)
@@ -25,66 +29,75 @@ const ConciergeAuthenticate = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    if (firstname && email && codeword && !loggingIn) {
-      const profile = { email: email, codeword: codeword, persona: personaSelected.title, bio: bio.substring(0, 280) }
-      console.log(profile)
-      saveProfile({ profile }).then(res => {
-        if (res.status === 200) {
-          // try to re-login with codeword!
-          setLoggingIn(1)
-          getTokens(fingerprint, codeword).then(res => {
-            const accessToken = typeof res.tokens === "string" ? res.tokens : false
-            const auth = typeof res.auth === "boolean" ? res.auth : false
-            if (accessToken) {
-              login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
-            } else {
-              console.log("error with token", res)
-            }
-            setLoggingIn(0)
-          })
-
-        }
-      })
+    if (email && codeword && !loggingIn) {
+      const profile = { email: email, codeword: codeword }
+      saveProfile({ profile })
+        .then(res => {
+          if (res.status === 200) {
+            // try to re-login with codeword -- and get "auth===true"
+            getTokens(fingerprint, codeword, email).then(res => {
+              const accessToken =
+                typeof res.tokens === "string" ? res.tokens : false
+              const auth = typeof res.auth === "boolean" ? res.auth : false
+              const firstname =
+                typeof res.firstname === "string" ? res.firstname : false
+              const encryptedEmail =
+                typeof res.encryptedEmail === "string"
+                  ? res.encryptedEmail
+                  : false
+              const encryptedCode =
+                typeof res.encryptedCode === "string"
+                  ? res.encryptedCode
+                  : false
+              if (accessToken) {
+                login({
+                  accessToken: accessToken,
+                  fingerprint: fingerprint,
+                  auth: auth,
+                  firstname: firstname,
+                  encryptedEmail: encryptedEmail,
+                  encryptedCode: encryptedCode,
+                })
+              } else {
+                console.log("error with token", res)
+              }
+            })
+          }
+        })
+        .catch(() => {
+          setSuccess(-1)
+        })
+        .finally(setLoggingIn(0))
     }
     setSubmitted(true)
   }
-
+  if (authenticated) return <p>IN</p>
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
       <div>
         <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
           Welcome back
+          {!authenticated &&
+            !emailAlreadyKnown &&
+            knownFirstName &&
+            `, ${knownFirstName}.`}
         </h2>
+        <p className="mt-4 mb-6 text-xl text-gray-700">
+          {emailAlreadyKnown ? (
+            <>
+              Your email is already registered. Please enter your code word to
+              access your profile:
+            </>
+          ) : (
+            <>
+              To access your profile, please enter your code word and confirm
+              your email:
+            </>
+          )}
+        </p>
       </div>
       <form onSubmit={handleSubmit} method="POST">
         <div className="grid grid-cols-3 gap-4 bg-slate-50">
-
-          <div className="col-span-3 sm:col-span-2">
-            <label
-              htmlFor="email-address"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              autoComplete="email"
-              defaultValue={email}
-              onBlur={e => setEmail(e.target.value)}
-              className={classNames(
-                "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                submitted && firstname === ""
-                  ? "border-red-500"
-                  : "border-gray-300"
-              )}
-            />
-            {submitted && email === "" && (
-              <span className="text-xs px-2 text-red-500">Required field.</span>
-            )}
-          </div>
-
           <div className="col-span-3 sm:col-span-1">
             <label
               htmlFor="codeword"
@@ -101,27 +114,56 @@ const ConciergeAuthenticate = () => {
               onBlur={e => setCodeword(e.target.value)}
               className={classNames(
                 "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                submitted && firstname === ""
+                (submitted && codeword === "") || success === -1
                   ? "border-red-500"
                   : "border-gray-300"
               )}
             />
-            {submitted && codeword === "" && (
+            {success === -1 ? (
+              <span className="text-xs px-2 text-red-500">INCORRECT.</span>
+            ) : submitted && codeword === "" ? (
+              <span className="text-xs px-2 text-red-500">Required field.</span>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="col-span-3 sm:col-span-2">
+            <label
+              htmlFor="email-address"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email address
+            </label>
+            <input
+              type="text"
+              readOnly={!emailAlreadyKnown && knownEmail}
+              name="email"
+              id="email"
+              autoComplete="email"
+              defaultValue={email}
+              onBlur={e => setEmail(e.target.value)}
+              className={classNames(
+                "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                submitted && email === ""
+                  ? "border-red-500"
+                  : "border-gray-300",
+                !emailAlreadyKnown && knownEmail ? "text-lightgrey" : ""
+              )}
+            />
+            {submitted && email === "" && (
               <span className="text-xs px-2 text-red-500">Required field.</span>
             )}
           </div>
-
           <div className="col-span-3 mt-6">
             <button
               type="submit"
               className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
             >
-              <span className="pr-4">Save Profile</span>
+              <span className="pr-4">Authenticate</span>
               <ChevronRightIcon className="h-5 w-5 mr-3" aria-hidden="true" />
             </button>
           </div>
         </div>
-
       </form>
     </div>
   )

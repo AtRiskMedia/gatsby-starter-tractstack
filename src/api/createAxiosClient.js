@@ -20,8 +20,8 @@ export function createAxiosClient({
   getCurrentAccessToken,
   refreshTokenUrl,
   setRefreshedTokens,
+  getAuthData,
   logout,
-  getAuth,
 }) {
   const client = axios.create(options)
 
@@ -62,7 +62,7 @@ export function createAxiosClient({
         originalRequest?._retry !== true
       ) {
         if (isRefreshing) {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
@@ -74,25 +74,36 @@ export function createAxiosClient({
         }
         isRefreshing = true
         originalRequest._retry = true
+        const authPayload = getAuthData()
+        console.log("refresh", authPayload)
         return client
-          .post(refreshTokenUrl)
-          .then(response => {
-            const accessToken = typeof response.data.jwt === "string" ? response.data.jwt : false
-            const authData = getAuth()
-            const tokens = {
-              accessToken: accessToken, fingerprint: authData.fingerprint, auth: authData.auth, firstname: authData.firstName
-            }
-            if (accessToken && tokens)
+          .post(refreshTokenUrl, authPayload)
+          .then(res => {
+            console.log("zzzz")
+            const newAccessToken =
+              typeof res.data.jwt === "string" ? res.data.jwt : false
+            if (newAccessToken) {
+              const auth =
+                typeof res.data.auth === "boolean" ? res.data.auth : false
+              const firstname =
+                typeof res.data.firstname === "string"
+                  ? res.data.firstname
+                  : false
+              const tokens = {
+                ...authPayload,
+                accessToken: newAccessToken,
+                auth: auth,
+                firstname: firstname,
+              }
               setRefreshedTokens(tokens)
+            }
             processQueue(null)
             return client(originalRequest)
           }, handleError)
           .finally(() => {
             isRefreshing = false
           })
-      }
-
-      else if (error.response?.status === 401) {
+      } else if (error.response?.status === 401) {
         console.log("logged out")
         logout()
         return handleError(error)

@@ -1,5 +1,5 @@
 import { createAxiosClient } from "./createAxiosClient"
-import { register } from "../api/services"
+import { register, loadProfile } from "../api/services"
 import { useAuthStore } from "../stores/authStore"
 
 function getCurrentAccessToken() {
@@ -8,8 +8,7 @@ function getCurrentAccessToken() {
 
 function setRefreshedTokens(tokens) {
   const login = useAuthStore.getState().login
-  const fingerprint = useAuthStore.getState().fingerprint
-  login(tokens, fingerprint)
+  login(tokens)
 }
 
 function logout() {
@@ -17,11 +16,14 @@ function logout() {
   logout()
 }
 
-function getAuth() {
+function getAuthData() {
   const fingerprint = useAuthStore.getState().fingerprint
-  const auth = useAuthStore.getState().auth
-  const firstName = useAuthStore.getState().firstName
-  return { fingerprint: fingerprint, firstName: firstName, auth: auth }
+  const authData = useAuthStore.getState().authData
+  return {
+    fingerprint: fingerprint,
+    encryptedCode: authData.encryptedCode,
+    encryptedEmail: authData.encryptedEmail,
+  }
 }
 
 export const client = createAxiosClient({
@@ -35,17 +37,47 @@ export const client = createAxiosClient({
   getCurrentAccessToken,
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
   setRefreshedTokens,
+  getAuthData,
   logout,
-  getAuth,
 })
 
-export const getTokens = async (fingerprint, codeword = false) => {
+export const getTokens = async (
+  fingerprint,
+  codeword = false,
+  email = false
+) => {
+  const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
+  const encryptedCode = useAuthStore.getState().authData.encryptedCode
+  const params =
+    codeword && email
+      ? { codeword: codeword, email: email }
+      : encryptedCode && encryptedEmail
+      ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
+      : {}
   try {
-    const response = await register({ fingerprint, codeword })
+    console.log("get tokens", params)
+    const response = await register({ fingerprint, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
-    const firstName = response.data.first_name
-    return { tokens: accessToken, auth: auth, firstName: firstName, error: null }
+    const firstname = response.data.first_name
+    const encryptedEmail = response.data.encryptedEmail
+    const encryptedCode = response.data.encryptedCode
+    console.log("result", {
+      tokens: accessToken,
+      auth: auth,
+      firstname: firstname,
+      encryptedEmail: encryptedEmail,
+      encryptedCode: encryptedCode,
+      error: null,
+    })
+    return {
+      tokens: accessToken,
+      auth: auth,
+      firstname: firstname,
+      encryptedEmail: encryptedEmail,
+      encryptedCode: encryptedCode,
+      error: null,
+    }
   } catch (error) {
     return {
       error: error?.response?.data?.message || error.message,
@@ -54,3 +86,22 @@ export const getTokens = async (fingerprint, codeword = false) => {
   }
 }
 
+export const getProfile = async () => {
+  try {
+    const response = await loadProfile()
+    //console.log(0, response)
+    //const firstname = response.data.firstname
+    //const email = response.data.email
+    //const contactPersona = response.data.contactPersona
+    //const shortBio = response.data.shorBio
+    return {
+      //firstname: firstname,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      error: error?.response?.data?.message || error.message,
+      tokens: null,
+    }
+  }
+}

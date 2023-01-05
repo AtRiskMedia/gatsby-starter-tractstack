@@ -19,19 +19,6 @@ const Impression = ({ payload }) => {
 
   function injectPayload() {
     const now = Date.now()
-    console.log({
-      verb: "clicked",
-      object_name: payload.slug,
-      object_id: payload.id,
-      object_type: "impression",
-      parent_id: payload.parentId,
-      parent_name: payload.parentName,
-      parent_type: payload.parentType,
-      tractStackId: contentMap[payload.parentId].tractStackId,
-      tractStackSlug: contentMap[payload.parentId].tractStackSlug,
-      storyFragmentId: contentMap[payload.parentId].tractStackId,
-      storyFragmentSlug: contentMap[payload.parentId].tractStackSlug,
-    })
     updateEventStream(now, {
       verb: "clicked",
       object_name: payload.slug,

@@ -34,17 +34,6 @@ const H5P = ({ src, title, parent }) => {
               durationParsed?.hasOwnProperty("1")
                 ? Number(durationParsed[1])
                 : null
-            console.log({
-              verb: verb,
-              object_name: objectName,
-              object_id: objectId,
-              object_type: objectType,
-              parent_id: parent.id,
-              parent_name: parent.name,
-              parent_type: parent.objectType,
-              duration: durationInSeconds,
-              score: score,
-            })
             updateEventStream(Date.now(), {
               verb: verb,
               object_name: objectName,
