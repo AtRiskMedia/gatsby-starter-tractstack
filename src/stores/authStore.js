@@ -84,6 +84,7 @@ export const useAuthStore = create((set, get) => ({
   },
   isLoggedIn: () => !!get().accessToken,
   login: response => {
+    console.log(response)
     const fingerprint = !!get().fingerprint
     const accessToken =
       typeof response.tokens === "string" ? response.tokens : false
