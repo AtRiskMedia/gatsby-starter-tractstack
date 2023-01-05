@@ -78,25 +78,8 @@ export function createAxiosClient({
         console.log("attempting to refresh token.", authPayload)
         return client
           .post(refreshTokenUrl, authPayload)
-          .then(res => {
-            console.log(res)
-            const newAccessToken =
-              typeof res.data.jwt === "string" ? res.data.jwt : false
-            if (newAccessToken) {
-              const auth =
-                typeof res.data.auth === "boolean" ? res.data.auth : false
-              const firstname =
-                typeof res.data.firstname === "string"
-                  ? res.data.firstname
-                  : false
-              const tokens = {
-                ...authPayload,
-                accessToken: newAccessToken,
-                auth: auth,
-                firstname: firstname,
-              }
-              setRefreshedTokens(tokens)
-            }
+          .then(response => {
+            setRefreshedTokens(response)
             processQueue(null)
             return client(originalRequest)
           }, handleError)
