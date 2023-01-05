@@ -17,8 +17,8 @@ const ConciergeAuthenticate = () => {
     typeof emailAlreadyKnown === "string" && emailAlreadyKnown
       ? emailAlreadyKnown
       : typeof knownEmail === "string" && knownEmail
-      ? knownEmail
-      : ""
+        ? knownEmail
+        : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -32,37 +32,10 @@ const ConciergeAuthenticate = () => {
     if (email && codeword && !loggingIn) {
       const profile = { email: email, codeword: codeword }
       saveProfile({ profile })
-        .then(res => {
-          if (res.status === 200) {
-            // try to re-login with codeword -- and get "auth===true"
-            getTokens(fingerprint, codeword, email).then(res => {
-              const accessToken =
-                typeof res.tokens === "string" ? res.tokens : false
-              const auth = typeof res.auth === "boolean" ? res.auth : false
-              const firstname =
-                typeof res.firstname === "string" ? res.firstname : false
-              const encryptedEmail =
-                typeof res.encryptedEmail === "string"
-                  ? res.encryptedEmail
-                  : false
-              const encryptedCode =
-                typeof res.encryptedCode === "string"
-                  ? res.encryptedCode
-                  : false
-              if (accessToken) {
-                login({
-                  accessToken: accessToken,
-                  fingerprint: fingerprint,
-                  auth: auth,
-                  firstname: firstname,
-                  encryptedEmail: encryptedEmail,
-                  encryptedCode: encryptedCode,
-                })
-              } else {
-                console.log("error with token", res)
-              }
-            })
-          }
+        .then(() => {
+          getTokens(fingerprint, codeword, email).then(res => {
+            login(res)
+          })
         })
         .catch(() => {
           setSuccess(-1)

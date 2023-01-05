@@ -34,7 +34,7 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === "object" &&
-    localStorage.getItem("firstname") !== null
+      localStorage.getItem("firstname") !== null
       ? localStorage.getItem("firstname")
       : "",
   encryptedEmail:
@@ -55,7 +55,7 @@ const authDataSchema = {
 export const useAuthStore = create((set, get) => ({
   accessToken:
     typeof localStorage === "object" &&
-    localStorage.getItem("accessToken") !== null
+      localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
   authData: {
@@ -64,12 +64,12 @@ export const useAuthStore = create((set, get) => ({
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === "object" &&
-    localStorage.getItem("fingerprint") !== null
+      localStorage.getItem("fingerprint") !== null
       ? localStorage.getItem("fingerprint")
       : "none",
   validToken:
     typeof localStorage === "object" &&
-    localStorage.getItem("validToken") !== null
+      localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
   updateAuthData: (key, value) =>
@@ -83,27 +83,50 @@ export const useAuthStore = create((set, get) => ({
     set(state => ({ ...state, fingerprintCheck: fingerprintCheck }))
   },
   isLoggedIn: () => !!get().accessToken,
-  login: tokens => {
-    setTokensToLocalStorage(tokens)
-    set(state => ({
-      ...state,
-      accessToken: tokens.accessToken,
-      fingerprint: tokens.fingerprint,
-      validToken: true,
-    }))
-    if (tokens.firstname)
+  login: response => {
+    const fingerprint = !!get().fingerprint
+    const accessToken =
+      typeof response.tokens === "string" ? response.tokens : false
+    const auth = typeof response.auth === "boolean" ? response.auth : false
+    const firstname =
+      typeof response.firstname === "string" ? response.firstname : false
+    const encryptedEmail =
+      typeof response.encryptedEmail === "string"
+        ? response.encryptedEmail
+        : false
+    const encryptedCode =
+      typeof response.encryptedCode === "string"
+        ? response.encryptedCode
+        : false
+    if (accessToken) {
+      setTokensToLocalStorage({
+        accessToken: accessToken,
+        fingerprint: fingerprint,
+        auth: auth,
+        firstname: firstname,
+        encryptedEmail: encryptedEmail,
+        encryptedCode: encryptedCode,
+      })
       set(state => ({
-        authData: { ...state.authData, firstname: tokens.firstname },
+        ...state,
+        accessToken: accessToken,
+        fingerprint: fingerprint,
+        validToken: true,
       }))
-    if (tokens.encryptedEmail && tokens.encryptedCode && tokens.auth) {
-      set(state => ({
-        authData: {
-          ...state.authData,
-          encryptedEmail: tokens.encryptedEmail,
-          encryptedCode: tokens.encryptedCode,
-          authenticated: tokens.auth,
-        },
-      }))
+      if (firstname)
+        set(state => ({
+          authData: { ...state.authData, firstname: firstname },
+        }))
+      if (encryptedEmail && encryptedCode && auth) {
+        set(state => ({
+          authData: {
+            ...state.authData,
+            encryptedEmail: encryptedEmail,
+            encryptedCode: encryptedCode,
+            authenticated: auth,
+          },
+        }))
+      }
     }
   },
   logout: () => {

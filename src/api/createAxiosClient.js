@@ -75,7 +75,7 @@ export function createAxiosClient({
         isRefreshing = true
         originalRequest._retry = true
         const authPayload = getAuthData()
-        console.log("refresh", authPayload)
+        console.log("attempting to refresh token.", authPayload)
         return client
           .post(refreshTokenUrl, authPayload)
           .then(res => {
