@@ -99,6 +99,14 @@ export const useAuthStore = create((set, get) => ({
       typeof response.encryptedCode === "string"
         ? response.encryptedCode
         : false
+    console.log({
+      accessToken: accessToken,
+      fingerprint: fingerprint,
+      auth: auth,
+      firstname: firstname,
+      encryptedEmail: encryptedEmail,
+      encryptedCode: encryptedCode,
+    })
     if (accessToken) {
       setTokensToLocalStorage({
         accessToken: accessToken,
@@ -128,6 +136,8 @@ export const useAuthStore = create((set, get) => ({
           },
         }))
       }
+    } else {
+      console.log('bad')
     }
   },
   logout: () => {
