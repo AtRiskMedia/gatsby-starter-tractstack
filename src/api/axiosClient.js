@@ -55,21 +55,12 @@ export const getTokens = async (
       ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
       : {}
   try {
-    console.log("get tokens", params)
     const response = await register({ fingerprint, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
-    console.log("result", {
-      tokens: accessToken,
-      auth: auth,
-      firstname: firstname,
-      encryptedEmail: encryptedEmail,
-      encryptedCode: encryptedCode,
-      error: null,
-    })
     return {
       tokens: accessToken,
       auth: auth,

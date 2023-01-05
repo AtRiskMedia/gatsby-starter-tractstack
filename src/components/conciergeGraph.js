@@ -55,15 +55,23 @@ const getGraph = async fingerprint => {
 
 const ConciergeGraph = () => {
   const [graphData, setGraphData] = useState({})
+  const [loading, setLoading] = useState(0)
 
   useEffect(() => {
     function goGetGraph() {
-      getGraph().then(res => {
-        setGraphData(res?.graph)
-      })
+      setLoading(1)
+      getGraph()
+        .then(res => {
+          setGraphData(res?.graph)
+        })
+        .catch(e => {
+          console.log("An error occurred.", e)
+        })
+        .finally(setLoading(0))
     }
-    if (graphData && Object.keys(graphData).length === 0) goGetGraph()
-  }, [graphData, setGraphData])
+    if (graphData && Object.keys(graphData).length === 0 && !loading)
+      goGetGraph()
+  }, [graphData, setGraphData, loading, setLoading])
   const thisOptions = { ...graphOptions, neo4jData: graphData }
   if (graphData && Object.keys(graphData).length === 0) return <>Loading...</>
   return (

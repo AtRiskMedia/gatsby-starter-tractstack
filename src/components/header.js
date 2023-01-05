@@ -148,6 +148,7 @@ const Header = ({ siteTitle, contextPayload }) => {
   const zeroPartyPayload = contextPayload?.payload?.hasOwnProperty(lookup)
     ? contextPayload.payload[lookup]
     : false
+
   return (
     <HashRouter>
       <header>
@@ -224,7 +225,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                                             path="/"
                                             element={
                                               (typeof firstname === "string" &&
-                                                firstname &&
+                                                firstname !== "" &&
                                                 !authenticated) ||
                                               (!authenticated &&
                                                 emailAlreadyKnown) ? (
@@ -238,7 +239,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                                             path="/profile"
                                             element={
                                               (typeof firstname === "string" &&
-                                                firstname &&
+                                                firstname !== "" &&
                                                 !authenticated) ||
                                               (!authenticated &&
                                                 emailAlreadyKnown) ? (
