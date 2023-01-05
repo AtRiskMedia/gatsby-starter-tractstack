@@ -6,9 +6,9 @@ function getCurrentAccessToken() {
   return useAuthStore.getState().accessToken
 }
 
-function setRefreshedTokens(tokens) {
+function setRefreshedTokens(response) {
   const login = useAuthStore.getState().login
-  login(tokens)
+  login(response)
 }
 
 function logout() {
