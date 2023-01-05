@@ -321,7 +321,6 @@ const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
   const fingerprint = useAuthStore(state => state.fingerprint)
-  const authData = useAuthStore(state => state.authData)
   const validToken = useAuthStore(state => state.validToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
@@ -564,8 +563,6 @@ const RenderedStoryFragment = ({ data }) => {
     }
     processRead(true)
   }, config.conciergeSync)
-
-  console.log(authData)
 
   if (viewportKey === "server") return <></>
   return (
