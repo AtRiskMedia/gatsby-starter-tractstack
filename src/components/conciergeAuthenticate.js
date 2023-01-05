@@ -17,8 +17,8 @@ const ConciergeAuthenticate = () => {
     typeof emailAlreadyKnown === "string" && emailAlreadyKnown
       ? emailAlreadyKnown
       : typeof knownEmail === "string" && knownEmail
-        ? knownEmail
-        : ""
+      ? knownEmail
+      : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -42,9 +42,13 @@ const ConciergeAuthenticate = () => {
               const firstname =
                 typeof res.firstname === "string" ? res.firstname : false
               const encryptedEmail =
-                typeof res.encryptedEmail === "string" ? res.encryptedEmail : false
+                typeof res.encryptedEmail === "string"
+                  ? res.encryptedEmail
+                  : false
               const encryptedCode =
-                typeof res.encryptedCode === "string" ? res.encryptedCode : false
+                typeof res.encryptedCode === "string"
+                  ? res.encryptedCode
+                  : false
               if (accessToken) {
                 login({
                   accessToken: accessToken,
@@ -119,7 +123,9 @@ const ConciergeAuthenticate = () => {
               <span className="text-xs px-2 text-red-500">INCORRECT.</span>
             ) : submitted && codeword === "" ? (
               <span className="text-xs px-2 text-red-500">Required field.</span>
-            ) : <></>}
+            ) : (
+              <></>
+            )}
           </div>
           <div className="col-span-3 sm:col-span-2">
             <label

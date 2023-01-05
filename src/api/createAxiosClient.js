@@ -20,8 +20,8 @@ export function createAxiosClient({
   getCurrentAccessToken,
   refreshTokenUrl,
   setRefreshedTokens,
-  logout,
   getAuthData,
+  logout,
 }) {
   const client = axios.create(options)
 
@@ -62,7 +62,7 @@ export function createAxiosClient({
         originalRequest?._retry !== true
       ) {
         if (isRefreshing) {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             failQueue.push({ resolve, reject })
           })
             .then(() => {
@@ -75,22 +75,28 @@ export function createAxiosClient({
         isRefreshing = true
         originalRequest._retry = true
         const authPayload = getAuthData()
-        console.log(authPayload)
+        console.log("refresh", authPayload)
         return client
           .post(refreshTokenUrl, authPayload)
           .then(res => {
+            console.log("zzzz")
             const newAccessToken =
-              typeof res.tokens === "string" ? res.tokens : false
-            const auth = typeof res.auth === "boolean" ? res.auth : false
-            const firstname =
-              typeof res.firstname === "string" ? res.firstname : false
-            const tokens = {
-              ...authPayload,
-              accessToken: newAccessToken,
-              auth: auth,
-              firstname: firstname,
+              typeof res.data.jwt === "string" ? res.data.jwt : false
+            if (newAccessToken) {
+              const auth =
+                typeof res.data.auth === "boolean" ? res.data.auth : false
+              const firstname =
+                typeof res.data.firstname === "string"
+                  ? res.data.firstname
+                  : false
+              const tokens = {
+                ...authPayload,
+                accessToken: newAccessToken,
+                auth: auth,
+                firstname: firstname,
+              }
+              setRefreshedTokens(tokens)
             }
-            if (newAccessToken && tokens) setRefreshedTokens(tokens)
             processQueue(null)
             return client(originalRequest)
           }, handleError)
@@ -99,7 +105,7 @@ export function createAxiosClient({
           })
       } else if (error.response?.status === 401) {
         console.log("logged out")
-        //logout()
+        logout()
         return handleError(error)
       }
 

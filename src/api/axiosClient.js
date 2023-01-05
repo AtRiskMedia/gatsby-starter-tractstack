@@ -37,8 +37,8 @@ export const client = createAxiosClient({
   getCurrentAccessToken,
   refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
   setRefreshedTokens,
-  logout,
   getAuthData,
+  logout,
 })
 
 export const getTokens = async (
@@ -48,15 +48,28 @@ export const getTokens = async (
 ) => {
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
-  const params = codeword && email ? { codeword: codeword, email: email } : encryptedCode && encryptedEmail ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail } : {}
+  const params =
+    codeword && email
+      ? { codeword: codeword, email: email }
+      : encryptedCode && encryptedEmail
+      ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
+      : {}
   try {
-    console.log('get tokens', params)
+    console.log("get tokens", params)
     const response = await register({ fingerprint, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
+    console.log("result", {
+      tokens: accessToken,
+      auth: auth,
+      firstname: firstname,
+      encryptedEmail: encryptedEmail,
+      encryptedCode: encryptedCode,
+      error: null,
+    })
     return {
       tokens: accessToken,
       auth: auth,

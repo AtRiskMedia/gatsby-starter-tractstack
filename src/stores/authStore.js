@@ -7,9 +7,15 @@ function setTokensToLocalStorage(tokens) {
     localStorage.setItem("validToken", true)
     if (typeof tokens.firstname === "string" && tokens.firstname !== "false")
       localStorage.setItem("firstname", tokens.firstname)
-    if (typeof tokens.encryptedEmail === "string" && tokens.encryptedEmail !== "false")
+    if (
+      typeof tokens.encryptedEmail === "string" &&
+      tokens.encryptedEmail !== "false"
+    )
       localStorage.setItem("email", tokens.encryptedEmail)
-    if (typeof tokens.encryptedCode === "string" && tokens.encryptedCode !== "false")
+    if (
+      typeof tokens.encryptedCode === "string" &&
+      tokens.encryptedCode !== "false"
+    )
       localStorage.setItem("code", tokens.encryptedCode)
   }
 }
@@ -28,17 +34,15 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === "object" &&
-      localStorage.getItem("firstname") !== null
+    localStorage.getItem("firstname") !== null
       ? localStorage.getItem("firstname")
       : "",
   encryptedEmail:
-    typeof localStorage === "object" &&
-      localStorage.getItem("email") !== null
+    typeof localStorage === "object" && localStorage.getItem("email") !== null
       ? localStorage.getItem("email")
       : "",
   encryptedCode:
-    typeof localStorage === "object" &&
-      localStorage.getItem("code") !== null
+    typeof localStorage === "object" && localStorage.getItem("code") !== null
       ? localStorage.getItem("code")
       : "",
   email: "",
@@ -51,7 +55,7 @@ const authDataSchema = {
 export const useAuthStore = create((set, get) => ({
   accessToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("accessToken") !== null
+    localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
   authData: {
@@ -60,12 +64,12 @@ export const useAuthStore = create((set, get) => ({
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === "object" &&
-      localStorage.getItem("fingerprint") !== null
+    localStorage.getItem("fingerprint") !== null
       ? localStorage.getItem("fingerprint")
       : "none",
   validToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("validToken") !== null
+    localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
   updateAuthData: (key, value) =>
@@ -91,13 +95,14 @@ export const useAuthStore = create((set, get) => ({
       set(state => ({
         authData: { ...state.authData, firstname: tokens.firstname },
       }))
-    if (tokens.auth)
+    if (tokens.encryptedEmail && tokens.encryptedCode && tokens.auth) {
       set(state => ({
-        authData: { ...state.authData, authenticated: tokens.auth },
-      }))
-    if (tokens.encryptedEmail && tokens.encryptedCode) {
-      set(state => ({
-        authData: { ...state.authData, encryptedEmail: tokens.encryptedEmail, encryptedCode: tokens.encryptedCode },
+        authData: {
+          ...state.authData,
+          encryptedEmail: tokens.encryptedEmail,
+          encryptedCode: tokens.encryptedCode,
+          authenticated: tokens.auth,
+        },
       }))
     }
   },
