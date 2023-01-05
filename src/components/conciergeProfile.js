@@ -78,31 +78,7 @@ const ConciergeProfile = () => {
           else if (response.status === 200) {
             // try to re-login with codeword!
             getTokens(fingerprint, codeword, email).then(res => {
-              const accessToken =
-                typeof res.tokens === "string" ? res.tokens : false
-              const auth = typeof res.auth === "boolean" ? res.auth : false
-              const firstname =
-                typeof res.firstname === "string" ? res.firstname : false
-              const encryptedEmail =
-                typeof res.encryptedEmail === "string"
-                  ? res.encryptedEmail
-                  : false
-              const encryptedCode =
-                typeof res.encryptedCode === "string"
-                  ? res.encryptedCode
-                  : false
-              if (accessToken) {
-                login({
-                  accessToken: accessToken,
-                  fingerprint: fingerprint,
-                  auth: auth,
-                  firstname: firstname,
-                  encryptedEmail: encryptedEmail,
-                  encryptedCode: encryptedCode,
-                })
-              } else {
-                console.log("error with token", res)
-              }
+              login(res)
             })
           }
         })
@@ -116,35 +92,35 @@ const ConciergeProfile = () => {
 
   const Icon =
     personaSelected.title === "Infrequent" ||
-    personaSelected.title === "Major Updates Only"
+      personaSelected.title === "Major Updates Only"
       ? ArrowPathRoundedSquareIcon
       : personaSelected.title === "All Updates"
-      ? BoltIcon
-      : BellSlashIcon
+        ? BoltIcon
+        : BellSlashIcon
   const iconClass =
     personaSelected.title === "Infrequent"
       ? "text-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "text-darkgrey"
-      : personaSelected.title === "All Updates"
-      ? "text-blue"
-      : "text-darkgrey"
+        ? "text-darkgrey"
+        : personaSelected.title === "All Updates"
+          ? "text-blue"
+          : "text-darkgrey"
   const barClass =
     personaSelected.title === "Infrequent"
       ? "bg-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "bg-lightgrey"
-      : personaSelected.title === "All Updates"
-      ? "bg-green"
-      : "bg-darkgrey"
+        ? "bg-lightgrey"
+        : personaSelected.title === "All Updates"
+          ? "bg-green"
+          : "bg-darkgrey"
   const barWidth =
     personaSelected.title === "Infrequent"
       ? "40%"
       : personaSelected.title === "Major Updates Only"
-      ? "20%"
-      : personaSelected.title === "All Updates"
-      ? "98%"
-      : "2%"
+        ? "20%"
+        : personaSelected.title === "All Updates"
+          ? "98%"
+          : "2%"
 
   useEffect(() => {
     if (!dataLoading && !dataLoaded && authenticated) {
