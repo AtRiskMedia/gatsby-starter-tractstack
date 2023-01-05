@@ -21,7 +21,7 @@ export function createAxiosClient({
   refreshTokenUrl,
   setRefreshedTokens,
   logout,
-  getAuth,
+  getAuthData,
 }) {
   const client = axios.create(options)
 
@@ -74,27 +74,32 @@ export function createAxiosClient({
         }
         isRefreshing = true
         originalRequest._retry = true
+        const authPayload = getAuthData()
+        console.log(authPayload)
         return client
-          .post(refreshTokenUrl)
-          .then(response => {
-            const accessToken = typeof response.data.jwt === "string" ? response.data.jwt : false
-            const authData = getAuth()
+          .post(refreshTokenUrl, authPayload)
+          .then(res => {
+            const newAccessToken =
+              typeof res.tokens === "string" ? res.tokens : false
+            const auth = typeof res.auth === "boolean" ? res.auth : false
+            const firstname =
+              typeof res.firstname === "string" ? res.firstname : false
             const tokens = {
-              accessToken: accessToken, fingerprint: authData.fingerprint, auth: authData.auth, firstname: authData.firstName
+              ...authPayload,
+              accessToken: newAccessToken,
+              auth: auth,
+              firstname: firstname,
             }
-            if (accessToken && tokens)
-              setRefreshedTokens(tokens)
+            if (newAccessToken && tokens) setRefreshedTokens(tokens)
             processQueue(null)
             return client(originalRequest)
           }, handleError)
           .finally(() => {
             isRefreshing = false
           })
-      }
-
-      else if (error.response?.status === 401) {
+      } else if (error.response?.status === 401) {
         console.log("logged out")
-        logout()
+        //logout()
         return handleError(error)
       }
 

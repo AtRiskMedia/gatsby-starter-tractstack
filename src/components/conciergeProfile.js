@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react"
+import React, { useState, Fragment, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { classNames } from "gatsby-plugin-tractstack"
 import { Listbox, Transition } from "@headlessui/react"
@@ -11,7 +11,7 @@ import {
 
 import { saveProfile } from "../api/services"
 import { useAuthStore } from "../stores/authStore"
-import { getTokens } from "../api/axiosClient"
+import { getTokens, getProfile } from "../api/axiosClient"
 
 const contactPersonaOptions = [
   {
@@ -38,42 +38,74 @@ const contactPersonaOptions = [
 
 const ConciergeProfile = () => {
   // if lead is known, pre-inject these values with an unlocking workflow - codeword match
-  const storedFirstName = useAuthStore(state => state.firstName)
-  const [firstname, setFirstName] = useState(storedFirstName !== "false" ? storedFirstName : "")
+  const authData = useAuthStore(state => state.authData)
+  const authenticated = authData.authenticated
+  const updateAuthData = useAuthStore(state => state.updateAuthData)
+  const login = useAuthStore(state => state.login)
+  const fingerprint = useAuthStore(state => state.fingerprint)
+  const [firstname, setFirstName] = useState(
+    typeof authData.firstname === "string" && authData.firstname
+      ? authData.firstname
+      : ""
+  )
   const [email, setEmail] = useState("")
   const [codeword, setCodeword] = useState("")
   const [bio, setBio] = useState("")
-  const [personaSelected, setPersonaSelected] = useState(contactPersonaOptions[0])
+  const [personaSelected, setPersonaSelected] = useState(
+    contactPersonaOptions[0]
+  )
   const [submitted, setSubmitted] = useState(false)
   const [success, setSuccess] = useState(0)
-  const fingerprint = useAuthStore(state => state.fingerprint)
-  const login = useAuthStore(state => state.login)
-  const auth = useAuthStore(state => state.auth)
-  console.log(storedFirstName, auth)
   const [loggingIn, setLoggingIn] = useState(0)
+  const [dataLoading, setDataLoading] = useState(0)
+  const [dataLoaded, setDataLoaded] = useState(0)
 
   const handleSubmit = e => {
     e.preventDefault()
     if (firstname && email && codeword && !loggingIn) {
-      const profile = { firstname: firstname, email: email, codeword: codeword, persona: personaSelected.title, bio: bio.substring(0, 280) }
-      console.log(profile)
-      saveProfile({ profile }).then(res => {
-        if (res.status === 200) {
-          // try to re-login with codeword!
-          setLoggingIn(1)
-          getTokens(fingerprint, codeword).then(res => {
-            const accessToken = typeof res.tokens === "string" ? res.tokens : false
-            const auth = typeof res.auth === "boolean" ? res.auth : false
-            if (accessToken) {
-              login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth })
-            } else {
-              console.log("error with token", res)
-            }
-            setLoggingIn(0)
-          })
-
-        }
-      })
+      const profile = {
+        firstname: firstname,
+        email: email,
+        codeword: codeword,
+        persona: personaSelected.title,
+        bio: bio.substring(0, 280),
+      }
+      setLoggingIn(1)
+      saveProfile({ profile })
+        .then(response => {
+          if (response.status === 200 && response?.data?.emailAlreadyKnown)
+            updateAuthData("emailAlreadyKnown", email)
+          else if (response.status === 200) {
+            // try to re-login with codeword!
+            getTokens(fingerprint, codeword, email).then(res => {
+              const accessToken =
+                typeof res.tokens === "string" ? res.tokens : false
+              const auth = typeof res.auth === "boolean" ? res.auth : false
+              const firstname =
+                typeof res.firstname === "string" ? res.firstname : false
+              const encryptedEmail =
+                typeof res.encryptedEmail === "string" ? res.encryptedEmail : false
+              const encryptedCode =
+                typeof res.encryptedCode === "string" ? res.encryptedCode : false
+              if (accessToken) {
+                login({
+                  accessToken: accessToken,
+                  fingerprint: fingerprint,
+                  auth: auth,
+                  firstname: firstname,
+                  encryptedEmail: encryptedEmail,
+                  encryptedCode: encryptedCode,
+                })
+              } else {
+                console.log("error with token", res)
+              }
+            })
+          }
+        })
+        .catch(e => {
+          console.log("An error occurred.", e)
+        })
+        .finally(setLoggingIn(0))
     }
     setSubmitted(true)
   }
@@ -110,6 +142,20 @@ const ConciergeProfile = () => {
           ? "98%"
           : "2%"
 
+  useEffect(() => {
+    if (!dataLoading && !dataLoaded && authenticated) {
+      setDataLoading(1)
+      getProfile()
+        .then(res => {
+          //console.log(1, res)
+        })
+        .catch(e => {
+          console.log("An error occurred.", e)
+        })
+        .finally(setDataLoading(0), setDataLoaded(1))
+    }
+  }, [dataLoading, setDataLoading, dataLoaded, setDataLoaded, authenticated])
+
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
       <div>
@@ -117,29 +163,38 @@ const ConciergeProfile = () => {
           We are rooted in community.
         </h2>
         <p className="mt-4 mb-6 text-xl text-gray-700">
-          Introduce yourself to unlock special offers and personalized recommendations throughout the site.
+          {authenticated ? (
+            <>Welcome back, {firstname}.</>
+          ) : (
+            <>
+              Introduce yourself to unlock special offers and personalized
+              recommendations throughout the site.
+            </>
+          )}
         </p>
-        <p className="text-gray-700 text-sm mb-10">
+        <p className="text-gray-700 text-sm mb-6">
           To read more on our data practices and professional standards, please
           see our{" "}
           <Link
             to={"/data"}
-            className="underline underline-offset-1 hover:text-allblack"
+            className="underline underline-offset-1 hover:text-orange hover:underline"
           >
             Zero Party data privacy policy
           </Link>
           .
         </p>
-        <p className="text-gray-700 text-sm mb-10">
-          Not your first visit?{" "}
-          <Link
-            to={"/authenticate"}
-            className="underline underline-offset-1 hover:text-allblack"
-          >
-            Log-in
-          </Link>
-          .
-        </p>
+        {!authenticated && (
+          <p className="text-blue text-md mb-10">
+            Not your first visit?{" "}
+            <Link
+              to={"/authenticate"}
+              className="underline underline-offset-1 text-blue hover:text-orange hover:underline"
+            >
+              Log-in
+            </Link>
+            .
+          </p>
+        )}
       </div>
       <form onSubmit={handleSubmit} method="POST">
         <div className="grid grid-cols-3 gap-4 bg-slate-50">
@@ -260,7 +315,14 @@ const ConciergeProfile = () => {
                                 >
                                   {({ selected }) => (
                                     <>
-                                      <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                      <span
+                                        className={classNames(
+                                          selected
+                                            ? "font-semibold"
+                                            : "font-normal",
+                                          "block truncate"
+                                        )}
+                                      >
                                         {option.title}
                                       </span>
                                     </>
@@ -296,20 +358,31 @@ const ConciergeProfile = () => {
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-right text-black">{personaSelected.description}</p>
+              <p className="text-xs text-right text-black">
+                {personaSelected.description}
+              </p>
             </div>
           </div>
-
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {firstname ?
+          {firstname ? (
             <>
               <div className="col-span-2 mt-10">
                 <label
                   htmlFor="bio"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Hello {firstname}. Is there anything else you would like to share?
+                  {!authenticated && firstname ? (
+                    <>
+                      Hello {firstname}. Is there anything else you would like
+                      to share?
+                    </>
+                  ) : (
+                    <>
+                      Would you like to share anything else? (Contact
+                      preferences; company bio; phone number)
+                    </>
+                  )}
                 </label>
                 <div className="mt-2">
                   <textarea
@@ -346,11 +419,15 @@ const ConciergeProfile = () => {
                   )}
                 />
                 {submitted && codeword === "" && (
-                  <span className="text-xs px-2 text-red-500">Required field.</span>
+                  <span className="text-xs px-2 text-red-500">
+                    Required field.
+                  </span>
                 )}
               </div>
             </>
-            : <></>}
+          ) : (
+            <></>
+          )}
 
           <div className="col-span-2 mt-6">
             <button
@@ -362,7 +439,6 @@ const ConciergeProfile = () => {
             </button>
           </div>
         </div>
-
       </form>
     </div>
   )

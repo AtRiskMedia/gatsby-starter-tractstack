@@ -321,6 +321,7 @@ const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
   const fingerprint = useAuthStore(state => state.fingerprint)
+  const authData = useAuthStore(state => state.authData)
   const validToken = useAuthStore(state => state.validToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
   const setFingerprint = useAuthStore(state => state.setFingerprint)
@@ -493,23 +494,42 @@ const RenderedStoryFragment = ({ data }) => {
 
   useEffect(() => {
     if (fingerprint === "undefined") console.log("HOW????")
-    const doCheck = fingerprint !== "none" && fingerprint !== "masked" ? true : fingerprint === "undefined" ? true : false
-    if (doCheck &&
-      !loggingIn &&
-      !validToken
-    ) {
+    const doCheck =
+      fingerprint !== "none" && fingerprint !== "masked"
+        ? true
+        : fingerprint === "undefined"
+          ? true
+          : false
+    if (doCheck && !loggingIn && !validToken) {
       setLoggingIn(1)
-      getTokens(fingerprint).then(res => {
-        const accessToken = typeof res.tokens === "string" ? res.tokens : false
-        const auth = typeof res.auth === "boolean" ? res.auth : false
-        const firstName = typeof res.firstName === "string" ? res.firstName : false
-        if (accessToken) {
-          login({ accessToken: accessToken, fingerprint: fingerprint, auth: auth, firstname: firstName })
-        } else {
-          console.log("error with token", res)
-        }
-        setLoggingIn(0)
-      })
+      getTokens(fingerprint)
+        .then(res => {
+          const accessToken =
+            typeof res.tokens === "string" ? res.tokens : false
+          const auth = typeof res.auth === "boolean" ? res.auth : false
+          const firstname =
+            typeof res.firstname === "string" ? res.firstname : false
+          const encryptedEmail =
+            typeof res.encryptedEmail === "string" ? res.encryptedEmail : false
+          const encryptedCode =
+            typeof res.encryptedCode === "string" ? res.encryptedCode : false
+          if (accessToken) {
+            login({
+              accessToken: accessToken,
+              fingerprint: fingerprint,
+              auth: auth,
+              firstname: firstname,
+              encryptedEmail: encryptedEmail,
+              encryptedCode: encryptedCode,
+            })
+          } else {
+            console.log("error with token", res)
+          }
+        })
+        .catch(e => {
+          console.log("An error occurred.", e)
+        })
+        .finally(setLoggingIn(0))
     }
   }, [
     validToken,
@@ -544,6 +564,8 @@ const RenderedStoryFragment = ({ data }) => {
     }
     processRead(true)
   }, config.conciergeSync)
+
+  console.log(authData)
 
   if (viewportKey === "server") return <></>
   return (

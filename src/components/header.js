@@ -137,8 +137,10 @@ const SubNav = () => {
 
 const Header = ({ siteTitle, contextPayload }) => {
   const contentMap = useStoryStepStore(state => state.contentMap)
-  const auth = useAuthStore(state => state.auth)
-  const firstName = useAuthStore(state => state.firstName)
+  const authData = useAuthStore(state => state.authData)
+  const firstname = authData.firstname
+  const emailAlreadyKnown = authData.emailAlreadyKnown
+  const authenticated = authData.authenticated
   let lookup = false
   for (let [key, value] of Object.entries(contentMap)) {
     if (value.slug === "zeroParty") lookup = key
@@ -220,11 +222,31 @@ const Header = ({ siteTitle, contextPayload }) => {
                                         <Routes>
                                           <Route
                                             path="/"
-                                            element={firstName !== "false" && !auth ? <ConciergeAuthenticate /> : <ConciergeProfile />}
+                                            element={
+                                              (typeof firstname === "string" &&
+                                                firstname &&
+                                                !authenticated) ||
+                                              (!authenticated &&
+                                                emailAlreadyKnown) ? (
+                                                <ConciergeAuthenticate />
+                                              ) : (
+                                                <ConciergeProfile />
+                                              )
+                                            }
                                           />
                                           <Route
                                             path="/profile"
-                                            element={firstName !== "false" && !auth ? <ConciergeAuthenticate /> : <ConciergeProfile />}
+                                            element={
+                                              (typeof firstname === "string" &&
+                                                firstname &&
+                                                !authenticated) ||
+                                              (!authenticated &&
+                                                emailAlreadyKnown) ? (
+                                                <ConciergeAuthenticate />
+                                              ) : (
+                                                <ConciergeProfile />
+                                              )
+                                            }
                                           />
                                           <Route
                                             path="/authenticate"
