@@ -79,6 +79,7 @@ export function createAxiosClient({
         return client
           .post(refreshTokenUrl, authPayload)
           .then(res => {
+            console.log(res)
             const newAccessToken =
               typeof res.data.jwt === "string" ? res.data.jwt : false
             if (newAccessToken) {
@@ -99,6 +100,9 @@ export function createAxiosClient({
             processQueue(null)
             return client(originalRequest)
           }, handleError)
+          .catch(e => {
+            console.log("An error occurred.", e)
+          })
           .finally(() => {
             isRefreshing = false
           })
