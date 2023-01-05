@@ -87,7 +87,7 @@ export const useAuthStore = create((set, get) => ({
     console.log(5, response)
     const fingerprint = !!get().fingerprint
     const accessToken =
-      typeof response.tokens === "string" ? response.tokens : false
+      typeof response.tokens === "string" ? response.tokens : response.jwt === "string" ? response.jwt : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false
