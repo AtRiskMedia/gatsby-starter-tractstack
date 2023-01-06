@@ -17,8 +17,8 @@ const ConciergeAuthenticate = () => {
     typeof emailAlreadyKnown === "string" && emailAlreadyKnown
       ? emailAlreadyKnown
       : typeof knownEmail === "string" && knownEmail
-        ? knownEmail
-        : ""
+      ? knownEmail
+      : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
