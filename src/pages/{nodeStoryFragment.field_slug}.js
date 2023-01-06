@@ -320,7 +320,9 @@ const codeHooks = {
 const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
-  const auth = useAuthStore(state => state.authData.authenticated)
+  const authenticated = useAuthStore(state => state.authData.authenticated)
+  const encryptedEmail = useAuthStore(state => state.authData.encryptedEmail)
+  const encryptedCode = useAuthStore(state => state.authData.encryptedCode)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const validToken = useAuthStore(state => state.validToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
@@ -467,7 +469,6 @@ const RenderedStoryFragment = ({ data }) => {
       viewportKey !== "server" &&
       (fingerprint === "none" || fingerprint === "undefined") &&
       (fingerprintCheck === false || !validToken)
-      //        typeof fingerprint === "undefined" || (typeof fingerprint === "string" && fingerprint === "undefined"
     ) {
       getCurrentBrowserFingerPrint().then(fingerprint1 => {
         getCurrentBrowserFingerPrint().then(fingerprint2 => {
@@ -496,10 +497,12 @@ const RenderedStoryFragment = ({ data }) => {
     const doCheck =
       fingerprint !== "none" && fingerprint !== "masked"
         ? true
-        : fingerprint === "undefined"
+        : !authenticated && encryptedEmail && encryptedCode
+        ? true
+        : !validToken
         ? true
         : false
-    if (doCheck && !loggingIn && !validToken) {
+    if (doCheck && !loggingIn) {
       setLoggingIn(1)
       getTokens(fingerprint)
         .then(res => {
