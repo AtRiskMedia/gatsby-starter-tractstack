@@ -320,6 +320,8 @@ const codeHooks = {
 const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
+  const auth = useAuthStore(state => state.authData.authenticated)
+  console.log(auth)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const validToken = useAuthStore(state => state.validToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
