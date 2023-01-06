@@ -476,7 +476,6 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprint("masked")
             setFingerprintCheck("masked")
           } else if (typeof fingerprint2 === "number") {
-            console.log('setting fingerprint', fingerprint2.toString())
             setFingerprint(fingerprint2.toString())
             setFingerprintCheck(true)
           } else {
@@ -505,11 +504,9 @@ const RenderedStoryFragment = ({ data }) => {
             : false
     if (doCheck && !loggingIn) {
       setLoggingIn(1)
-      console.log('about to getTokens', fingerprint)
       getTokens(fingerprint)
         .then(res => {
-          console.log('logged in', res)
-          login(res)
+          if (res) login(res)
         })
         .catch(e => {
           console.log("An error occurred.", e)
