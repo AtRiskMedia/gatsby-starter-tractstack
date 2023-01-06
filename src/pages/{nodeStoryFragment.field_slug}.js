@@ -383,9 +383,6 @@ const RenderedStoryFragment = ({ data }) => {
       )
       : null
 
-  console.log(fingerprint !== "none" && fingerprint !== "masked" && !fingerprintCheck, !authenticated && encryptedEmail !== "" && encryptedCode !== "", !validToken)
-  console.log(fingerprintCheck, typeof fingerprintCheck)
-
   const doCheck =
     fingerprint !== "none" && fingerprint !== "masked" && !fingerprintCheck
       ? true
