@@ -1,3 +1,4 @@
+import { Routes } from "react-router-dom"
 import create from "zustand"
 
 function setTokensToLocalStorage(tokens) {
@@ -84,6 +85,7 @@ export const useAuthStore = create((set, get) => ({
   },
   isLoggedIn: () => !!get().accessToken,
   login: response => {
+    console.log(response)
     const fingerprint = !!get().fingerprint
     const accessToken =
       typeof response.tokens === "string" ? response.tokens : typeof response.jwt === "string" ? response.jwt : false
