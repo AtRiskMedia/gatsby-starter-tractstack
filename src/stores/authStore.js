@@ -34,7 +34,7 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === "object" &&
-      localStorage.getItem("firstname") !== null
+    localStorage.getItem("firstname") !== null
       ? localStorage.getItem("firstname")
       : "",
   encryptedEmail:
@@ -55,7 +55,7 @@ const authDataSchema = {
 export const useAuthStore = create((set, get) => ({
   accessToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("accessToken") !== null
+    localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
   authData: {
@@ -64,12 +64,12 @@ export const useAuthStore = create((set, get) => ({
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === "object" &&
-      localStorage.getItem("fingerprint") !== null
+    localStorage.getItem("fingerprint") !== null
       ? localStorage.getItem("fingerprint")
       : "none",
   validToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("validToken") !== null
+    localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
   updateAuthData: (key, value) =>
@@ -89,8 +89,8 @@ export const useAuthStore = create((set, get) => ({
       typeof response.tokens === "string"
         ? response.tokens
         : typeof response.jwt === "string"
-          ? response.jwt
-          : false
+        ? response.jwt
+        : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false

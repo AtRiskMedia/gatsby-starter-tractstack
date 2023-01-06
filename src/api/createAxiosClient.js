@@ -75,7 +75,6 @@ export function createAxiosClient({
         isRefreshing = true
         originalRequest._retry = true
         const authPayload = getAuthData()
-        console.log("attempting to refresh token.", authPayload)
         return client
           .post(refreshTokenUrl, authPayload)
           .then(response => {
@@ -90,7 +89,6 @@ export function createAxiosClient({
             isRefreshing = false
           })
       } else if (error.response?.status === 401) {
-        console.log("refresh failed. you are now logged out.")
         logout()
         return handleError(error)
       }
