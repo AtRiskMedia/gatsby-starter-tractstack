@@ -84,10 +84,9 @@ export const useAuthStore = create((set, get) => ({
   },
   isLoggedIn: () => !!get().accessToken,
   login: response => {
-    console.log(5, response)
     const fingerprint = !!get().fingerprint
     const accessToken =
-      typeof response.tokens === "string" ? response.tokens : response.jwt === "string" ? response.jwt : false
+      typeof response.tokens === "string" ? response.tokens : typeof response.jwt === "string" ? response.jwt : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false
@@ -99,14 +98,6 @@ export const useAuthStore = create((set, get) => ({
       typeof response.encryptedCode === "string"
         ? response.encryptedCode
         : false
-    console.log({
-      accessToken: accessToken,
-      fingerprint: fingerprint,
-      auth: auth,
-      firstname: firstname,
-      encryptedEmail: encryptedEmail,
-      encryptedCode: encryptedCode,
-    })
     if (accessToken) {
       setTokensToLocalStorage({
         accessToken: accessToken,
@@ -136,8 +127,6 @@ export const useAuthStore = create((set, get) => ({
           },
         }))
       }
-    } else {
-      console.log('bad')
     }
   },
   logout: () => {
