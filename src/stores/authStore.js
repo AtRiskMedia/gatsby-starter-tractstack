@@ -102,14 +102,6 @@ export const useAuthStore = create((set, get) => ({
       typeof response.encryptedCode === "string"
         ? response.encryptedCode
         : false
-    console.log('payload', {
-      accessToken: accessToken,
-      fingerprint: fingerprint,
-      auth: auth,
-      firstname: firstname,
-      encryptedEmail: encryptedEmail,
-      encryptedCode: encryptedCode,
-    })
     if (accessToken) {
       setTokensToLocalStorage({
         accessToken: accessToken,
@@ -133,9 +125,9 @@ export const useAuthStore = create((set, get) => ({
         set(state => ({
           authData: { ...state.authData, authenticated: auth },
         }))
-        console.log("authenticated", auth)
+        console.log("authenticated")
       } else {
-        console.log("not authenticated", auth)
+        console.log("not authenticated")
       }
       if (encryptedEmail && encryptedCode) {
         set(state => ({
