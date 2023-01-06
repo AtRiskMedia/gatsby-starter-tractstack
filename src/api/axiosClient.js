@@ -46,6 +46,7 @@ export const getTokens = async (
   codeword = false,
   email = false
 ) => {
+  console.log('getToken', fingerprint)
   if (fingerprint === "none") return null
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
