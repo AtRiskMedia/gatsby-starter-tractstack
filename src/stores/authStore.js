@@ -87,9 +87,12 @@ export const useAuthStore = create((set, get) => ({
   login: response => {
     const fingerprint = get().fingerprint
     const accessToken =
-      typeof response.tokens === "string" ? response.tokens : typeof response.jwt === "string" ? response.jwt : false
+      typeof response.tokens === "string"
+        ? response.tokens
+        : typeof response.jwt === "string"
+          ? response.jwt
+          : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
-    console.log(auth, response)
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false
     const encryptedEmail =
@@ -119,13 +122,20 @@ export const useAuthStore = create((set, get) => ({
         set(state => ({
           authData: { ...state.authData, firstname: firstname },
         }))
-      if (encryptedEmail && encryptedCode && auth) {
+      if (auth) {
+        set(state => ({
+          authData: {
+            ...state.authData,
+            authenticated: auth,
+          },
+        }))
+      }
+      if (encryptedEmail && encryptedCode) {
         set(state => ({
           authData: {
             ...state.authData,
             encryptedEmail: encryptedEmail,
             encryptedCode: encryptedCode,
-            authenticated: auth,
           },
         }))
       }
