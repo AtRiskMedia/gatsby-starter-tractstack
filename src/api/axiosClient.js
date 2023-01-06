@@ -46,7 +46,7 @@ export const getTokens = async (
   codeword = false,
   email = false
 ) => {
-  console.log('getToken', fingerprint)
+  console.log('gettingToken', fingerprint)
   if (fingerprint === "none") return null
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
@@ -56,6 +56,7 @@ export const getTokens = async (
       : encryptedCode && encryptedEmail
         ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
         : {}
+  console.log(params)
   try {
     const response = await register({ fingerprint, ...params })
     const accessToken = response.data.jwt

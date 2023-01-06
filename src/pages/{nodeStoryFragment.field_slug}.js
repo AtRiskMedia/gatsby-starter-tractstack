@@ -476,6 +476,7 @@ const RenderedStoryFragment = ({ data }) => {
             setFingerprint("masked")
             setFingerprintCheck("masked")
           } else if (typeof fingerprint2 === "number") {
+            console.log('setting fingerprint', fingerprint2.toString())
             setFingerprint(fingerprint2.toString())
             setFingerprintCheck(true)
           } else {
@@ -504,6 +505,7 @@ const RenderedStoryFragment = ({ data }) => {
             : false
     if (doCheck && !loggingIn) {
       setLoggingIn(1)
+      console.log('about to getTokens', fingerprint)
       getTokens(fingerprint)
         .then(res => {
           console.log('logged in', res)
@@ -514,7 +516,7 @@ const RenderedStoryFragment = ({ data }) => {
         })
         .finally(setLoggingIn(0))
     }
-  }, [validToken, fingerprint, login, loggingIn, setLoggingIn])
+  }, [validToken, fingerprint, login, loggingIn, setLoggingIn, authenticated, encryptedCode, encryptedEmail])
 
   useInterval(() => {
     const now = Date.now()
