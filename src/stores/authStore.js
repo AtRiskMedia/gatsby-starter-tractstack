@@ -124,12 +124,10 @@ export const useAuthStore = create((set, get) => ({
         }))
       if (auth) {
         set(state => ({
-          authData: {
-            ...state.authData,
-            authenticated: auth,
-          },
+          authData: { ...state.authData, authenticated: auth },
         }))
-      }
+        console.log('authenticated', auth)
+      } else { console.log('not authenticated', auth) }
       if (encryptedEmail && encryptedCode) {
         set(state => ({
           authData: {
