@@ -39,47 +39,50 @@ const contactPersonaOptions = [
 const ConciergeProfile = () => {
   // if lead is known, pre-inject these values with an unlocking workflow - codeword match
   const authData = useAuthStore(state => state.authData)
-  const authenticated = authData.authenticated
   const updateAuthData = useAuthStore(state => state.updateAuthData)
   const login = useAuthStore(state => state.login)
   const fingerprint = useAuthStore(state => state.fingerprint)
-  const [firstname, setFirstName] = useState(
-    typeof authData.firstname === "string" && authData.firstname
-      ? authData.firstname
-      : ""
-  )
-  const [email, setEmail] = useState("")
   const [codeword, setCodeword] = useState("")
-  const [bio, setBio] = useState("")
+  const [show, setShow] = useState(0)
+  let lookup = false
+  if (authData.contactPersona) {
+    for (let [key, value] of Object.entries(contactPersonaOptions)) {
+      if (value.title === authData.contactPersona) lookup = key
+    }
+  }
   const [personaSelected, setPersonaSelected] = useState(
-    contactPersonaOptions[0]
+    typeof lookup === "string"
+      ? contactPersonaOptions[lookup]
+      : contactPersonaOptions[0]
   )
   const [submitted, setSubmitted] = useState(false)
-  const [success, setSuccess] = useState(0)
   const [loggingIn, setLoggingIn] = useState(0)
   const [dataLoading, setDataLoading] = useState(0)
   const [dataLoaded, setDataLoaded] = useState(0)
-
+  const doGetProfile = !dataLoading && !dataLoaded && authData.authenticated
   const handleSubmit = e => {
     e.preventDefault()
-    if (firstname && email && codeword && !loggingIn) {
+    if (authData.firstname && authData.email && codeword && !loggingIn) {
       const profile = {
-        firstname: firstname,
-        email: email,
+        firstname: authData.firstname,
+        email: authData.email,
         codeword: codeword,
         persona: personaSelected.title,
-        bio: bio.substring(0, 280),
+        bio: authData.shortBio.substring(0, 280),
       }
       setLoggingIn(1)
       saveProfile({ profile })
         .then(response => {
           if (response.status === 200 && response?.data?.emailAlreadyKnown)
-            updateAuthData("emailAlreadyKnown", email)
-          else if (response.status === 200) {
-            // try to re-login with codeword!
-            getTokens(fingerprint, codeword, email).then(res => {
-              login(res)
-            })
+            updateAuthData("emailAlreadyKnown", authData.email)
+          else if (response.status === 200 && !authData.authenticated) {
+            getTokens(fingerprint, codeword, authData.email)
+              .then(res => {
+                login(res)
+              })
+              .catch(e => {
+                console.log("An error occurred.", e)
+              })
           }
         })
         .catch(e => {
@@ -88,53 +91,73 @@ const ConciergeProfile = () => {
         .finally(setLoggingIn(0))
     }
     setSubmitted(true)
+    setShow(0)
   }
-
+  function showProfile() {
+    setShow(1)
+  }
   const Icon =
     personaSelected.title === "Infrequent" ||
-    personaSelected.title === "Major Updates Only"
+      personaSelected.title === "Major Updates Only"
       ? ArrowPathRoundedSquareIcon
       : personaSelected.title === "All Updates"
-      ? BoltIcon
-      : BellSlashIcon
+        ? BoltIcon
+        : BellSlashIcon
   const iconClass =
     personaSelected.title === "Infrequent"
       ? "text-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "text-darkgrey"
-      : personaSelected.title === "All Updates"
-      ? "text-blue"
-      : "text-darkgrey"
+        ? "text-darkgrey"
+        : personaSelected.title === "All Updates"
+          ? "text-blue"
+          : "text-darkgrey"
   const barClass =
     personaSelected.title === "Infrequent"
       ? "bg-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "bg-lightgrey"
-      : personaSelected.title === "All Updates"
-      ? "bg-green"
-      : "bg-darkgrey"
+        ? "bg-lightgrey"
+        : personaSelected.title === "All Updates"
+          ? "bg-green"
+          : "bg-darkgrey"
   const barWidth =
     personaSelected.title === "Infrequent"
       ? "40%"
       : personaSelected.title === "Major Updates Only"
-      ? "20%"
-      : personaSelected.title === "All Updates"
-      ? "98%"
-      : "2%"
+        ? "20%"
+        : personaSelected.title === "All Updates"
+          ? "98%"
+          : "2%"
 
   useEffect(() => {
-    if (!dataLoading && !dataLoaded && authenticated) {
+    if (doGetProfile) {
       setDataLoading(1)
       getProfile()
         .then(res => {
-          //console.log(1, res)
+          if (
+            typeof res?.firstname === "string" &&
+            res.firstname !== authData.firstname
+          )
+            updateAuthData("firstname", res.firstname)
+          if (typeof res?.email === "string" && res.email !== authData.email)
+            updateAuthData("email", res.email)
+          if (
+            typeof res?.contactPersona === "string" &&
+            res.contactPersona !== authData.contactPersona
+          )
+            updateAuthData("contactPersona", res.contactPersona)
+          if (
+            typeof res?.shortBio === "string" &&
+            res.shortBio !== authData.shortBio
+          )
+            updateAuthData("shortBio", res.shortBio)
+          setDataLoaded(1)
         })
         .catch(e => {
           console.log("An error occurred.", e)
         })
-        .finally(setDataLoading(0), setDataLoaded(1))
+        .finally(setDataLoading(0))
     }
-  }, [dataLoading, setDataLoading, dataLoaded, setDataLoaded, authenticated])
+  }, [doGetProfile, setDataLoading, setDataLoaded, authData, updateAuthData])
 
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
@@ -143,8 +166,8 @@ const ConciergeProfile = () => {
           We are rooted in community.
         </h2>
         <p className="mt-4 mb-6 text-xl text-gray-700">
-          {authenticated ? (
-            <>Welcome back, {firstname}.</>
+          {authData.authenticated ? (
+            <>Welcome back, {authData.firstname}.</>
           ) : (
             <>
               Introduce yourself to unlock special offers and personalized
@@ -163,7 +186,7 @@ const ConciergeProfile = () => {
           </Link>
           .
         </p>
-        {!authenticated && (
+        {!authData.authenticated && (
           <p className="text-blue text-md mb-10">
             Not your first visit?{" "}
             <Link
@@ -176,250 +199,271 @@ const ConciergeProfile = () => {
           </p>
         )}
       </div>
-      <form onSubmit={handleSubmit} method="POST">
-        <div className="grid grid-cols-3 gap-4 bg-slate-50">
-          <div className="col-span-3 sm:col-span-1">
-            <label
-              htmlFor="firstname"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First name
-            </label>
-            <input
-              type="text"
-              name="firstname"
-              id="firstname"
-              autoComplete="given-name"
-              defaultValue={firstname}
-              onBlur={e => setFirstName(e.target.value)}
-              className={classNames(
-                "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                submitted && firstname === ""
-                  ? "border-red-500"
-                  : "border-gray-300"
-              )}
-            />
-            {submitted && firstname === "" && (
-              <span className="text-xs px-2 text-red-500">Required field.</span>
-            )}
-          </div>
-
-          <div className="col-span-3 sm:col-span-2">
-            <label
-              htmlFor="email-address"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              autoComplete="email"
-              defaultValue={email}
-              onBlur={e => setEmail(e.target.value)}
-              className={classNames(
-                "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                submitted && firstname === ""
-                  ? "border-red-500"
-                  : "border-gray-300"
-              )}
-            />
-            {submitted && email === "" && (
-              <span className="text-xs px-2 text-red-500">Required field.</span>
-            )}
-          </div>
-
-          <div className="col-span-3 mt-2">
-            <div className="space-y-3">
+      {show || (!authData.authenticated && !authData.knownLead) ? (
+        <form onSubmit={handleSubmit} method="POST">
+          <div className="grid grid-cols-3 gap-4 bg-slate-50">
+            <div className="col-span-3 sm:col-span-1">
               <label
-                htmlFor="contactpersona"
+                htmlFor="firstname"
                 className="block text-sm font-medium text-gray-700"
               >
-                Communication Preferences
+                First name
               </label>
+              <input
+                type="text"
+                name="firstname"
+                id="firstname"
+                autoComplete="given-name"
+                defaultValue={authData.firstname}
+                onBlur={e => updateAuthData("firstname", e.target.value)}
+                className={classNames(
+                  "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                  submitted && authData.firstname === ""
+                    ? "border-red-500"
+                    : "border-gray-300"
+                )}
+              />
+              {submitted && authData.firstname === "" && (
+                <span className="text-xs px-2 text-red-500">
+                  Required field.
+                </span>
+              )}
+            </div>
 
-              <div className="flex items-center text-sm">
-                <div className="pr-8 text-sm text-black">
-                  <Listbox
-                    value={personaSelected}
-                    onChange={setPersonaSelected}
-                    name="contactpersona"
-                  >
-                    {({ open }) => (
-                      <>
-                        <Listbox.Label className="sr-only">
-                          {" "}
-                          Indicate communication preferences{" "}
-                        </Listbox.Label>
-                        <div className="relative">
-                          <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
+            <div className="col-span-3 sm:col-span-2">
+              <label
+                htmlFor="email-address"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email address
+              </label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                autoComplete="email"
+                defaultValue={authData.email}
+                onBlur={e => updateAuthData("email", e.target.value)}
+                className={classNames(
+                  "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                  submitted && authData.firstname === ""
+                    ? "border-red-500"
+                    : "border-gray-300"
+                )}
+              />
+              {submitted && authData.email === "" && (
+                <span className="text-xs px-2 text-red-500">
+                  Required field.
+                </span>
+              )}
+            </div>
+
+            <div className="col-span-3 mt-2">
+              <div className="space-y-3">
+                <label
+                  htmlFor="contactpersona"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Communication Preferences
+                </label>
+
+                <div className="flex items-center text-sm">
+                  <div className="pr-8 text-sm text-black">
+                    <Listbox
+                      value={personaSelected}
+                      onChange={setPersonaSelected}
+                      name="contactpersona"
+                    >
+                      {({ open }) => (
+                        <>
+                          <Listbox.Label className="sr-only">
+                            {" "}
+                            Indicate communication preferences{" "}
+                          </Listbox.Label>
+                          <div className="relative">
                             <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
-                              <div className="inline-flex items-center rounded-l-md border border-transparent bg-transparent py-1 pl-3 pr-4 text-black shadow-sm">
-                                <p className="ml-2.5 text-sm text-left font-medium w-36">
-                                  {personaSelected.title}
-                                </p>
+                              <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
+                                <div className="inline-flex items-center rounded-l-md border border-transparent bg-transparent py-1 pl-3 pr-4 text-black shadow-sm">
+                                  <p className="ml-2.5 text-sm text-left font-medium w-36">
+                                    {personaSelected.title}
+                                  </p>
+                                </div>
+                                <Listbox.Button className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm font-medium text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                                  <span className="sr-only">
+                                    Change contact-persona setting
+                                  </span>
+                                  <ChevronDownIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
+                                </Listbox.Button>
                               </div>
-                              <Listbox.Button className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm font-medium text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-                                <span className="sr-only">
-                                  Change contact-persona setting
-                                </span>
-                                <ChevronDownIcon
-                                  className="h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                              </Listbox.Button>
                             </div>
-                          </div>
 
-                          <Transition
-                            show={open}
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                              {contactPersonaOptions.map(option => (
-                                <Listbox.Option
-                                  key={option.title}
-                                  className={({ active }) =>
-                                    classNames(
-                                      active
-                                        ? "text-black bg-slate-100"
-                                        : "text-allblack",
-                                      "cursor-default select-none p-2 text-sm"
-                                    )
-                                  }
-                                  value={option}
-                                >
-                                  {({ selected }) => (
-                                    <>
-                                      <span
-                                        className={classNames(
-                                          selected
-                                            ? "font-semibold"
-                                            : "font-normal",
-                                          "block truncate"
-                                        )}
-                                      >
-                                        {option.title}
-                                      </span>
-                                    </>
-                                  )}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </>
-                    )}
-                  </Listbox>
-                </div>
-                <div className="flex flex-1 items-center">
-                  <div
-                    aria-hidden="true"
-                    className="ml-1 flex flex-1 items-center"
-                  >
-                    <Icon
-                      className={classNames(iconClass, "flex-shrink-0 h-5 w-5")}
+                            <Transition
+                              show={open}
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                {contactPersonaOptions.map(option => (
+                                  <Listbox.Option
+                                    key={option.title}
+                                    className={({ active }) =>
+                                      classNames(
+                                        active
+                                          ? "text-black bg-slate-100"
+                                          : "text-allblack",
+                                        "cursor-default select-none p-2 text-sm"
+                                      )
+                                    }
+                                    value={option}
+                                  >
+                                    {({ selected }) => (
+                                      <>
+                                        <span
+                                          className={classNames(
+                                            selected
+                                              ? "font-semibold"
+                                              : "font-normal",
+                                            "block truncate"
+                                          )}
+                                        >
+                                          {option.title}
+                                        </span>
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </>
+                      )}
+                    </Listbox>
+                  </div>
+                  <div className="flex flex-1 items-center">
+                    <div
                       aria-hidden="true"
-                    />
-                    <div className="relative ml-3 flex-1">
-                      <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
-                      <div
+                      className="ml-1 flex flex-1 items-center"
+                    >
+                      <Icon
                         className={classNames(
-                          "absolute inset-y-0 rounded-full border",
-                          barClass
+                          iconClass,
+                          "flex-shrink-0 h-5 w-5"
                         )}
-                        style={{ width: barWidth }}
+                        aria-hidden="true"
                       />
+                      <div className="relative ml-3 flex-1">
+                        <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
+                        <div
+                          className={classNames(
+                            "absolute inset-y-0 rounded-full border",
+                            barClass
+                          )}
+                          style={{ width: barWidth }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
+                <p className="text-xs text-right text-black">
+                  {personaSelected.description}
+                </p>
               </div>
-              <p className="text-xs text-right text-black">
-                {personaSelected.description}
-              </p>
             </div>
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {firstname ? (
-            <>
-              <div className="col-span-2 mt-10">
-                <label
-                  htmlFor="bio"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  {!authenticated && firstname ? (
-                    <>
-                      Hello {firstname}. Is there anything else you would like
-                      to share?
-                    </>
-                  ) : (
-                    <>
-                      Would you like to share anything else? (Contact
-                      preferences; company bio; phone number)
-                    </>
-                  )}
-                </label>
-                <div className="mt-2">
-                  <textarea
-                    id="bio"
-                    name="bio"
-                    rows={3}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
-                    placeholder="Your one-liner bio"
-                    defaultValue={""}
-                    onBlur={e => setBio(e.target.value)}
-                  />
+          <div className="grid grid-cols-2 gap-4">
+            {authData.firstname ? (
+              <>
+                <div className="col-span-2 mt-10">
+                  <label
+                    htmlFor="bio"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {!authData.authenticated && authData.firstname ? (
+                      <>
+                        Hello {authData.firstname}. Is there anything else you
+                        would like to share?
+                      </>
+                    ) : (
+                      <>
+                        Would you like to share anything else? (Contact
+                        preferences; company bio; phone number)
+                      </>
+                    )}
+                  </label>
+                  <div className="mt-2">
+                    <textarea
+                      id="bio"
+                      name="bio"
+                      rows={3}
+                      maxLength={280}
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                      placeholder="Your one-liner bio"
+                      defaultValue={authData.shortBio}
+                      onBlur={e => updateAuthData("shortBio", e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-span-1">
-                <label
-                  htmlFor="codeword"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Secret code word to protect your account:
-                </label>
-                <input
-                  type="text"
-                  name="codeword"
-                  id="codeword"
-                  autoComplete="new-password"
-                  defaultValue={codeword}
-                  onBlur={e => setCodeword(e.target.value)}
-                  className={classNames(
-                    "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
-                    submitted && firstname === ""
-                      ? "border-red-500"
-                      : "border-gray-300"
+                <div className="col-span-1">
+                  <label
+                    htmlFor="codeword"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Enter the secret code word to protect your account:
+                  </label>
+                  <input
+                    type="text"
+                    name="codeword"
+                    id="codeword"
+                    autoComplete="off"
+                    defaultValue={codeword}
+                    onBlur={e => setCodeword(e.target.value)}
+                    className={classNames(
+                      "mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm",
+                      submitted && authData.firstname === ""
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    )}
+                  />
+                  {submitted && codeword === "" && (
+                    <span className="text-xs px-2 text-red-500">
+                      Required field.
+                    </span>
                   )}
-                />
-                {submitted && codeword === "" && (
-                  <span className="text-xs px-2 text-red-500">
-                    Required field.
-                  </span>
-                )}
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
 
-          <div className="col-span-2 mt-6">
-            <button
-              type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
-            >
-              <span className="pr-4">Save Profile</span>
-              <ChevronRightIcon className="h-5 w-5 mr-3" aria-hidden="true" />
-            </button>
+            <div className="col-span-2 mt-6">
+              <button
+                type="submit"
+                className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+              >
+                <span className="pr-4">Save Profile</span>
+                <ChevronRightIcon className="h-5 w-5 mr-3" aria-hidden="true" />
+              </button>
+            </div>
           </div>
+        </form>
+      ) : (
+        <div className="mt-10">
+          <button
+            type="submit"
+            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+            onClick={() => showProfile()}
+          >
+            <span className="pr-4">Edit your profile</span>
+            <ChevronRightIcon className="h-5 w-5 mr-3" aria-hidden="true" />
+          </button>
         </div>
-      </form>
+      )}
     </div>
   )
 }

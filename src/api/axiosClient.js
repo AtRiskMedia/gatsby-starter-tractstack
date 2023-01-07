@@ -53,12 +53,13 @@ export const getTokens = async (
     codeword && email
       ? { codeword: codeword, email: email }
       : encryptedCode && encryptedEmail
-      ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
-      : {}
+        ? { encryptedCode: encryptedCode, encryptedEmail: encryptedEmail }
+        : {}
   try {
     const response = await register({ fingerprint, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
+    const knownLead = response.data.knownLead
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
@@ -66,6 +67,7 @@ export const getTokens = async (
       tokens: accessToken,
       auth: auth,
       firstname: firstname,
+      knownLead: knownLead,
       encryptedEmail: encryptedEmail,
       encryptedCode: encryptedCode,
       error: null,
@@ -81,14 +83,15 @@ export const getTokens = async (
 export const getProfile = async () => {
   try {
     const response = await loadProfile()
-    //console.log(0, response)
-    //const firstname = response.data.firstname
-    //const email = response.data.email
-    //const contactPersona = response.data.contactPersona
-    //const shortBio = response.data.shorBio
+    const firstname = response.data.firstname
+    const email = response.data.email
+    const contactPersona = response.data.contactPersona
+    const shortBio = response.data.shortBio
     return {
-      //firstname: firstname,
-      error: null,
+      firstname: firstname,
+      email: email,
+      contactPersona: contactPersona,
+      shortBio: shortBio,
     }
   } catch (error) {
     return {

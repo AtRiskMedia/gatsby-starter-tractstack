@@ -138,7 +138,7 @@ const SubNav = () => {
 const Header = ({ siteTitle, contextPayload }) => {
   const contentMap = useStoryStepStore(state => state.contentMap)
   const authData = useAuthStore(state => state.authData)
-  const firstname = authData.firstname
+  const knownLead = authData.knownLead
   const emailAlreadyKnown = authData.emailAlreadyKnown
   const authenticated = authData.authenticated
   let lookup = false
@@ -224,11 +224,10 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           <Route
                                             path="/"
                                             element={
-                                              (typeof firstname === "string" &&
-                                                firstname !== "" &&
+                                              (knownLead &&
                                                 !authenticated) ||
-                                              (!authenticated &&
-                                                emailAlreadyKnown) ? (
+                                                (!authenticated &&
+                                                  emailAlreadyKnown) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />
@@ -238,11 +237,11 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           <Route
                                             path="/profile"
                                             element={
-                                              (typeof firstname === "string" &&
-                                                firstname !== "" &&
+
+                                              (knownLead &&
                                                 !authenticated) ||
-                                              (!authenticated &&
-                                                emailAlreadyKnown) ? (
+                                                (!authenticated &&
+                                                  emailAlreadyKnown) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />

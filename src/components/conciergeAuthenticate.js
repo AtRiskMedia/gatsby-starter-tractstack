@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { classNames } from "gatsby-plugin-tractstack"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 
-import { saveProfile } from "../api/services"
 import { useAuthStore } from "../stores/authStore"
 import { getTokens } from "../api/axiosClient"
 
@@ -17,8 +16,8 @@ const ConciergeAuthenticate = () => {
     typeof emailAlreadyKnown === "string" && emailAlreadyKnown
       ? emailAlreadyKnown
       : typeof knownEmail === "string" && knownEmail
-      ? knownEmail
-      : ""
+        ? knownEmail
+        : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -30,12 +29,10 @@ const ConciergeAuthenticate = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (email && codeword && !loggingIn) {
-      const profile = { email: email, codeword: codeword }
-      saveProfile({ profile })
-        .then(() => {
-          getTokens(fingerprint, codeword, email).then(res => {
-            login(res)
-          })
+      getTokens(fingerprint, codeword, email)
+        .then(res => {
+          if (res.tokens !== null) login(res)
+          else setSuccess(-1)
         })
         .catch(() => {
           setSuccess(-1)
@@ -44,7 +41,7 @@ const ConciergeAuthenticate = () => {
     }
     setSubmitted(true)
   }
-  if (authenticated) return <p>IN</p>
+
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
       <div>
@@ -82,7 +79,7 @@ const ConciergeAuthenticate = () => {
               type="text"
               name="codeword"
               id="codeword"
-              autoComplete="new-password"
+              autoComplete="off"
               defaultValue={codeword}
               onBlur={e => setCodeword(e.target.value)}
               className={classNames(
@@ -127,6 +124,12 @@ const ConciergeAuthenticate = () => {
               <span className="text-xs px-2 text-red-500">Required field.</span>
             )}
           </div>
+          {success === -1 ? (
+            <div className="col-span-3 italic text-darkgrey">
+              <p>Those credentials did not match our records. Please try again.</p>
+            </div>
+          ) : <></>}
+
           <div className="col-span-3 mt-6">
             <button
               type="submit"
