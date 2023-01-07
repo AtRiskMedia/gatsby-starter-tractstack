@@ -43,7 +43,7 @@ const ConciergeProfile = () => {
   const login = useAuthStore(state => state.login)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const [codeword, setCodeword] = useState("")
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(authData.authenticated ? false : true)
   let lookup = false
   if (authData.contactPersona) {
     for (let [key, value] of Object.entries(contactPersonaOptions)) {
