@@ -321,6 +321,8 @@ const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
   const authenticated = useAuthStore(state => state.authData.authenticated)
+  const knownLead = useAuthStore(state => state.authData.knownLead)
+  console.log(knownLead)
   const encryptedEmail = useAuthStore(state => state.authData.encryptedEmail)
   const encryptedCode = useAuthStore(state => state.authData.encryptedCode)
   const fingerprint = useAuthStore(state => state.fingerprint)
@@ -356,41 +358,41 @@ const RenderedStoryFragment = ({ data }) => {
   const storyFragmentPayload =
     viewportKey !== "server"
       ? storyFragmentCompositor({
-          data: data.nodeStoryFragment,
-          viewportKey: viewportKey,
-          codeHooks: codeHooks,
-          hooks: {
-            updateRevealContext: updateRevealContext,
-            updateContentMap: updateContentMap,
-            processRead: processRead,
-            updateEventStream: updateEventStream,
-            navigate: navigate,
-          },
-        })
+        data: data.nodeStoryFragment,
+        viewportKey: viewportKey,
+        codeHooks: codeHooks,
+        hooks: {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+          updateEventStream: updateEventStream,
+          navigate: navigate,
+        },
+      })
       : null
   const tractStackContextPayload =
     viewportKey !== "server" && typeof storyFragmentPayload === "object"
       ? Compositor(
-          data.nodeStoryFragment.relationships.field_tract_stack.relationships
-            .field_context_panes,
-          null,
-          viewportKey,
-          {
-            updateRevealContext: updateRevealContext,
-            updateContentMap: updateContentMap,
-            processRead: processRead,
-          }
-        )
+        data.nodeStoryFragment.relationships.field_tract_stack.relationships
+          .field_context_panes,
+        null,
+        viewportKey,
+        {
+          updateRevealContext: updateRevealContext,
+          updateContentMap: updateContentMap,
+          processRead: processRead,
+        }
+      )
       : null
 
   const doCheck =
     fingerprint !== "none" && fingerprint !== "masked" && !fingerprintCheck
       ? true
       : !authenticated && encryptedEmail !== "" && encryptedCode !== ""
-      ? true
-      : !validToken
-      ? true
-      : false
+        ? true
+        : !validToken
+          ? true
+          : false
   const doFingerprint =
     viewportKey !== "server" &&
     (fingerprint === "none" || fingerprintCheck === false || !validToken)
@@ -452,8 +454,8 @@ const RenderedStoryFragment = ({ data }) => {
         thisWidth < 801
           ? thisWidth / 600
           : thisWidth < 1367
-          ? thisWidth / 1080
-          : thisWidth / 1920
+            ? thisWidth / 1080
+            : thisWidth / 1920
       document.documentElement.style.setProperty("--scale", thisScale * 0.99)
     }
     window.addEventListener("resize", handleResize)
@@ -512,11 +514,11 @@ const RenderedStoryFragment = ({ data }) => {
     const payload =
       typeof eventStream === "object"
         ? Object.keys(eventStream)
-            .filter(k => k > lastSync)
-            .reduce((obj, key) => {
-              obj[key] = eventStream[key]
-              return obj
-            }, {})
+          .filter(k => k > lastSync)
+          .reduce((obj, key) => {
+            obj[key] = eventStream[key]
+            return obj
+          }, {})
         : {}
     if (isLoggedIn && Object.keys(payload).length > 0) {
       const events = payload
