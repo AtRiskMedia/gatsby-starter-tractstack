@@ -52,18 +52,11 @@ const TractStack = (fingerprint) => {
     "text-md text-gray-500 mt-4 md:max-w-2xl",
     masked ? "line-through" : ""
   )
-  const graphLink = (
+  const GraphLink = (
     <>
       {" "}
       Check out the <Link to={"/graph"}>knowledge graph</Link> to see this in
       real-time!{" "}
-    </>
-  )
-  const nograph = (
-    <>
-      {" "}
-      You are using a privacy-first browser. No behavioural data will be
-      collected.
     </>
   )
   return (
@@ -89,7 +82,7 @@ const TractStack = (fingerprint) => {
           site, we may make recommendations for free supports and resources.
         </p>
         <p className="text-md text-gray-500 mt-4 md:max-w-2xl italic">
-          {masked ? nograph : graphLink}
+          <GraphLink />
         </p>
       </div>
     </div>
