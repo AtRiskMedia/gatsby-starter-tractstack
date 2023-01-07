@@ -159,6 +159,8 @@ const ConciergeProfile = () => {
     }
   }, [doGetProfile, setDataLoading, setDataLoaded, authData, updateAuthData])
 
+  console.log(show, !authData.authenticated, !authData.knownLead)
+
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
       <div>
