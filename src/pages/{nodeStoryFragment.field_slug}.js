@@ -322,7 +322,6 @@ const RenderedStoryFragment = ({ data }) => {
   const login = useAuthStore(state => state.login)
   const authenticated = useAuthStore(state => state.authData.authenticated)
   const knownLead = useAuthStore(state => state.authData.knownLead)
-  console.log(knownLead)
   const encryptedEmail = useAuthStore(state => state.authData.encryptedEmail)
   const encryptedCode = useAuthStore(state => state.authData.encryptedCode)
   const fingerprint = useAuthStore(state => state.fingerprint)
