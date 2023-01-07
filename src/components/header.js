@@ -46,8 +46,7 @@ const _subNavigation = hash => {
   ]
 }
 
-const TractStack = () => {
-  const fingerprint = useAuthStore(state => state.fingerprint)
+const TractStack = (fingerprint) => {
   const masked = fingerprint === -1 ? true : false
   const pClasses = classNames(
     "text-md text-gray-500 mt-4 md:max-w-2xl",
@@ -138,6 +137,7 @@ const SubNav = () => {
 const Header = ({ siteTitle, contextPayload }) => {
   const contentMap = useStoryStepStore(state => state.contentMap)
   const authData = useAuthStore(state => state.authData)
+  const fingerprint = useAuthStore(state => state.fingerprint)
   const knownLead = authData.knownLead
   const emailAlreadyKnown = authData.emailAlreadyKnown
   const authenticated = authData.authenticated
@@ -160,7 +160,7 @@ const Header = ({ siteTitle, contextPayload }) => {
           <div className="relative z-70020">
             <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8">
               <h1 className="text-xl mb-0 flex items-center">{siteTitle}</h1>
-              {zeroPartyPayload && (
+              {zeroPartyPayload && fingerprint !== "masked" ? (
                 <div>
                   <div className="-my-2 -mr-2 hidden">
                     <Popover.Button className="inline-flex items-center justify-center rounded-md p-8 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange">
@@ -257,7 +257,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           />
                                           <Route
                                             path="/tractstack"
-                                            element={<TractStack />}
+                                            element={<TractStack fingerprint={fingerprint} />}
                                           />
                                           <Route
                                             path="/data"
@@ -282,7 +282,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                     </Popover>
                   </div>
                 </div>
-              )}
+              ) : <></>}
             </div>
           </div>
         </Popover>
