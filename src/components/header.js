@@ -237,7 +237,6 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           <Route
                                             path="/profile"
                                             element={
-
                                               (knownLead &&
                                                 !authenticated) ||
                                                 (!authenticated &&

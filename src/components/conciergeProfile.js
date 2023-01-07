@@ -43,7 +43,7 @@ const ConciergeProfile = () => {
   const login = useAuthStore(state => state.login)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const [codeword, setCodeword] = useState("")
-  const [show, setShow] = useState(0)
+  const [show, setShow] = useState(true)
   let lookup = false
   if (authData.contactPersona) {
     for (let [key, value] of Object.entries(contactPersonaOptions)) {
@@ -56,9 +56,9 @@ const ConciergeProfile = () => {
       : contactPersonaOptions[0]
   )
   const [submitted, setSubmitted] = useState(false)
-  const [loggingIn, setLoggingIn] = useState(0)
-  const [dataLoading, setDataLoading] = useState(0)
-  const [dataLoaded, setDataLoaded] = useState(0)
+  const [loggingIn, setLoggingIn] = useState(false)
+  const [dataLoading, setDataLoading] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
   const doGetProfile = !dataLoading && !dataLoaded && authData.authenticated
   const handleSubmit = e => {
     e.preventDefault()
@@ -70,7 +70,7 @@ const ConciergeProfile = () => {
         persona: personaSelected.title,
         bio: authData.shortBio.substring(0, 280),
       }
-      setLoggingIn(1)
+      setLoggingIn(true)
       saveProfile({ profile })
         .then(response => {
           if (response.status === 200 && response?.data?.emailAlreadyKnown)
@@ -88,13 +88,12 @@ const ConciergeProfile = () => {
         .catch(e => {
           console.log("An error occurred.", e)
         })
-        .finally(setLoggingIn(0))
+        .finally(setLoggingIn(false), setShow(false))
     }
     setSubmitted(true)
-    setShow(0)
   }
   function showProfile() {
-    setShow(1)
+    setShow(true)
   }
   const Icon =
     personaSelected.title === "Infrequent" ||
@@ -130,7 +129,7 @@ const ConciergeProfile = () => {
 
   useEffect(() => {
     if (doGetProfile) {
-      setDataLoading(1)
+      setDataLoading(true)
       getProfile()
         .then(res => {
           if (
@@ -150,16 +149,14 @@ const ConciergeProfile = () => {
             res.shortBio !== authData.shortBio
           )
             updateAuthData("shortBio", res.shortBio)
-          setDataLoaded(1)
+          setDataLoaded(true)
         })
         .catch(e => {
           console.log("An error occurred.", e)
         })
-        .finally(setDataLoading(0))
+        .finally(setDataLoading(false))
     }
   }, [doGetProfile, setDataLoading, setDataLoaded, authData, updateAuthData])
-
-  console.log(show, !authData.authenticated, !authData.knownLead)
 
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
