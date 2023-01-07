@@ -60,6 +60,7 @@ export const getTokens = async (
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const knownLead = response.data.known_lead
+    const emailConflict = response.data.email_conflict
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
@@ -68,6 +69,7 @@ export const getTokens = async (
       auth: auth,
       firstname: firstname,
       knownLead: knownLead,
+      emailConflict: emailConflict,
       encryptedEmail: encryptedEmail,
       encryptedCode: encryptedCode,
       error: null,

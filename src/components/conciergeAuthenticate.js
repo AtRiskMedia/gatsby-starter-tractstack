@@ -8,13 +8,13 @@ import { getTokens } from "../api/axiosClient"
 const ConciergeAuthenticate = () => {
   // if lead is known, pre-inject these values with an unlocking workflow - codeword match
   const authData = useAuthStore(state => state.authData)
-  const emailAlreadyKnown = authData.emailAlreadyKnown
+  const emailConflict = authData.emailConflict
   const knownEmail = authData.email
   const knownFirstName = authData.firstname
   const authenticated = authData.authenticated
   const [email, setEmail] = useState(
-    typeof emailAlreadyKnown === "string" && emailAlreadyKnown
-      ? emailAlreadyKnown
+    typeof emailConflict === "string" && emailConflict
+      ? emailConflict
       : typeof knownEmail === "string" && knownEmail
         ? knownEmail
         : ""
@@ -48,12 +48,12 @@ const ConciergeAuthenticate = () => {
         <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
           Welcome back
           {!authenticated &&
-            !emailAlreadyKnown &&
+            !emailConflict &&
             knownFirstName &&
             `, ${knownFirstName}.`}
         </h2>
         <p className="mt-4 mb-6 text-xl text-gray-700">
-          {emailAlreadyKnown ? (
+          {emailConflict ? (
             <>
               Your email is already registered. Please enter your code word to
               access your profile:
@@ -106,7 +106,7 @@ const ConciergeAuthenticate = () => {
             </label>
             <input
               type="text"
-              readOnly={!emailAlreadyKnown && knownEmail}
+              readOnly={!emailConflict && knownEmail}
               name="email"
               id="email"
               autoComplete="email"
@@ -117,7 +117,7 @@ const ConciergeAuthenticate = () => {
                 submitted && email === ""
                   ? "border-red-500"
                   : "border-gray-300",
-                !emailAlreadyKnown && knownEmail ? "text-lightgrey" : ""
+                !emailConflict && knownEmail ? "text-lightgrey" : ""
               )}
             />
             {submitted && email === "" && (

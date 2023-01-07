@@ -73,8 +73,8 @@ const ConciergeProfile = () => {
       setLoggingIn(true)
       saveProfile({ profile })
         .then(response => {
-          if (response.status === 200 && response?.data?.emailAlreadyKnown)
-            updateAuthData("emailAlreadyKnown", authData.email)
+          if (response.status === 200 && response?.data?.emailConflict)
+            updateAuthData("emailConflict", authData.email)
           else if (response.status === 200 && !authData.authenticated) {
             getTokens(fingerprint, codeword, authData.email)
               .then(res => {

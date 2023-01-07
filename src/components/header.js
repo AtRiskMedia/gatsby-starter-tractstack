@@ -132,7 +132,7 @@ const Header = ({ siteTitle, contextPayload }) => {
   const authData = useAuthStore(state => state.authData)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const knownLead = authData.knownLead
-  const emailAlreadyKnown = authData.emailAlreadyKnown
+  const emailConflict = authData.emailConflict
   const authenticated = authData.authenticated
   let lookup = false
   for (let [key, value] of Object.entries(contentMap)) {
@@ -220,7 +220,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                                               (knownLead &&
                                                 !authenticated) ||
                                                 (!authenticated &&
-                                                  emailAlreadyKnown) ? (
+                                                  emailConflict) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />
@@ -233,7 +233,7 @@ const Header = ({ siteTitle, contextPayload }) => {
                                               (knownLead &&
                                                 !authenticated) ||
                                                 (!authenticated &&
-                                                  emailAlreadyKnown) ? (
+                                                  emailConflict) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />

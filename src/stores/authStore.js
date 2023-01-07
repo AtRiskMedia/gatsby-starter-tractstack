@@ -49,8 +49,8 @@ const authDataSchema = {
   contactPersona: "",
   shortBio: "",
   authenticated: false,
-  emailAlreadyKnown: false,
   knownLead: false,
+  emailConflict: "",
 }
 
 export const useAuthStore = create((set, get) => ({
@@ -94,6 +94,7 @@ export const useAuthStore = create((set, get) => ({
           : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
     const knownLead = typeof response.knownLead === "boolean" ? response.knownLead : false
+    const emailConflict = typeof response.emailConflict === "string" ? response.emailConflict : ""
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false
     const encryptedEmail =
@@ -108,11 +109,9 @@ export const useAuthStore = create((set, get) => ({
       setTokensToLocalStorage({
         accessToken: accessToken,
         fingerprint: fingerprint,
-        auth: auth,
         firstname: firstname,
         encryptedEmail: encryptedEmail,
         encryptedCode: encryptedCode,
-        knownLead: knownLead,
       })
       set(state => ({
         ...state,
@@ -120,6 +119,10 @@ export const useAuthStore = create((set, get) => ({
         fingerprint: fingerprint,
         validToken: true,
       }))
+      if (emailConflict)
+        set(state => ({
+          authData: { ...state.authData, emailConflict: emailConflict },
+        }))
       if (knownLead)
         set(state => ({
           authData: { ...state.authData, knownLead: knownLead },
