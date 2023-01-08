@@ -16,8 +16,8 @@ const storyFragmentCompositor = props => {
   })
   const compositedPayload = Compositor(
     panesPayload.concat(contextPanesPayload),
-    codeHooks,
     viewportKey,
+    codeHooks,
     hooks
   )
   const hasH5P = compositedPayload?.hasH5P

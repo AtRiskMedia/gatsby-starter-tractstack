@@ -18,6 +18,7 @@ import StoryFragment from "../components/StoryFragment"
 import Header from "../components/header"
 import Seo from "../components/seo"
 import H5P from "../components/H5P"
+import Belief from "../components/belief"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
 import Form from "../components/Form"
@@ -321,7 +322,6 @@ const RenderedStoryFragment = ({ data }) => {
   const isLoggedIn = useAuthStore(state => state.isLoggedIn())
   const login = useAuthStore(state => state.login)
   const authenticated = useAuthStore(state => state.authData.authenticated)
-  const knownLead = useAuthStore(state => state.authData.knownLead)
   const encryptedEmail = useAuthStore(state => state.authData.encryptedEmail)
   const encryptedCode = useAuthStore(state => state.authData.encryptedCode)
   const fingerprint = useAuthStore(state => state.fingerprint)
@@ -366,6 +366,7 @@ const RenderedStoryFragment = ({ data }) => {
           processRead: processRead,
           updateEventStream: updateEventStream,
           navigate: navigate,
+          belief: Belief,
         },
       })
       : null
@@ -374,12 +375,13 @@ const RenderedStoryFragment = ({ data }) => {
       ? Compositor(
         data.nodeStoryFragment.relationships.field_tract_stack.relationships
           .field_context_panes,
-        null,
         viewportKey,
+        null,
         {
           updateRevealContext: updateRevealContext,
           updateContentMap: updateContentMap,
           processRead: processRead,
+          belief: Belief,
         }
       )
       : null

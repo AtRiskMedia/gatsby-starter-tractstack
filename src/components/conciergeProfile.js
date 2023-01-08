@@ -97,35 +97,35 @@ const ConciergeProfile = () => {
   }
   const Icon =
     personaSelected.title === "Infrequent" ||
-      personaSelected.title === "Major Updates Only"
+    personaSelected.title === "Major Updates Only"
       ? ArrowPathRoundedSquareIcon
       : personaSelected.title === "All Updates"
-        ? BoltIcon
-        : BellSlashIcon
+      ? BoltIcon
+      : BellSlashIcon
   const iconClass =
     personaSelected.title === "Infrequent"
       ? "text-blue"
       : personaSelected.title === "Major Updates Only"
-        ? "text-darkgrey"
-        : personaSelected.title === "All Updates"
-          ? "text-blue"
-          : "text-darkgrey"
+      ? "text-darkgrey"
+      : personaSelected.title === "All Updates"
+      ? "text-blue"
+      : "text-darkgrey"
   const barClass =
     personaSelected.title === "Infrequent"
       ? "bg-blue"
       : personaSelected.title === "Major Updates Only"
-        ? "bg-lightgrey"
-        : personaSelected.title === "All Updates"
-          ? "bg-green"
-          : "bg-darkgrey"
+      ? "bg-lightgrey"
+      : personaSelected.title === "All Updates"
+      ? "bg-green"
+      : "bg-darkgrey"
   const barWidth =
     personaSelected.title === "Infrequent"
       ? "40%"
       : personaSelected.title === "Major Updates Only"
-        ? "20%"
-        : personaSelected.title === "All Updates"
-          ? "98%"
-          : "2%"
+      ? "20%"
+      : personaSelected.title === "All Updates"
+      ? "98%"
+      : "2%"
 
   useEffect(() => {
     if (doGetProfile) {

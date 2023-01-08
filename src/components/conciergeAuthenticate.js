@@ -16,8 +16,8 @@ const ConciergeAuthenticate = () => {
     typeof emailConflict === "string" && emailConflict
       ? emailConflict
       : typeof knownEmail === "string" && knownEmail
-        ? knownEmail
-        : ""
+      ? knownEmail
+      : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -126,9 +126,13 @@ const ConciergeAuthenticate = () => {
           </div>
           {success === -1 ? (
             <div className="col-span-3 italic text-darkgrey">
-              <p>Those credentials did not match our records. Please try again.</p>
+              <p>
+                Those credentials did not match our records. Please try again.
+              </p>
             </div>
-          ) : <></>}
+          ) : (
+            <></>
+          )}
 
           <div className="col-span-3 mt-6">
             <button

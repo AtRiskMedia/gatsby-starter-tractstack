@@ -34,7 +34,7 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === "object" &&
-      localStorage.getItem("firstname") !== null
+    localStorage.getItem("firstname") !== null
       ? localStorage.getItem("firstname")
       : "",
   encryptedEmail:
@@ -56,26 +56,31 @@ const authDataSchema = {
 export const useAuthStore = create((set, get) => ({
   accessToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("accessToken") !== null
+    localStorage.getItem("accessToken") !== null
       ? localStorage.getItem("accessToken")
       : null,
   authData: {
     ...authDataSchema,
   },
+  beliefs: {},
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === "object" &&
-      localStorage.getItem("fingerprint") !== null
+    localStorage.getItem("fingerprint") !== null
       ? localStorage.getItem("fingerprint")
       : "none",
   validToken:
     typeof localStorage === "object" &&
-      localStorage.getItem("validToken") !== null
+    localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
   updateAuthData: (key, value) =>
     set(state => ({
       authData: { ...state.authData, [key]: value },
+    })),
+  updateBeliefs: (key, value) =>
+    set(state => ({
+      beliefs: { ...state.beliefs, [key]: value },
     })),
   setFingerprint: fingerprint => {
     set(state => ({ ...state, fingerprint: fingerprint }))
@@ -90,11 +95,13 @@ export const useAuthStore = create((set, get) => ({
       typeof response.tokens === "string"
         ? response.tokens
         : typeof response.jwt === "string"
-          ? response.jwt
-          : false
+        ? response.jwt
+        : false
     const auth = typeof response.auth === "boolean" ? response.auth : false
-    const knownLead = typeof response.knownLead === "boolean" ? response.knownLead : false
-    const emailConflict = typeof response.emailConflict === "string" ? response.emailConflict : ""
+    const knownLead =
+      typeof response.knownLead === "boolean" ? response.knownLead : false
+    const emailConflict =
+      typeof response.emailConflict === "string" ? response.emailConflict : ""
     const firstname =
       typeof response.firstname === "string" ? response.firstname : false
     const encryptedEmail =

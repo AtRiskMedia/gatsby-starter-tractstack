@@ -46,7 +46,7 @@ const _subNavigation = hash => {
   ]
 }
 
-const TractStack = (fingerprint) => {
+const TractStack = fingerprint => {
   const masked = fingerprint === -1 ? true : false
   const pClasses = classNames(
     "text-md text-gray-500 mt-4 md:max-w-2xl",
@@ -217,10 +217,9 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           <Route
                                             path="/"
                                             element={
-                                              (knownLead &&
-                                                !authenticated) ||
-                                                (!authenticated &&
-                                                  emailConflict) ? (
+                                              (knownLead && !authenticated) ||
+                                              (!authenticated &&
+                                                emailConflict) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />
@@ -230,10 +229,9 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           <Route
                                             path="/profile"
                                             element={
-                                              (knownLead &&
-                                                !authenticated) ||
-                                                (!authenticated &&
-                                                  emailConflict) ? (
+                                              (knownLead && !authenticated) ||
+                                              (!authenticated &&
+                                                emailConflict) ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />
@@ -250,7 +248,11 @@ const Header = ({ siteTitle, contextPayload }) => {
                                           />
                                           <Route
                                             path="/tractstack"
-                                            element={<TractStack fingerprint={fingerprint} />}
+                                            element={
+                                              <TractStack
+                                                fingerprint={fingerprint}
+                                              />
+                                            }
                                           />
                                           <Route
                                             path="/data"
@@ -275,7 +277,9 @@ const Header = ({ siteTitle, contextPayload }) => {
                     </Popover>
                   </div>
                 </div>
-              ) : <></>}
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </Popover>
