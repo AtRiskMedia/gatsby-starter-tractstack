@@ -6,7 +6,7 @@ import { classNames } from "gatsby-plugin-tractstack"
 import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
 
-const likert = [
+const likertscale = [
   { id: 0, name: "Agree or Disagree?", color: "bg-slate-50" },
   { id: 1, name: "Strongly disagree", color: "bg-red-400" },
   { id: 2, name: "Disagree", color: "bg-amber-400" },
@@ -57,7 +57,7 @@ const Belief = ({ value, cssClasses }) => {
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute z-90000 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {people.map(likert => (
+                  {likertscale.map(likert => (
                     <Listbox.Option
                       key={likert.id}
                       className={({ active }) =>
