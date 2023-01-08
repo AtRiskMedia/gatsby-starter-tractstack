@@ -25,11 +25,11 @@ const Belief = ({ value, cssClasses }) => {
       <Listbox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            <Listbox.Label className="block text-sm font-medium text-gray-700">
+            <Listbox.Label className="block text-sm font-medium text-darkgrey">
               What do you think?
             </Listbox.Label>
             <div className="relative mt-1">
-              <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
+              <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
                 <span className="flex items-center">
                   <span
                     aria-label="Color swatch for belief"
@@ -61,7 +61,7 @@ const Belief = ({ value, cssClasses }) => {
                       key={likert.id}
                       className={({ active }) =>
                         classNames(
-                          active ? `text-white bg-slate-200` : "text-gray-900",
+                          active ? `text-blue bg-slate-200` : "text-gray-900",
                           "relative cursor-default select-none py-2 pl-3 pr-9"
                         )
                       }
@@ -90,7 +90,7 @@ const Belief = ({ value, cssClasses }) => {
                           {selected ? (
                             <span
                               className={classNames(
-                                active ? "text-white" : "text-orange",
+                                active ? "text-white" : "text-allblack",
                                 "absolute inset-y-0 right-0 flex items-center pr-4"
                               )}
                             >
