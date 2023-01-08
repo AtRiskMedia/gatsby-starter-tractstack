@@ -40,7 +40,7 @@ const Belief = ({ value, cssClasses }) => {
         {({ open }) => (
           <>
             <Listbox.Label className="block text-sm font-medium text-darkgrey">
-              What do you think?
+              {value}: What do you think?
             </Listbox.Label>
             <div className="relative mt-1">
               <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
