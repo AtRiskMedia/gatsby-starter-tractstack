@@ -34,6 +34,8 @@ module.exports = {
     "sm:py-20",
     "sm:px-6",
     "lg:px-8",
+    "grid",
+    "place-items-center",
   ],
   theme: {
     extend: {

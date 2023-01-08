@@ -7,7 +7,6 @@ import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
 
 const likertscale = [
-  { id: 0, name: "Agree or Disagree?", color: "bg-slate-50" },
   { id: 1, name: "Strongly disagree", color: "bg-red-400" },
   { id: 2, name: "Disagree", color: "bg-amber-400" },
   { id: 3, name: "Neither agree nor disagree", color: "bg-slate-200" },
@@ -19,7 +18,7 @@ const Belief = ({ value, cssClasses }) => {
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const updateBeliefs = useAuthStore(state => state.updateBeliefs)
 
-  const [selected, setSelected] = useState(people[3])
+  const [selected, setSelected] = useState(false)
 
   return (
     <div className={cssClasses}>
@@ -27,19 +26,19 @@ const Belief = ({ value, cssClasses }) => {
         {({ open }) => (
           <>
             <Listbox.Label className="block text-sm font-medium text-gray-700">
-              Assigned to
+              What do you think?
             </Listbox.Label>
             <div className="relative mt-1">
               <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
                 <span className="flex items-center">
                   <span
-                    aria-label={selected.online ? "Online" : "Offline"}
+                    aria-label="Color swatch for belief"
                     className={classNames(
-                      selected.online ? "bg-green-400" : "bg-gray-200",
+                      selected.color ? selected.color : "bg-slate-200",
                       "inline-block h-2 w-2 flex-shrink-0 rounded-full"
                     )}
                   />
-                  <span className="ml-3 block truncate">{selected.name}</span>
+                  <span className="ml-3 block truncate">{selected ? selected.name : "Agree or Disagree?"}</span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
