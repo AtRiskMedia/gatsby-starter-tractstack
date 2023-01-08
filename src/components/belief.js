@@ -17,8 +17,22 @@ const likertscale = [
 const Belief = ({ value, cssClasses }) => {
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const updateBeliefs = useAuthStore(state => state.updateBeliefs)
-
   const [selected, setSelected] = useState(false)
+
+  console.log(selected.name)
+  /*
+        updateEventStream(Date.now(), {
+          verb: verb,
+          object_name: revealContext.slug,
+          object_id: contentMap[lookup].id,
+          object_type: "context",
+          duration: duration / 1000,
+          tractStackId: contentMap[lookup].tractStackId,
+          tractStackSlug: contentMap[lookup].tractStackSlug,
+          storyFragmentId: contentMap[lookup].tractStackId,
+          storyFragmentSlug: contentMap[lookup].tractStackSlug,
+        })
+    */
 
   return (
     <div className={cssClasses}>
@@ -107,7 +121,7 @@ const Belief = ({ value, cssClasses }) => {
           </>
         )}
       </Listbox>
-    </div>
+    </div >
   )
 
   //return <span>{value}</span>
