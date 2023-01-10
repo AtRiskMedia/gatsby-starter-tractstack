@@ -21,8 +21,8 @@ const Context = ({ children }) => {
       duration > readThreshold
         ? "read"
         : duration > softReadThreshold
-        ? "glossed"
-        : null
+          ? "glossed"
+          : null
     let lookup = false
     for (let [key, value] of Object.entries(contentMap)) {
       if (value.slug === revealContext.slug) lookup = key
@@ -50,16 +50,25 @@ const Context = ({ children }) => {
           duration > readThreshold
             ? "read"
             : duration > softReadThreshold
-            ? "glossed"
-            : null
-        if (verb)
+              ? "glossed"
+              : null
+        let lookup = false
+        for (let [key, value] of Object.entries(contentMap)) {
+          if (value.slug === revealContext.slug) lookup = key
+        }
+        if (verb && lookup)
           updateEventStream(Date.now(), {
             verb: verb,
             object_name: revealContext.slug,
-            object_id: contentMap[revealContext.slug].id,
+            object_id: contentMap[lookup].id,
             object_type: "context",
             duration: duration / 1000,
+            tractStackId: contentMap[lookup].tractStackId,
+            tractStackSlug: contentMap[lookup].tractStackSlug,
+            storyFragmentId: contentMap[lookup].tractStackId,
+            storyFragmentSlug: contentMap[lookup].tractStackSlug,
           })
+        updateRevealContext("reveal", undefined)
         updateRevealContext("slug", undefined)
       }
     }
