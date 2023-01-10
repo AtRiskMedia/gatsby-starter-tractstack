@@ -52,13 +52,7 @@ const TractStack = fingerprint => {
     "text-md text-gray-500 mt-4 md:max-w-2xl",
     masked ? "line-through" : ""
   )
-  const GraphLink = (
-    <>
-      {" "}
-      Check out the <Link to={"/graph"}>knowledge graph</Link> to see this in
-      real-time!{" "}
-    </>
-  )
+
   return (
     <div className="divide-y divide-gray-200 lg:col-span-9">
       <div className="py-6 px-4 sm:p-6 lg:pb-8">
@@ -82,7 +76,8 @@ const TractStack = fingerprint => {
           site, we may make recommendations for free supports and resources.
         </p>
         <p className="text-md text-gray-500 mt-4 md:max-w-2xl italic">
-          <GraphLink />
+          Check out the <Link to={"/graph"}>knowledge graph</Link> to see this
+          in real-time!{" "}
         </p>
       </div>
     </div>
@@ -132,6 +127,7 @@ const Header = ({ siteTitle, contextPayload }) => {
   const authData = useAuthStore(state => state.authData)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const knownLead = authData.knownLead
+  const badLogin = authData.badLogin
   const emailConflict = authData.emailConflict
   const authenticated = authData.authenticated
   let lookup = false
@@ -219,7 +215,8 @@ const Header = ({ siteTitle, contextPayload }) => {
                                             element={
                                               (knownLead && !authenticated) ||
                                               (!authenticated &&
-                                                emailConflict) ? (
+                                                emailConflict) ||
+                                              badLogin ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />
@@ -231,7 +228,8 @@ const Header = ({ siteTitle, contextPayload }) => {
                                             element={
                                               (knownLead && !authenticated) ||
                                               (!authenticated &&
-                                                emailConflict) ? (
+                                                emailConflict) ||
+                                              badLogin ? (
                                                 <ConciergeAuthenticate />
                                               ) : (
                                                 <ConciergeProfile />

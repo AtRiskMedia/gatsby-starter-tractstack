@@ -324,6 +324,7 @@ const RenderedStoryFragment = ({ data }) => {
   const authenticated = useAuthStore(state => state.authData.authenticated)
   const encryptedEmail = useAuthStore(state => state.authData.encryptedEmail)
   const encryptedCode = useAuthStore(state => state.authData.encryptedCode)
+  const badLogin = useAuthStore(state => state.authData.badLogin)
   const fingerprint = useAuthStore(state => state.fingerprint)
   const validToken = useAuthStore(state => state.validToken)
   const fingerprintCheck = useAuthStore(state => state.fingerprintCheck)
@@ -342,7 +343,6 @@ const RenderedStoryFragment = ({ data }) => {
     state => state.updateEventStreamCleanup
   )
   const updateContentMap = useStoryStepStore(state => state.updateContentMap)
-  const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const panesVisible = useStoryStepStore(state => state.panesVisible)
   const revealContext = useStoryStepStore(state => state.revealContext)
   const eventStream = useStoryStepStore(state => state.eventStream)
@@ -364,7 +364,6 @@ const RenderedStoryFragment = ({ data }) => {
           updateRevealContext: updateRevealContext,
           updateContentMap: updateContentMap,
           processRead: processRead,
-          updateEventStream: updateEventStream,
           navigate: navigate,
           belief: Belief,
         },
@@ -473,8 +472,7 @@ const RenderedStoryFragment = ({ data }) => {
       typeof revealContext["slug"] === "string" &&
       Date.now() - revealContext["reveal"] < 1000
     ) {
-      const element = document.getElementById(`context`)
-      element.scrollIntoView()
+      document.getElementById(`context`).scrollIntoView()
     }
   }, [doContext, updateRevealContext, panesVisible, revealContext])
 
@@ -497,7 +495,7 @@ const RenderedStoryFragment = ({ data }) => {
   }, [doFingerprint, setFingerprint, setFingerprintCheck])
 
   useEffect(() => {
-    if (doCheck && !loggingIn) {
+    if (doCheck && !loggingIn && !badLogin) {
       setLoggingIn(1)
       getTokens(fingerprint)
         .then(res => {

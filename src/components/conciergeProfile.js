@@ -79,6 +79,11 @@ const ConciergeProfile = () => {
             getTokens(fingerprint, codeword, authData.email)
               .then(res => {
                 login(res)
+                document.getElementById(`rooted`).scrollIntoView({
+                  behavior: 'auto',
+                  block: 'center',
+                  inline: 'center'
+                })
               })
               .catch(e => {
                 console.log("An error occurred.", e)
@@ -97,35 +102,35 @@ const ConciergeProfile = () => {
   }
   const Icon =
     personaSelected.title === "Infrequent" ||
-    personaSelected.title === "Major Updates Only"
+      personaSelected.title === "Major Updates Only"
       ? ArrowPathRoundedSquareIcon
       : personaSelected.title === "All Updates"
-      ? BoltIcon
-      : BellSlashIcon
+        ? BoltIcon
+        : BellSlashIcon
   const iconClass =
     personaSelected.title === "Infrequent"
       ? "text-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "text-darkgrey"
-      : personaSelected.title === "All Updates"
-      ? "text-blue"
-      : "text-darkgrey"
+        ? "text-darkgrey"
+        : personaSelected.title === "All Updates"
+          ? "text-blue"
+          : "text-darkgrey"
   const barClass =
     personaSelected.title === "Infrequent"
       ? "bg-blue"
       : personaSelected.title === "Major Updates Only"
-      ? "bg-lightgrey"
-      : personaSelected.title === "All Updates"
-      ? "bg-green"
-      : "bg-darkgrey"
+        ? "bg-lightgrey"
+        : personaSelected.title === "All Updates"
+          ? "bg-green"
+          : "bg-darkgrey"
   const barWidth =
     personaSelected.title === "Infrequent"
       ? "40%"
       : personaSelected.title === "Major Updates Only"
-      ? "20%"
-      : personaSelected.title === "All Updates"
-      ? "98%"
-      : "2%"
+        ? "20%"
+        : personaSelected.title === "All Updates"
+          ? "98%"
+          : "2%"
 
   useEffect(() => {
     if (doGetProfile) {
@@ -161,7 +166,7 @@ const ConciergeProfile = () => {
   return (
     <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl mb-16">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
+        <h2 id="rooted" className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
           We are rooted in community.
         </h2>
         <p className="mt-4 mb-6 text-xl text-gray-700">

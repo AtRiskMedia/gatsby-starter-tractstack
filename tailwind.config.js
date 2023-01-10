@@ -59,7 +59,7 @@ module.exports = {
         r9xl: "calc(var(--scale) * 8rem)",
       },
       zIndex: {
-        70010: "70010", // impressions 
+        70010: "70010", // impressions
         70020: "70020",
         70030: "70030",
         80010: "80010", // context

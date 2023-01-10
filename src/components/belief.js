@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useState, useEffect } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import { classNames } from "gatsby-plugin-tractstack"
 
-import { useStoryStepStore } from "../stores/storyStep"
 import { useAuthStore } from "../stores/authStore"
+import { useStoryStepStore } from "../stores/storyStep"
 
 const likertscale = [
   { id: 1, name: "Strongly disagree", color: "bg-red-400" },
@@ -17,31 +17,34 @@ const likertscale = [
 const Belief = ({ value, cssClasses }) => {
   const updateEventStream = useStoryStepStore(state => state.updateEventStream)
   const updateBeliefs = useAuthStore(state => state.updateBeliefs)
-  const [selected, setSelected] = useState(false)
-
-  console.log(selected.name)
-  /*
-        updateEventStream(Date.now(), {
-          verb: verb,
-          object_name: revealContext.slug,
-          object_id: contentMap[lookup].id,
-          object_type: "context",
-          duration: duration / 1000,
-          tractStackId: contentMap[lookup].tractStackId,
-          tractStackSlug: contentMap[lookup].tractStackSlug,
-          storyFragmentId: contentMap[lookup].tractStackId,
-          storyFragmentSlug: contentMap[lookup].tractStackSlug,
-        })
-    */
+  const beliefs = useAuthStore(state => state.beliefs)
+  const thisBelief = beliefs[value]
+  const selectedOffset =
+    typeof thisBelief === "string"
+      ? likertscale.filter(e => e.name === beliefs[value])[0]
+      : false
+  const [selected, setSelected] = useState(selectedOffset)
+  let lastSelected = false
+  useEffect(() => {
+    if (
+      (selected?.name && !lastSelected) ||
+      (selected?.name && selected.name !== lastSelected)
+    ) {
+      lastSelected = selected.name
+      updateBeliefs(value, selected.name)
+      updateEventStream(Date.now(), {
+        verb: selected.name,
+        object_name: value,
+        object_type: "belief",
+      })
+    }
+  }, [selected])
 
   return (
     <div className={cssClasses}>
       <Listbox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            <Listbox.Label className="block text-sm font-medium text-darkgrey">
-              {value}: What do you think?
-            </Listbox.Label>
             <div className="relative mt-1">
               <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
                 <span className="flex items-center">
@@ -52,7 +55,9 @@ const Belief = ({ value, cssClasses }) => {
                       "inline-block h-2 w-2 flex-shrink-0 rounded-full"
                     )}
                   />
-                  <span className="ml-3 block truncate">{selected ? selected.name : "Agree or Disagree?"}</span>
+                  <span className="ml-3 block truncate">
+                    {selected ? selected.name : "Agree or Disagree?"}
+                  </span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
@@ -108,7 +113,10 @@ const Belief = ({ value, cssClasses }) => {
                                 "absolute inset-y-0 right-0 flex items-center pr-4"
                               )}
                             >
-                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
                             </span>
                           ) : null}
                         </>
@@ -121,7 +129,7 @@ const Belief = ({ value, cssClasses }) => {
           </>
         )}
       </Listbox>
-    </div >
+    </div>
   )
 
   //return <span>{value}</span>

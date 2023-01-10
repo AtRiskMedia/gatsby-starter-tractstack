@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
 import { classNames } from "gatsby-plugin-tractstack"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 
@@ -6,18 +7,19 @@ import { useAuthStore } from "../stores/authStore"
 import { getTokens } from "../api/axiosClient"
 
 const ConciergeAuthenticate = () => {
-  // if lead is known, pre-inject these values with an unlocking workflow - codeword match
   const authData = useAuthStore(state => state.authData)
+  const updateAuthData = useAuthStore(state => state.updateAuthData)
   const emailConflict = authData.emailConflict
   const knownEmail = authData.email
   const knownFirstName = authData.firstname
+  const badLogin = authData.badLogin
   const authenticated = authData.authenticated
   const [email, setEmail] = useState(
     typeof emailConflict === "string" && emailConflict
       ? emailConflict
       : typeof knownEmail === "string" && knownEmail
-      ? knownEmail
-      : ""
+        ? knownEmail
+        : ""
   )
   const [codeword, setCodeword] = useState("")
   const [submitted, setSubmitted] = useState(false)
@@ -31,11 +33,19 @@ const ConciergeAuthenticate = () => {
     if (email && codeword && !loggingIn) {
       getTokens(fingerprint, codeword, email)
         .then(res => {
-          if (res.tokens !== null) login(res)
-          else setSuccess(-1)
+          if (res.tokens !== null) {
+            login(res)
+            navigate("/")
+          } else {
+            setSuccess(-1)
+            console.log("bad")
+            updateAuthData("badLogin", true)
+          }
         })
         .catch(() => {
           setSuccess(-1)
+          console.log("bad")
+          updateAuthData("badLogin", true)
         })
         .finally(setLoggingIn(0))
     }
@@ -89,9 +99,7 @@ const ConciergeAuthenticate = () => {
                   : "border-gray-300"
               )}
             />
-            {success === -1 ? (
-              <span className="text-xs px-2 text-red-500">INCORRECT.</span>
-            ) : submitted && codeword === "" ? (
+            {submitted && codeword === "" ? (
               <span className="text-xs px-2 text-red-500">Required field.</span>
             ) : (
               <></>
@@ -124,8 +132,8 @@ const ConciergeAuthenticate = () => {
               <span className="text-xs px-2 text-red-500">Required field.</span>
             )}
           </div>
-          {success === -1 ? (
-            <div className="col-span-3 italic text-darkgrey">
+          {success === -1 || badLogin ? (
+            <div className="col-span-3 italic text-red-500">
               <p>
                 Those credentials did not match our records. Please try again.
               </p>

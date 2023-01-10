@@ -51,6 +51,7 @@ const authDataSchema = {
   authenticated: false,
   knownLead: false,
   emailConflict: "",
+  badLogin: false,
 }
 
 export const useAuthStore = create((set, get) => ({
@@ -62,7 +63,6 @@ export const useAuthStore = create((set, get) => ({
   authData: {
     ...authDataSchema,
   },
-  beliefs: {},
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === "object" &&
@@ -74,13 +74,14 @@ export const useAuthStore = create((set, get) => ({
     localStorage.getItem("validToken") !== null
       ? localStorage.getItem("validToken")
       : false,
-  updateAuthData: (key, value) =>
-    set(state => ({
-      authData: { ...state.authData, [key]: value },
-    })),
+  beliefs: {},
   updateBeliefs: (key, value) =>
     set(state => ({
       beliefs: { ...state.beliefs, [key]: value },
+    })),
+  updateAuthData: (key, value) =>
+    set(state => ({
+      authData: { ...state.authData, [key]: value },
     })),
   setFingerprint: fingerprint => {
     set(state => ({ ...state, fingerprint: fingerprint }))
@@ -125,6 +126,7 @@ export const useAuthStore = create((set, get) => ({
         accessToken: accessToken,
         fingerprint: fingerprint,
         validToken: true,
+        authData: { ...state.authData, badLogin: false },
       }))
       if (emailConflict)
         set(state => ({
@@ -144,6 +146,10 @@ export const useAuthStore = create((set, get) => ({
         }))
         console.log("authenticated")
       } else {
+        set(authData => ({
+          ...authData,
+          badLogin: false,
+        }))
         console.log("not authenticated")
       }
       if (encryptedEmail && encryptedCode) {
