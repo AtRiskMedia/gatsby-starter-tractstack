@@ -21,7 +21,6 @@ import H5P from "../components/H5P"
 import Belief from "../components/belief"
 import storyFragmentCompositor from "../components/storyFragmentCompositor"
 import usePrefersReducedMotion from "../components/prefersReducedMotion"
-import Form from "../components/Form"
 import Footer from "../components/footer"
 
 export const query = graphql`
@@ -314,7 +313,6 @@ export const query = graphql`
 `
 
 const codeHooks = {
-  contact: Form,
   H5P: H5P,
 }
 
@@ -506,7 +504,7 @@ const RenderedStoryFragment = ({ data }) => {
         })
         .finally(setLoggingIn(0))
     }
-  }, [doCheck, fingerprint, login, loggingIn, setLoggingIn])
+  }, [doCheck, badLogin, fingerprint, login, loggingIn, setLoggingIn])
 
   useInterval(() => {
     const now = Date.now()

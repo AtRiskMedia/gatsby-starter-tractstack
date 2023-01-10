@@ -24,13 +24,14 @@ const Belief = ({ value, cssClasses }) => {
       ? likertscale.filter(e => e.name === beliefs[value])[0]
       : false
   const [selected, setSelected] = useState(selectedOffset)
-  let lastSelected = false
+  const [lastSelected, setLastSelected] = useState(false)
+
   useEffect(() => {
     if (
       (selected?.name && !lastSelected) ||
       (selected?.name && selected.name !== lastSelected)
     ) {
-      lastSelected = selected.name
+      setLastSelected(selected.name)
       updateBeliefs(value, selected.name)
       updateEventStream(Date.now(), {
         verb: selected.name,
@@ -38,7 +39,7 @@ const Belief = ({ value, cssClasses }) => {
         object_type: "belief",
       })
     }
-  }, [selected])
+  }, [value, selected, lastSelected, updateBeliefs, updateEventStream, setLastSelected])
 
   return (
     <div className={cssClasses}>
