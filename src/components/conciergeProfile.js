@@ -171,7 +171,7 @@ const ConciergeProfile = () => {
         </h2>
         <p className="mt-4 mb-6 text-xl text-gray-700">
           {authData.authenticated ? (
-            <>Welcome back, {authData.firstname}.</>
+            <>Welcome back, {authData.firstname} ({fingerprint}).</>
           ) : (
             <>
               Introduce yourself to unlock special offers and personalized
