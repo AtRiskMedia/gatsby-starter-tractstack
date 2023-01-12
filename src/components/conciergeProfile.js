@@ -59,7 +59,7 @@ const ConciergeProfile = () => {
   const [loggingIn, setLoggingIn] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
   const [dataLoaded, setDataLoaded] = useState(false)
-  const doGetProfile = !dataLoading && !dataLoaded && authData.authenticated
+  const doGetProfile = !dataLoading && !dataLoaded && authData.knownLead
   const handleSubmit = e => {
     e.preventDefault()
     if (authData.firstname && authData.email && codeword && !loggingIn) {
