@@ -10,6 +10,7 @@ import Footer from './Footer'
 import Product from '../shopify-components/Product'
 import H5P from './H5P'
 import codeHooks from './codehooks'
+import Logo from '../../assets/logo.svg'
 import {
   ICodeHookProps,
   ICodeHookIframeProps,
@@ -127,7 +128,7 @@ const StoryFragmentRender = ({
     const hasCodeHook: any = thisPane.hasCodeHook
     const thisPaneChildren =
       hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+        (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
         <CodeHookIframe
           thisId={thisId}
           payload={hasCodeHook}
@@ -168,8 +169,8 @@ const StoryFragmentRender = ({
               duration > readThreshold
                 ? `read`
                 : duration > softReadThreshold
-                ? `glossed`
-                : null
+                  ? `glossed`
+                  : null
             if (verb) {
               const eventPayload = {
                 verb,
@@ -210,7 +211,7 @@ const StoryFragmentRender = ({
       id="loading"
       className="flex flex-row justify-center items-center h-screen w-screen"
     >
-      <h1>Loading</h1>
+      <Logo className="h-12 animate-pulse" />
     </div>
   )
 }
