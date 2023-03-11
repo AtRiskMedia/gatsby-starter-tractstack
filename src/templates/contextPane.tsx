@@ -35,7 +35,13 @@ export default function ContextPage(props: IContextPageProps) {
     tractStackTitle: pageContext.tractStackTitle,
     tractStackSlug: pageContext.tractStackSlug,
   }
-  const payload = Compositor([pageContext.contextPane], ``, hooks, id)
+  const compositorPayload = {
+    panesPayload: [pageContext.contextPane],
+    viewportKey: ``,
+    hooks,
+    id,
+  }
+  const payload = Compositor(compositorPayload)
   const children = payload.contentChildren[`all-${pageContext.id}`]
   function hideContext() {
     const duration = Date.now() - now
