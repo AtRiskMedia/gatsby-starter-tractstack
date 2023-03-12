@@ -86,7 +86,8 @@ export function createAxiosClient({
             return client(originalRequest)
           }, handleError)
           .catch((e) => {
-            console.log(`An error occurred.`, e)
+            logout()
+            return handleError(e)
           })
           .finally(() => {
             isRefreshing = false
