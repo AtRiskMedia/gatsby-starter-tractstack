@@ -15,8 +15,10 @@ const storyFragmentCompositor = ({
   const tractStackTitle = data.relationships.field_tract_stack.title
   const tractStackSlug = data.relationships.field_tract_stack.field_slug
   const panesPayload = data.relationships.field_panes
+  const tailwindBgColour = data.field_tailwind_background_colour || null
   const payload = {
     panesPayload,
+    tailwindBgColour,
     viewportKey,
     hooks,
     id: {

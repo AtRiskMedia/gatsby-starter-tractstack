@@ -19,6 +19,7 @@ export const query = graphql`
       title
       field_slug
       field_social_image_path
+      field_tailwind_background_colour
       relationships {
         field_tract_stack {
           id

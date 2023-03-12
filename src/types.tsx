@@ -228,6 +228,7 @@ export interface IContextPanesPayload {
 export interface IStoryFragmentCompositorPayload {
   field_slug: string
   field_social_image_path: string | null
+  field_tailwind_background_colour: string | null
   id: string
   title: string
   relationships: {

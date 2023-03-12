@@ -12,6 +12,7 @@ module.exports = {
     "align-bottom",
     "before:align-bottom",
     "block",
+    "bg-black",
     "bg-darkgrey",
     "bg-lightgrey",
     "bg-green",

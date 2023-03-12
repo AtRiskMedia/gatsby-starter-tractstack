@@ -120,6 +120,11 @@ const StoryFragmentRender = ({
     (state) => state.updateEventStream,
   )
   const storyFragment = payload?.storyFragment[`${viewportKey}-${payload.id}`]
+  const storyFragmentPayload: any = payload.contentMap[payload.id]
+  const tailwindBgColour =
+    typeof storyFragmentPayload?.tailwindBgColour === `string`
+      ? storyFragmentPayload.tailwindBgColour
+      : ``
   const paneIds = storyFragment?.paneIds
   const thisStoryFragment = paneIds?.map((p: string) => {
     const thisPane = payload.contentMap[p]
@@ -127,7 +132,7 @@ const StoryFragmentRender = ({
     const hasCodeHook: any = thisPane.hasCodeHook
     const thisPaneChildren =
       hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+        (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
         <CodeHookIframe
           thisId={thisId}
           payload={hasCodeHook}
@@ -152,7 +157,7 @@ const StoryFragmentRender = ({
     return (
       <section
         key={`${viewportKey}-${p}-wrapper`}
-        className="w-full h-fit-content overflow-hidden bg-slate-100"
+        className="w-full h-fit-content overflow-hidden"
         id={`wrapper-${viewportKey}-${p}`}
       >
         <InView
@@ -168,8 +173,8 @@ const StoryFragmentRender = ({
               duration > readThreshold
                 ? `read`
                 : duration > softReadThreshold
-                ? `glossed`
-                : null
+                  ? `glossed`
+                  : null
             if (verb) {
               const eventPayload = {
                 verb,
@@ -200,7 +205,7 @@ const StoryFragmentRender = ({
   }, [thisStoryFragment, paneIds, loaded, setLoaded])
 
   return loaded ? (
-    <div key={`${viewportKey}-${payload.slug}`}>
+    <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
       {payload?.menu ? payload?.menu : null}
       {thisStoryFragment}
       <Footer />
