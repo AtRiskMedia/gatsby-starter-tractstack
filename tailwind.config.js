@@ -60,6 +60,8 @@ module.exports = {
     "items-end",
     "justify-center",
     "justify-end",
+    "leading-5",
+    "leading-6",
     "leading-7",
     "leading-8",
     "leading-10",
