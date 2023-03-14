@@ -9,7 +9,7 @@ function setTokensToLocalStorage(tokens: ITokens) {
       typeof tokens.accessToken === `string` ? tokens.accessToken : ``,
     )
     if (typeof tokens.fingerprint === `string` && tokens.fingerprint.length > 0)
-      localStorage.setItem(`fingerprint`, tokens.fingerprint)
+      localStorage.setItem(`party`, tokens.fingerprint)
     if (typeof tokens.accessToken === `string`)
       localStorage.setItem(`validToken`, `true`)
     else localStorage.setItem(`validToken`, `false`)
@@ -25,7 +25,7 @@ function setTokensToLocalStorage(tokens: ITokens) {
 function removeTokensFromLocalStorage() {
   if (typeof localStorage === `object`) {
     localStorage.removeItem(`accessToken`)
-    localStorage.removeItem(`fingerprint`)
+    localStorage.removeItem(`party`)
     localStorage.removeItem(`firstname`)
     localStorage.removeItem(`validToken`)
     localStorage.removeItem(`email`)
@@ -36,7 +36,7 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === `object` &&
-    localStorage.getItem(`firstname`) !== null
+      localStorage.getItem(`firstname`) !== null
       ? localStorage.getItem(`firstname`)
       : null,
   encryptedEmail:
@@ -59,7 +59,7 @@ const authDataSchema = {
 export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   accessToken:
     typeof localStorage === `object` &&
-    localStorage.getItem(`accessToken`) !== null
+      localStorage.getItem(`accessToken`) !== null
       ? localStorage.getItem(`accessToken`)
       : null,
   authData: {
@@ -68,8 +68,8 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   fingerprintCheck: false,
   fingerprint:
     typeof localStorage === `object` &&
-    localStorage.getItem(`fingerprint`) !== null
-      ? localStorage.getItem(`fingerprint`)
+      localStorage.getItem(`party`) !== null
+      ? localStorage.getItem(`party`)
       : null,
   validToken: !!(
     typeof localStorage === `object` &&
@@ -150,7 +150,6 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
     set((state) => ({
       ...state,
       accessToken: null,
-      fingerprint: undefined,
       authData: { ...authDataSchema },
       validToken: false,
     }))
