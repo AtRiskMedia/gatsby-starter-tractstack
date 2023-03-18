@@ -77,7 +77,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     set((state) => ({
       storySteps: { ...state.storySteps, [key]: { type, id: last } },
     }))
-    if (type === `storyFragment`) set((state) => ({ ...state, last }))
+    if (type === `storyFragment`)
+      set((state) => ({ ...state, lastStoryFragment: last }))
   },
   updatePanesRead: (key: string, value: string) =>
     set((state) => ({
