@@ -9,6 +9,7 @@ export const useProductData = () => {
             node {
               id
               title
+              handle
               description
               productType
               priceRangeV2 {

@@ -371,3 +371,13 @@ export interface ICollectionsRouteProps {
     }
   }
 }
+
+export interface IProductCollectionsRouteProps {
+  data: {
+    shopifyProduct: {
+      title: string
+      id: string
+      handle: string
+    }
+  }
+}
