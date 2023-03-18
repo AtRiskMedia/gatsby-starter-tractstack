@@ -477,11 +477,6 @@ nav.menu-default a:hover {
   color: var(--colour-green);
 }
 
-div#context {
-  min-height: 100vh;
-  position: absolute;
-  top: 0;
-}
 aside#controller {
   position: fixed;
   bottom: 4vh;

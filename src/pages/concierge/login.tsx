@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
 import { classNames } from 'gatsby-plugin-tractstack'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../../stores/authStore'
+import { useStoryStepStore } from '../../stores/storyStep'
 import { getTokens } from '../../api/axiosClient'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
@@ -12,6 +13,8 @@ import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 
 const ConciergeLogin = () => {
+  const [loaded, setLoaded] = useState<boolean>(false)
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const authData = useAuthStore((state) => state.authData)
   const updateAuthData = useAuthStore((state) => state.updateAuthData)
   const emailConflict = authData.emailConflict
@@ -51,6 +54,13 @@ const ConciergeLogin = () => {
     }
     setSubmitted(true)
   }
+
+  useEffect(() => {
+    if (!loaded) {
+      setLastStoryStep(`login`, `conciergePage`)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, setLastStoryStep])
 
   return (
     <>

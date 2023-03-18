@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useInterval } from 'gatsby-plugin-tractstack'
 
@@ -20,17 +20,21 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
 `
 
 const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
+  const [loaded, setLoaded] = useState<boolean>(false)
   const lookup = `${viewportKey}-${payload.id}`
   const storyFragment = payload.storyFragment[lookup]
   const tractStackId = payload.tractStackId
   const contentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
+  const lastStoryFragment = useStoryStepStore(
+    (state) => state.lastStoryFragment,
+  )
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
   )
-  const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
-  const setGotoLastPane = useStoryStepStore((state) => state.setGotoLastPane)
   const eventStream = useStoryStepStore((state) => state.eventStream)
+  const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const lastSync = useAuthStore((state) => state.lastSync)
   const setLastSync = useAuthStore((state) => state.setLastSync)
@@ -39,9 +43,9 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
     typeof eventStream === `object` &&
     Object.keys(eventStream).length > 0 &&
     (!lastSync || Date.now() - lastSync > config.conciergeSync * 2)
+  const thisCss = storyFragment?.css || ``
   const impressions =
     typeof storyFragment !== `undefined` ? storyFragment.impressions : null
-  const thisCss = storyFragment?.css || ``
   const impressionPanes: any[] = []
   Object.keys(panesVisible).forEach((key) => {
     if (typeof panesVisible[key] === `number` && impressions?.key) {
@@ -49,6 +53,8 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
       else impressionPanes.push(key)
     }
   })
+  const gotoPane =
+    gotoLastPane && viewportKey ? `${viewportKey}-${gotoLastPane}` : null
 
   useEffect(() => {
     if (forceSync) {
@@ -81,14 +87,19 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   }, config.conciergeSync)
 
   useEffect(() => {
-    if (gotoLastPane) {
-      const lastPane = document.getElementById(`${viewportKey}-${gotoLastPane}`)
-      if (lastPane) {
-        lastPane.scrollIntoView()
-        setGotoLastPane()
-      }
+    if (loaded && gotoPane) {
+      const lastPane = document.getElementById(gotoPane)
+      if (lastPane) lastPane.scrollIntoView()
     }
-  }, [viewportKey, gotoLastPane, setGotoLastPane])
+  }, [loaded, gotoPane])
+
+  useEffect(() => {
+    if (!loaded) {
+      if (lastStoryFragment !== payload.slug)
+        setLastStoryStep(payload.slug, `storyFragment`)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, lastStoryFragment, payload.slug, setLastStoryStep])
 
   return (
     <>

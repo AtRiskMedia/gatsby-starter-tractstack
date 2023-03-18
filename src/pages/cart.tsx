@@ -29,7 +29,7 @@ const Cart = () => {
 
   return (
     <>
-      <Header siteTitle="Powered by Tract Stack" open={true} />
+      <Header siteTitle="Powered by Tract Stack" open={false} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 sm:px-4 lg:px-6 lg:py-6">
@@ -37,9 +37,9 @@ const Cart = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <div className="lg:col-span-12">
                   <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:px-0">
-                    <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                       Shopping Cart
-                    </h1>
+                    </h2>
 
                     {emptyCart ? (
                       <>

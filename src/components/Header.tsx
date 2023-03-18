@@ -1,8 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
-import { navigate } from 'gatsby'
 import { TractStackIcon } from 'gatsby-plugin-tractstack'
-import { LockClosedIcon, HomeIcon } from '@heroicons/react/24/outline'
+import { BackwardIcon, BeakerIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
@@ -13,37 +12,36 @@ import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '../types'
 import { config } from '../../data/SiteConfig'
 
-const Header = ({ siteTitle, open = false, masked = false }: IHeaderProps) => {
+const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   const processRead = useStoryStepStore((state) => state.processRead)
-  const last = useStoryStepStore((state) => state.last)
+  const lastStoryFragment = useStoryStepStore(
+    (state) => state.lastStoryFragment,
+  )
   const checkout = useShopifyStore((state) => state.checkout)
   const items = checkout ? checkout.lineItems : []
   const quantity = items.reduce((total: any, item: any) => {
     return total + item.quantity
   }, 0)
+  const storySteps = useStoryStepStore((state) => state.storySteps)
+  const hasStorySteps = Object.keys(storySteps).length > 1
+  const regExp = `/${config.home}/(600|1080|1920)/`
+  const isHome =
+    typeof window !== `undefined`
+      ? window.location.pathname.match(regExp)?.length
+      : false
 
   function navigateHome() {
-    const regExp = `/${config.home}/(600|1080|1920)/`
-    const thisViewport =
-      typeof window === `undefined`
-        ? false
-        : window.innerWidth < 801
-        ? `600`
-        : window.innerWidth < 1367
-        ? `1080`
-        : `1920`
-    const goto = window.location.pathname.match(regExp)?.length
-      ? false
-      : `/${config.home}/${thisViewport}`
-    if (goto) navigate(goto)
+    processRead(config.home)
+  }
+  function navigateBreadcrumbs() {
+    processRead(`/breadcrumbs`)
   }
   function reveal() {
-    processRead()
-    navigate(`/concierge/profile`)
+    processRead(`/concierge/profile`)
   }
   function hide() {
-    if (last && typeof last === `string`) navigate(last)
-    else navigate(`/`)
+    const goto = lastStoryFragment || config.home || `/`
+    processRead(goto)
   }
 
   const initialize = useShopifyStore((state) => state.initialize)
@@ -71,60 +69,63 @@ const Header = ({ siteTitle, open = false, masked = false }: IHeaderProps) => {
   useEffect(() => {
     function handleEscapeKey(event: any) {
       if (event.code === `Escape`) {
-        if (last && typeof last === `string`) navigate(last)
-        else navigate(`/`)
+        if (lastStoryFragment && typeof lastStoryFragment === `string`)
+          processRead(lastStoryFragment)
+        else processRead(`/`)
       }
     }
     if (open) {
       document.addEventListener(`keydown`, handleEscapeKey)
       return () => document.removeEventListener(`keydown`, handleEscapeKey)
     }
-  }, [open, last])
+  }, [open, lastStoryFragment, processRead])
 
   return (
-    <header>
-      <div className="mx-auto flex justify-between px-4 py-5 sm:px-6 sm:py-4 md:space-x-10 lg:px-8 bg-lightgrey shadow-inner shadow-darkgrey">
+    <header className="relative z-90000">
+      <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-lightgrey shadow-inner shadow-darkgrey">
         <div className="flex flex-nowrap">
-          <button onClick={() => navigateHome()}>
-            <HomeIcon className="h-6 w-6 pb-1" />
-          </button>
-          {` `}
-          &nbsp; | &nbsp;{` `}
-          <h1 className="text-xl leading-none mb-0 flex items-center">
+          <h1 className="text-xl leading-none mb-0 flex items-center font-action">
             {siteTitle}
           </h1>
         </div>
         <div className="inline-flex">
-          {masked ? (
-            <>
-              <span className="sr-only">
-                Privacy-first browser detected. All concierge services
-                disengaged!
-              </span>
-              <LockClosedIcon
-                className="h-6 w-6"
-                aria-hidden="true"
-                title="Privacy-first browser detected. All concierge services disengaged!"
-              />
-            </>
-          ) : !open ? (
-            <button onClick={() => reveal()}>
+          {open ? (
+            <button className="hover:text-blue mx-2" onClick={() => hide()}>
+              <span className="sr-only">Hide concierge panel</span>
+              <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
+            </button>
+          ) : !isHome ? (
+            <button
+              className="mx-2 hover:text-blue"
+              onClick={() => navigateHome()}
+            >
+              <BackwardIcon className="h-8 w-8" title="Go to Home Page" />
+            </button>
+          ) : null}
+          {hasStorySteps ? (
+            <button
+              className="mx-2 hover:text-blue"
+              onClick={() => navigateBreadcrumbs()}
+            >
+              <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
+            </button>
+          ) : null}
+          {!open ? (
+            <button
+              className="mx-2 hover:text-blue"
+              onClick={() => reveal()}
+              title="Visit the Concierge"
+            >
               <span className="sr-only">Open concierge panel</span>
               <span>
                 <img
-                  alt="At Risk Media logo"
-                  height={`30px`}
-                  style={{ margin: 0, maxHeight: `30px` }}
+                  alt="Tract Stack logo. An impossibe square."
+                  className="h-8 w-8"
                   src={TractStackIcon}
                 />
               </span>
             </button>
-          ) : (
-            <button className="hover:text-blue" onClick={() => hide()}>
-              <span className="sr-only">Hide concierge panel</span>
-              Go Back
-            </button>
-          )}
+          ) : null}
           {config.initializeShopify && quantity > 0 ? (
             <CartButton quantity={quantity} />
           ) : null}

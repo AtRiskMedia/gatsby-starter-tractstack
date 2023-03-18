@@ -7,9 +7,12 @@ import {
   BeakerIcon,
   ShieldCheckIcon,
   DocumentTextIcon,
+  BackwardIcon,
 } from '@heroicons/react/24/outline'
 
+import { useStoryStepStore } from '../stores/storyStep'
 import { IConciergeNavProps } from '../types'
+import { config } from '../../data/SiteConfig'
 
 const _subNavigation = ({ active, auth = false }: IConciergeNavProps) => {
   const notAuth = [
@@ -55,6 +58,11 @@ const _subNavigation = ({ active, auth = false }: IConciergeNavProps) => {
 
 const ConciergeNav = ({ active, auth }: IConciergeNavProps) => {
   const subNavigation = _subNavigation({ active, auth })
+  const processRead = useStoryStepStore((state) => state.processRead)
+  function navigateHome() {
+    processRead(config.home)
+  }
+
   return (
     <>
       {subNavigation.map((item) => (
@@ -81,6 +89,18 @@ const ConciergeNav = ({ active, auth }: IConciergeNavProps) => {
           <span className="truncate">{item.name}</span>
         </Link>
       ))}
+      <a
+        href="#"
+        key="close"
+        onClick={() => navigateHome()}
+        className="border-transparent text-gray-900 hover:bg-slate-200 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+      >
+        <BackwardIcon
+          className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -m1-1 mr-3 h-6 w-6"
+          aria-hidden="true"
+        />
+        <span className="truncate">Close this Panel</span>
+      </a>
     </>
   )
 }

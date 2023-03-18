@@ -57,6 +57,7 @@ module.exports = {
         80020: "80020",
         80030: "80030",
         90000: "90000", // for beliefs widget
+        90001: "90001", // for header
       },
       colors: {
         white: "#fcfcfc",

@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { useAuthStore } from '../../stores/authStore'
+import { useStoryStepStore } from '../../stores/storyStep'
 import { saveProfile, initProfile } from '../../api/services'
 import { getTokens, getProfile } from '../../api/axiosClient'
 import Seo from '../../components/Seo'
@@ -48,11 +49,13 @@ const contactPersonaOptions = [
 ]
 
 const ConciergeProfile = () => {
+  const [loaded, setLoaded] = useState<boolean>(false)
   const [codeword, setCodeword] = useState(``)
   const [submitted, setSubmitted] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
   const [dataLoaded, setDataLoaded] = useState(false)
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const authData: IAuthStorePayload = useAuthStore((state) => state.authData)
   const [show, setShow] = useState(!authData.authenticated)
   const updateAuthData = useAuthStore((state) => state.updateAuthData)
@@ -183,6 +186,13 @@ const ConciergeProfile = () => {
         .finally(() => setDataLoading(false))
     }
   }, [doGetProfile, setDataLoading, setDataLoaded, authData, updateAuthData])
+
+  useEffect(() => {
+    if (!loaded) {
+      setLastStoryStep(`profile`, `conciergePage`)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, setLastStoryStep])
 
   return (
     <>
