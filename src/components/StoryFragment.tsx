@@ -48,7 +48,11 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
     typeof storyFragment !== `undefined` ? storyFragment.impressions : null
   const impressionPanes: any[] = []
   Object.keys(panesVisible).forEach((key) => {
-    if (typeof panesVisible[key] === `number` && impressions?.key) {
+    if (
+      typeof panesVisible[key] === `number` &&
+      impressions &&
+      typeof impressions[key] !== `undefined`
+    ) {
       if (panesVisible.last === key) impressionPanes.unshift(key)
       else impressionPanes.push(key)
     }

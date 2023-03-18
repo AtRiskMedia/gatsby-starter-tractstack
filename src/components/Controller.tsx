@@ -34,11 +34,11 @@ const Impression = ({ payload }: IImpressionProps) => {
   if (typeof payload !== `object`) return <></>
   return (
     <>
-      <h3 className="text-rlg sm:text-lg font-medium leading-6 text-allblack">
+      <h3 className="text-lg font-action leading-6 text-allblack">
         {payload.title}
       </h3>
       <div className="mt-2 sm:flex sm:items-start sm:justify-between">
-        <div className="max-w-xl text-rsm sm:text-sm text-darkgrey">
+        <div className="max-w-xl text-md text-allblack">
           <p>
             {payload.body}
             {` `}

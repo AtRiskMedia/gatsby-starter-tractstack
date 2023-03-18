@@ -41,6 +41,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   }
   function hide() {
     const goto = lastStoryFragment || config.home || `/`
+    console.log(lastStoryFragment, goto)
     processRead(goto)
   }
 
