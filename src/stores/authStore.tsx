@@ -36,7 +36,7 @@ function removeTokensFromLocalStorage() {
 const authDataSchema = {
   firstname:
     typeof localStorage === `object` &&
-      localStorage.getItem(`firstname`) !== null
+    localStorage.getItem(`firstname`) !== null
       ? localStorage.getItem(`firstname`)
       : null,
   encryptedEmail:
@@ -59,7 +59,7 @@ const authDataSchema = {
 export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   accessToken:
     typeof localStorage === `object` &&
-      localStorage.getItem(`accessToken`) !== null
+    localStorage.getItem(`accessToken`) !== null
       ? localStorage.getItem(`accessToken`)
       : null,
   authData: {
@@ -67,8 +67,7 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   },
   fingerprintCheck: false,
   fingerprint:
-    typeof localStorage === `object` &&
-      localStorage.getItem(`party`) !== null
+    typeof localStorage === `object` && localStorage.getItem(`party`) !== null
       ? localStorage.getItem(`party`)
       : null,
   validToken: !!(

@@ -25,4 +25,26 @@ export const config: ISiteConfig = {
   ],
   localStorageKey: `shopify_checkout_id`,
   initializeShopify: true,
+  conciergeNav: [
+    {
+      id: "profile",
+      href: "/concierge/profile",
+      title: "Your Profile | Tract Stack concierge"
+    },
+    {
+      id: "graph",
+      href: "/concierge/graph",
+      title: "Knowledge Graph | Tract Stack concierge"
+    },
+    {
+      id: "login",
+      href: "/concierge/login",
+      title: "Login | Tract Stack concierge"
+    },
+    {
+      id: "zeroParty",
+      href: "/concierge/zeroParty",
+      title: "Your Profile | Tract Stack concierge"
+    }
+  ]
 }

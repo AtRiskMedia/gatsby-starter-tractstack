@@ -1,16 +1,26 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'gatsby'
 
 import { useAuthStore } from '../../stores/authStore'
+import { useStoryStepStore } from '../../stores/storyStep'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 
 const ZeroParty = () => {
+  const [loaded, setLoaded] = useState<boolean>(false)
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const authData = useAuthStore((state) => state.authData)
   const authenticated = authData.authenticated
+
+  useEffect(() => {
+    if (!loaded) {
+      setLastStoryStep(`zeroParty`, `conciergePage`)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, setLastStoryStep])
 
   return (
     <>

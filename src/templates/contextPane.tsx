@@ -2,20 +2,25 @@
 import React, { useEffect, useState } from 'react'
 import { navigate } from 'gatsby'
 import { Compositor } from 'gatsby-plugin-tractstack'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
 import Belief from '../components/Belief'
+import Header from '../components/Header'
+
 import { IContextPageProps } from '../types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
 export default function ContextPage(props: IContextPageProps) {
+  const [loaded, setLoaded] = useState<boolean>(false)
   const { pageContext } = props
-  const last = useStoryStepStore((state) => state.last)
+  const lastStoryFragment = useStoryStepStore(
+    (state) => state.lastStoryFragment,
+  )
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
@@ -29,7 +34,13 @@ export default function ContextPage(props: IContextPageProps) {
     getImage,
   }
   const [now] = useState(Date.now())
-  const goto = typeof last === `string` ? last : `/`
+  const thisWidth = typeof window !== `undefined` ? window?.innerWidth : `600`
+  const viewportWidth =
+    thisWidth < 801 ? `600` : thisWidth < 1367 ? `1080` : `1920`
+  const goto =
+    typeof lastStoryFragment === `string`
+      ? `/${lastStoryFragment}/${viewportWidth}`
+      : `/`
   const id = {
     tractStackId: pageContext.tractStackId,
     tractStackTitle: pageContext.tractStackTitle,
@@ -42,27 +53,9 @@ export default function ContextPage(props: IContextPageProps) {
     id,
   }
   const payload = Compositor(compositorPayload)
+  const title = payload.contentMap[pageContext.id].title
   const children = payload.contentChildren[`all-${pageContext.id}`]
-  function hideContext() {
-    const duration = Date.now() - now
-    const verb =
-      duration > readThreshold
-        ? `read`
-        : duration > softReadThreshold
-        ? `glossed`
-        : null
-    if (verb) {
-      const eventPayload = {
-        verb,
-        id: pageContext.id,
-        type: `Context`,
-        duration: duration / 1000,
-      }
-      updateEventStream(Date.now(), eventPayload)
-    }
-    processRead()
-    navigate(goto)
-  }
+  const thisSlug = payload.contentMap[pageContext.id].slug
 
   useEffect(() => {
     function handleEscapeKey(event: any) {
@@ -91,21 +84,24 @@ export default function ContextPage(props: IContextPageProps) {
     return () => document.removeEventListener(`keydown`, handleEscapeKey)
   }, [updateEventStream, processRead, goto, now, pageContext.id])
 
+  useEffect(() => {
+    if (!loaded) {
+      setLastStoryStep(thisSlug, `contextPane`)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, thisSlug, setLastStoryStep])
+
   return (
-    <div id="context" className="z-80010 bg-slate-200 w-full">
-      <button
-        type="button"
-        className="z-70020 fixed right-2 md:right-8 top-2 md:top-8 rounded-md bg-darkgrey text-white hover:text-orange hover:bg-black focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
-        onClick={() => hideContext()}
-      >
-        <span className="sr-only">Return to last pane</span>
-        <XMarkIcon
-          className="h-8 md:h-16 w-8 md:w-16"
-          aria-hidden="true"
-          title="Return to Story Fragment"
-        />
-      </button>
-      {children}
-    </div>
+    <>
+      <Header siteTitle={title} open={false} />
+      <div id="context" className="z-80010 relative w-full">
+        {children}
+      </div>
+      <div className="fixed inset-0 flex justify-center sm:px-6">
+        <div className="flex w-full max-w-7xl lg:px-12">
+          <div className="w-full bg-slate-50 opacity-30 ring-1 ring-lightgrey py-24"></div>
+        </div>
+      </div>
+    </>
   )
 }

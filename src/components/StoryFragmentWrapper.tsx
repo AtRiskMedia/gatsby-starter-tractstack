@@ -27,11 +27,11 @@ const StoryFragmentWrapper = ({
   useEffect(() => {
     if (typeof fingerprint === `object` && fingerprint === null) {
       const fpPromise = FingerprintJS.load()
-        ; (async () => {
-          const fp = await fpPromise
-          const result = await fp.get()
-          setFingerprint(result.visitorId)
-        })()
+      ;(async () => {
+        const fp = await fpPromise
+        const result = await fp.get()
+        setFingerprint(result.visitorId)
+      })()
     }
   }, [fingerprint, setFingerprint])
 
@@ -44,8 +44,8 @@ const StoryFragmentWrapper = ({
           encryptedEmail.length > 0 &&
           typeof encryptedCode === `string` &&
           encryptedCode.length > 0
-          ? true
-          : !validToken
+        ? true
+        : !validToken
 
     if (
       lastRun + 2000 < Date.now() &&
@@ -85,16 +85,16 @@ const StoryFragmentWrapper = ({
         thisViewportKey === `mobile`
           ? `600`
           : thisViewportKey === `tablet`
-            ? 1080
-            : 1920
+          ? 1080
+          : 1920
       if (thisViewportKey !== viewportKey)
         navigate(`/${payload.slug}/${thisViewport}`)
       const thisScale =
         thisWidth < 801
           ? (thisWidth - scrollBarOffset) / 600
           : thisWidth < 1367
-            ? (thisWidth - scrollBarOffset) / 1080
-            : (thisWidth - scrollBarOffset) / 1920
+          ? (thisWidth - scrollBarOffset) / 1080
+          : (thisWidth - scrollBarOffset) / 1920
       document.documentElement.style.setProperty(
         `--scale`,
         thisScale.toString(),

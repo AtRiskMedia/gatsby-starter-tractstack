@@ -113,10 +113,16 @@ export interface IStoryStepStoreState {
   panesRead: any
   eventStream: IEventStreamDict
   gotoLastPane: string | null
-  last: string | null
+  lastStoryFragment: string | null
+  storySteps: {
+    [key: string]: {
+      type: string
+      id: string
+    }
+  }
   processRead: Function
   setGotoLastPane: Function
-  setLast: Function
+  setLastStoryStep: Function
   updatePanesRead: Function
   updatePanesVisible: Function
   updateEventStream: Function
@@ -127,7 +133,11 @@ interface ISiteConfigSocialItem {
   name: string
   href: string
 }
-
+interface ISiteConfigNavItem {
+  id: string
+  href: string
+  title: string
+}
 export interface ISiteConfig {
   home: string
   readThreshold: number
@@ -139,6 +149,7 @@ export interface ISiteConfig {
   social: ISiteConfigSocialItem[]
   localStorageKey: string
   initializeShopify: boolean
+  conciergeNav: ISiteConfigNavItem[]
 }
 
 export interface IContextPageProps {
@@ -270,7 +281,6 @@ export interface INavLinkProps {
 export interface IHeaderProps {
   siteTitle: string
   open: boolean
-  masked?: boolean
 }
 
 export interface IH5PProps {
