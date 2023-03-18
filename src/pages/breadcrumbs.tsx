@@ -39,6 +39,15 @@ export const query = graphql`
         }
       }
     }
+    allShopifyProduct(filter: { status: { eq: ACTIVE } }) {
+      edges {
+        node {
+          id
+          title
+          handle
+        }
+      }
+    }
   }
 `
 
@@ -46,6 +55,7 @@ const Breadcrumbs = (data: any) => {
   const storySteps = useStoryStepStore((state) => state.storySteps)
   const storyFragments = data.data.allNodeStoryFragment.edges
   const tractStacks = data.data.allNodeTractstack.edges
+  const products = data.data.allShopifyProduct.edges
   const contextPanes: any[] = []
   storyFragments.forEach((e: any) => {
     e.node.relationships.field_context_panes.forEach((p: any) => {
@@ -63,6 +73,10 @@ const Breadcrumbs = (data: any) => {
   const hasBreadcrumbs = Object.keys(storySteps)?.length
   const breadcrumbs = Object.keys(storySteps)?.map((e: any, i: number) => {
     const thisSlug = storySteps[e].id
+    const isProduct = storySteps[e].type === `product` ? storySteps[e].id : null
+    const product = isProduct
+      ? products.filter((e: any) => e?.node?.handle === isProduct)[0].node
+      : null
     const thisStoryFragmentPayload = storyFragments?.filter(
       (e: any) => e.node.field_slug === thisSlug,
     )
@@ -74,36 +88,42 @@ const Breadcrumbs = (data: any) => {
     )
     const type =
       thisStoryFragmentPayload &&
-        thisStoryFragmentPayload[0] &&
-        thisStoryFragmentPayload[0].node
+      thisStoryFragmentPayload[0] &&
+      thisStoryFragmentPayload[0].node
         ? `storyFragment`
         : thisContextPanePayload &&
           thisContextPanePayload[0] &&
           thisContextPanePayload[0].title
-          ? `contextPane`
-          : thisConciergePagePayload && thisConciergePagePayload[0]
-            ? `conciergePage`
-            : null
+        ? `contextPane`
+        : thisConciergePagePayload && thisConciergePagePayload[0]
+        ? `conciergePage`
+        : isProduct
+        ? `product`
+        : null
     const thisPayload =
       type === `storyFragment`
         ? thisStoryFragmentPayload &&
-        thisStoryFragmentPayload[0] &&
-        thisStoryFragmentPayload[0].node
+          thisStoryFragmentPayload[0] &&
+          thisStoryFragmentPayload[0].node
         : type === `contextPane`
-          ? thisContextPanePayload &&
+        ? thisContextPanePayload &&
           thisContextPanePayload[0] &&
           thisContextPanePayload[0]
-          : type === `conciergePage`
-            ? thisConciergePagePayload && thisConciergePagePayload[0]
-            : null
+        : type === `conciergePage`
+        ? thisConciergePagePayload && thisConciergePagePayload[0]
+        : isProduct
+        ? product
+        : null
     const thisTo =
       type === `storyFragment`
         ? `/${thisPayload.field_slug}/${viewportWidth}`
         : type === `contextPane`
-          ? `/context/${thisPayload.field_slug}`
-          : type === `conciergePage`
-            ? `/concierge/${thisPayload.id}`
-            : null
+        ? `/context/${thisPayload.field_slug}`
+        : type === `conciergePage`
+        ? `/concierge/${thisPayload.id}`
+        : type === `product`
+        ? `/products/${thisPayload.handle}`
+        : null
     if (thisPayload && thisTo)
       return (
         <p key={`${thisPayload.id}-${i}`} className="text-center p-6">
