@@ -36,16 +36,15 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   )
   const eventStream = useStoryStepStore((state) => state.eventStream)
   const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
-  console.log(`gotoLastPane`, gotoLastPane)
   const resetGotoLastPane = useStoryStepStore(
     (state) => state.resetGotoLastPane,
   )
   const gotoPane =
     gotoLastPane &&
-    gotoLastPane[0] &&
-    gotoLastPane[1] &&
-    gotoLastPane[1] === payload.slug &&
-    viewportKey
+      gotoLastPane[0] &&
+      gotoLastPane[1] &&
+      gotoLastPane[1] === payload.slug &&
+      viewportKey
       ? `${viewportKey}-${gotoLastPane[0]}`
       : null
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
@@ -120,7 +119,6 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   ])
 
   useEffect(() => {
-    console.log(loaded, scrollTo.length, scrollTo)
     if (loaded && scrollTo.length > 1) {
       const lastPane =
         typeof document !== `undefined` && typeof gotoPane === `string`
