@@ -16,7 +16,9 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   gotoLastPane: [null, null],
   lastStoryStep: null,
   currentStoryStep: null,
+  currentStoryStepCount: null,
   storySteps: {},
+  pastStorySteps: {},
   processRead: (goto: string, mode: string, parent?: string) => {
     // when goto is set, processRead can apply glossed; else only apply read
     let offset = 0
@@ -84,17 +86,27 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     }))
   },
   setLastStoryStep: (last: string, type: string) => {
-    const key = Date.now().toString()
+    const newTimecode = Date.now().toString()
     const newLast = get().currentStoryStep
     set((state) => ({
-      storySteps: { ...state.storySteps, [key]: { type, id: last } },
+      storySteps: { ...state.storySteps, [newTimecode]: { type, id: last } },
     }))
-    if (last !== newLast)
+    if (last !== newLast) {
+      const lastCount = get().currentStoryStepCount
+      const newCount = lastCount ? (parseInt(lastCount) + 1).toString() : `0`
+      set((state) => ({
+        pastStorySteps: {
+          ...state.pastStorySteps,
+          [newCount]: { timecode: newTimecode },
+        },
+      }))
       set((state) => ({
         ...state,
         lastStoryStep: newLast,
         currentStoryStep: last,
+        currentStoryStepCount: newCount,
       }))
+    }
   },
   updatePanesRead: (key: string, value: string) =>
     set((state) => ({

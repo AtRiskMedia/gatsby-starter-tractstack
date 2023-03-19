@@ -115,10 +115,16 @@ export interface IStoryStepStoreState {
   gotoLastPane: [string | null, string | null]
   lastStoryStep: string | null
   currentStoryStep: string | null
+  currentStoryStepCount: string | null
   storySteps: {
     [key: string]: {
       type: string
       id: string
+    }
+  }
+  pastStorySteps: {
+    [key: string]: {
+      timecode: string
     }
   }
   processRead: Function
