@@ -27,6 +27,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     const lastStoryFragment = get().lastStoryFragment
     if (parent && mode === `context`)
       setGotoLastPane([parent, lastStoryFragment])
+    if (parent && mode === `context`) console.log([parent, lastStoryFragment])
     const eventStream = get().eventStream
     const updateEventStream = get().updateEventStream
     const updatePanesVisible = get().updatePanesVisible
@@ -76,8 +77,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       gotoLastPane: [null, null],
     }))
   },
-  setGotoLastPane: () => {
-    const lastPane = get().panesVisible.last
+  setGotoLastPane: (lastPane: string) => {
     const lastStoryFragment = get().lastStoryFragment
     if (lastPane && lastStoryFragment)
       set((state) => ({
