@@ -21,6 +21,7 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
 
 const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [scrollTo, setScrollTo] = useState<String>(``)
   const lookup = `${viewportKey}-${payload.id}`
   const storyFragment = payload.storyFragment[lookup]
   const tractStackId = payload.tractStackId
@@ -35,6 +36,17 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   )
   const eventStream = useStoryStepStore((state) => state.eventStream)
   const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
+  const resetGotoLastPane = useStoryStepStore(
+    (state) => state.resetGotoLastPane,
+  )
+  const gotoPane =
+    gotoLastPane &&
+    gotoLastPane[0] &&
+    gotoLastPane[1] &&
+    gotoLastPane[1] === payload.slug &&
+    viewportKey
+      ? `${viewportKey}-${gotoLastPane[0]}`
+      : null
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const lastSync = useAuthStore((state) => state.lastSync)
   const setLastSync = useAuthStore((state) => state.setLastSync)
@@ -57,8 +69,6 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
       else impressionPanes.push(key)
     }
   })
-  const gotoPane =
-    gotoLastPane && viewportKey ? `${viewportKey}-${gotoLastPane}` : null
 
   useEffect(() => {
     if (forceSync) {
@@ -91,19 +101,34 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   }, config.conciergeSync)
 
   useEffect(() => {
-    if (loaded && gotoPane) {
-      const lastPane = document.getElementById(gotoPane)
-      if (lastPane) lastPane.scrollIntoView()
-    }
-  }, [loaded, gotoPane])
-
-  useEffect(() => {
     if (!loaded) {
-      if (lastStoryFragment !== payload.slug)
+      if (lastStoryFragment !== payload.slug) {
         setLastStoryStep(payload.slug, `storyFragment`)
+      }
+      if (gotoPane) setScrollTo(gotoPane)
       setLoaded(true)
     }
-  }, [loaded, setLoaded, lastStoryFragment, payload.slug, setLastStoryStep])
+  }, [
+    loaded,
+    gotoPane,
+    setLoaded,
+    setScrollTo,
+    lastStoryFragment,
+    payload.slug,
+    setLastStoryStep,
+  ])
+
+  useEffect(() => {
+    if (loaded && scrollTo.length > 1) {
+      const lastPane =
+        typeof document !== `undefined` && typeof gotoPane === `string`
+          ? document.getElementById(gotoPane)
+          : null
+      if (lastPane) lastPane.scrollIntoView()
+      setScrollTo(``)
+      resetGotoLastPane()
+    }
+  }, [loaded, resetGotoLastPane, gotoPane, scrollTo, setScrollTo])
 
   return (
     <>

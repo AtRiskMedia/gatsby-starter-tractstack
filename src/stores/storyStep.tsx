@@ -13,10 +13,10 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   },
   panesRead: {},
   eventStream: {},
-  gotoLastPane: null,
+  gotoLastPane: [null, null],
   lastStoryFragment: null,
   storySteps: {},
-  processRead: (goto: string) => {
+  processRead: (goto: string, mode: string, parent?: string) => {
     // when goto is set, processRead can apply glossed; else only apply read
     let offset = 0
     const now = Date.now()
@@ -24,7 +24,9 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     const panesRead = get().panesRead
     const updatePanesRead = get().updatePanesRead
     const setGotoLastPane = get().setGotoLastPane
-    if (panesVisible.last) setGotoLastPane(panesVisible.last)
+    const lastStoryFragment = get().lastStoryFragment
+    if (parent && mode === `context`)
+      setGotoLastPane([parent, lastStoryFragment])
     const eventStream = get().eventStream
     const updateEventStream = get().updateEventStream
     const updatePanesVisible = get().updatePanesVisible
@@ -68,9 +70,20 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       else navigate(`/${goto}/${viewport}`)
     }
   },
+  resetGotoLastPane: () => {
+    set((state) => ({
+      ...state,
+      gotoLastPane: [null, null],
+    }))
+  },
   setGotoLastPane: () => {
     const lastPane = get().panesVisible.last
-    set((state) => ({ ...state, gotoLastPane: lastPane }))
+    const lastStoryFragment = get().lastStoryFragment
+    if (lastPane && lastStoryFragment)
+      set((state) => ({
+        ...state,
+        gotoLastPane: [lastPane, lastStoryFragment],
+      }))
   },
   setLastStoryStep: (last: string, type: string) => {
     const key = Date.now().toString()

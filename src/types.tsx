@@ -112,7 +112,7 @@ export interface IStoryStepStoreState {
   panesVisible: any
   panesRead: any
   eventStream: IEventStreamDict
-  gotoLastPane: string | null
+  gotoLastPane: [string | null, string | null]
   lastStoryFragment: string | null
   storySteps: {
     [key: string]: {
@@ -121,6 +121,7 @@ export interface IStoryStepStoreState {
     }
   }
   processRead: Function
+  resetGotoLastPane: Function
   setGotoLastPane: Function
   setLastStoryStep: Function
   updatePanesRead: Function
