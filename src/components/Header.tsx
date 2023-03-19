@@ -111,10 +111,10 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
               <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
             </button>
           ) : null}
-          {loaded && !open ? (
+          {loaded ? (
             <button
               className="mx-2 hover:text-blue"
-              onClick={() => reveal()}
+              onClick={() => (!open ? reveal() : hide())}
               title="Visit the Concierge"
             >
               <span className="sr-only">Open concierge panel</span>
@@ -125,11 +125,6 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
                   src={TractStackIcon}
                 />
               </span>
-            </button>
-          ) : loaded ? (
-            <button className="hover:text-blue mx-2" onClick={() => hide()}>
-              <span className="sr-only">Hide concierge panel</span>
-              <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
             </button>
           ) : null}
           {loaded && config.initializeShopify && quantity > 0 ? (
