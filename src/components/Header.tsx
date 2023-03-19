@@ -13,6 +13,7 @@ import { IHeaderProps } from '../types'
 import { config } from '../../data/SiteConfig'
 
 const Header = ({ siteTitle, open = false }: IHeaderProps) => {
+  const [loaded, setLoaded] = useState(false)
   const processRead = useStoryStepStore((state) => state.processRead)
   const lastStoryFragment = useStoryStepStore(
     (state) => state.lastStoryFragment,
@@ -80,6 +81,10 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     }
   }, [open, lastStoryFragment, processRead])
 
+  useEffect(() => {
+    if (!loaded) setLoaded(true)
+  }, [loaded, setLoaded])
+
   return (
     <header className="relative z-90000">
       <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-lightgrey shadow-inner shadow-darkgrey">
@@ -89,11 +94,11 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
           </h1>
         </div>
         <div className="inline-flex">
-          {!isHome && hasStorySteps ? (
+          {loaded && !isHome && hasStorySteps ? (
             <button className="mx-2 hover:text-blue" onClick={() => hide()}>
               <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
             </button>
-          ) : !isHome ? (
+          ) : loaded && !isHome ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => navigateHome()}
@@ -101,7 +106,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
               <BackwardIcon className="h-8 w-8" title="Go to Home Page" />
             </button>
           ) : null}
-          {hasStorySteps ? (
+          {loaded && hasStorySteps ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => navigateBreadcrumbs()}
@@ -109,7 +114,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
               <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
             </button>
           ) : null}
-          {!open ? (
+          {loaded && !open ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => reveal()}
@@ -124,13 +129,13 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
                 />
               </span>
             </button>
-          ) : (
+          ) : loaded ? (
             <button className="hover:text-blue mx-2" onClick={() => hide()}>
               <span className="sr-only">Hide concierge panel</span>
               <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
             </button>
-          )}
-          {config.initializeShopify && quantity > 0 ? (
+          ) : null}
+          {loaded && config.initializeShopify && quantity > 0 ? (
             <CartButton quantity={quantity} />
           ) : null}
         </div>
