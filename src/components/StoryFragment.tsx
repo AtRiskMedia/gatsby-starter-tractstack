@@ -27,9 +27,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   const tractStackId = payload.tractStackId
   const contentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
-  const lastStoryFragment = useStoryStepStore(
-    (state) => state.lastStoryFragment,
-  )
+  const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
@@ -41,10 +39,10 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   )
   const gotoPane =
     gotoLastPane &&
-      gotoLastPane[0] &&
-      gotoLastPane[1] &&
-      gotoLastPane[1] === payload.slug &&
-      viewportKey
+    gotoLastPane[0] &&
+    gotoLastPane[1] &&
+    gotoLastPane[1] === payload.slug &&
+    viewportKey
       ? `${viewportKey}-${gotoLastPane[0]}`
       : null
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
@@ -102,9 +100,8 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
 
   useEffect(() => {
     if (!loaded) {
-      if (lastStoryFragment !== payload.slug) {
+      if (lastStoryStep !== payload.slug)
         setLastStoryStep(payload.slug, `storyFragment`)
-      }
       if (gotoPane) setScrollTo(gotoPane)
       setLoaded(true)
     }
@@ -113,7 +110,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
     gotoPane,
     setLoaded,
     setScrollTo,
-    lastStoryFragment,
+    lastStoryStep,
     payload.slug,
     setLastStoryStep,
   ])

@@ -17,9 +17,7 @@ const softReadThreshold = config.softReadThreshold
 export default function ContextPage(props: IContextPageProps) {
   const [loaded, setLoaded] = useState<boolean>(false)
   const { pageContext } = props
-  const lastStoryFragment = useStoryStepStore(
-    (state) => state.lastStoryFragment,
-  )
+  const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
@@ -38,8 +36,8 @@ export default function ContextPage(props: IContextPageProps) {
   const viewportWidth =
     thisWidth < 801 ? `600` : thisWidth < 1367 ? `1080` : `1920`
   const goto =
-    typeof lastStoryFragment === `string`
-      ? `/${lastStoryFragment}/${viewportWidth}`
+    typeof lastStoryStep === `string`
+      ? `/${lastStoryStep}/${viewportWidth}`
       : `/`
   const id = {
     tractStackId: pageContext.tractStackId,

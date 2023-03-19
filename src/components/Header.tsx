@@ -15,9 +15,7 @@ import { config } from '../../data/SiteConfig'
 const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   const [loaded, setLoaded] = useState(false)
   const processRead = useStoryStepStore((state) => state.processRead)
-  const lastStoryFragment = useStoryStepStore(
-    (state) => state.lastStoryFragment,
-  )
+  const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
   const checkout = useShopifyStore((state) => state.checkout)
   const items = checkout ? checkout.lineItems : []
   const quantity = items.reduce((total: any, item: any) => {
@@ -41,7 +39,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     processRead(`/concierge/profile`)
   }
   function hide() {
-    const goto = lastStoryFragment || config.home || `/`
+    const goto = lastStoryStep || config.home || `/`
     processRead(goto)
   }
 
@@ -70,8 +68,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   useEffect(() => {
     function handleEscapeKey(event: any) {
       if (event.code === `Escape`) {
-        if (lastStoryFragment && typeof lastStoryFragment === `string`)
-          processRead(lastStoryFragment)
+        if (lastStoryStep) processRead(lastStoryStep)
         else processRead(`/`)
       }
     }
@@ -79,7 +76,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
       document.addEventListener(`keydown`, handleEscapeKey)
       return () => document.removeEventListener(`keydown`, handleEscapeKey)
     }
-  }, [open, lastStoryFragment, processRead])
+  }, [open, lastStoryStep, processRead])
 
   useEffect(() => {
     if (!loaded) setLoaded(true)
