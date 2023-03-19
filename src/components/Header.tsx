@@ -41,7 +41,6 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   }
   function hide() {
     const goto = lastStoryFragment || config.home || `/`
-    console.log(lastStoryFragment, goto)
     processRead(goto)
   }
 
@@ -90,9 +89,8 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
           </h1>
         </div>
         <div className="inline-flex">
-          {open ? (
-            <button className="hover:text-blue mx-2" onClick={() => hide()}>
-              <span className="sr-only">Hide concierge panel</span>
+          {!isHome && hasStorySteps ? (
+            <button className="mx-2 hover:text-blue" onClick={() => hide()}>
               <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
             </button>
           ) : !isHome ? (
@@ -126,7 +124,12 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
                 />
               </span>
             </button>
-          ) : null}
+          ) : (
+            <button className="hover:text-blue mx-2" onClick={() => hide()}>
+              <span className="sr-only">Hide concierge panel</span>
+              <BackwardIcon className="h-8 w-8" title="Go to Last Page" />
+            </button>
+          )}
           {config.initializeShopify && quantity > 0 ? (
             <CartButton quantity={quantity} />
           ) : null}

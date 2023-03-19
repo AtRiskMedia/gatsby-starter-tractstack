@@ -163,7 +163,6 @@ const StoryFragmentRender = ({
         <InView
           onEnter={() => {
             updatePanesVisible(p, Date.now())
-            updatePanesVisible(`last`, p)
           }}
           onLeave={() => {
             const now = Date.now()
