@@ -27,7 +27,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   const tractStackId = payload.tractStackId
   const contentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
-  const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
+  const currentStoryStep = useStoryStepStore((state) => state.currentStoryStep)
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
@@ -100,7 +100,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
 
   useEffect(() => {
     if (!loaded) {
-      if (lastStoryStep !== payload.slug)
+      if (currentStoryStep !== payload.slug)
         setLastStoryStep(payload.slug, `storyFragment`)
       if (gotoPane) setScrollTo(gotoPane)
       setLoaded(true)
@@ -110,9 +110,9 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
     gotoPane,
     setLoaded,
     setScrollTo,
-    lastStoryStep,
     payload.slug,
     setLastStoryStep,
+    currentStoryStep,
   ])
 
   useEffect(() => {
