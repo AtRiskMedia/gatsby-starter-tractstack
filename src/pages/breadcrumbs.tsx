@@ -71,7 +71,7 @@ const Breadcrumbs = (data: any) => {
   const viewportWidth =
     thisWidth < 801 ? `600` : thisWidth < 1367 ? `1080` : `1920`
   const hasBreadcrumbs = Object.keys(storySteps)?.length
-  var memory: any[] = []
+  const memory: any[] = []
   const breadcrumbs = Object.keys(storySteps)?.map((e: any, i: number) => {
     if (memory.includes(storySteps[e].id)) return null
     else memory.push(storySteps[e].id)
