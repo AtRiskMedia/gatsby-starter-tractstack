@@ -15,16 +15,21 @@ module.exports = {
       },
       keyframes: {
         fadeIn: {
-          "0%": { opacity: "0" },
+          "0%": { opacity: ".25" },
           "100%": { opacity: "1" },
         },
         fadeInUp: {
-          "0%": { transform: "translate3d(0, 10px, 0)", opacity: "0" },
+          "0%": { transform: "translate3d(0, 10px, 0)", opacity: ".25" },
+          "100%": { transform: "translate3d(0, 0, 0)", opacity: "1" },
+        },
+        fadeInRight: {
+          "0%": { transform: "translate3d(-10px,0, 0)", opacity: ".25" },
           "100%": { transform: "translate3d(0, 0, 0)", opacity: "1" },
         },
       },
       lineHeight: {
         12: "3rem",
+        14: "3.5rem",
       },
       screens: {
         md: "801px",

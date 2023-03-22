@@ -55,6 +55,13 @@ body {
 .bg-blue-gradient {
   background: linear-gradient(120deg, #10263f 0%, #10120d 50%, #10263f 100%);
 }
+.bg-white-green-gradient {
+  background: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%); 
+}
+.fill-white-green-gradient {
+  fill: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%); 
+}
+
 
 .pane {
   display: grid;
@@ -436,10 +443,10 @@ nav.menu-default p {
 }
 
 .menu__branding {
-  color: var(--colour-green);
+  color: #c8df8c;
 }
 .menu__slogan {
-  color: var(--colour-lightgrey);
+  color: #a7b1b7;
 }
 .menu {
   display: flex;
@@ -465,16 +472,16 @@ nav.menu-default li {
 
 nav.menu-default a {
   position: relative;
-  color: var(--colour-white);
+  color: #fcfcfc;
   text-decoration: none;
 }
 
 nav.menu-default a.is-active {
-  color: var(--colour-green);
+  color: #c8df8c;
 }
 
 nav.menu-default a:hover {
-  color: var(--colour-green);
+  color: #c8df8c;
 }
 
 aside#controller {

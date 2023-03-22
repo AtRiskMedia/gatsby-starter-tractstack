@@ -31,12 +31,14 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     return total + item.quantity
   }, 0)
   const hasStorySteps = Object.keys(storySteps).length > 1
-  const viewport = typeof window === `undefined` ? `1920` :
-    window?.innerWidth < 801
+  const viewport =
+    typeof window === `undefined`
+      ? `1920`
+      : window?.innerWidth < 801
       ? `600`
       : window?.innerWidth < 1367
-        ? `1080`
-        : `1920`
+      ? `1080`
+      : `1920`
   const goBackPayload =
     parseInt(lastStoryStepCount) > 0
       ? storySteps[pastStorySteps[lastStoryStepCount].timecode]
@@ -46,12 +48,12 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     goBackPayload?.type === `storyFragment`
       ? `/${goBackPayload.id}/${viewport}`
       : goBackPayload?.type === `content`
-        ? `/context/${goBackPayload.id}`
-        : goBackPayload?.type === `products`
-          ? `/products/${goBackPayload.id}`
-          : goBackPayload?.type === `concierge`
-            ? `/concierge/${goBackPayload.id}`
-            : `/`
+      ? `/context/${goBackPayload.id}`
+      : goBackPayload?.type === `products`
+      ? `/products/${goBackPayload.id}`
+      : goBackPayload?.type === `concierge`
+      ? `/concierge/${goBackPayload.id}`
+      : `/`
   function navigateBreadcrumbs() {
     processRead(`/breadcrumbs`)
   }
