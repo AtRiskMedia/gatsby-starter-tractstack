@@ -91,42 +91,42 @@ const Breadcrumbs = (data: any) => {
     )
     const type =
       thisStoryFragmentPayload &&
-      thisStoryFragmentPayload[0] &&
-      thisStoryFragmentPayload[0].node
+        thisStoryFragmentPayload[0] &&
+        thisStoryFragmentPayload[0].node
         ? `storyFragment`
         : thisContextPanePayload &&
           thisContextPanePayload[0] &&
           thisContextPanePayload[0].title
-        ? `contextPane`
-        : thisConciergePagePayload && thisConciergePagePayload[0]
-        ? `conciergePage`
-        : isProduct
-        ? `product`
-        : null
+          ? `contextPane`
+          : thisConciergePagePayload && thisConciergePagePayload[0]
+            ? `conciergePage`
+            : isProduct
+              ? `product`
+              : null
     const thisPayload =
       type === `storyFragment`
         ? thisStoryFragmentPayload &&
-          thisStoryFragmentPayload[0] &&
-          thisStoryFragmentPayload[0].node
+        thisStoryFragmentPayload[0] &&
+        thisStoryFragmentPayload[0].node
         : type === `contextPane`
-        ? thisContextPanePayload &&
+          ? thisContextPanePayload &&
           thisContextPanePayload[0] &&
           thisContextPanePayload[0]
-        : type === `conciergePage`
-        ? thisConciergePagePayload && thisConciergePagePayload[0]
-        : isProduct
-        ? product
-        : null
+          : type === `conciergePage`
+            ? thisConciergePagePayload && thisConciergePagePayload[0]
+            : isProduct
+              ? product
+              : null
     const thisTo =
       type === `storyFragment`
         ? `/${thisPayload.field_slug}/${viewportWidth}`
         : type === `contextPane`
-        ? `/context/${thisPayload.field_slug}`
-        : type === `conciergePage`
-        ? `/concierge/${thisPayload.id}`
-        : type === `product`
-        ? `/products/${thisPayload.handle}`
-        : null
+          ? `/context/${thisPayload.field_slug}`
+          : type === `conciergePage`
+            ? `/concierge/${thisPayload.id}`
+            : type === `product`
+              ? `/products/${thisPayload.handle}`
+              : null
     if (thisPayload && thisTo)
       return (
         <p key={`${thisPayload.id}-${i}`} className="text-center p-6">
@@ -163,7 +163,7 @@ const Breadcrumbs = (data: any) => {
                   </div>
                 </div>
 
-                <div className="lg:col-span-12 text-center h-64 mb-24">
+                <div className="lg:col-span-12 text-center h-96 mb-24">
                   <Graph />
                 </div>
               </div>
