@@ -21,6 +21,8 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
 
 const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [zoom, setZoom] = useState<boolean>(false)
+  const [zoomOverride, setZoomOverride] = useState<boolean>(false)
   const [scrollTo, setScrollTo] = useState<String>(``)
   const lookup = `${viewportKey}-${payload.id}`
   const storyFragment = payload.storyFragment[lookup]
@@ -67,6 +69,24 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
       else impressionPanes.push(key)
     }
   })
+
+  useEffect(() => {
+    function listenOnDevicePixelRatio() {
+      function onChange() {
+        if (
+          typeof window !== `undefined` &&
+          (window.devicePixelRatio === 1 || window.devicePixelRatio === 2)
+        )
+          setZoom(false)
+        else setZoom(true)
+        listenOnDevicePixelRatio()
+      }
+      matchMedia(
+        `(resolution: ${window?.devicePixelRatio}dppx)`,
+      ).addEventListener(`change`, onChange, { once: true })
+    }
+    listenOnDevicePixelRatio()
+  }, [setZoom])
 
   useEffect(() => {
     if (forceSync) {
@@ -130,9 +150,37 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   return (
     <>
       <main>
-        <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
-          <StoryFragmentRender viewportKey={viewportKey} payload={payload} />
-        </StyledWrapperSection>
+        {!zoom || zoomOverride ? (
+          <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
+            <StoryFragmentRender viewportKey={viewportKey} payload={payload} />
+          </StyledWrapperSection>
+        ) : (
+          <div className="flex items-center justify-center h-screen">
+            <div className="mx-auto max-w-xl text-lg leading-8 text-black">
+              <p className="py-2 font-action">
+                Browser Zoom detected: This may result in glitched text.
+              </p>
+              <p className="py-2">
+                Tract Stack has been built with Accessibility as a priority.
+                Text is in markdown (plaintext) and we strive to always use
+                syntactically correct HTML. A knowledge graph of this
+                website&apos;s content is driving this experience.
+              </p>
+              <p className="py-2">
+                An A11y reader mode is planned for our next version. This will
+                ensure all spaces built on Tract Stack will remain broadly
+                accessible. We apologize for the interim delay!
+              </p>
+              <p className="py-2">
+                We recommend returning your browser Zoom to 100%. If you prefer
+                (knowing you may get some glitched text), you can{` `}
+                <button onClick={() => setZoomOverride(true)}>
+                  override/continue
+                </button>
+              </p>
+            </div>
+          </div>
+        )}
       </main>
       {impressionPanes.length > 0 ? (
         <aside id="controller">
