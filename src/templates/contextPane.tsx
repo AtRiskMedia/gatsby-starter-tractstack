@@ -95,9 +95,9 @@ export default function ContextPage(props: IContextPageProps) {
       <div id="context" className="z-80010 relative w-full">
         {children}
       </div>
-      <div className="fixed inset-0 flex justify-center sm:px-6">
-        <div className="flex w-full max-w-7xl lg:px-12">
-          <div className="w-full bg-slate-50 opacity-30 ring-1 ring-lightgrey py-24"></div>
+      <div className="fixed inset-0 flex justify-center sm:px-6 bg-allwhite">
+        <div className="flex w-full max-w-7xl lg:px-12 bg-white">
+          <div className="w-full ring-1 ring-lightgrey py-24"></div>
         </div>
       </div>
     </>
