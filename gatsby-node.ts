@@ -1,5 +1,5 @@
-import type { GatsbyNode } from 'gatsby';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import type { GatsbyNode } from 'gatsby'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 const path = require(`path`)
 
@@ -10,10 +10,13 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
     resolve: {
       plugins: [new TsconfigPathsPlugin()],
     },
-  });
-};
+  })
+}
 
-export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
+export const createPages: GatsbyNode['createPages'] = async ({
+  graphql,
+  actions,
+}) => {
   const { createPage } = actions
   const contextPaneTemplate = path.resolve(`src/templates/contextPane.tsx`)
   const result: any = await graphql(`
@@ -46,6 +49,20 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
                       childPaneFragment {
                         childMarkdownRemark {
                           htmlAst
+                        }
+                      }
+                      relationships {
+                        field_image {
+                          id
+                          filename
+                          localFile {
+                            publicURL
+                          }
+                          all: localFile {
+                            childImageSharp {
+                              gatsbyImageData(width: 1366, placeholder: BLURRED)
+                            }
+                          }
                         }
                       }
                     }

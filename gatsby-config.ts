@@ -1,6 +1,6 @@
-import type { GatsbyConfig } from 'gatsby';
+import type { GatsbyConfig } from 'gatsby'
 
-require("dotenv").config({
+require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
@@ -10,7 +10,7 @@ const config: GatsbyConfig = {
     description: `Tract Stack: SaaS by At Risk Media | Intelligent no-code landing pages for product-market-fit validation`,
     author: `@AtRiskMedia`,
     siteUrl: `https://tractstack.com/`,
-    image: "tractstack-2023-social.png",
+    image: 'tractstack-2023-social.png',
   },
   //flags: {
   //  DEV_SSR: true
@@ -18,11 +18,11 @@ const config: GatsbyConfig = {
   plugins: [
     `gatsby-plugin-pnpm`,
     {
-      resolve: "gatsby-source-shopify",
+      resolve: 'gatsby-source-shopify',
       options: {
         password: process.env.SHOPIFY_SHOP_PASSWORD,
         storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
-        shopifyConnections: ["collections"],
+        shopifyConnections: ['collections'],
       },
     },
     `gatsby-plugin-typescript`,
@@ -35,7 +35,7 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: "gatsby-plugin-react-svg",
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
           include: /assets/,
@@ -64,14 +64,14 @@ const config: GatsbyConfig = {
         disableVendorPrefixes: true,
       },
     },
-    "gatsby-plugin-postcss",
+    'gatsby-plugin-postcss',
     {
       resolve: `gatsby-transformer-remark`,
     },
-    "gatsby-transformer-tractstack",
-    "gatsby-plugin-tractstack",
+    'gatsby-transformer-tractstack',
+    'gatsby-plugin-tractstack',
     {
-      resolve: "gatsby-source-drupal",
+      resolve: 'gatsby-source-drupal',
       options: {
         baseUrl: process.env.DRUPAL_URL,
         basicAuth: {
@@ -82,6 +82,6 @@ const config: GatsbyConfig = {
     },
   ],
   jsxRuntime: `automatic`,
-};
+}
 
-export default config;
+export default config

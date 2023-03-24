@@ -26,7 +26,7 @@
     "clean": "gatsby clean",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
-    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
+    "format": "prettier --ignore-path .gitignore \"./*.+(ts|js|tsx)\" \"src/**/*.+(ts|js|tsx)\" --write",
     "postinstall": "husky install",
     "test": "vitest",
     "test:watch": "vitest watch"
@@ -52,7 +52,7 @@
     "gatsby-plugin-react-svg": "3.3.0",
     "gatsby-plugin-sharp": "5.7.0",
     "gatsby-plugin-styled-components": "6.7.0",
-    "gatsby-plugin-tractstack": "1.0.10",
+    "gatsby-plugin-tractstack": "1.0.12",
     "gatsby-source-drupal": "6.7.1",
     "gatsby-source-shopify": "8.7.0",
     "gatsby-transformer-remark": "6.7.0",

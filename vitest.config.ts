@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
@@ -13,4 +13,4 @@ export default defineConfig({
       reporter: [`text`, `json`, `html`],
     },
   },
-});
+})
