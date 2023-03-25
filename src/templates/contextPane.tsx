@@ -7,6 +7,7 @@ import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
 import Belief from '../components/Belief'
+import YouTube from '../components/YouTube'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
@@ -27,6 +28,7 @@ export default function ContextPage(props: IContextPageProps) {
   const hooks = {
     navigate,
     belief: Belief,
+    youtube: YouTube,
     updateEventStream,
     processRead,
     GatsbyImage,
@@ -72,21 +74,21 @@ export default function ContextPage(props: IContextPageProps) {
     typeof window === `undefined`
       ? `1920`
       : window?.innerWidth < 801
-        ? `600`
-        : window?.innerWidth < 1367
-          ? `1080`
-          : `1920`
+      ? `600`
+      : window?.innerWidth < 1367
+      ? `1080`
+      : `1920`
   const goBackText = goBackPayload ? `Go to last page` : `Go to home page`
   const goBackTo =
     goBackPayload?.type === `storyFragment`
       ? `/${goBackPayload.id}/${viewport}`
       : goBackPayload?.type === `content`
-        ? `/context/${goBackPayload.id}`
-        : goBackPayload?.type === `products`
-          ? `/products/${goBackPayload.id}`
-          : goBackPayload?.type === `concierge`
-            ? `/concierge/${goBackPayload.id}`
-            : `/`
+      ? `/context/${goBackPayload.id}`
+      : goBackPayload?.type === `products`
+      ? `/products/${goBackPayload.id}`
+      : goBackPayload?.type === `concierge`
+      ? `/concierge/${goBackPayload.id}`
+      : `/`
 
   function hide() {
     navigate(goBackTo)
@@ -100,8 +102,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-              ? `glossed`
-              : null
+            ? `glossed`
+            : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,
@@ -130,11 +132,14 @@ export default function ContextPage(props: IContextPageProps) {
     <>
       <Header siteTitle={title} open={false} />
       <div id="context" className="z-80010 relative w-full min-h-screen">
-        <>
-          {children}
-        </>
-        <div id="context-exit" className="text-center">
-          <button className="rounded-md bg-red-400 hover:bg-allblack hover:text-white px-3.5 py-1.5 text-base font-semibold leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange" onClick={() => hide()}>{goBackText}</button>
+        <>{children}</>
+        <div id="context-exit" className="text-center my-12">
+          <button
+            className="rounded-md bg-red-400 hover:bg-allblack hover:text-white px-3.5 py-1.5 text-base font-semibold leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+            onClick={() => hide()}
+          >
+            {goBackText}
+          </button>
         </div>
       </div>
       <div className="fixed inset-0 flex justify-center sm:px-6 bg-slate-50">

@@ -225,6 +225,7 @@ export interface IMenuPayload {
 
 export interface IStoryFragmentCompositorHooks {
   belief: Function
+  youtube: Function
   processRead: Function
   updateEventStream: Function
   GatsbyImage: Function
@@ -324,6 +325,12 @@ export interface IControllerProps {
 export interface IConciergeNavProps {
   active: string
   auth: boolean
+}
+
+export interface IYouTubeProps {
+  videoId: string
+  title: string
+  cssClasses: string
 }
 
 export interface IBeliefProps {

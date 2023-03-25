@@ -9,6 +9,7 @@ import StoryFragmentWrapper from '../../components/StoryFragmentWrapper'
 import Header from '../../components/Header'
 import Seo from '../../components/Seo'
 import Belief from '../../components/Belief'
+import YouTube from '../../components/YouTube'
 import storyFragmentCompositor from '../../components/storyFragmentCompositor'
 import { IStoryFragmentPayload } from '../../types'
 
@@ -258,6 +259,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
     viewportKey,
     hooks: {
       belief: Belief,
+      youtube: YouTube,
       updateEventStream,
       processRead,
       GatsbyImage,
