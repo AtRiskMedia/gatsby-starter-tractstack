@@ -12,7 +12,7 @@ const YouTube = ({ videoId, title, cssClasses }: IYouTubeProps) => {
   return (
     <Fragment>
       {playVideo ? (
-        <div className={classNames(`w-full aspect-video`, cssClasses)}>
+        <div className={classNames(cssClasses, `w-full aspect-video`)}>
           <iframe
             width={width || `100%`}
             height={height || `400px`}
@@ -23,13 +23,12 @@ const YouTube = ({ videoId, title, cssClasses }: IYouTubeProps) => {
           ></iframe>
         </div>
       ) : (
-        <div className="w-full aspect-video">
+        <div className={classNames(cssClasses, `w-full aspect-video`)}>
           <button
             className="youtubeposter"
             style={{
-              backgroundImage: `url(${`https://img.youtube.com/vi/${videoId}/${
-                imgSize || `mqdefault`
-              }.jpg`})`,
+              backgroundImage: `url(${`https://img.youtube.com/vi/${videoId}/${imgSize || `mqdefault`
+                }.jpg`})`,
               width,
               height,
             }}
