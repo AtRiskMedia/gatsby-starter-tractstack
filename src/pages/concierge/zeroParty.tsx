@@ -45,15 +45,12 @@ const ZeroParty = () => {
                     <p className="text-2xl text-darkgrey font-bold mt-4 md:max-w-2xl">
                       Think of this website as an interactive business pitch
                       deck presented as a choose your own adventure style buyers
-                      guide <em>... a &quot;flipped&quot; sales funnel!</em>
+                      guide <em>... a &quot;flipped&quot; sales funnel.</em>
                     </p>
 
                     <p className="text-lg text-darkgrey mt-4 md:max-w-2xl">
-                      As you navigate this site, event-based data is being
-                      tracked. Our special algorithms are taking note of where
-                      you place your attention. Depending on your path through
-                      this site, we may make recommendations for free supports
-                      and resources. Behind-the-scenes we are building a{` `}
+                      As you navigate this site, anonymized events-based data is
+                      being collected. Behind-the-scenes we are building a{` `}
                       <Link
                         to="/concierge/graph"
                         className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
@@ -62,53 +59,27 @@ const ZeroParty = () => {
                       </Link>
                       {` `}
                       which uses machine learning to help us better understand
-                      how buyers like yourself move through our funnel.
+                      how buyers like yourself interface with us.
                     </p>
                     <p className="text-lg text-darkgrey mt-4 md:max-w-2xl">
-                      Above all, the{` `}
-                      <a
-                        className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
-                        href={`https://tractstack.com`}
-                      >
-                        Tract Stack
-                      </a>
-                      {` `}
-                      technology has been painstakenly hand-crafted to equip
-                      brands, agencies, and service companies with the tools
-                      they need to validate their product-market-fit. If you
-                      {` `}
-                      <em>are not</em> their market, we want to honour your time
-                      and help you quickly reach this realization. But{` `}
-                      <em>if you are</em> a prospective buyer, this site is
-                      designed for you!
-                    </p>
-                    <p className="text-lg text-darkgrey mt-4 md:max-w-2xl">
-                      You may elect to{` `}
+                      You are encouraged to{` `}
                       <Link
                         to="/concierge/profile"
                         className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
                       >
                         introduce yourself
                       </Link>
-                      . Elsewhere through the site you may see &quot;belief
-                      widgets&quot; where you can express yourself. Any data you
-                      provide is anonymized and would be used <em>within</em>
-                      {` `}
-                      our app to generate insights about how our
-                      products/services resonate with buyers like yourself.
+                      . You&apos;ll have full control of your communication
+                      preferences. [Set your communication preferences to DMs
+                      open if you wish to be personally contacted directly.]
                     </p>
                     <p className="text-lg text-darkgrey mt-4 md:max-w-2xl">
-                      If you do{` `}
-                      <Link
-                        to={`/concierge/profile`}
-                        className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
-                      >
-                        introduce yourself
-                      </Link>
-                      , you&apos;ll have full control to set your communication
-                      preferences. If you <em>do</em> wish to be personally
-                      contacted directly, set your communication preferences to
-                      DMs open.
+                      Throughout the site you may see &quot;belief widgets&quot;
+                      where you can express yourself. Any questions asked are
+                      intended to help your through the buying journey. If
+                      you&quot;re comfortable sharing your thoughts, this
+                      website responds <em>adaptively</em> by revealing new
+                      content pathways to meet your needs.
                     </p>
                   </div>
                 </div>
