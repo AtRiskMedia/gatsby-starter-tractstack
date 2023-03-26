@@ -372,7 +372,7 @@ nav.menu-default p {
 }
 #menu-mobile .menu__slogan {
   padding-left: calc(var(--scale) * 25 * 1px);
-  padding-top: calc(var(--scale) * 4 * 1px);
+  padding-top: calc(var(--scale) * 6 * 1px);
   font-size: calc(var(--scale) * 13 * 1px);
 }
 #menu-mobile .menu__menuitems {
@@ -397,7 +397,7 @@ nav.menu-default p {
 }
 #menu-tablet .menu__slogan {
   padding-left: calc(var(--scale) * 50 * 1px);
-  padding-top: calc(var(--scale) * 4 * 1px);
+  padding-top: calc(var(--scale) * 6 * 1px);
   font-size: calc(var(--scale) * 19 * 1px);
 }
 #menu-tablet .menu__menuitems {
@@ -486,7 +486,7 @@ nav.menu-default a:hover {
 
 aside#controller {
   position: fixed;
-  bottom: 4vh;
+  bottom: 1vh;
   right: 0;
   width: auto;
   z-index: 70001;

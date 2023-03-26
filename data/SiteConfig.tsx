@@ -6,7 +6,7 @@ export const config: ISiteConfig = {
   softReadThreshold: 7000,
   conciergeSync: 30000,
   impressionsDelay: 22000,
-  slogan: "The Internet Fixers | Tech Incubators",
+  slogan: "Tooling for better product storytelling",
   footer:
     "Tract Stack by At Risk Media | Intelligent no-code landing pages for product-market-fit validation",
   social: [

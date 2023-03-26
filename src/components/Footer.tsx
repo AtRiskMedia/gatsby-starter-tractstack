@@ -9,7 +9,7 @@ const Footer = ({ observe }: IFooterProps) => {
   const footerText = config.footer
   return (
     <footer
-      className="bg-lightgrey pt-8 z-80000 relative"
+      className="bg-lightgrey z-80000 relative"
       aria-labelledby="footer-heading"
       ref={observe}
     >
@@ -34,7 +34,7 @@ const Footer = ({ observe }: IFooterProps) => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-base text-darkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
+          <p className="mt-8 text-xl text-darkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
             © {new Date().getFullYear()} &middot; {footerText}
           </p>
         </div>
