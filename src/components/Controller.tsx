@@ -34,18 +34,18 @@ const Impression = ({ payload }: IImpressionProps) => {
   if (typeof payload !== `object`) return <></>
   return (
     <>
-      <h3 className="text-lg font-action leading-6 text-allblack">
+      <h3 className="text-md font-action leading-6 text-allblack">
         {payload.title}
       </h3>
       <div className="mt-2 sm:flex sm:items-start sm:justify-between">
-        <div className="max-w-xl text-md text-allblack">
+        <div className="max-w-xl text-sm text-allblack">
           <p>
             {payload.body}
             {` `}
             <button
               type="button"
               onClick={injectPayload}
-              className="underline underline-offset-4 text-allblack hover:orange"
+              className="underline underline-offset-4 text-allblack hover:text-orange"
             >
               {payload.buttonText}
             </button>

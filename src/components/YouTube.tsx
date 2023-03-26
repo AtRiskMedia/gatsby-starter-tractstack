@@ -27,8 +27,9 @@ const YouTube = ({ videoId, title, cssClasses }: IYouTubeProps) => {
           <button
             className="youtubeposter"
             style={{
-              backgroundImage: `url(${`https://img.youtube.com/vi/${videoId}/${imgSize || `mqdefault`
-                }.jpg`})`,
+              backgroundImage: `url(${`https://img.youtube.com/vi/${videoId}/${
+                imgSize || `mqdefault`
+              }.jpg`})`,
               width,
               height,
             }}
