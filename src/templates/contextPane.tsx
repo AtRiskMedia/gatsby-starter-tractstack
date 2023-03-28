@@ -9,7 +9,6 @@ import { config } from '../../data/SiteConfig'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 
 import { IContextPageProps } from '../types'
 
@@ -147,7 +146,6 @@ export default function ContextPage(props: IContextPageProps) {
           <div className="w-full ring-8 ring-slate-50 py-24 bg-allwhite"></div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }
