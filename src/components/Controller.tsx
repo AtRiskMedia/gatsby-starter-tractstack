@@ -62,7 +62,7 @@ const Controller = ({
   viewportKey,
 }: IControllerProps) => {
   const [offset, setOffset] = React.useState(0)
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
 
   useInterval(() => {
     if (impressionPanes.length > offset + 1) setOffset(offset + 1)
