@@ -9,7 +9,7 @@ const Footer = ({ observe }: IFooterProps) => {
   const footerText = config.footer
   return (
     <footer
-      className="z-80000 relative"
+      className="z-80000 static"
       aria-labelledby="footer-heading"
       ref={observe}
     >
