@@ -62,7 +62,7 @@ module.exports = {
         r9xl: 'calc(var(--scale) * 8rem)',
       },
       zIndex: {
-        70010: '70010', // impressions
+        70010: '70010',
         70020: '70020',
         70030: '70030',
         80000: '80000', // for footer
@@ -71,6 +71,7 @@ module.exports = {
         80030: '80030',
         90000: '90000', // for beliefs widget
         90001: '90001', // for header
+        90101: '90101', // for controller
       },
       colors: {
         white: '#fcfcfc',

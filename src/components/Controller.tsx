@@ -73,11 +73,11 @@ const Controller = ({
     impressions && typeof impressionPanes[offset] !== `undefined`
       ? impressions[impressionPanes[offset]]
       : impressions
-      ? impressions[impressionPanes[0]]
-      : null
+        ? impressions[impressionPanes[0]]
+        : null
   const thisImpression: any =
     typeof offsetImpression === `object` &&
-    typeof offsetImpression[0] === `object`
+      typeof offsetImpression[0] === `object`
       ? offsetImpression[0]
       : null
   if (!thisImpression) return null
@@ -85,7 +85,7 @@ const Controller = ({
     return (
       <aside id="controller" className="mr-1">
         <div
-          className={`z-70010 overflow-hidden bg-white rounded-md border border-darkgrey controller__expanded controller__expanded--${viewportKey}`}
+          className={`z-90101 overflow-hidden bg-white rounded-md border border-darkgrey controller__expanded controller__expanded--${viewportKey}`}
         >
           <div className="px-4 pt-4">
             <button
