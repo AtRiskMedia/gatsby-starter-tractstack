@@ -90,7 +90,7 @@ const Controller = ({
           <div className="px-4 pt-4">
             <button
               type="button"
-              className="z-70020 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="z-90101 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               onClick={() => setOpen(!open)}
             >
               <span className="sr-only">Hide controller</span>
@@ -103,16 +103,16 @@ const Controller = ({
     )
   return (
     <div
-      className={`z-70010 relative controller__minimized controller_minimized--${viewportKey}`}
+      className={`z-90101 relative controller__minimized controller_minimized--${viewportKey}`}
     >
       <button
         type="button"
-        className="z-70020 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="z-90101 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         onClick={() => setOpen(!open)}
       >
         <span className="sr-only">Show controller</span>
         <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
-        <span className="z-70030 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
+        <span className="z-90101 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
           {impressionPanes.length}
         </span>
       </button>
