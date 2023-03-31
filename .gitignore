@@ -3,6 +3,10 @@
 /.pnp
 .pnp.js
 
+# fonts!
+*.woff
+*.woff2
+
 # testing
 /coverage
 
