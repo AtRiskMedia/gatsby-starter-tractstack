@@ -31,4 +31,4 @@ yarn-error.log*
 tailwind.whitelist
 
 # site data
-./data/SiteData.tsx
+data/SiteConfig.tsx
