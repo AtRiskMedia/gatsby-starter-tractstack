@@ -29,3 +29,6 @@ yarn-error.log*
 
 # tailwind classes whitelist
 tailwind.whitelist
+
+# site data
+./data/SiteData.tsx
