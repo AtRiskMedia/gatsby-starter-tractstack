@@ -20,6 +20,7 @@ const PreLaunchHero = ({ viewportKey }: IViewportKeyProps) => {
           <Wordmark className="h-10 xl:h-12 fill-black" />
         </div>
         <p className="mt-10 text-2xl leading-10 text-black xl:text-r3xl xl:max-w-lg text-center">
+          Better tooling for product evangelism |
           Intelligent no-code landing pages for product-market-fit validation
         </p>
       </div>
