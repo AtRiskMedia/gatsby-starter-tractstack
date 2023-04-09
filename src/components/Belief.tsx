@@ -32,14 +32,15 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const [lastSelected, setLastSelected] = useState(``)
 
   useEffect(() => {
-    if (selected.slug === `none`)
-      setSelected(selectedOffset)
-  }, [selected, setSelected, hasMatchingBelief])
+    if (selected.slug === `none`) setSelected(selectedOffset)
+  }, [selected, selectedOffset, setSelected, hasMatchingBelief])
 
   useEffect(() => {
     if (
       (selected?.slug && !lastSelected && selected.slug !== `none`) ||
-      (selected?.slug && selected.slug !== lastSelected && selected.slug !== `none`)
+      (selected?.slug &&
+        selected.slug !== lastSelected &&
+        selected.slug !== `none`)
     ) {
       setLastSelected(selected.slug)
       updateBeliefs(value.slug, selected.slug)
@@ -75,9 +76,7 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                       `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                     )}
                   />
-                  <span className="ml-3 block truncate">
-                    {selected.name}
-                  </span>
+                  <span className="ml-3 block truncate">{selected.name}</span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
