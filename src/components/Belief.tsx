@@ -23,17 +23,17 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
-  const hasMatchingBelief = beliefs[value.slug]
-  const selectedOffset: any =
-    typeof hasMatchingBelief === `string`
-      ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
-      : { id: 0, name: thisTitle, slug: `none`, color: `` }
-  const [selected, setSelected] = useState(selectedOffset)
+  const defaultOffset = { id: 0, name: thisTitle, slug: `none`, color: `` }
+  const [selected, setSelected] = useState(defaultOffset)
   const [lastSelected, setLastSelected] = useState(``)
 
   useEffect(() => {
-    if (selected.slug === `none`) setSelected(selectedOffset)
-  }, [selected, selectedOffset, setSelected, hasMatchingBelief])
+    const hasMatchingBelief = beliefs[value.slug]
+    const selectedOffset: any =
+      typeof hasMatchingBelief === `string`
+        ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0] : false
+    if (hasMatchingBelief) setSelected(selectedOffset)
+  }, [selected, setSelected])
 
   useEffect(() => {
     if (
