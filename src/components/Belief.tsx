@@ -31,9 +31,10 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
     const hasMatchingBelief = beliefs[value.slug]
     const selectedOffset: any =
       typeof hasMatchingBelief === `string`
-        ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0] : false
+        ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
+        : false
     if (hasMatchingBelief) setSelected(selectedOffset)
-  }, [selected, setSelected])
+  }, [selected, setSelected, beliefs, thisScale, value.slug])
 
   useEffect(() => {
     if (
