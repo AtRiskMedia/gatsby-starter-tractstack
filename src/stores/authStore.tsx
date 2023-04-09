@@ -69,7 +69,7 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
       const beliefs = response.beliefs
       if (typeof beliefs === `object`) {
         const thisBeliefs: any = beliefs
-        Object.entries(thisBeliefs).forEach((value: any) => {
+        Object.entries(thisBeliefs || {}).forEach((value: any) => {
           if (
             typeof value[1].slug === `string` &&
             typeof value[1].verb === `string`
