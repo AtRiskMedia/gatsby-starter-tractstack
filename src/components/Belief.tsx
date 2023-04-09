@@ -23,23 +23,23 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
-  const thisBelief = beliefs[value.slug]
+  const hasMatchingBelief = beliefs[value.slug]
   const selectedOffset: any =
-    typeof thisBelief === `string`
+    typeof hasMatchingBelief === `string`
       ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
-      : false
-  const [selected, setSelected] = useState<any>(false)
-  const [lastSelected, setLastSelected] = useState<any>(false)
+      : { id: 0, name: thisTitle, slug: `none`, color: `` }
+  const [selected, setSelected] = useState(selectedOffset)
+  const [lastSelected, setLastSelected] = useState(``)
 
   useEffect(() => {
-    if (selected === false && typeof selectedOffset === `object`)
+    if (selected.slug === `none`)
       setSelected(selectedOffset)
-  }, [selected, selectedOffset, setSelected])
+  }, [selected, setSelected, hasMatchingBelief])
 
   useEffect(() => {
     if (
-      (selected?.slug && !lastSelected) ||
-      (selected?.slug && selected.slug !== lastSelected)
+      (selected?.slug && !lastSelected && selected.slug !== `none`) ||
+      (selected?.slug && selected.slug !== lastSelected && selected.slug !== `none`)
     ) {
       setLastSelected(selected.slug)
       updateBeliefs(value.slug, selected.slug)
@@ -60,8 +60,6 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
     setLastSelected,
   ])
 
-  if (typeof thisBelief === `undefined`) return null
-
   return (
     <div className={cssClasses}>
       <Listbox value={selected} onChange={setSelected}>
@@ -78,7 +76,7 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                     )}
                   />
                   <span className="ml-3 block truncate">
-                    {selected ? selected.name : thisTitle}
+                    {selected.name}
                   </span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
