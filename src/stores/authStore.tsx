@@ -4,17 +4,6 @@ import { ITokens, IAuthStoreState, IAuthStoreLoginResponse } from '../types'
 
 function setTokensToLocalStorage(tokens: ITokens) {
   if (typeof localStorage === `object`) {
-    localStorage.setItem(
-      `accessToken`,
-      typeof tokens.accessToken === `string` ? tokens.accessToken : ``,
-    )
-    if (typeof tokens.fingerprint === `string` && tokens.fingerprint.length > 0)
-      localStorage.setItem(`party`, tokens.fingerprint)
-    if (typeof tokens.accessToken === `string`)
-      localStorage.setItem(`validToken`, `true`)
-    else localStorage.setItem(`validToken`, `false`)
-    if (tokens.firstname !== null)
-      localStorage.setItem(`firstname`, tokens.firstname)
     if (tokens.encryptedEmail !== null)
       localStorage.setItem(`email`, tokens.encryptedEmail)
     if (tokens.encryptedCode !== null)
@@ -24,21 +13,13 @@ function setTokensToLocalStorage(tokens: ITokens) {
 
 function removeTokensFromLocalStorage() {
   if (typeof localStorage === `object`) {
-    localStorage.removeItem(`accessToken`)
-    localStorage.removeItem(`party`)
-    localStorage.removeItem(`firstname`)
-    localStorage.removeItem(`validToken`)
     localStorage.removeItem(`email`)
     localStorage.removeItem(`code`)
   }
 }
 
 const authDataSchema = {
-  firstname:
-    typeof localStorage === `object` &&
-    localStorage.getItem(`firstname`) !== null
-      ? localStorage.getItem(`firstname`)
-      : null,
+  firstname: null,
   encryptedEmail:
     typeof localStorage === `object` && localStorage.getItem(`email`) !== null
       ? localStorage.getItem(`email`)
@@ -57,23 +38,13 @@ const authDataSchema = {
 }
 
 export const useAuthStore = create<IAuthStoreState>((set, get) => ({
-  accessToken:
-    typeof localStorage === `object` &&
-    localStorage.getItem(`accessToken`) !== null
-      ? localStorage.getItem(`accessToken`)
-      : null,
+  accessToken: null,
   authData: {
     ...authDataSchema,
   },
   fingerprintCheck: false,
-  fingerprint:
-    typeof localStorage === `object` && localStorage.getItem(`party`) !== null
-      ? localStorage.getItem(`party`)
-      : null,
-  validToken: !!(
-    typeof localStorage === `object` &&
-    localStorage.getItem(`validToken`) === `true`
-  ),
+  fingerprint: null,
+  validToken: false,
   beliefs: {},
   lastSync: 0,
   setLastSync: (lastSync: number) => {
@@ -93,14 +64,27 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   isLoggedIn: () => !!get().accessToken,
   login: (response: IAuthStoreLoginResponse) => {
     const fingerprint = get().fingerprint || ``
+    const updateBeliefs = get().updateBeliefs
     if (typeof fingerprint === `string` && fingerprint.length) {
-      setTokensToLocalStorage({
-        accessToken: response.tokens || response.jwt,
-        fingerprint,
-        firstname: response.firstname,
-        encryptedEmail: response.encryptedEmail,
-        encryptedCode: response.encryptedCode,
-      })
+      const beliefs = response.beliefs
+      if (typeof beliefs === `object`) {
+        const thisBeliefs: any = beliefs
+        Object.entries(thisBeliefs).forEach((value: any) => {
+          if (
+            typeof value[1].slug === `string` &&
+            typeof value[1].verb === `string`
+          )
+            updateBeliefs(value[1].slug, value[1].verb)
+        })
+      }
+      if (
+        typeof response.encryptedEmail === `string` &&
+        typeof response.encryptedCode === `string`
+      )
+        setTokensToLocalStorage({
+          encryptedEmail: response.encryptedEmail,
+          encryptedCode: response.encryptedCode,
+        })
       set((state) => ({
         ...state,
         accessToken: response.tokens || response.jwt,

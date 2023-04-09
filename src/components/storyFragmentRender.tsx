@@ -6,6 +6,7 @@ import IframeResizer from 'iframe-resizer-react'
 
 import { config } from '../../data/SiteConfig'
 import { useStoryStepStore } from '../stores/storyStep'
+import { useAuthStore } from '../stores/authStore'
 import Footer from './Footer'
 import Product from '../shopify-components/Product'
 import H5P from './H5P'
@@ -112,6 +113,7 @@ const StoryFragmentRender = ({
   payload,
 }: IStoryFragmentRenderProps) => {
   const [loaded, setLoaded] = useState(false)
+  const beliefs = useAuthStore((state) => state.beliefs)
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
   const updatePanesVisible = useStoryStepStore(
     (state) => state.updatePanesVisible,
@@ -149,10 +151,31 @@ const StoryFragmentRender = ({
       ) : (
         payload.contentChildren[`${viewportKey}-${p}`]
       )
+    const heldBeliefs =
+      typeof thisPane?.heldBeliefs === `object` ? thisPane.heldBeliefs : null
     const hasMaxHScreen =
       typeof thisPane?.hasMaxHScreen === `boolean`
         ? thisPane.hasMaxHScreen
         : false
+    if (heldBeliefs) {
+      let filter = true
+      Object.entries(heldBeliefs).forEach(([key, value]) => {
+        if (
+          typeof value === `string` &&
+          typeof beliefs[key] === `string` &&
+          beliefs[key] === value
+        )
+          filter = false
+        else if (typeof value === `object`) {
+          const values: any = value
+          Object.values(values).forEach((b) => {
+            if (typeof beliefs[key] === `string` && beliefs[key] === b)
+              filter = false
+          })
+        }
+      })
+      if (filter) return null
+    }
 
     return (
       <section
