@@ -64,6 +64,10 @@ export const getTokens = async (
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
+    const beliefs =
+      typeof response.data.beliefs === `string`
+        ? JSON.parse(response?.data?.beliefs)
+        : null
     return {
       tokens: accessToken,
       auth,
@@ -72,6 +76,7 @@ export const getTokens = async (
       emailConflict,
       encryptedEmail,
       encryptedCode,
+      beliefs,
       error: null,
     }
   } catch (error: any) {

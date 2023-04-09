@@ -29,9 +29,6 @@ interface IRenderedStoryFragment {
 }
 
 export interface ITokens {
-  fingerprint: string | null
-  accessToken: string | null
-  firstname: string | null
   encryptedCode: string | null
   encryptedEmail: string | null
 }
@@ -75,6 +72,7 @@ export interface IAuthStoreLoginResponse {
   firstname: string | null
   encryptedEmail: string | null
   encryptedCode: string | null
+  beliefs: object | null
 }
 
 export interface IShopifyStoreState {
@@ -334,7 +332,7 @@ export interface IYouTubeProps {
 }
 
 export interface IBeliefProps {
-  value: { slug: string; title: string }
+  value: { slug: string; scale: string }
   cssClasses: string
 }
 

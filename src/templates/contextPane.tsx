@@ -51,6 +51,7 @@ export default function ContextPage(props: IContextPageProps) {
     viewportKey: ``,
     hooks,
     id,
+    tailwindBgColour: null,
   }
   const payload = Compositor(compositorPayload)
   const title = payload.contentMap[pageContext.id].title

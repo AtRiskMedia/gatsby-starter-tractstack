@@ -2,21 +2,22 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { classNames } from 'gatsby-plugin-tractstack'
+import {
+  classNames,
+  heldBeliefsScales,
+  heldBeliefsTitles,
+} from 'gatsby-plugin-tractstack'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { IBeliefProps } from '../types'
 
-const likertscale = [
-  { id: 1, name: `Strongly disagree`, color: `bg-red-400` },
-  { id: 2, name: `Disagree`, color: `bg-amber-400` },
-  { id: 3, name: `Neither agree nor disagree`, color: `bg-slate-200` },
-  { id: 4, name: `Agree`, color: `bg-lime-400` },
-  { id: 5, name: `Strongly agree`, color: `bg-teal-400` },
-]
-
 const Belief = ({ value, cssClasses }: IBeliefProps) => {
+  const thisScaleLookup = value.scale
+  // @ts-expect-error
+  const thisTitle = heldBeliefsTitles[thisScaleLookup]
+  // @ts-expect-error
+  const thisScale = heldBeliefsScales[thisScaleLookup]
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const beliefs = useAuthStore((state) => state.beliefs)
   const updateEventStream = useStoryStepStore(
@@ -25,33 +26,41 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const thisBelief = beliefs[value.slug]
   const selectedOffset: any =
     typeof thisBelief === `string`
-      ? likertscale.filter((e) => e.name === beliefs[value.slug])[0]
+      ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
       : false
-  const [selected, setSelected] = useState(selectedOffset)
-  const [lastSelected, setLastSelected] = useState(false)
+  const [selected, setSelected] = useState<any>(false)
+  const [lastSelected, setLastSelected] = useState<any>(false)
+
+  useEffect(() => {
+    if (selected === false && typeof selectedOffset === `object`)
+      setSelected(selectedOffset)
+  }, [selected, selectedOffset, setSelected])
 
   useEffect(() => {
     if (
-      (selected?.name && !lastSelected) ||
-      (selected?.name && selected.name !== lastSelected)
+      (selected?.slug && !lastSelected) ||
+      (selected?.slug && selected.slug !== lastSelected)
     ) {
-      setLastSelected(selected.name)
-      updateBeliefs(value.slug, selected.name)
+      setLastSelected(selected.slug)
+      updateBeliefs(value.slug, selected.slug)
       updateEventStream(Date.now(), {
-        verb: selected.name,
+        verb: selected.slug,
         id: value.slug,
-        title: value.title,
+        title: thisTitle,
         type: `Belief`,
       })
     }
   }, [
     value,
+    thisTitle,
     selected,
     lastSelected,
     updateBeliefs,
     updateEventStream,
     setLastSelected,
   ])
+
+  if (typeof thisBelief === `undefined`) return null
 
   return (
     <div className={cssClasses}>
@@ -69,7 +78,7 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                     )}
                   />
                   <span className="ml-3 block truncate">
-                    {selected ? selected.name : `Agree or Disagree?`}
+                    {selected ? selected.name : thisTitle}
                   </span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -88,23 +97,23 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute z-90000 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {likertscale.map((likert) => (
+                  {thisScale.map((factor: any) => (
                     <Listbox.Option
-                      key={likert.id}
+                      key={factor.id}
                       className={({ active }) =>
                         classNames(
                           active ? `text-blue bg-slate-200` : `text-gray-900`,
                           `relative cursor-default select-none py-2 pl-3 pr-9`,
                         )
                       }
-                      value={likert}
+                      value={factor}
                     >
                       {({ selected, active }) => (
                         <>
                           <div className="flex items-center">
                             <span
                               className={classNames(
-                                likert.color,
+                                factor.color,
                                 `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                               )}
                               aria-hidden="true"
@@ -115,7 +124,7 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                                 `ml-3 block truncate`,
                               )}
                             >
-                              {likert.name}
+                              {factor.name}
                             </span>
                           </div>
 
