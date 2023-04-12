@@ -10,7 +10,7 @@ import { useAuthStore } from '../stores/authStore'
 import Footer from './Footer'
 import Product from '../shopify-components/Product'
 import H5P from './H5P'
-import codeHooks from './codehooks'
+import codeHooks from '../custom/codehooks'
 import {
   ICodeHookProps,
   ICodeHookIframeProps,
@@ -153,29 +153,55 @@ const StoryFragmentRender = ({
       )
     const heldBeliefs =
       typeof thisPane?.heldBeliefs === `object` ? thisPane.heldBeliefs : null
+    const withheldBeliefs =
+      typeof thisPane?.withheldBeliefs === `object`
+        ? thisPane.withheldBeliefs
+        : null
     const hasMaxHScreen =
       typeof thisPane?.hasMaxHScreen === `boolean`
         ? thisPane.hasMaxHScreen
         : false
-    if (heldBeliefs) {
-      let filter = true
+
+    let filter =
+      (heldBeliefs ? Object.keys(heldBeliefs).length : 0) +
+      (withheldBeliefs ? Object.keys(withheldBeliefs).length : 0)
+    if (filter && heldBeliefs) {
       Object.entries(heldBeliefs).forEach(([key, value]) => {
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
         )
-          filter = false
+          filter = 0
         else if (typeof value === `object`) {
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              filter = false
+              filter = 0
           })
         }
       })
-      if (filter) return null
     }
+    if (withheldBeliefs) {
+      let applyFilter = true
+      Object.entries(withheldBeliefs).forEach(([key, value]) => {
+        if (
+          typeof value === `string` &&
+          typeof beliefs[key] === `string` &&
+          beliefs[key] === value
+        )
+          applyFilter = false
+        else if (typeof value === `object`) {
+          const values: any = value
+          Object.values(values).forEach((b) => {
+            if (typeof beliefs[key] === `string` && beliefs[key] === b)
+              applyFilter = false
+          })
+        }
+      })
+      if (applyFilter) filter = 1
+    }
+    if (filter) return null
 
     return (
       <section
