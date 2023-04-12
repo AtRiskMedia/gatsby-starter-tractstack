@@ -23,27 +23,46 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
+  const hasMatchingBelief = beliefs[value.slug]
   const defaultOffset = { id: 0, name: thisTitle, slug: `none`, color: `` }
-  const [selected, setSelected] = useState(defaultOffset)
+  const selectedOffset =
+    typeof hasMatchingBelief === `string`
+      ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
+      : defaultOffset
+  const [selected, setSelected] = useState(selectedOffset)
   const [lastSelected, setLastSelected] = useState(``)
-
-  useEffect(() => {
-    const hasMatchingBelief = beliefs[value.slug]
-    const selectedOffset: any =
-      typeof hasMatchingBelief === `string`
-        ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
-        : false
-    if (hasMatchingBelief) setSelected(selectedOffset)
-  }, [selected, setSelected, beliefs, thisScale, value.slug])
+  const [doUpdate, setDoUpdate] = useState(false)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     if (
       (selected?.slug && !lastSelected && selected.slug !== `none`) ||
-      (selected?.slug &&
-        selected.slug !== lastSelected &&
-        selected.slug !== `none`)
+      (lastSelected && selected?.slug !== lastSelected)
     ) {
+      const newCount =
+        beliefs.NonTechnical && beliefs.Confusing
+          ? 2
+          : beliefs.NonTechnical
+          ? 1
+          : beliefs.Confusing
+          ? 1
+          : 0
+      if (newCount !== count) setCount(newCount)
       setLastSelected(selected.slug)
+      setDoUpdate(true)
+    }
+  }, [
+    selected,
+    lastSelected,
+    setLastSelected,
+    count,
+    setCount,
+    beliefs.NonTechnical,
+    beliefs.Confusing,
+  ])
+
+  useEffect(() => {
+    if (doUpdate) {
       updateBeliefs(value.slug, selected.slug)
       updateEventStream(Date.now(), {
         verb: selected.slug,
@@ -51,15 +70,16 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
         title: thisTitle,
         type: `Belief`,
       })
+      setDoUpdate(false)
     }
   }, [
-    value,
-    thisTitle,
-    selected,
-    lastSelected,
+    doUpdate,
+    setDoUpdate,
     updateBeliefs,
     updateEventStream,
-    setLastSelected,
+    value.slug,
+    selected.slug,
+    thisTitle,
   ])
 
   return (

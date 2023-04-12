@@ -278,6 +278,7 @@ export interface IStoryFragmentProps {
 
 export interface IViewportKeyProps {
   viewportKey: string
+  beliefHook: Function
 }
 
 export interface INavLinkProps {

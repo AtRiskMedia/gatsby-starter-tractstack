@@ -4,6 +4,7 @@ module.exports = {
     './src/pages/**/*.{js,jsx,tsx}',
     './src/components/**/*.{js,jsx,tsx}',
     './src/shopify-components/**/*.{js,jsx,tsx}',
+    './src/custom/**/*.{js,jsx,tsx}',
     './src/templates/**/*.{js,jsx,tsx}',
     './tailwind.whitelist',
   ],
