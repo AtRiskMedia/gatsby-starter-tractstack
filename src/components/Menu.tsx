@@ -4,6 +4,7 @@ import { Link } from 'gatsby'
 import { getLogo } from 'gatsby-plugin-tractstack'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
+import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
 import { INavLinkProps, IMenuProps } from '../types'
 
@@ -13,9 +14,11 @@ const NavLink = ({ children, to }: INavLinkProps) => (
   </Link>
 )
 
-function Menu({ menuPayload, viewportKey, hooks }: IMenuProps) {
-  const updateEventStream = hooks.updateEventStream
-  const processRead = hooks.processRead
+function Menu({ menuPayload, viewportKey }: IMenuProps) {
+  const updateEventStream = useStoryStepStore(
+    (state) => state.updateEventStream,
+  )
+  const processRead = useStoryStepStore((state) => state.processRead)
   const logo = getLogo(
     menuPayload.relationships?.field_svg_logo,
     menuPayload.relationships?.field_image_logo,

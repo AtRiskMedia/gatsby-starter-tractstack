@@ -28,7 +28,6 @@ export default function ContextPage(props: IContextPageProps) {
     navigate,
     belief: Belief,
     youtube: YouTube,
-    updateEventStream,
     processRead,
     GatsbyImage,
     getImage,

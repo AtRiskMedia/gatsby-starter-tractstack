@@ -27,6 +27,14 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   const lookup = `${viewportKey}-${payload.id}`
   const storyFragment = payload.storyFragment[lookup]
   const tractStackId = payload.tractStackId
+  const storyFragmentId = {
+    id: payload.id,
+    title: payload.title,
+    slug: payload.slug,
+    tractStackId: payload.tractStackId,
+    tractStackTitle: payload.tractStackTitle,
+    tractStackSlug: payload.tractStackSlug,
+  }
   const contentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
   const currentStoryStep = useStoryStepStore((state) => state.currentStoryStep)
@@ -152,7 +160,11 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
       <main>
         {!zoom || zoomOverride ? (
           <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
-            <StoryFragmentRender viewportKey={viewportKey} payload={payload} />
+            <StoryFragmentRender
+              viewportKey={viewportKey}
+              payload={payload}
+              storyFragmentId={storyFragmentId}
+            />
           </StyledWrapperSection>
         ) : (
           <div className="flex items-center justify-center h-screen">

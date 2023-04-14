@@ -2,7 +2,8 @@ import { create } from 'zustand'
 import { navigate } from 'gatsby'
 
 import { config } from '../../data/SiteConfig'
-import { IStoryStepStoreState } from '../types'
+import { IEventStream, IStoryFragmentId, IStoryStepStoreState } from '../types'
+import { pushPayload } from '../api/services'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
@@ -72,6 +73,33 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       else if (goto[0] === `/`) navigate(goto)
       else navigate(`/${goto}/${viewport}`)
     }
+  },
+  pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
+    const contentMap = {
+      [storyFragmentId.id]: {
+        title: storyFragmentId.title,
+        type: `StoryFragment`,
+        slug: storyFragmentId.slug,
+        parentId: storyFragmentId.tractStackId,
+        heldBeliefs: {},
+        withheldBeliefs: {},
+      },
+      [storyFragmentId.tractStackId]: {
+        title: storyFragmentId.tractStackTitle,
+        type: `TractStack`,
+        slug: storyFragmentId.tractStackSlug,
+        parentId: storyFragmentId.tractStackId,
+        heldBeliefs: {},
+        withheldBeliefs: {},
+      },
+    }
+    const tractStackId = storyFragmentId.tractStackId
+    const eventStream = { push: payload }
+    pushPayload({
+      eventStream,
+      contentMap,
+      tractStackId,
+    })
   },
   resetGotoLastPane: () => {
     set((state) => ({
