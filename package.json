@@ -57,7 +57,7 @@
     "gatsby-source-shopify": "8.7.0",
     "gatsby-transformer-remark": "6.7.0",
     "gatsby-transformer-sharp": "5.7.0",
-    "gatsby-transformer-tractstack": "1.0.4",
+    "gatsby-transformer-tractstack": "1.0.5",
     "iframe-resizer-react": "1.1.0",
     "tractstack-neo4jd3": "1.0.1",
     "react": "18.2.0",

@@ -7082,10 +7082,10 @@ gatsby-transformer-sharp@5.7.0:
     semver "^7.3.8"
     sharp "^0.31.3"
 
-gatsby-transformer-tractstack@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/gatsby-transformer-tractstack/-/gatsby-transformer-tractstack-1.0.4.tgz#e6a0e8d90967c88b63e84d827230e83f9dd283cf"
-  integrity sha512-FlJpMw9NWrAIZyx4J91d8/OHT/aT87DBDgJokEIVA0yPlRIXztwibYRDD5S7tOnxZaf2hSptmXV2tYaSyik2NA==
+gatsby-transformer-tractstack@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/gatsby-transformer-tractstack/-/gatsby-transformer-tractstack-1.0.5.tgz#3806f23b4b6864ca1e0d27f368a107210a933ec4"
+  integrity sha512-z+h/DHNg3hsfoYwrxybhjEq+Qcxj/VsSiEL/rBkzzZZkd5dC8hrGROZgfKIUtBZ2UnGG5GOeuVg5oUnOb+9lEg==
   dependencies:
     react "^18.2.0"
 
