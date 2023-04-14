@@ -8,7 +8,7 @@ import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
 import Belief from '../components/Belief'
 
-const PreLaunchHero = ({ viewportKey }: IViewportKeyProps) => {
+const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const beliefs = useAuthStore((state) => state.beliefs)
   const [count, setCount] = useState(0)
 
@@ -67,6 +67,7 @@ const PreLaunchHero = ({ viewportKey }: IViewportKeyProps) => {
                         <Belief
                           value={{ slug: `NonTechnical`, scale: `agreement` }}
                           cssClasses={``}
+                          storyFragmentId={storyFragmentId}
                         />
                       </li>
                       <li className="mt-6">
@@ -74,6 +75,7 @@ const PreLaunchHero = ({ viewportKey }: IViewportKeyProps) => {
                         <Belief
                           value={{ slug: `Confusing`, scale: `tf` }}
                           cssClasses={``}
+                          storyFragmentId={storyFragmentId}
                         />
                       </li>
                     </ul>

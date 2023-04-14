@@ -43,12 +43,19 @@ const Pane = ({
   </div>
 )
 
-const CodeHook = ({ thisId, payload, viewportKey }: ICodeHookProps) => {
+const CodeHook = ({
+  thisId,
+  payload,
+  viewportKey,
+  storyFragmentId,
+}: ICodeHookProps) => {
   const ThisCodeHook =
     typeof codeHooks[payload.target] !== `undefined`
       ? codeHooks[payload.target]
       : null
-  const children = <ThisCodeHook viewportKey={viewportKey} />
+  const children = (
+    <ThisCodeHook viewportKey={viewportKey} storyFragmentId={storyFragmentId} />
+  )
   return (
     <div id={`${thisId}-hook`} className="paneFragment paneFragmentCode">
       {children}
@@ -111,6 +118,7 @@ const CodeHookIframe = ({
 const StoryFragmentRender = ({
   viewportKey,
   payload,
+  storyFragmentId,
 }: IStoryFragmentRenderProps) => {
   const [loaded, setLoaded] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
@@ -147,6 +155,7 @@ const StoryFragmentRender = ({
           thisId={thisId}
           payload={hasCodeHook}
           viewportKey={viewportKey}
+          storyFragmentId={storyFragmentId}
         />
       ) : (
         payload.contentChildren[`${viewportKey}-${p}`]

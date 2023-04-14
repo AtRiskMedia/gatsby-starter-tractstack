@@ -36,7 +36,6 @@ const storyFragmentCompositor = ({
     ? Menu({
         menuPayload,
         viewportKey,
-        hooks,
       })
     : null
   return {

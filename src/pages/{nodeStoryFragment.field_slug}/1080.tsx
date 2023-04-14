@@ -250,9 +250,6 @@ export const query = graphql`
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const viewportKey = `tablet`
   const storyFragmentTitle = data.nodeStoryFragment.title
-  const updateEventStream = useStoryStepStore(
-    (state) => state.updateEventStream,
-  )
   const processRead = useStoryStepStore((state) => state.processRead)
   const storyFragmentPayload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
@@ -260,7 +257,6 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
     hooks: {
       belief: Belief,
       youtube: YouTube,
-      updateEventStream,
       processRead,
       GatsbyImage,
       getImage,

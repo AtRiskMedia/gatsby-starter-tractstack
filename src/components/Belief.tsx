@@ -12,7 +12,7 @@ import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { IBeliefProps } from '../types'
 
-const Belief = ({ value, cssClasses }: IBeliefProps) => {
+const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
   const thisScaleLookup = value.scale
   // @ts-expect-error
   const thisTitle = heldBeliefsTitles[thisScaleLookup]
@@ -20,71 +20,49 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
   const thisScale = heldBeliefsScales[thisScaleLookup]
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const beliefs = useAuthStore((state) => state.beliefs)
-  const updateEventStream = useStoryStepStore(
-    (state) => state.updateEventStream,
-  )
-  const hasMatchingBelief = beliefs[value.slug]
-  const defaultOffset = { id: 0, name: thisTitle, slug: `none`, color: `` }
-  const selectedOffset =
-    typeof hasMatchingBelief === `string`
-      ? thisScale.filter((e: any) => e.slug === beliefs[value.slug])[0]
-      : defaultOffset
-  const [selected, setSelected] = useState(selectedOffset)
-  const [lastSelected, setLastSelected] = useState(``)
-  const [doUpdate, setDoUpdate] = useState(false)
+  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const [selected, setSelected] = useState<any>(false)
+  const [init, setInit] = useState(false)
   const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    if (
-      (selected?.slug && !lastSelected && selected.slug !== `none`) ||
-      (lastSelected && selected?.slug !== lastSelected)
-    ) {
-      const newCount =
-        beliefs.NonTechnical && beliefs.Confusing
-          ? 2
-          : beliefs.NonTechnical
-          ? 1
-          : beliefs.Confusing
-          ? 1
-          : 0
-      if (newCount !== count) setCount(newCount)
-      setLastSelected(selected.slug)
-      setDoUpdate(true)
-    }
-  }, [
-    selected,
-    lastSelected,
-    setLastSelected,
-    count,
-    setCount,
-    beliefs.NonTechnical,
-    beliefs.Confusing,
-  ])
-
-  useEffect(() => {
-    if (doUpdate) {
-      updateBeliefs(value.slug, selected.slug)
-      updateEventStream(Date.now(), {
-        verb: selected.slug,
+  const handleClick = (e: any) => {
+    setSelected(e)
+    updateBeliefs(value.slug, e.slug)
+    pushEvent(
+      {
+        verb: e.slug,
         id: value.slug,
         title: thisTitle,
         type: `Belief`,
-      })
-      setDoUpdate(false)
+      },
+      storyFragmentId,
+    )
+    const newCount =
+      beliefs.NonTechnical && beliefs.Confusing
+        ? 2
+        : beliefs.NonTechnical || beliefs.Confusing
+        ? 1
+        : 0
+    if (newCount !== count) setCount(newCount)
+  }
+
+  useEffect(() => {
+    if (!init) {
+      const hasMatchingBelief = beliefs[value.slug]
+      const knownOffset =
+        typeof hasMatchingBelief === `string`
+          ? thisScale.filter((e: any) => e.slug === hasMatchingBelief)[0]
+          : false
+      if (knownOffset.slug && !selected.slug) {
+        setSelected(knownOffset)
+        setInit(true)
+      }
     }
-  }, [
-    doUpdate,
-    setDoUpdate,
-    updateBeliefs,
-    updateEventStream,
-    value.slug,
-    selected.slug,
-    thisTitle,
-  ])
+  }, [init, setInit, beliefs, thisScale, selected.slug, value.slug])
 
   return (
     <div className={cssClasses}>
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={handleClick}>
         {({ open }) => (
           <>
             <div className="relative mt-1">
@@ -93,11 +71,13 @@ const Belief = ({ value, cssClasses }: IBeliefProps) => {
                   <span
                     aria-label="Color swatch for belief"
                     className={classNames(
-                      selected.color ? selected.color : `bg-slate-200`,
+                      selected?.color ? selected.color : `bg-slate-200`,
                       `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                     )}
                   />
-                  <span className="ml-3 block truncate">{selected.name}</span>
+                  <span className="ml-3 block truncate">
+                    {selected?.name || thisTitle}
+                  </span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon

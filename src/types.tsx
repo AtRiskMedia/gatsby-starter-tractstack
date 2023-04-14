@@ -33,6 +33,15 @@ export interface ITokens {
   encryptedEmail: string | null
 }
 
+export interface IStoryFragmentId {
+  id: string
+  title: string
+  slug: string
+  tractStackId: string
+  tractStackTitle: string
+  tractStackSlug: string
+}
+
 export interface IAuthStorePayload {
   firstname: string | null
   encryptedEmail: string | null
@@ -126,6 +135,7 @@ export interface IStoryStepStoreState {
     }
   }
   processRead: Function
+  pushEvent: Function
   resetGotoLastPane: Function
   setGotoLastPane: Function
   setLastStoryStep: Function
@@ -178,6 +188,7 @@ export interface ICodeHookProps {
   thisId: string
   payload: ICodeHook
   viewportKey: string
+  storyFragmentId: IStoryFragmentId
 }
 export interface ICodeHookShopifyProps {
   thisId: string
@@ -192,6 +203,7 @@ export interface ICodeHookIframeProps {
 export interface IStoryFragmentRenderProps {
   viewportKey: string
   payload: IRenderedStoryFragment
+  storyFragmentId: IStoryFragmentId
 }
 
 export interface ICodeHookDict {
@@ -225,7 +237,6 @@ export interface IStoryFragmentCompositorHooks {
   belief: Function
   youtube: Function
   processRead: Function
-  updateEventStream: Function
   GatsbyImage: Function
   getImage: Function
 }
@@ -233,7 +244,6 @@ export interface IStoryFragmentCompositorHooks {
 export interface IMenuProps {
   menuPayload: IMenuPayload
   viewportKey: string
-  hooks: IStoryFragmentCompositorHooks
 }
 
 export interface IContextPanesPayload {
@@ -279,6 +289,7 @@ export interface IStoryFragmentProps {
 export interface IViewportKeyProps {
   viewportKey: string
   beliefHook: Function
+  storyFragmentId: IStoryFragmentId
 }
 
 export interface INavLinkProps {
@@ -335,6 +346,7 @@ export interface IYouTubeProps {
 export interface IBeliefProps {
   value: { slug: string; scale: string }
   cssClasses: string
+  storyFragmentId: IStoryFragmentId
 }
 
 export interface IAxiosClientProps {
