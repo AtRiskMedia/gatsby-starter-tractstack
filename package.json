@@ -52,7 +52,7 @@
     "gatsby-plugin-react-svg": "3.3.0",
     "gatsby-plugin-sharp": "5.7.0",
     "gatsby-plugin-styled-components": "6.7.0",
-    "gatsby-plugin-tractstack": "1.0.21",
+    "gatsby-plugin-tractstack": "1.0.22",
     "gatsby-source-drupal": "6.7.1",
     "gatsby-source-shopify": "8.7.0",
     "gatsby-transformer-remark": "6.7.0",

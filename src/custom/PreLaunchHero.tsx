@@ -34,7 +34,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             <Wordmark className="h-10 xl:h-12 fill-black" />
           </div>
           <p className="mt-10 text-2xl leading-10 text-black xl:text-r3xl xl:max-w-lg text-center">
-            Make opinionated no-code websites
+            Make your own opinionated no-code website
           </p>
         </div>
       </div>
