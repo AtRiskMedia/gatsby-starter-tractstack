@@ -16,7 +16,7 @@ gatsby-starter-tractstack:
     SECURE_FILES_DOWNLOAD_PATH: './'
   stage: build
   before_script:
-    - apk --no-cache add curl bash tar
+    - /usr/sbin/apk --no-cache add curl bash tar
   script:
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - tar -xvf ./gatsby-starter-tractstack-private.tgz
