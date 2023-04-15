@@ -171,46 +171,56 @@ const StoryFragmentRender = ({
         ? thisPane.hasMaxHScreen
         : false
 
-    let filter =
-      (heldBeliefs ? Object.keys(heldBeliefs).length : 0) +
-      (withheldBeliefs ? Object.keys(withheldBeliefs).length : 0)
-    if (filter && heldBeliefs) {
+    console.log(` `)
+    console.log(` `)
+    if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
+      console.log(thisPane.slug)
+      let filter = true
+      console.log(p, `SHOW if any one is held`, heldBeliefs)
       Object.entries(heldBeliefs).forEach(([key, value]) => {
+        console.log(`checking`, key, value)
+        console.log(typeof value, typeof beliefs[key], value, beliefs[key])
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
         )
-          filter = 0
+          filter = false
         else if (typeof value === `object`) {
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              filter = 0
+              filter = false
           })
         }
       })
+      if (filter) console.log(`HIDE`)
+      if (filter) return null
+      console.log(`SHOW`)
     }
-    if (withheldBeliefs) {
-      let applyFilter = true
+    if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
+      console.log(p, `HIDE if any one is held`, withheldBeliefs)
+      let filter = false
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
+        console.log(`checking`, key, value)
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
         )
-          applyFilter = false
+          filter = true
         else if (typeof value === `object`) {
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              applyFilter = false
+              filter = true
           })
         }
       })
-      if (applyFilter) filter = 1
+      if (filter) console.log(`HIDE`)
+      if (filter) return null
+      console.log(`SHOW`)
     }
-    if (filter) return null
 
     return (
       <section
