@@ -171,15 +171,19 @@ const StoryFragmentRender = ({
         ? thisPane.hasMaxHScreen
         : false
 
-    console.log(` `)
-    console.log(` `)
     if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
-      console.log(thisPane.slug)
       let filter = true
-      console.log(p, `SHOW if any one is held`, heldBeliefs)
+      let voidOverride = false
+      let override = false
       Object.entries(heldBeliefs).forEach(([key, value]) => {
-        console.log(`checking`, key, value)
-        console.log(typeof value, typeof beliefs[key], value, beliefs[key])
+        if (typeof value === `boolean` && typeof beliefs[key] === `undefined`)
+          override = true
+        else if (
+          typeof value === `boolean` &&
+          typeof beliefs[key] !== `undefined`
+        )
+          voidOverride = true
+
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
@@ -194,20 +198,13 @@ const StoryFragmentRender = ({
           })
         }
       })
-      if (filter) console.log(`HIDE`)
-      if (filter) return null
-      console.log(`SHOW`)
+      if (!(!voidOverride && override) && filter) return null
     }
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
-      console.log(p, `HIDE if any one is held`, withheldBeliefs)
       let filter = false
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
-        console.log(`checking`, key, value)
-        if (
-          typeof value === `string` &&
-          typeof beliefs[key] === `string` &&
-          beliefs[key] === value
-        )
+        if (typeof beliefs[key] !== `string`) filter = true
+        else if (typeof beliefs[key] === `string` && beliefs[key] === value)
           filter = true
         else if (typeof value === `object`) {
           const values: any = value
@@ -217,9 +214,7 @@ const StoryFragmentRender = ({
           })
         }
       })
-      if (filter) console.log(`HIDE`)
       if (filter) return null
-      console.log(`SHOW`)
     }
 
     return (
