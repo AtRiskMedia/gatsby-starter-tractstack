@@ -142,7 +142,7 @@ const StoryFragmentRender = ({
     const hasCodeHook: any = thisPane.hasCodeHook
     const thisPaneChildren =
       hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+        (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
         <CodeHookIframe
           thisId={thisId}
           payload={hasCodeHook}
@@ -175,10 +175,13 @@ const StoryFragmentRender = ({
       let filter = true
       let voidOverride = false
       let override = false
+      // two passes required
       Object.entries(heldBeliefs).forEach(([key, value]) => {
         if (typeof value === `boolean` && typeof beliefs[key] === `undefined`)
           override = true
-        else if (
+      })
+      Object.entries(heldBeliefs).forEach(([key, value]) => {
+        if (
           typeof value === `boolean` &&
           typeof beliefs[key] !== `undefined`
         )
@@ -235,8 +238,8 @@ const StoryFragmentRender = ({
               duration > readThreshold
                 ? `read`
                 : duration > softReadThreshold
-                ? `glossed`
-                : null
+                  ? `glossed`
+                  : null
             if (verb) {
               const eventPayload = {
                 verb,
