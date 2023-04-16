@@ -38,27 +38,38 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </p>
         </div>
       </div>
-      <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative" id="beliefs">
-        <div className="sm:px-8 my-16">
+      <div
+        className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative"
+      >
+        <div className="sm:px-8 my-16"
+          id="beliefs"
+        >
           <div className="mx-auto max-w-7xl lg:px-8">
             <div className="relative px-4 sm:px-8 lg:px-12">
               <div className="mx-auto max-w-2xl lg:max-w-5xl">
                 <div className="max-w-2xl md:flex md:flex-row mx-auto">
                   <h3 className="font-action text-xl font-bold tracking-tight text-allwhite sm:text-2xl">
-                    What's your jam?
+                    What&apos;s your jam?
                   </h3>
                   <div className="my-auto text-xl text-white pl-12 mt-6 md:mt-0">
                     {count < 2 ? (
                       <p>
-                        <span className="font-bold italic">Opinionated website ahead:</span> &nbsp;
-                        Tell us your opinions and this website will adjust its
-                        tone and adapt to give you a better experience.
+                        <span className="font-bold italic">
+                          Opinionated website ahead:
+                        </span>
+                        {` `}
+                        &nbsp; Tell us your opinions and this website will
+                        adjust its tone and adapt to give you a better
+                        experience.
                       </p>
                     ) : (
                       <p>
                         <span className="font-bold italic">Noted!</span> &nbsp;
-                        Your opinions have been applied. This website experience has been adjusted.
-                        <span className="italic">Change your answers any time.</span>
+                        Your opinions have been applied. This website experience
+                        has been adjusted.
+                        <span className="italic">
+                          Change your answers any time.
+                        </span>
                       </p>
                     )}
                     <ul>
@@ -82,7 +93,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     <p className="mt-6">
                       {count < 2 ? (
                         <span>
-                          Please respond to the above two statements to get started.
+                          Please respond to the above two statements to get
+                          started.
                         </span>
                       ) : null}
                       {` `}

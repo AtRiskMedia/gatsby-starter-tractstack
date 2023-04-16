@@ -76,9 +76,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
           typeof document !== `undefined` && typeof mode === `string`
             ? document.getElementById(mode)
             : null
-        if (anchor) anchor.scrollIntoView()
-      }
-      else navigate(`/${goto}/${viewport}`)
+        if (anchor) anchor.scrollIntoView(false)
+      } else navigate(`/${goto}/${viewport}`)
     }
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
