@@ -61,12 +61,12 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     ) : (
                       <>
                         <p>
-                          <span className="font-bold italic">Noted!</span> &nbsp;
-                          Your opinions have been applied. This website experience
-                          has been adjusted.</p>
-                        <p>
-                          Change your answers at any time.
+                          <span className="font-bold italic">Noted!</span>
+                          {` `}
+                          &nbsp; Your opinions have been applied. This website
+                          experience has been adjusted.
                         </p>
+                        <p className="mt-6">Change your answers at any time.</p>
                       </>
                     )}
                     <ul>
