@@ -22,7 +22,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   return (
     <>
-      <div className="py-24 px-6 sm:px-6 lg:px-8 bg-gradient2 relative">
+      <div className="py-24 px-6 sm:px-6 lg:px-8 bg-white-gradient2 relative">
         {viewportKey !== `mobile` ? (
           <div className="absolute top-0 left-0 xl:left-16">
             <Hex className="w-52 lg:w-60 xl:w-80 fill-slate-200" />

@@ -50,16 +50,16 @@ body {
   );
 }
 .bg-white-gradient2 {
-  background: linear-gradient(120deg, #f1f5f9 0%, #fcfcfc 50%, #e2e8f0 100%);
+  background: linear-gradient(120deg, #f1f5f9 0%, #ffffff 50%, #e2e8f0 100%);
 }
 .bg-blue-gradient {
   background: linear-gradient(120deg, #10263f 0%, #10120d 50%, #10263f 100%);
 }
 .bg-white-green-gradient {
-  background: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%); 
+  background: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%);
 }
 .fill-white-green-gradient {
-  fill: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%); 
+  fill: linear-gradient(120deg, #ffffff 0%, #fcfcfc 85%, #c8df8c 100%);
 }
 
 
