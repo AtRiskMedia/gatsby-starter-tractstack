@@ -79,7 +79,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                         />
                       </li>
                       <li className="mt-6">
-                        Already familiar with Tract Stack?{` `}
+                        New to Tract Stack?{` `}
                         <Belief
                           value={{ slug: `Confusing`, scale: `tf` }}
                           cssClasses={``}
