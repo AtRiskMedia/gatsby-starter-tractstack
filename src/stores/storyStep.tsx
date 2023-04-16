@@ -41,8 +41,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `read`
           : !!goto && duration > softReadThreshold
-          ? `glossed`
-          : null
+            ? `glossed`
+            : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -66,11 +66,18 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         window?.innerWidth < 801
           ? `600`
           : window?.innerWidth < 1367
-          ? `1080`
-          : `1920`
+            ? `1080`
+            : `1920`
       if (goto === `/`)
         navigate(config?.home ? `/${config.home}/${viewport}` : `/`)
       else if (goto[0] === `/`) navigate(goto)
+      else if (goto === `#`) {
+        const anchor =
+          typeof document !== `undefined` && typeof mode === `string`
+            ? document.getElementById(mode)
+            : null
+        if (anchor) anchor.scrollIntoView()
+      }
       else navigate(`/${goto}/${viewport}`)
     }
   },
