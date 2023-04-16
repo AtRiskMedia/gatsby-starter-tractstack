@@ -38,12 +38,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </p>
         </div>
       </div>
-      <div
-        className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative"
-      >
-        <div className="sm:px-8 my-16"
-          id="beliefs"
-        >
+      <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative">
+        <div className="sm:px-8 my-16" id="beliefs">
           <div className="mx-auto max-w-7xl lg:px-8">
             <div className="relative px-4 sm:px-8 lg:px-12">
               <div className="mx-auto max-w-2xl lg:max-w-5xl">
@@ -68,7 +64,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                         Your opinions have been applied. This website experience
                         has been adjusted.
                         <span className="italic">
-                          Change your answers any time.
+                          Change your answers at any time.
                         </span>
                       </p>
                     )}
