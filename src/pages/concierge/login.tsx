@@ -1,33 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState, useEffect } from 'react'
-import { navigate } from 'gatsby'
+import React, { useState } from 'react'
+import { navigate, Link } from 'gatsby'
 import { classNames } from 'gatsby-plugin-tractstack'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../../stores/authStore'
-import { useStoryStepStore } from '../../stores/storyStep'
 import { getTokens } from '../../api/axiosClient'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
+import Wrapper from '../../components/Wrapper'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 
 const ConciergeLogin = () => {
-  const [loaded, setLoaded] = useState<boolean>(false)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
-  const authData = useAuthStore((state) => state.authData)
-  const updateAuthData = useAuthStore((state) => state.updateAuthData)
-  const emailConflict = authData.emailConflict
-  const knownEmail = authData.email
-  const knownFirstName = authData.firstname !== `false`
-  const badLogin = authData.badLogin
-  const authenticated = authData.authenticated
+  const [badLogin, setBadLogin] = useState(false)
+  const firstName = useAuthStore((state) => state.authData.firstname)
+  const knownLead = useAuthStore((state) => state.authData.knownLead)
+  const authenticated = useAuthStore((state) => state.authData.authenticated)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const knownEmail = useAuthStore((state) => state.authData.email)
+  const knownFirstName = typeof firstName === `string`
   const [email, setEmail] = useState(
-    typeof emailConflict === `string` && emailConflict
-      ? emailConflict
-      : typeof knownEmail === `string` && knownEmail
-      ? knownEmail
-      : ``,
+    typeof knownEmail === `string` && knownEmail ? knownEmail : ``,
   )
   const [codeword, setCodeword] = useState(``)
   const [submitted, setSubmitted] = useState(false)
@@ -41,29 +35,26 @@ const ConciergeLogin = () => {
     if (email && codeword && fingerprint && !loggingIn) {
       getTokens(fingerprint, codeword, email)
         .then((res) => {
-          if (res?.tokens !== null) {
+          if (typeof res?.error === `string`) {
+            setSuccess(-1)
+            setBadLogin(true)
+          } else if (res?.tokens !== null) {
             login(res)
-            navigate(`/`)
+            navigate(`/concierge/profile`)
           }
         })
         .catch(() => {
           setSuccess(-1)
-          updateAuthData(`badLogin`, true)
         })
         .finally(() => setLoggingIn(0))
     }
     setSubmitted(true)
   }
 
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(`login`, `conciergePage`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, setLastStoryStep])
+  if (authenticated) navigate(`/concierge/profile`)
 
   return (
-    <>
+    <Wrapper slug="login" mode="conciergePage">
       <Header siteTitle="Login" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -72,7 +63,7 @@ const ConciergeLogin = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <aside className="py-6 lg:col-span-3">
                   <nav className="space-y-1">
-                    <ConciergeNav active="login" auth={authenticated} />
+                    <ConciergeNav active="login" />
                   </nav>
                 </aside>
 
@@ -81,23 +72,25 @@ const ConciergeLogin = () => {
                     <div>
                       <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
                         Welcome back
-                        {!authenticated &&
-                          !emailConflict &&
-                          knownFirstName &&
-                          `, ${knownFirstName}.`}
+                        {!authenticated && knownFirstName
+                          ? `, ${firstName}.`
+                          : null}
                       </h2>
+                      {isLoggedIn && !authenticated && knownLead ? null : (
+                        <p className="text-blue text-lg mt-4 mb-4">
+                          First visit?{` `}
+                          <Link
+                            to={`/concierge/profile`}
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                          >
+                            Create Profile
+                          </Link>
+                          .
+                        </p>
+                      )}
                       <p className="mt-4 mb-6 text-lg text-gray-700">
-                        {emailConflict ? (
-                          <>
-                            Your email is already registered. Please enter your
-                            code word to access your profile:
-                          </>
-                        ) : (
-                          <>
-                            To access your profile, please enter your code word
-                            and confirm your email:
-                          </>
-                        )}
+                        To access your profile, please enter your code word and
+                        confirm your email:
                       </p>
                     </div>
                     <form id="login" onSubmit={handleSubmit} method="POST">
@@ -140,7 +133,7 @@ const ConciergeLogin = () => {
                           </label>
                           <input
                             type="text"
-                            readOnly={!!(!emailConflict && knownEmail)}
+                            readOnly={!!knownEmail}
                             name="email"
                             id="email"
                             autoComplete="email"
@@ -151,9 +144,7 @@ const ConciergeLogin = () => {
                               submitted && email === ``
                                 ? `border-red-500`
                                 : `border-gray-300`,
-                              !emailConflict && knownEmail
-                                ? `text-lightgrey`
-                                : ``,
+                              knownEmail ? `text-lightgrey` : ``,
                             )}
                           />
                           {submitted && email === `` && (
@@ -169,10 +160,7 @@ const ConciergeLogin = () => {
                               Please try again.
                             </p>
                           </div>
-                        ) : (
-                          <></>
-                        )}
-
+                        ) : null}
                         <div className="col-span-3 mt-6">
                           <button
                             type="submit"
@@ -195,7 +183,7 @@ const ConciergeLogin = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

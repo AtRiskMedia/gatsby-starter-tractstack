@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, useEffect } from 'react'
 
-import { graph } from '../api/services'
+import { getGraph } from '../api/services'
 import D3 from './D3'
 
-const getGraph = async () => {
+const goGetGraph = async () => {
   try {
-    const response = await graph()
+    const response = await getGraph()
     const data = response?.data
     if (data) {
       const graphNodes: any = []
@@ -43,22 +43,27 @@ const getGraph = async () => {
           graphRelationshipIds.push(row.r.id)
         }
       })
-      const graph = {
-        results: [
-          {
-            columns: [`user`, `entity`],
-            data: [
-              {
-                graph: {
-                  nodes: graphNodes,
-                  relationships: graphRelationships,
+      const graph =
+        Object.keys(graphNodes).length +
+          Object.keys(graphRelationships).length ===
+        0
+          ? null
+          : {
+              results: [
+                {
+                  columns: [`user`, `entity`],
+                  data: [
+                    {
+                      graph: {
+                        nodes: graphNodes,
+                        relationships: graphRelationships,
+                      },
+                    },
+                  ],
                 },
-              },
-            ],
-          },
-        ],
-        errors: [],
-      }
+              ],
+              errors: [],
+            }
       return { graph, error: null }
     }
     return { graph: null, error: null }
@@ -72,24 +77,29 @@ const getGraph = async () => {
 
 const Graph = () => {
   const [graphData, setGraphData] = useState({})
-  const [loading, setLoading] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+  const thisOptions = { ...graphOptions, neo4jData: graphData }
 
   useEffect(() => {
-    function goGetGraph() {
-      setLoading(1)
-      getGraph()
+    if (
+      graphData &&
+      Object.keys(graphData).length === 0 &&
+      !loading &&
+      !loaded
+    ) {
+      setLoading(true)
+      goGetGraph()
         .then((res: any) => {
           setGraphData(res?.graph)
         })
         .catch((e) => {
           console.log(`An error occurred.`, e)
         })
-        .finally(() => setLoading(0))
+        .finally(() => setLoaded(true))
+      setLoading(false)
     }
-    if (graphData && Object.keys(graphData).length === 0 && !loading)
-      goGetGraph()
-  }, [graphData, setGraphData, loading, setLoading])
-  const thisOptions = { ...graphOptions, neo4jData: graphData }
+  }, [graphData, setGraphData, loaded, loading, setLoaded, setLoading])
 
   return (
     <>

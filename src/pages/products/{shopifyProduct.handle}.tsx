@@ -6,9 +6,8 @@ import { formatPrice, classNames } from 'gatsby-plugin-tractstack'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
-// import { ICodeHookShopifyProps } from "../types"
 import { useShopifyStore } from '../../stores/shopify'
-import { useStoryStepStore } from '../../stores/storyStep'
+import Wrapper from '../../components/Wrapper'
 import { AddToCart } from '../../shopify-components/AddToCart'
 import { BuyNow } from '../../shopify-components/BuyNow'
 import Seo from '../../components/Seo'
@@ -28,11 +27,9 @@ export const query = graphql`
 `
 
 const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
-  const [loaded, setLoaded] = useState<boolean>(false)
   const product = useProductData().filter(
     (e: any) => e?.node?.id === data.shopifyProduct.id,
   )[0].node
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const {
     options,
     variants,
@@ -83,15 +80,8 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
     checkAvailablity(product.storefrontId)
   }, [productVariant.storefrontId, checkAvailablity, product.storefrontId])
 
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(product.handle, `product`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, product.handle, setLastStoryStep])
-
   return (
-    <>
+    <Wrapper slug={product.handle} mode="product">
       <Header siteTitle={title} open={false} />
       <div className="w-full h-full">
         <div className="bg-white">
@@ -242,7 +232,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
         </div>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

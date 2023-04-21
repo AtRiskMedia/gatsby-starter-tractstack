@@ -33,7 +33,6 @@ const authDataSchema = {
   shortBio: ``,
   authenticated: false,
   knownLead: false,
-  emailConflict: ``,
   badLogin: false,
 }
 
@@ -47,6 +46,10 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   validToken: false,
   beliefs: {},
   lastSync: 0,
+  viewportKey: `server`,
+  setViewportKey: (viewportKey: string) => {
+    set((state) => ({ ...state, viewportKey }))
+  },
   setLastSync: (lastSync: number) => {
     set((state) => ({ ...state, lastSync }))
   },
@@ -92,13 +95,6 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
         validToken: true,
         authData: { ...state.authData, badLogin: false },
       }))
-      if (response.emailConflict)
-        set((state) => ({
-          authData: {
-            ...state.authData,
-            emailConflict: response.emailConflict,
-          },
-        }))
       if (response.knownLead)
         set((state) => ({
           authData: { ...state.authData, knownLead: response.knownLead },
@@ -128,8 +124,8 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
       }
     }
   },
-  logout: () => {
-    removeTokensFromLocalStorage()
+  logout: (full: boolean = false) => {
+    if (full) removeTokensFromLocalStorage()
     set((state) => ({
       ...state,
       accessToken: null,

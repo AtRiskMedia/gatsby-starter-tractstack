@@ -5,7 +5,9 @@ import { Link, graphql } from 'gatsby'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Graph from '../components/Graph'
+import Wrapper from '../components/Wrapper'
 import { useStoryStepStore } from '../stores/storyStep'
+import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 
 export const query = graphql`
@@ -52,6 +54,8 @@ export const query = graphql`
 `
 
 const Breadcrumbs = (data: any) => {
+  const viewportKey = useAuthStore((state) => state.viewportKey)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const storySteps = useStoryStepStore((state) => state.storySteps)
   const storyFragments = data.data.allNodeStoryFragment.edges
   const tractStacks = data.data.allNodeTractstack.edges
@@ -67,9 +71,12 @@ const Breadcrumbs = (data: any) => {
       contextPanes.push(p)
     })
   })
-  const thisWidth = typeof window !== `undefined` ? window?.innerWidth : 0
   const viewportWidth =
-    thisWidth < 801 ? `600` : thisWidth < 1367 ? `1080` : `1920`
+    viewportKey === `mobile`
+      ? `600`
+      : viewportKey === `tablet`
+      ? `1080`
+      : `1920`
   const hasBreadcrumbs = Object.keys(storySteps)?.length
   const memory: any[] = []
   const breadcrumbs = Object.keys(storySteps)?.map((e: any, i: number) => {
@@ -137,7 +144,7 @@ const Breadcrumbs = (data: any) => {
   })
 
   return (
-    <>
+    <Wrapper slug="breadcrumbs" mode="breadcrumbs">
       <Header siteTitle="Breadcrumb Path" open={false} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -163,16 +170,18 @@ const Breadcrumbs = (data: any) => {
                   </div>
                 </div>
 
-                <div className="lg:col-span-12 text-center h-96 mb-24">
-                  <Graph />
-                </div>
+                {isLoggedIn() ? (
+                  <div className="lg:col-span-12 text-center h-96 mb-24">
+                    <Graph />
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

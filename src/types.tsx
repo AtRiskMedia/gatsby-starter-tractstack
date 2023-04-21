@@ -51,7 +51,6 @@ export interface IAuthStorePayload {
   shortBio: string
   authenticated: boolean
   knownLead: boolean
-  emailConflict: string | null
   badLogin: boolean
 }
 
@@ -61,8 +60,10 @@ export interface IAuthStoreState {
   fingerprintCheck: boolean
   fingerprint: string | null
   validToken: boolean
+  viewportKey: string
   beliefs: { [key: string]: string }
   lastSync: number
+  setViewportKey: Function
   setLastSync: Function
   updateBeliefs: Function
   updateAuthData: Function
@@ -77,7 +78,6 @@ export interface IAuthStoreLoginResponse {
   jwt: string | null
   auth: boolean
   knownLead: boolean
-  emailConflict: string | null
   firstname: string | null
   encryptedEmail: string | null
   encryptedCode: string | null
@@ -282,8 +282,13 @@ export interface IStoryFragmentCompositorProps {
 }
 
 export interface IStoryFragmentProps {
-  viewportKey: string
   payload: IRenderedStoryFragment
+}
+
+export interface IWrapperProps {
+  children: any // FIX
+  slug: string
+  mode: string
 }
 
 export interface IViewportKeyProps {
@@ -334,7 +339,11 @@ export interface IControllerProps {
 
 export interface IConciergeNavProps {
   active: string
-  auth: boolean
+}
+
+export interface IConciergeNavLinksProps {
+  active: string
+  hasAuth: boolean
 }
 
 export interface IYouTubeProps {

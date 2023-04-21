@@ -7,19 +7,20 @@ import Seo from '../components/Seo'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import LineItem from '../shopify-components/LineItem'
+import Wrapper from '../components/Wrapper'
 import { useShopifyStore } from '../stores/shopify'
+import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 
 const Cart = () => {
-  const thisViewport =
-    typeof window !== `undefined` && window.innerWidth < 801
+  const viewportKey = useAuthStore((state) => state.viewportKey)
+  const viewportWidth =
+    viewportKey === `mobile`
       ? `600`
-      : typeof window !== `undefined` && window.innerWidth < 1367
+      : viewportKey === `tablet`
       ? `1080`
-      : typeof window !== `undefined`
-      ? `1920`
-      : ``
-  const goto = `/${config.home}/${thisViewport}`
+      : `1920`
+  const goto = `/${config.home}/${viewportWidth}`
   const checkout = useShopifyStore((state) => state.checkout)
   const loading = useShopifyStore((state) => state.loading)
   const emptyCart = !(checkout?.lineItems?.length > 0)
@@ -28,7 +29,7 @@ const Cart = () => {
   }
 
   return (
-    <>
+    <Wrapper slug="cart" mode="cart">
       <Header siteTitle="Powered by Tract Stack" open={false} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -132,7 +133,7 @@ const Cart = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

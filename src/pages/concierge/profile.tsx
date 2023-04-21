@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, Fragment, useEffect } from 'react'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { classNames } from 'gatsby-plugin-tractstack'
 import { Listbox, Transition } from '@headlessui/react'
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -12,14 +12,12 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { useAuthStore } from '../../stores/authStore'
-import { useStoryStepStore } from '../../stores/storyStep'
-import { saveProfile, initProfile } from '../../api/services'
-import { getTokens, getProfile } from '../../api/axiosClient'
+import { loadProfile, saveProfile } from '../../api/services'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
+import Wrapper from '../../components/Wrapper'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
-import { IAuthStorePayload } from '../../types'
 
 const contactPersonaOptions = [
   {
@@ -48,70 +46,65 @@ const contactPersonaOptions = [
   },
 ]
 
+const getProfile = async () => {
+  try {
+    const res = await loadProfile()
+    if (res) return { profile: res }
+  } catch (error: any) {
+    return {
+      error: error?.response?.data?.message || error?.message,
+    }
+  }
+}
+
 const ConciergeProfile = () => {
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [codeword, setCodeword] = useState(``)
   const [submitted, setSubmitted] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
-  const [dataLoading, setDataLoading] = useState(false)
-  const [dataLoaded, setDataLoaded] = useState(false)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
-  const authData: IAuthStorePayload = useAuthStore((state) => state.authData)
-  const [show, setShow] = useState(!authData.authenticated)
+  const [badSave, setBadSave] = useState(false)
+  const [saved, setSaved] = useState(0)
+  const firstname = useAuthStore((state) => state.authData.firstname)
+  const shortBio = useAuthStore((state) => state.authData.shortBio)
+  const email = useAuthStore((state) => state.authData.email)
+  const knownLead = useAuthStore((state) => state.authData.knownLead)
+  const authenticated = useAuthStore((state) => state.authData.authenticated)
+  const contactPersona = useAuthStore((state) => state.authData.contactPersona)
+  const [show, setShow] = useState(!authenticated)
   const updateAuthData = useAuthStore((state) => state.updateAuthData)
-  const authenticated = authData.authenticated
-  const login = useAuthStore((state) => state.login)
-  const fingerprint = useAuthStore((state) => state.fingerprint)
-  let lookup: number | boolean = false
-  if (authData.contactPersona) {
-    for (const [key, value] of Object.entries(contactPersonaOptions)) {
-      if (value.title === authData.contactPersona) lookup = parseInt(key)
-    }
-  }
+  const logout = useAuthStore((state) => state.logout)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const [personaSelected, setPersonaSelected] = useState(
-    typeof lookup === `number`
-      ? contactPersonaOptions[lookup]
-      : contactPersonaOptions[0],
+    contactPersonaOptions[0],
   )
-  const doGetProfile = !dataLoading && !dataLoaded && authData.authenticated
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (authData.firstname && authData.email && codeword && !loggingIn) {
-      const profile = {
-        firstname: authData.firstname,
-        email: authData.email,
-        codeword,
-        persona: personaSelected.title,
-        bio: authData.shortBio.substring(0, 280),
-        init: !authData.authenticated,
-      }
+    if (firstname && email && codeword && !loggingIn) {
       setLoggingIn(true)
-      const doFunction = authData.authenticated ? saveProfile : initProfile
-      doFunction({ profile })
+      const profile = {
+        firstname,
+        email,
+        codeword,
+        persona: personaSelected.id,
+        bio: shortBio.substring(0, 280),
+        init: !authenticated,
+      }
+      saveProfile({ profile })
         .then((response) => {
-          if (response.status === 200 && response?.data?.emailConflict)
-            updateAuthData(`emailConflict`, authData.email)
-          else if (
-            response.status === 200 &&
-            !authData.authenticated &&
-            fingerprint
-          ) {
-            getTokens(fingerprint, codeword, authData.email)
-              .then((res) => {
-                login(res)
-                document?.getElementById(`rooted`)?.scrollIntoView({
-                  behavior: `auto`,
-                  block: `center`,
-                  inline: `center`,
-                })
-              })
-              .catch(() => {
-                console.log(`An error occurred.`)
-              })
+          if (response.status === 200) {
+            document?.getElementById(`rooted`)?.scrollIntoView({
+              behavior: `auto`,
+              block: `center`,
+              inline: `center`,
+            })
+            setSaved(Date.now())
           }
         })
         .catch(() => {
-          updateAuthData(`badLogin`, true)
+          console.log(`An error occurred.`)
+          setBadSave(true)
+          logout(true)
         })
         .finally(() => {
           setLoggingIn(false)
@@ -157,45 +150,63 @@ const ConciergeProfile = () => {
       : `2%`
 
   useEffect(() => {
-    if (doGetProfile) {
-      setDataLoading(true)
+    if (contactPersona) {
+      let lookup: number | boolean = false
+      for (const [key, value] of Object.entries(contactPersonaOptions)) {
+        if (value.id === contactPersona) lookup = parseInt(key)
+      }
+      if (lookup) setPersonaSelected(contactPersonaOptions[lookup])
+    }
+  }, [contactPersona])
+
+  useEffect(() => {
+    if (isLoggedIn && !loaded && !loading) {
+      setLoading(true)
       getProfile()
-        .then((res) => {
-          if (
-            typeof res?.firstname === `string` &&
-            res.firstname !== authData.firstname
-          )
-            updateAuthData(`firstname`, res.firstname)
-          if (typeof res?.email === `string` && res.email !== authData.email)
-            updateAuthData(`email`, res.email)
-          if (
-            typeof res?.contactPersona === `string` &&
-            res.contactPersona !== authData.contactPersona
-          )
-            updateAuthData(`contactPersona`, res.contactPersona)
-          if (
-            typeof res?.shortBio === `string` &&
-            res.shortBio !== authData.shortBio
-          )
-            updateAuthData(`shortBio`, res.shortBio)
-          setDataLoaded(true)
+        .then((response: any) => {
+          if (response?.profile?.data) {
+            const res = response.profile.data
+            if (
+              typeof res?.firstname === `string` &&
+              res.firstname !== firstname
+            )
+              updateAuthData(`firstname`, res.firstname)
+            if (typeof res?.email === `string` && res.email !== email)
+              updateAuthData(`email`, res.email)
+            if (
+              typeof res?.contactPersona === `string` &&
+              res.contactPersona !== contactPersona
+            )
+              updateAuthData(`contactPersona`, res.contactPersona)
+            if (typeof res?.shortBio === `string` && res.shortBio !== shortBio)
+              updateAuthData(`shortBio`, res.shortBio)
+          }
+          setLoaded(true)
         })
         .catch((e) => {
           console.log(`An error occurred.`, e)
         })
-        .finally(() => setDataLoading(false))
+        .finally(() => {
+          setLoading(false)
+        })
     }
-  }, [doGetProfile, setDataLoading, setDataLoaded, authData, updateAuthData])
+  }, [
+    loaded,
+    loading,
+    setLoaded,
+    setLoading,
+    firstname,
+    shortBio,
+    email,
+    isLoggedIn,
+    contactPersona,
+    updateAuthData,
+  ])
 
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(`profile`, `conciergePage`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, setLastStoryStep])
+  if (isLoggedIn && knownLead && !authenticated) navigate(`/concierge/login`)
 
   return (
-    <>
+    <Wrapper slug="profile" mode="conciergePage">
       <Header siteTitle="Zero-party Introductions" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -204,7 +215,7 @@ const ConciergeProfile = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <aside className="py-6 lg:col-span-3">
                   <nav className="space-y-1">
-                    <ConciergeNav active="profile" auth={authenticated} />
+                    <ConciergeNav active="profile" />
                   </nav>
                 </aside>
 
@@ -218,10 +229,8 @@ const ConciergeProfile = () => {
                         We are rooted in community.
                       </h2>
                       <p className="mt-4 mb-4 text-lg text-gray-700">
-                        {authData.authenticated ? (
-                          <>
-                            Welcome back, {authData.firstname} ({fingerprint}).
-                          </>
+                        {authenticated ? (
+                          <>Welcome back, {firstname}.</>
                         ) : (
                           <>
                             Introduce yourself to unlock special offers and
@@ -229,18 +238,24 @@ const ConciergeProfile = () => {
                           </>
                         )}
                       </p>
-                      <p className="text-gray-700 text-lg mb-6">
-                        To read more on our data practices and professional
-                        standards, please see our{` `}
-                        <Link
-                          to={`/concierge/zeroParty`}
-                          className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
-                        >
-                          Zero Party data privacy policy
-                        </Link>
-                        .
-                      </p>
-                      {!authData.authenticated && (
+                      {saved && saved + 10000 > Date.now() ? (
+                        <p className="text-red-500 text-lg mb-10">
+                          Your profile has been updated.
+                        </p>
+                      ) : badSave ? null : (
+                        <p className="text-gray-700 text-lg mb-6">
+                          To read more on our data practices and professional
+                          standards, please see our{` `}
+                          <Link
+                            to={`/concierge/zeroParty`}
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                          >
+                            Zero Party data privacy policy
+                          </Link>
+                          .
+                        </p>
+                      )}
+                      {!isLoggedIn ? (
                         <p className="text-blue text-lg mb-10">
                           Not your first visit?{` `}
                           <Link
@@ -251,10 +266,24 @@ const ConciergeProfile = () => {
                           </Link>
                           .
                         </p>
-                      )}
+                      ) : null}
                     </div>
-                    {show ||
-                    (!authData.authenticated && !authData.knownLead) ? (
+                    {badSave ? (
+                      <>
+                        <p className="text-red-500 text-lg mb-10">
+                          Your secret codeword did not match. You have been
+                          logged out.
+                        </p>
+                        <p>
+                          <Link
+                            to={`/concierge/login`}
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                          >
+                            Log-in
+                          </Link>
+                        </p>
+                      </>
+                    ) : show || (!authenticated && !knownLead) ? (
                       <form onSubmit={handleSubmit} method="POST">
                         <div className="grid grid-cols-3 gap-4 bg-slate-50">
                           <div className="col-span-3 sm:col-span-1">
@@ -269,18 +298,18 @@ const ConciergeProfile = () => {
                               name="firstname"
                               id="firstname"
                               autoComplete="given-name"
-                              defaultValue={authData.firstname || ``}
+                              defaultValue={firstname || ``}
                               onBlur={(e) =>
                                 updateAuthData(`firstname`, e.target.value)
                               }
                               className={classNames(
                                 `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
-                                submitted && authData.firstname === ``
+                                submitted && firstname === ``
                                   ? `border-red-500`
                                   : `border-gray-300`,
                               )}
                             />
-                            {submitted && authData.firstname === `` && (
+                            {submitted && firstname === `` && (
                               <span className="text-xs px-2 text-red-500">
                                 Required field.
                               </span>
@@ -299,18 +328,18 @@ const ConciergeProfile = () => {
                               name="email"
                               id="email"
                               autoComplete="email"
-                              defaultValue={authData.email}
+                              defaultValue={email}
                               onBlur={(e) =>
                                 updateAuthData(`email`, e.target.value)
                               }
                               className={classNames(
                                 `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
-                                submitted && authData.firstname === ``
+                                submitted && firstname === ``
                                   ? `border-red-500`
                                   : `border-gray-300`,
                               )}
                             />
-                            {submitted && authData.email === `` && (
+                            {submitted && email === `` && (
                               <span className="text-xs px-2 text-red-500">
                                 Required field.
                               </span>
@@ -444,18 +473,17 @@ const ConciergeProfile = () => {
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                          {authData.firstname ? (
+                          {firstname ? (
                             <>
                               <div className="col-span-2 mt-10">
                                 <label
                                   htmlFor="bio"
                                   className="block text-sm font-medium text-gray-700"
                                 >
-                                  {!authData.authenticated &&
-                                  authData.firstname ? (
+                                  {!authenticated && firstname ? (
                                     <>
-                                      Hello {authData.firstname}. Is there
-                                      anything else you would like to share?
+                                      Hello {firstname}. Is there anything else
+                                      you would like to share?
                                     </>
                                   ) : (
                                     <>
@@ -473,7 +501,7 @@ const ConciergeProfile = () => {
                                     maxLength={280}
                                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
                                     placeholder="Your one-liner bio"
-                                    defaultValue={authData.shortBio}
+                                    defaultValue={shortBio}
                                     onBlur={(e) =>
                                       updateAuthData(`shortBio`, e.target.value)
                                     }
@@ -498,7 +526,7 @@ const ConciergeProfile = () => {
                                   onBlur={(e) => setCodeword(e.target.value)}
                                   className={classNames(
                                     `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
-                                    submitted && authData.firstname === ``
+                                    submitted && firstname === ``
                                       ? `border-red-500`
                                       : `border-gray-300`,
                                   )}
@@ -551,7 +579,7 @@ const ConciergeProfile = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

@@ -8,6 +8,7 @@ import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 import { pushPayload } from '../api/services'
 import Controller from './Controller'
+import Wrapper from './Wrapper'
 import StoryFragmentRender from './storyFragmentRender'
 import '../styles/storyfragment.css'
 import { IStoryFragmentProps } from '../types'
@@ -19,7 +20,8 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
   ${(props: any) => props.css};
 `
 
-const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
+const StoryFragment = ({ payload }: IStoryFragmentProps) => {
+  const viewportKey = useAuthStore((state) => state.viewportKey)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [zoom, setZoom] = useState<boolean>(false)
   const [zoomOverride, setZoomOverride] = useState<boolean>(false)
@@ -37,8 +39,6 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   }
   const contentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
-  const currentStoryStep = useStoryStepStore((state) => state.currentStoryStep)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
   )
@@ -128,20 +128,10 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
 
   useEffect(() => {
     if (!loaded) {
-      if (currentStoryStep !== payload.slug)
-        setLastStoryStep(payload.slug, `storyFragment`)
       if (gotoPane) setScrollTo(gotoPane)
       setLoaded(true)
     }
-  }, [
-    loaded,
-    gotoPane,
-    setLoaded,
-    setScrollTo,
-    payload.slug,
-    setLastStoryStep,
-    currentStoryStep,
-  ])
+  }, [loaded, gotoPane, setLoaded, setScrollTo])
 
   useEffect(() => {
     if (loaded && scrollTo.length > 1) {
@@ -156,7 +146,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
   }, [loaded, resetGotoLastPane, gotoPane, scrollTo, setScrollTo])
 
   return (
-    <>
+    <Wrapper slug={payload.slug} mode="storyFragment">
       <main>
         {!zoom || zoomOverride ? (
           <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
@@ -204,7 +194,7 @@ const StoryFragment = ({ viewportKey, payload }: IStoryFragmentProps) => {
           />
         </aside>
       ) : null}
-    </>
+    </Wrapper>
   )
 }
 
