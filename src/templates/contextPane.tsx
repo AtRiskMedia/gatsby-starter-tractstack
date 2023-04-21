@@ -9,17 +9,15 @@ import { config } from '../../data/SiteConfig'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
-
+import Wrapper from '../components/Wrapper'
 import { IContextPageProps } from '../types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
 export default function ContextPage(props: IContextPageProps) {
-  const [loaded, setLoaded] = useState<boolean>(false)
   const { pageContext } = props
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
@@ -120,15 +118,8 @@ export default function ContextPage(props: IContextPageProps) {
     return () => document.removeEventListener(`keydown`, handleEscapeKey)
   }, [updateEventStream, processRead, goto, now, pageContext.id])
 
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(thisSlug, `contextPane`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, thisSlug, setLastStoryStep])
-
   return (
-    <>
+    <Wrapper slug={thisSlug} mode="contextPane">
       <Header siteTitle={title} open={false} />
       <div id="context" className="z-80010 relative w-full min-h-screen">
         <>{children}</>
@@ -146,6 +137,6 @@ export default function ContextPage(props: IContextPageProps) {
           <div className="w-full ring-8 ring-slate-50 py-24 bg-allwhite"></div>
         </div>
       </div>
-    </>
+    </Wrapper>
   )
 }

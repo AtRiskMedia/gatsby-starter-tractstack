@@ -1,20 +1,19 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { navigate } from 'gatsby'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { getScrollbarSize } from 'gatsby-plugin-tractstack'
 
 import { useAuthStore } from '../stores/authStore'
-import StoryFragment from './StoryFragment'
+import { useStoryStepStore } from '../stores/storyStep'
 import { getTokens } from '../api/axiosClient'
-import { IStoryFragmentProps } from '../types'
+import { IWrapperProps } from '../types'
 
-const StoryFragmentWrapper = ({
-  viewportKey,
-  payload,
-}: IStoryFragmentProps) => {
+const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const [loggingIn, setLoggingIn] = useState(false)
   const [lastRun, setLastRun] = useState(0)
+  const viewportKey = useAuthStore((state) => state.viewportKey)
+  const setViewportKey = useAuthStore((state) => state.setViewportKey)
   const login = useAuthStore((state) => state.login)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const encryptedEmail = useAuthStore((state) => state.authData.encryptedEmail)
@@ -23,6 +22,15 @@ const StoryFragmentWrapper = ({
   const validToken = useAuthStore((state) => state.validToken)
   const fingerprint = useAuthStore((state) => state.fingerprint)
   const setFingerprint = useAuthStore((state) => state.setFingerprint)
+  const [loaded, setLoaded] = useState<boolean>(false)
+  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
+
+  useEffect(() => {
+    if (!loaded) {
+      setLastStoryStep(slug, mode)
+      setLoaded(true)
+    }
+  }, [loaded, setLoaded, setLastStoryStep, slug, mode])
 
   useEffect(() => {
     if (typeof fingerprint === `object` && fingerprint === null) {
@@ -87,8 +95,10 @@ const StoryFragmentWrapper = ({
           : thisViewportKey === `tablet`
           ? 1080
           : 1920
-      if (thisViewportKey !== viewportKey)
-        navigate(`/${payload.slug}/${thisViewport}`)
+      if (thisViewportKey !== viewportKey) {
+        setViewportKey(thisViewportKey)
+        if (mode === `storyFragment`) navigate(`/${slug}/${thisViewport}`)
+      }
       const thisScale =
         thisWidth < 801
           ? (thisWidth - scrollBarOffset) / 600
@@ -103,9 +113,9 @@ const StoryFragmentWrapper = ({
     window.addEventListener(`resize`, handleResize)
     handleResize()
     return () => window.removeEventListener(`resize`, handleResize)
-  }, [viewportKey, payload.slug])
+  }, [viewportKey, slug, mode, setViewportKey])
 
-  return <StoryFragment viewportKey={viewportKey} payload={payload} />
+  return children
 }
 
-export default StoryFragmentWrapper
+export default Wrapper

@@ -11,11 +11,12 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { useStoryStepStore } from '../stores/storyStep'
-import { IConciergeNavProps } from '../types'
+import { useAuthStore } from '../stores/authStore'
+import { IConciergeNavProps, IConciergeNavLinksProps } from '../types'
 import { config } from '../../data/SiteConfig'
 
-const _subNavigation = ({ active, auth = false }: IConciergeNavProps) => {
-  const notAuth = [
+const _subNavigation = ({ active, hasAuth }: IConciergeNavLinksProps) => {
+  const linksNotAuth = [
     {
       name: `Welcome`,
       href: `/concierge/profile`,
@@ -29,7 +30,7 @@ const _subNavigation = ({ active, auth = false }: IConciergeNavProps) => {
       current: active === `login`,
     },
   ]
-  const hasAuth = [
+  const linksHasAuth = [
     {
       name: `Profile`,
       href: `/concierge/profile`,
@@ -52,13 +53,16 @@ const _subNavigation = ({ active, auth = false }: IConciergeNavProps) => {
     },
   ]
 
-  if (!auth) return notAuth.concat(links)
-  return hasAuth.concat(links)
+  if (!hasAuth) return linksNotAuth.concat(links)
+  return linksHasAuth.concat(links)
 }
 
-const ConciergeNav = ({ active, auth }: IConciergeNavProps) => {
-  const subNavigation = _subNavigation({ active, auth })
+const ConciergeNav = ({ active }: IConciergeNavProps) => {
   const processRead = useStoryStepStore((state) => state.processRead)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const hasAuth = !!isLoggedIn
+  const subNavigation = _subNavigation({ active, hasAuth })
+
   function navigateHome() {
     processRead(config.home)
   }

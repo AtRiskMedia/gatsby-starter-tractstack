@@ -23,14 +23,6 @@ export async function register({
   return client.post(`/auth/register`, payload, options)
 }
 
-export async function graph() {
-  return client.get(`/users/graph`)
-}
-
-export async function loadProfile() {
-  return client.get(`/users/profile`)
-}
-
 export async function pushPayload({
   eventStream,
   contentMap,
@@ -147,8 +139,12 @@ export async function pushPayload({
   })
 }
 
-export async function initProfile({ profile }: IAxiosProfileProps) {
-  return client.post(`/users/profile`, profile)
+export async function getGraph() {
+  return client.get(`/users/graph`)
+}
+
+export async function loadProfile() {
+  return client.get(`/users/profile`)
 }
 
 export async function saveProfile({ profile }: IAxiosProfileProps) {

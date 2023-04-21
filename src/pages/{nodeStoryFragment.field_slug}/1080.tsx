@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 import { useStoryStepStore } from '../../stores/storyStep'
-import StoryFragmentWrapper from '../../components/StoryFragmentWrapper'
+import StoryFragment from '../../components/StoryFragment'
 import Header from '../../components/Header'
 import Seo from '../../components/Seo'
 import Belief from '../../components/Belief'
@@ -275,10 +275,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
         </Helmet>
       ) : null}
       <Header siteTitle={storyFragmentTitle} open={false} />
-      <StoryFragmentWrapper
-        viewportKey={viewportKey}
-        payload={storyFragmentPayload}
-      />
+      <StoryFragment payload={storyFragmentPayload} />
     </>
   )
 }

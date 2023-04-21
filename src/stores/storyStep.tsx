@@ -76,7 +76,11 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
           typeof document !== `undefined` && typeof mode === `string`
             ? document.getElementById(mode)
             : null
-        if (anchor) anchor.scrollIntoView(false)
+        anchor?.scrollIntoView({
+          behavior: `auto`,
+          block: `center`,
+          inline: `center`,
+        })
       } else navigate(`/${goto}/${viewport}`)
     }
   },

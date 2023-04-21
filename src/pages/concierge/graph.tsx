@@ -1,29 +1,24 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { navigate } from 'gatsby'
 
 import { useAuthStore } from '../../stores/authStore'
-import { useStoryStepStore } from '../../stores/storyStep'
 import Graph from '../../components/Graph'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
+import Wrapper from '../../components/Wrapper'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 
 const ConciergeGraph = () => {
-  const [loaded, setLoaded] = useState<boolean>(false)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
-  const authData = useAuthStore((state) => state.authData)
-  const authenticated = authData.authenticated
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const knownLead = useAuthStore((state) => state.authData.knownLead)
+  const authenticated = useAuthStore((state) => state.authData.authenticated)
 
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(`graph`, `conciergePage`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, setLastStoryStep])
+  if (isLoggedIn && knownLead && !authenticated) navigate(`/concierge/login`)
 
   return (
-    <>
+    <Wrapper slug="graph" mode="conciergePage">
       <Header siteTitle="Site Map | Knowledge graph" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -32,12 +27,12 @@ const ConciergeGraph = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <aside className="py-6 lg:col-span-3">
                   <nav className="space-y-1">
-                    <ConciergeNav active="graph" auth={authenticated} />
+                    <ConciergeNav active="graph" />
                   </nav>
                 </aside>
 
                 <div className="divide-y divide-gray-200 lg:col-span-9 h-screen max-h-[40rem]">
-                  <Graph />
+                  {isLoggedIn ? <Graph /> : null}
                 </div>
               </div>
             </div>
@@ -45,7 +40,7 @@ const ConciergeGraph = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 

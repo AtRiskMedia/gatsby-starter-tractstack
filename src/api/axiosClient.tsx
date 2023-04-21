@@ -1,5 +1,5 @@
 import { createAxiosClient } from './createAxiosClient'
-import { register, loadProfile } from '../api/services'
+import { register } from '../api/services'
 import { useAuthStore } from '../stores/authStore'
 import { IAuthStoreLoginResponse } from '../types'
 
@@ -44,8 +44,8 @@ export const client = createAxiosClient({
 
 export const getTokens = async (
   fingerprint: string,
-  email?: string | null,
   codeword?: string | null,
+  email?: string | null,
 ) => {
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
@@ -60,7 +60,6 @@ export const getTokens = async (
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const knownLead = response.data.known_lead
-    const emailConflict = response.data.email_conflict
     const firstname = response.data.first_name
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
@@ -73,7 +72,6 @@ export const getTokens = async (
       auth,
       firstname,
       knownLead,
-      emailConflict,
       encryptedEmail,
       encryptedCode,
       beliefs,
@@ -86,7 +84,7 @@ export const getTokens = async (
     }
   }
 }
-
+/*
 export const getProfile = async () => {
   try {
     const response = await loadProfile()
@@ -107,3 +105,4 @@ export const getProfile = async () => {
     }
   }
 }
+*/

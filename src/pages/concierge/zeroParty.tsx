@@ -1,29 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'gatsby'
 
-import { useAuthStore } from '../../stores/authStore'
-import { useStoryStepStore } from '../../stores/storyStep'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
+import Wrapper from '../../components/Wrapper'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 
 const ZeroParty = () => {
-  const [loaded, setLoaded] = useState<boolean>(false)
-  const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
-  const authData = useAuthStore((state) => state.authData)
-  const authenticated = authData.authenticated
-
-  useEffect(() => {
-    if (!loaded) {
-      setLastStoryStep(`zeroParty`, `conciergePage`)
-      setLoaded(true)
-    }
-  }, [loaded, setLoaded, setLastStoryStep])
-
   return (
-    <>
+    <Wrapper slug="zeroParty" mode="conciergePage">
       <Header siteTitle="Powered by Tract Stack" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
@@ -32,7 +19,7 @@ const ZeroParty = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <aside className="py-6 lg:col-span-3">
                   <nav className="space-y-1">
-                    <ConciergeNav active="zeroParty" auth={authenticated} />
+                    <ConciergeNav active="zeroParty" />
                   </nav>
                 </aside>
 
@@ -89,7 +76,7 @@ const ZeroParty = () => {
         </main>
       </div>
       <Footer />
-    </>
+    </Wrapper>
   )
 }
 
