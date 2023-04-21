@@ -13,6 +13,7 @@ import {
 
 import { useAuthStore } from '../../stores/authStore'
 import { loadProfile, saveProfile } from '../../api/services'
+import { getTokens } from '../../api/axiosClient'
 import Seo from '../../components/Seo'
 import Header from '../../components/Header'
 import Wrapper from '../../components/Wrapper'
@@ -62,9 +63,12 @@ const ConciergeProfile = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [codeword, setCodeword] = useState(``)
   const [submitted, setSubmitted] = useState(false)
-  const [loggingIn, setLoggingIn] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [created, setCreated] = useState(false)
   const [badSave, setBadSave] = useState(false)
   const [saved, setSaved] = useState(0)
+  const login = useAuthStore((state) => state.login)
+  const fingerprint = useAuthStore((state) => state.fingerprint)
   const firstname = useAuthStore((state) => state.authData.firstname)
   const shortBio = useAuthStore((state) => state.authData.shortBio)
   const email = useAuthStore((state) => state.authData.email)
@@ -80,8 +84,8 @@ const ConciergeProfile = () => {
   )
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (firstname && email && codeword && !loggingIn) {
-      setLoggingIn(true)
+    if (firstname && email && codeword && !saving) {
+      setSaving(true)
       const profile = {
         firstname,
         email,
@@ -99,6 +103,12 @@ const ConciergeProfile = () => {
               inline: `center`,
             })
             setSaved(Date.now())
+            if (!authenticated && fingerprint) {
+              setCreated(true)
+              getTokens(fingerprint, codeword, email)
+                .then((res) => login(res))
+            }
+            else setCreated(false)
           }
         })
         .catch(() => {
@@ -107,7 +117,7 @@ const ConciergeProfile = () => {
           logout(true)
         })
         .finally(() => {
-          setLoggingIn(false)
+          setSaving(false)
           setShow(false)
         })
     }
@@ -240,7 +250,7 @@ const ConciergeProfile = () => {
                       </p>
                       {saved && saved + 10000 > Date.now() ? (
                         <p className="text-red-500 text-lg mb-10">
-                          Your profile has been updated.
+                          Your profile has been {!created ? `updated` : `created`}.
                         </p>
                       ) : badSave ? null : (
                         <p className="text-gray-700 text-lg mb-6">
@@ -547,7 +557,7 @@ const ConciergeProfile = () => {
                               type="submit"
                               className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                             >
-                              <span className="pr-4">Save Profile</span>
+                              <span className="pr-4">{authenticated ? `Save Profile` : `Create Profile`}</span>
                               <ChevronRightIcon
                                 className="h-5 w-5 mr-3"
                                 aria-hidden="true"
