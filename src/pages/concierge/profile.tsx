@@ -120,34 +120,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-      ? ArrowPathRoundedSquareIcon
-      : personaSelected.title === `All Updates`
-      ? BoltIcon
-      : BellSlashIcon
+        ? ArrowPathRoundedSquareIcon
+        : personaSelected.title === `All Updates`
+          ? BoltIcon
+          : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-orange`
       : personaSelected.title === `Major Updates Only`
-      ? `text-darkgrey`
-      : personaSelected.title === `All Updates`
-      ? `text-blue`
-      : `text-darkgrey`
+        ? `text-darkgrey`
+        : personaSelected.title === `All Updates`
+          ? `text-blue`
+          : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
       : personaSelected.title === `Major Updates Only`
-      ? `bg-lightgrey`
-      : personaSelected.title === `All Updates`
-      ? `bg-green`
-      : `bg-darkgrey`
+        ? `bg-lightgrey`
+        : personaSelected.title === `All Updates`
+          ? `bg-green`
+          : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `Major Updates Only`
-      ? `20%`
-      : personaSelected.title === `All Updates`
-      ? `98%`
-      : `2%`
+        ? `20%`
+        : personaSelected.title === `All Updates`
+          ? `98%`
+          : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -255,7 +255,7 @@ const ConciergeProfile = () => {
                           .
                         </p>
                       )}
-                      {!isLoggedIn ? (
+                      {!isLoggedIn || !authenticated ? (
                         <p className="text-blue text-lg mb-10">
                           Not your first visit?{` `}
                           <Link
