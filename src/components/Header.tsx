@@ -7,13 +7,17 @@ import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
 
 import { useStoryStepStore } from '../stores/storyStep'
+import { useAuthStore } from '../stores/authStore'
 import { useShopifyStore } from '../stores/shopify'
 import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '../types'
 import { config } from '../../data/SiteConfig'
 
 const Header = ({ siteTitle, open = false }: IHeaderProps) => {
-  const [loaded, setLoaded] = useState(false)
+  const initialize = useShopifyStore((state) => state.initialize)
+  const setClient = useShopifyStore((state) => state.setClient)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const [shopifyInitialized, setShopifyInitialized] = useState(0)
   const processRead = useStoryStepStore((state) => state.processRead)
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
   const currentStoryStepCount = useStoryStepStore(
@@ -35,10 +39,10 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     typeof window === `undefined`
       ? `1920`
       : window?.innerWidth < 801
-      ? `600`
-      : window?.innerWidth < 1367
-      ? `1080`
-      : `1920`
+        ? `600`
+        : window?.innerWidth < 1367
+          ? `1080`
+          : `1920`
   const goBackPayload =
     parseInt(lastStoryStepCount) > 0
       ? storySteps[pastStorySteps[lastStoryStepCount].timecode]
@@ -48,12 +52,12 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     goBackPayload?.type === `storyFragment`
       ? `/${goBackPayload.id}/${viewport}`
       : goBackPayload?.type === `content`
-      ? `/context/${goBackPayload.id}`
-      : goBackPayload?.type === `products`
-      ? `/products/${goBackPayload.id}`
-      : goBackPayload?.type === `concierge`
-      ? `/concierge/${goBackPayload.id}`
-      : `/`
+        ? `/context/${goBackPayload.id}`
+        : goBackPayload?.type === `products`
+          ? `/products/${goBackPayload.id}`
+          : goBackPayload?.type === `concierge`
+            ? `/concierge/${goBackPayload.id}`
+            : `/`
   function navigateBreadcrumbs() {
     processRead(`/breadcrumbs`)
   }
@@ -64,9 +68,6 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     processRead(goBackTo)
   }
 
-  const initialize = useShopifyStore((state) => state.initialize)
-  const setClient = useShopifyStore((state) => state.setClient)
-  const [shopifyInitialized, setShopifyInitialized] = useState(0)
   useEffect(() => {
     if (shopifyInitialized === 0 && config.initializeShopify) {
       const client = Client.buildClient(
@@ -99,10 +100,6 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     }
   }, [open, lastStoryStep, processRead])
 
-  useEffect(() => {
-    if (!loaded) setLoaded(true)
-  }, [loaded, setLoaded])
-
   return (
     <header className="relative z-90000">
       <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-white shadow-inner shadow-darkgrey">
@@ -112,12 +109,12 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
           </h1>
         </div>
         <div className="inline-flex">
-          {loaded ? (
+          {isLoggedIn ? (
             <button className="mx-2 hover:text-blue" onClick={() => hide()}>
               <BackwardIcon className="h-8 w-8" title={goBackText} />
             </button>
           ) : null}
-          {loaded && hasStorySteps ? (
+          {isLoggedIn && hasStorySteps ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => navigateBreadcrumbs()}
@@ -125,7 +122,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
               <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
             </button>
           ) : null}
-          {loaded ? (
+          {isLoggedIn ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => (!open ? reveal() : hide())}
@@ -141,7 +138,7 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
               </span>
             </button>
           ) : null}
-          {loaded && config.initializeShopify && quantity > 0 ? (
+          {isLoggedIn && config.initializeShopify && quantity > 0 ? (
             <CartButton quantity={quantity} />
           ) : null}
         </div>
