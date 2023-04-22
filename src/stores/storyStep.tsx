@@ -9,6 +9,10 @@ const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
 export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
+  controllerOverride: false,
+  setControllerOverride: (controllerOverride: boolean) => {
+    set((state) => ({ ...state, controllerOverride }))
+  },
   panesVisible: {
     last: false,
   },

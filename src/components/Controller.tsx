@@ -62,7 +62,15 @@ const Controller = ({
   viewportKey,
 }: IControllerProps) => {
   const [offset, setOffset] = React.useState(0)
-  const [open, setOpen] = React.useState(false)
+  const controllerOverride = useStoryStepStore(
+    (state) => state.controllerOverride,
+  )
+  const setControllerOverride = useStoryStepStore(
+    (state) => state.setControllerOverride,
+  )
+  const [open, setOpen] = React.useState(
+    !!(viewportKey === `desktop` && !controllerOverride),
+  )
 
   useInterval(() => {
     if (impressionPanes.length > offset + 1) setOffset(offset + 1)
@@ -73,14 +81,22 @@ const Controller = ({
     impressions && typeof impressionPanes[offset] !== `undefined`
       ? impressions[impressionPanes[offset]]
       : impressions
-      ? impressions[impressionPanes[0]]
-      : null
+        ? impressions[impressionPanes[0]]
+        : null
   const thisImpression: any =
     typeof offsetImpression === `object` &&
-    typeof offsetImpression[0] === `object`
+      typeof offsetImpression[0] === `object`
       ? offsetImpression[0]
       : null
+  const callback = viewportKey === `desktop` ? doOverride : setOpen
+  function doOverride(value: any) {
+    setControllerOverride(!value)
+    setOpen(!value)
+  }
+  const value = viewportKey === `desktop` ? !controllerOverride : !open
+
   if (!thisImpression) return null
+
   if (open)
     return (
       <aside id="controller" className="mr-1">
@@ -91,7 +107,7 @@ const Controller = ({
             <button
               type="button"
               className="z-90101 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={() => setOpen(!open)}
+              onClick={() => callback(value)}
             >
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -108,7 +124,7 @@ const Controller = ({
       <button
         type="button"
         className="z-90101 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        onClick={() => setOpen(!open)}
+        onClick={() => callback(value)}
       >
         <span className="sr-only">Show controller</span>
         <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />

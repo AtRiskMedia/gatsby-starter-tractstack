@@ -116,6 +116,8 @@ export interface IEventStreamDict {
   [key: string]: IEventStream
 }
 export interface IStoryStepStoreState {
+  controllerOverride: boolean
+  setControllerOverride: Function
   panesVisible: any
   panesRead: any
   eventStream: IEventStreamDict

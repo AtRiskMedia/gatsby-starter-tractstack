@@ -105,10 +105,8 @@ const ConciergeProfile = () => {
             setSaved(Date.now())
             if (!authenticated && fingerprint) {
               setCreated(true)
-              getTokens(fingerprint, codeword, email)
-                .then((res) => login(res))
-            }
-            else setCreated(false)
+              getTokens(fingerprint, codeword, email).then((res) => login(res))
+            } else setCreated(false)
           }
         })
         .catch(() => {
@@ -130,34 +128,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-        ? ArrowPathRoundedSquareIcon
-        : personaSelected.title === `All Updates`
-          ? BoltIcon
-          : BellSlashIcon
+      ? ArrowPathRoundedSquareIcon
+      : personaSelected.title === `All Updates`
+      ? BoltIcon
+      : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-orange`
       : personaSelected.title === `Major Updates Only`
-        ? `text-darkgrey`
-        : personaSelected.title === `All Updates`
-          ? `text-blue`
-          : `text-darkgrey`
+      ? `text-darkgrey`
+      : personaSelected.title === `All Updates`
+      ? `text-blue`
+      : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
       : personaSelected.title === `Major Updates Only`
-        ? `bg-lightgrey`
-        : personaSelected.title === `All Updates`
-          ? `bg-green`
-          : `bg-darkgrey`
+      ? `bg-lightgrey`
+      : personaSelected.title === `All Updates`
+      ? `bg-green`
+      : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `Major Updates Only`
-        ? `20%`
-        : personaSelected.title === `All Updates`
-          ? `98%`
-          : `2%`
+      ? `20%`
+      : personaSelected.title === `All Updates`
+      ? `98%`
+      : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -250,7 +248,8 @@ const ConciergeProfile = () => {
                       </p>
                       {saved && saved + 10000 > Date.now() ? (
                         <p className="text-red-500 text-lg mb-10">
-                          Your profile has been {!created ? `updated` : `created`}.
+                          Your profile has been{` `}
+                          {!created ? `updated` : `created`}.
                         </p>
                       ) : badSave ? null : (
                         <p className="text-gray-700 text-lg mb-6">
@@ -524,8 +523,8 @@ const ConciergeProfile = () => {
                                   htmlFor="codeword"
                                   className="block text-sm font-medium text-gray-700"
                                 >
-                                  Enter the secret code word to protect your
-                                  account:
+                                  {isLoggedIn ? `Re-e` : `E`}nter your secret
+                                  code word to protect your account:
                                 </label>
                                 <input
                                   type="text"
@@ -557,7 +556,11 @@ const ConciergeProfile = () => {
                               type="submit"
                               className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                             >
-                              <span className="pr-4">{authenticated ? `Save Profile` : `Create Profile`}</span>
+                              <span className="pr-4">
+                                {authenticated
+                                  ? `Save Profile`
+                                  : `Create Profile`}
+                              </span>
                               <ChevronRightIcon
                                 className="h-5 w-5 mr-3"
                                 aria-hidden="true"
