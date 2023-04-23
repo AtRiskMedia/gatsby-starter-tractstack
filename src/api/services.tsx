@@ -11,6 +11,7 @@ export async function register({
   email,
   encryptedEmail,
   encryptedCode,
+  referrer,
 }: IAxiosRegisterProps) {
   const payload = {
     fingerprint: fingerprint.toString(),
@@ -18,6 +19,7 @@ export async function register({
     email,
     encryptedEmail,
     encryptedCode,
+    referrer,
   }
   const options: any = { authorization: false }
   return client.post(`/auth/register`, payload, options)

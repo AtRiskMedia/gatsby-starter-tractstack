@@ -5,6 +5,7 @@ import { Compositor } from 'gatsby-plugin-tractstack'
 import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 import { useStoryStepStore } from '../stores/storyStep'
+import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
@@ -16,6 +17,8 @@ const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
 export default function ContextPage(props: IContextPageProps) {
+  const referrer = useAuthStore((state) => state.referrer)
+  const setReferrer = useAuthStore((state) => state.setReferrer)
   const { pageContext } = props
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
   const updateEventStream = useStoryStepStore(
@@ -117,6 +120,34 @@ export default function ContextPage(props: IContextPageProps) {
     document.addEventListener(`keydown`, handleEscapeKey)
     return () => document.removeEventListener(`keydown`, handleEscapeKey)
   }, [updateEventStream, processRead, goto, now, pageContext.id])
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const utmSource = params.get(`utm_source`) || ``
+    const utmMedium = params.get(`utm_medium`) || ``
+    const utmCampaign = params.get(`utm_campaign`) || ``
+    const utmTerm = params.get(`utm_term`) || ``
+    const utmContent = params.get(`utm_content`) || ``
+    if (
+      typeof referrer.init === `undefined` &&
+      (document?.referrer ||
+        utmSource ||
+        utmMedium ||
+        utmCampaign ||
+        utmTerm ||
+        utmContent)
+    ) {
+      setReferrer({
+        init: true,
+        httpReferrer: document?.referrer,
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        utmTerm,
+        utmContent,
+      })
+    }
+  }, [referrer, setReferrer])
 
   return (
     <Wrapper slug={thisSlug} mode="contextPane">

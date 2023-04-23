@@ -49,6 +49,7 @@ export const getTokens = async (
 ) => {
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
+  const referrer = useAuthStore.getState().referrer
   const params =
     codeword && email
       ? { codeword, email }
@@ -56,7 +57,8 @@ export const getTokens = async (
       ? { encryptedCode, encryptedEmail }
       : {}
   try {
-    const response = await register({ fingerprint, ...params })
+    console.log(`debug`, referrer)
+    const response = await register({ fingerprint, referrer, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const knownLead = response.data.known_lead

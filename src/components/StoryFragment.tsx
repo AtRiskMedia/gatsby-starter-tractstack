@@ -42,6 +42,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
   )
+  const referrer = useAuthStore((state) => state.referrer)
   const eventStream = useStoryStepStore((state) => state.eventStream)
   const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
   const resetGotoLastPane = useStoryStepStore(
@@ -108,6 +109,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     forceSync,
     eventStream,
     contentMap,
+    referrer,
     tractStackId,
     updateEventStreamCleanup,
     setLastSync,

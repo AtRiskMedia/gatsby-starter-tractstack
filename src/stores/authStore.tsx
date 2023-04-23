@@ -1,6 +1,11 @@
 import { create } from 'zustand'
 
-import { ITokens, IAuthStoreState, IAuthStoreLoginResponse } from '../types'
+import {
+  ITokens,
+  IAuthStoreState,
+  IReferrer,
+  IAuthStoreLoginResponse,
+} from '../types'
 
 function setTokensToLocalStorage(tokens: ITokens) {
   if (typeof localStorage === `object`) {
@@ -47,6 +52,12 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   beliefs: {},
   lastSync: 0,
   viewportKey: `server`,
+  referrer: {
+    init: undefined,
+  },
+  setReferrer: (referrer: IReferrer) => {
+    set((state) => ({ ...state, referrer }))
+  },
   setViewportKey: (viewportKey: string) => {
     set((state) => ({ ...state, viewportKey }))
   },

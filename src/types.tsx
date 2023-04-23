@@ -54,6 +54,16 @@ export interface IAuthStorePayload {
   badLogin: boolean
 }
 
+export interface IReferrer {
+  init: boolean | undefined
+  httpReferrer?: string
+  utmSource?: string
+  utmMedium?: string
+  utmCampaign?: string
+  utmTerm?: string
+  utmContent?: string
+}
+
 export interface IAuthStoreState {
   accessToken: string | null
   authData: IAuthStorePayload
@@ -63,6 +73,8 @@ export interface IAuthStoreState {
   viewportKey: string
   beliefs: { [key: string]: string }
   lastSync: number
+  referrer: IReferrer
+  setReferrer: Function
   setViewportKey: Function
   setLastSync: Function
   updateBeliefs: Function
@@ -371,6 +383,7 @@ export interface IAxiosClientProps {
 
 export interface IAxiosRegisterProps {
   fingerprint: string
+  referrer: IReferrer
   codeword?: string | undefined
   email?: string | undefined
   encryptedEmail?: string | undefined
