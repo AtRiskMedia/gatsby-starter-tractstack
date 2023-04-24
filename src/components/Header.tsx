@@ -39,10 +39,10 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     typeof window === `undefined`
       ? `1920`
       : window?.innerWidth < 801
-      ? `600`
-      : window?.innerWidth < 1367
-      ? `1080`
-      : `1920`
+        ? `600`
+        : window?.innerWidth < 1367
+          ? `1080`
+          : `1920`
   const goBackPayload =
     parseInt(lastStoryStepCount) > 0
       ? storySteps[pastStorySteps[lastStoryStepCount].timecode]
@@ -52,12 +52,12 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
     goBackPayload?.type === `storyFragment`
       ? `/${goBackPayload.id}/${viewport}`
       : goBackPayload?.type === `content`
-      ? `/context/${goBackPayload.id}`
-      : goBackPayload?.type === `products`
-      ? `/products/${goBackPayload.id}`
-      : goBackPayload?.type === `concierge`
-      ? `/concierge/${goBackPayload.id}`
-      : `/`
+        ? `/context/${goBackPayload.id}`
+        : goBackPayload?.type === `products`
+          ? `/products/${goBackPayload.id}`
+          : goBackPayload?.type === `concierge`
+            ? `/concierge/${goBackPayload.id}`
+            : `/`
   function navigateBreadcrumbs() {
     processRead(`/breadcrumbs`)
   }
@@ -109,18 +109,18 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
           </h1>
         </div>
         <div className="inline-flex">
-          {isLoggedIn ? (
-            <button className="mx-2 hover:text-blue" onClick={() => hide()}>
-              <BackwardIcon className="h-8 w-8" title={goBackText} />
-            </button>
-          ) : null}
-          {isLoggedIn && hasStorySteps ? (
-            <button
-              className="mx-2 hover:text-blue"
-              onClick={() => navigateBreadcrumbs()}
-            >
-              <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
-            </button>
+          {hasStorySteps ? (
+            <>
+              <button className="mx-2 hover:text-blue" onClick={() => hide()}>
+                <BackwardIcon className="h-8 w-8" title={goBackText} />
+              </button>
+              <button
+                className="mx-2 hover:text-blue"
+                onClick={() => navigateBreadcrumbs()}
+              >
+                <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
+              </button>
+            </>
           ) : null}
           {isLoggedIn ? (
             <button

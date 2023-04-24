@@ -54,10 +54,9 @@ export const getTokens = async (
     codeword && email
       ? { codeword, email }
       : encryptedCode && encryptedEmail
-      ? { encryptedCode, encryptedEmail }
-      : {}
+        ? { encryptedCode, encryptedEmail }
+        : {}
   try {
-    console.log(`debug`, referrer)
     const response = await register({ fingerprint, referrer, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
