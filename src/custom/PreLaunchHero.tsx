@@ -34,8 +34,12 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             <Wordmark className="h-10 xl:h-12 fill-black" />
           </div>
           <p className="mt-10 text-2xl leading-10 text-black xl:text-r3xl xl:max-w-lg text-center">
-            Make your own opinionated{` `}
-            <span className="whitespace-nowrap">no-code</span> website
+            A better way to court buyers
+          </p>
+          <p className="mt-10 text-lg leading-10 text-darkgrey lg:text-2xl xl:max-w-lg text-center">
+            <span className="whitespace-nowrap">no-code</span> website and
+            adaptive storytelling &amp; conversion funnels to grow your brand or
+            business
           </p>
         </div>
       </div>
@@ -49,27 +53,6 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     What&apos;s your jam?
                   </h3>
                   <div className="my-auto text-xl text-white pl-12 mt-6 md:mt-0">
-                    {count < 2 ? (
-                      <p>
-                        <span className="font-bold italic">
-                          Opinionated website ahead:
-                        </span>
-                        {` `}
-                        &nbsp; Tell us your opinions and this website will
-                        adjust its tone and adapt to give you a better
-                        experience.
-                      </p>
-                    ) : (
-                      <>
-                        <p>
-                          <span className="font-bold italic">Noted!</span>
-                          {` `}
-                          &nbsp; Your opinions have been applied. This website
-                          experience has been adjusted.
-                        </p>
-                        <p className="mt-6">Change your answers at any time.</p>
-                      </>
-                    )}
                     <ul>
                       <li className="mt-6">
                         Do you prefer non-technical explanations{` `}
@@ -89,18 +72,17 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                       </li>
                     </ul>
                     <p className="mt-6">
-                      {count < 2 ? (
-                        <span>
-                          Please respond to the above two statements to get
-                          started.
-                        </span>
-                      ) : null}
+                      This website adapts to give you the best content experience based on your stated preferences!
                       {` `}
                       {count === 1 ? (
                         <span className="font-action text-green">
                           ({count}/2 answered)
                         </span>
-                      ) : null}
+                      ) :
+                        count === 2 ? (
+                          <span className="mt-6">You can change your answers at any time.</span>
+                        ) :
+                          null}
                     </p>
                   </div>
                 </div>

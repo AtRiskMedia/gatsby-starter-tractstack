@@ -1,14 +1,14 @@
 import { ISiteConfig } from "../src/types"
 
 export const config: ISiteConfig = {
-  home: "prelaunch",
+  home: "home",
   readThreshold: 42000,
   softReadThreshold: 7000,
   conciergeSync: 30000,
   impressionsDelay: 22000,
-  slogan: "Tooling for better product storytelling",
+  slogan: "slogan",
   footer:
-    "Tract Stack by At Risk Media | Intelligent no-code landing pages for product-market-fit validation",
+    "Footer slogan",
   social: [
     {
       name: "Twitter",
