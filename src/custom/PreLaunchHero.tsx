@@ -72,17 +72,18 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                       </li>
                     </ul>
                     <p className="mt-6">
-                      This website adapts to give you the best content experience based on your stated preferences!
+                      This website adapts to give you the best content
+                      experience based on your stated preferences!
                       {` `}
                       {count === 1 ? (
                         <span className="font-action text-green">
                           ({count}/2 answered)
                         </span>
-                      ) :
-                        count === 2 ? (
-                          <span className="mt-6">You can change your answers at any time.</span>
-                        ) :
-                          null}
+                      ) : count === 2 ? (
+                        <span className="mt-6">
+                          You can change your answers at any time.
+                        </span>
+                      ) : null}
                     </p>
                   </div>
                 </div>
