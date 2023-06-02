@@ -142,7 +142,7 @@ const StoryFragmentRender = ({
     const hasCodeHook: any = thisPane.hasCodeHook
     const thisPaneChildren =
       hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+        (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
         <CodeHookIframe
           thisId={thisId}
           payload={hasCodeHook}
@@ -170,9 +170,8 @@ const StoryFragmentRender = ({
       typeof thisPane?.hasMaxHScreen === `boolean`
         ? thisPane.hasMaxHScreen
         : false
+    let override = false
     if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
-      let filter = true
-      let override = false
       Object.entries(heldBeliefs).forEach(([key, value]) => {
         if (typeof beliefs[key] === `undefined`) override = true
         if (
@@ -180,7 +179,7 @@ const StoryFragmentRender = ({
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
         )
-          filter = false
+          override = true
         else if (
           typeof value === `object` &&
           typeof beliefs[key] === `string`
@@ -188,29 +187,28 @@ const StoryFragmentRender = ({
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              filter = false
+              override = true
           })
         }
       })
-      if (filter || override) {
+      if (override)
         return null
-      }
     }
+    override = false
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
-      let filter = false
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
-        if (typeof beliefs[key] !== `string`) filter = true
+        if (typeof beliefs[key] !== `string`) override = true
         else if (typeof beliefs[key] === `string` && beliefs[key] === value)
-          filter = true
+          override = true
         else if (typeof value === `object`) {
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              filter = true
+              override = true
           })
         }
       })
-      if (filter) return null
+      if (override) return null
     }
     return (
       <section
@@ -230,8 +228,8 @@ const StoryFragmentRender = ({
               duration > readThreshold
                 ? `read`
                 : duration > softReadThreshold
-                ? `glossed`
-                : null
+                  ? `glossed`
+                  : null
             if (verb) {
               const eventPayload = {
                 verb,
