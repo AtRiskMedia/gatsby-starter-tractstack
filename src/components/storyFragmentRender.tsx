@@ -170,20 +170,21 @@ const StoryFragmentRender = ({
       typeof thisPane?.hasMaxHScreen === `boolean`
         ? thisPane.hasMaxHScreen
         : false
-
     if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
       let filter = true
       let override = false
       Object.entries(heldBeliefs).forEach(([key, value]) => {
-        if (typeof value === `boolean` && typeof beliefs[key] === `undefined`)
-          override = true
+        if (typeof beliefs[key] === `undefined`) override = true
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
         )
           filter = false
-        else if (typeof value === `object`) {
+        else if (
+          typeof value === `object` &&
+          typeof beliefs[key] === `string`
+        ) {
           const values: any = value
           Object.values(values).forEach((b) => {
             if (typeof beliefs[key] === `string` && beliefs[key] === b)
@@ -191,7 +192,9 @@ const StoryFragmentRender = ({
           })
         }
       })
-      if (!override && filter) return null
+      if (filter || override) {
+        return null
+      }
     }
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
       let filter = false
@@ -209,7 +212,6 @@ const StoryFragmentRender = ({
       })
       if (filter) return null
     }
-
     return (
       <section
         key={`${viewportKey}-${p}-wrapper`}
