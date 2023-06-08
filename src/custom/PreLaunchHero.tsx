@@ -20,8 +20,14 @@ const StyledDiv = styled.div<IStyledDivProps>`
 const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const beliefs = useAuthStore((state) => state.beliefs)
   const [count, setCount] = useState(0)
-  const breakTop = Svg(`kCzbangA`, viewportKey, `herobangA`)
-  const breakBottom = Svg(`kCzlowcutD`, viewportKey, `herolowcutD`)
+  const breakTop =
+    viewportKey !== `desktop`
+      ? Svg(`kCzbangA`, viewportKey, `herobangA`)
+      : Svg(`kCzbangwideA`, viewportKey, `herobangwideA`)
+  const breakBottom =
+    viewportKey !== `desktop`
+      ? Svg(`kCzlowcutD`, viewportKey, `herolowcutD`)
+      : Svg(`kCzlowcutwideD`, viewportKey, `herolowcutwideD`)
 
   useEffect(() => {
     const confusing = !!beliefs?.Confusing
@@ -35,7 +41,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     <>
       <div>
         <div className="absolute">
-          <Hex className="w-[40rem] ml-[50%] lg:ml-[80%] fill-slate-200" />
+          <Hex className="w-[40rem] xl:w-[60rem] ml-[50%] xl:ml-[40%] lg:ml-[80%] fill-slate-200" />
         </div>
         <div className="absolute w-full h-full z-0 bg-white-gradient"></div>
         <div className="z-30 relative py-24 pl-8 md:pl-24 max-w-xs md:max-w-sm lg:max-w-md">
@@ -47,8 +53,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             A better way to court buyers
           </p>
           <p className="mt-6 max-w-xs text-lg text-darkgrey">
-            no-code, build-your-own fast, beautiful, and fully accessible
-            website to grow your brand / business
+            no-code, build-your-own fast, engaging, and fully accessible website
+            to grow your brand / business
           </p>
         </div>
       </div>
@@ -85,15 +91,11 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     </ul>
                     <p className="mt-6">
                       This website adapts to give you the best content
-                      experience based on your stated preferences!
-                      {` `}
+                      experience based on your stated preferences. You can
+                      change your answers at any time.
                       {count === 1 ? (
                         <span className="font-action text-green">
-                          ({count}/2 answered)
-                        </span>
-                      ) : count === 2 ? (
-                        <span className="mt-6">
-                          You can change your answers at any time.
+                          {` `}({count}/2 answered)
                         </span>
                       ) : null}
                     </p>
