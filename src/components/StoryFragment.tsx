@@ -14,7 +14,7 @@ import '../styles/storyfragment.css'
 import { IStoryFragmentProps } from '../types'
 
 interface IStyledWrapperSectionProps {
-  css: any
+  css: string
 }
 const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
   ${(props: any) => props.css};

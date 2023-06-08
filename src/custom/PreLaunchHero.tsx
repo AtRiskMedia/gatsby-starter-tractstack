@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, useEffect } from 'react'
+import { Svg } from 'gatsby-plugin-tractstack'
+import styled from 'styled-components'
 
 import { useAuthStore } from '../stores/authStore'
 import Hex from '../../assets/hex.svg'
@@ -8,9 +10,18 @@ import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
 import Belief from '../components/Belief'
 
+interface IStyledDivProps {
+  css: string
+}
+const StyledDiv = styled.div<IStyledDivProps>`
+  ${(props: any) => props.css};
+`
+
 const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const beliefs = useAuthStore((state) => state.beliefs)
   const [count, setCount] = useState(0)
+  const breakTop = Svg(`kCzbangA`, viewportKey, `herobangA`)
+  const breakBottom = Svg(`kCzlowcutD`, viewportKey, `herolowcutD`)
 
   useEffect(() => {
     const confusing = !!beliefs?.Confusing
@@ -22,27 +33,28 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   return (
     <>
-      <div className="py-24 px-6 sm:px-6 lg:px-8 bg-white-gradient2 relative">
-        {viewportKey !== `mobile` ? (
-          <div className="absolute top-0 left-0 xl:left-16">
-            <Hex className="w-52 lg:w-60 xl:w-80 fill-slate-200" />
+      <div>
+        <div className="absolute">
+          <Hex className="w-[40rem] ml-[50%] lg:ml-[80%] fill-slate-200" />
+        </div>
+        <div className="absolute w-full h-full z-0 bg-white-gradient"></div>
+        <div className="z-30 relative py-24 pl-8 md:pl-24 max-w-xs md:max-w-sm lg:max-w-md">
+          <div className="flex flex-col w-fit">
+            <Logo className="h-16 mb-2" />
+            <Wordmark className="h-10 fill-black" />
           </div>
-        ) : null}
-        <div className="mx-auto max-w-sm md:max-w-md text-center z-50 relative">
-          <div className="flex flex-col">
-            <Logo className="h-16 mb-2 xl:h-20" />
-            <Wordmark className="h-10 xl:h-12 fill-black" />
-          </div>
-          <p className="mt-10 text-2xl leading-10 text-black xl:text-r3xl xl:max-w-lg text-center">
+          <p className="mt-6 text-3xl text-black">
             A better way to court buyers
           </p>
-          <p className="mt-10 text-lg leading-10 text-darkgrey lg:text-2xl xl:max-w-lg text-center">
-            <span className="whitespace-nowrap">no-code</span> website and
-            adaptive storytelling &amp; conversion funnels to grow your brand or
-            business
+          <p className="mt-6 max-w-xs text-lg text-darkgrey">
+            no-code, build-your-own fast, beautiful, and fully accessible
+            website to grow your brand / business
           </p>
         </div>
       </div>
+      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#10120d;}">
+        {breakTop}
+      </StyledDiv>
       <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative">
         <div className="sm:px-8 my-16" id="beliefs">
           <div className="mx-auto max-w-7xl lg:px-8">
@@ -92,6 +104,9 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </div>
         </div>
       </div>
+      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#10120d;}">
+        {breakBottom}
+      </StyledDiv>
     </>
   )
 }
