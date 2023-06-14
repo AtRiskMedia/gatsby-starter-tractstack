@@ -50,7 +50,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             <Wordmark className="h-10 fill-black" />
           </div>
           <p className="mt-6 text-3xl text-black">
-            A better way to court buyers
+            A better way to reach buyers
           </p>
           <p className="mt-6 max-w-xs text-lg text-darkgrey">
             no-code, build-your-own fast, engaging, and fully accessible website
