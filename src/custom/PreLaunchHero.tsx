@@ -22,12 +22,12 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const [count, setCount] = useState(0)
   const breakTop =
     viewportKey !== `desktop`
-      ? Svg(`kCzbangA`, viewportKey, `herobangA`)
-      : Svg(`kCzbangwideA`, viewportKey, `herobangwideA`)
+      ? Svg(`kCzlowcutC`, viewportKey, `herolowcutC`)
+      : Svg(`kCzlowcutwideC`, viewportKey, `herolowcutwideC`)
   const breakBottom =
     viewportKey !== `desktop`
-      ? Svg(`kCzlowcutD`, viewportKey, `herolowcutD`)
-      : Svg(`kCzlowcutwideD`, viewportKey, `herolowcutwideD`)
+      ? Svg(`kCzbangD`, viewportKey, `herobangD`)
+      : Svg(`kCzbangwideD`, viewportKey, `herobangwideD`)
 
   useEffect(() => {
     const confusing = !!beliefs?.Confusing
@@ -58,10 +58,10 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </p>
         </div>
       </div>
-      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#10120d;}">
+      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#293f58;}">
         {breakTop}
       </StyledDiv>
-      <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue-gradient relative">
+      <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue relative">
         <div className="sm:px-8 my-16" id="beliefs">
           <div className="mx-auto max-w-7xl lg:px-8">
             <div className="relative px-4 sm:px-8 lg:px-12">
@@ -106,7 +106,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </div>
         </div>
       </div>
-      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#10120d;}">
+      <StyledDiv css="margin-bottom:-1px; position: relative; background: #f1f5f9; svg {fill:#293f58;}">
         {breakBottom}
       </StyledDiv>
     </>
