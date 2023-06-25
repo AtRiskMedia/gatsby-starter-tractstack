@@ -8,7 +8,6 @@ import Hex from '../../assets/hex.svg'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
-import Belief from '../components/Belief'
 
 interface IStyledDivProps {
   css: string
@@ -24,10 +23,6 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     viewportKey !== `desktop`
       ? Svg(`kCzlowcutC`, viewportKey, `herolowcutC`)
       : Svg(`kCzlowcutwideC`, viewportKey, `herolowcutwideC`)
-  const breakBottom =
-    viewportKey !== `desktop`
-      ? Svg(`kCzbangD`, viewportKey, `herobangD`)
-      : Svg(`kCzbangwideD`, viewportKey, `herobangwideD`)
 
   useEffect(() => {
     const confusing = !!beliefs?.Confusing
@@ -39,7 +34,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   return (
     <>
-      <div>
+      <div id={`${viewportKey}-${storyFragmentId}`}>
         <div className="absolute">
           <Hex className="w-[40rem] xl:w-[60rem] ml-[50%] xl:ml-[40%] lg:ml-[80%] fill-slate-200" />
         </div>
@@ -53,61 +48,13 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             A better way to reach buyers
           </p>
           <p className="mt-6 max-w-xs text-lg text-darkgrey">
-            no-code, build-your-own fast, engaging, and fully accessible website
-            to grow your brand / business
+            no-code, build-your-own fast and fully accessible websites to grow
+            your brand or business
           </p>
         </div>
       </div>
-      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#293f58;}">
+      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#393d34;}">
         {breakTop}
-      </StyledDiv>
-      <div className="py-16 px-6 sm:px-6 lg:px-8 bg-blue relative">
-        <div className="sm:px-8 my-16" id="beliefs">
-          <div className="mx-auto max-w-7xl lg:px-8">
-            <div className="relative px-4 sm:px-8 lg:px-12">
-              <div className="mx-auto max-w-2xl lg:max-w-5xl">
-                <div className="max-w-2xl md:flex md:flex-row mx-auto">
-                  <h3 className="font-action text-xl font-bold tracking-tight text-allwhite sm:text-2xl">
-                    What&apos;s your jam?
-                  </h3>
-                  <div className="my-auto text-xl text-white pl-12 mt-6 md:mt-0">
-                    <ul>
-                      <li className="mt-6">
-                        Do you prefer non-technical explanations{` `}
-                        <Belief
-                          value={{ slug: `NonTechnical`, scale: `agreement` }}
-                          cssClasses={``}
-                          storyFragmentId={storyFragmentId}
-                        />
-                      </li>
-                      <li className="mt-6">
-                        New to Tract Stack?{` `}
-                        <Belief
-                          value={{ slug: `Confusing`, scale: `tf` }}
-                          cssClasses={``}
-                          storyFragmentId={storyFragmentId}
-                        />
-                      </li>
-                    </ul>
-                    <p className="mt-6">
-                      This website adapts to give you the best content
-                      experience based on your stated preferences. You can
-                      change your answers at any time.
-                      {count === 1 ? (
-                        <span className="font-action text-green">
-                          {` `}({count}/2 answered)
-                        </span>
-                      ) : null}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <StyledDiv css="margin-bottom:-1px; position: relative; background: #f1f5f9; svg {fill:#293f58;}">
-        {breakBottom}
       </StyledDiv>
     </>
   )
