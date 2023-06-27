@@ -140,6 +140,7 @@ const StoryFragmentRender = ({
     const thisPane = payload.contentMap[p]
     const thisId = `${viewportKey}-${p}`
     const hasCodeHook: any = thisPane.hasCodeHook
+    const hasHiddenPane: any = thisPane.hasHiddenPane
     const thisPaneChildren =
       hasCodeHook?.target &&
       (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
@@ -217,28 +218,30 @@ const StoryFragmentRender = ({
       >
         <InView
           onEnter={() => {
-            updatePanesVisible(p, Date.now())
+            if (!hasHiddenPane) updatePanesVisible(p, Date.now())
           }}
           onLeave={() => {
-            const now = Date.now()
-            const duration =
-              typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
-            const verb =
-              duration > readThreshold
-                ? `read`
-                : duration > softReadThreshold
-                ? `glossed`
-                : null
-            if (verb) {
-              const eventPayload = {
-                verb,
-                id: p,
-                type: `Pane`,
-                duration: duration / 1000,
+            if (!hasHiddenPane) {
+              const now = Date.now()
+              const duration =
+                typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
+              const verb =
+                duration > readThreshold
+                  ? `read`
+                  : duration > softReadThreshold
+                  ? `glossed`
+                  : null
+              if (verb) {
+                const eventPayload = {
+                  verb,
+                  id: p,
+                  type: `Pane`,
+                  duration: duration / 1000,
+                }
+                updateEventStream(now, eventPayload)
               }
-              updateEventStream(now, eventPayload)
+              updatePanesVisible(p, false)
             }
-            updatePanesVisible(p, false)
           }}
         >
           <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>

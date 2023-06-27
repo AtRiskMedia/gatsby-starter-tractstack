@@ -17,7 +17,7 @@ const Footer = ({ observe }: IFooterProps) => {
         Footer
       </h2>
       <div className="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:py-8 lg:px-8">
-        <div className="mt-2 border-t border-lightgrey pt-4 md:flex md:items-center md:justify-between">
+        <div className="mt-2 pt-4 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2 mr-16">
             {config.social.map((item) => (
               <a
