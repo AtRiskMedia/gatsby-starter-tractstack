@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, useEffect } from 'react'
+import { Link } from 'gatsby'
 import { Svg } from 'gatsby-plugin-tractstack'
 import styled from 'styled-components'
 
@@ -90,7 +91,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     Use these widgets to customize your web reading experience!
                   </p>
                 </li>
-                <li className="mt-6 md:text-left">
+                <li className="mt-6">
                   I prefer non-technical explanations{` `}
                   <Belief
                     value={{ slug: `NonTechnical`, scale: `agreement` }}
@@ -98,13 +99,25 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     storyFragmentId={storyFragmentId}
                   />
                 </li>
-                <li className="mt-6 md:text-left">
+                <li className="mt-6">
                   I&apos;m already familiar with Tract Stack?{` `}
                   <Belief
                     value={{ slug: `AlreadyFamiliar`, scale: `tf` }}
                     cssClasses={``}
                     storyFragmentId={storyFragmentId}
                   />
+                </li>
+                <li className="mt-6">
+                  To read more on our data practices and professional
+                  standards, please see our{` `}
+                  <Link
+                    to={`/concierge/zeroParty`}
+                    className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                  >
+                    Zero Party data privacy policy
+                  </Link>
+                  .
+
                 </li>
               </ul>
             </div>
