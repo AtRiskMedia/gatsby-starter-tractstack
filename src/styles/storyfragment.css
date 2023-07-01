@@ -34,6 +34,9 @@ body {
 .bg-allblack-seethrough {
   background: linear-gradient(rgba(0, 0, 0, 1), rgba(41, 63, 88, 0.98));
 }
+.bg-story-controls {
+  border: 1px solid #a7b1b7;
+}
 .bg-blue-seethrough {
   background: rgba(41, 63, 88, 0.8);
 }
@@ -44,7 +47,7 @@ body {
   background: rgba(255, 255, 255, 0.8);
 }
 .bg-white-gradient {
-  background: linear-gradient(120deg, rgba(255,255,255,1), rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.7) 60%, rgba(255,255,255,1));
+  background: linear-gradient(120deg, rgba(226,232,240,1), rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.7) 60%, rgba(226,232,240,1));
 }
 .bg-white-gradient2 {
   background: linear-gradient(120deg, #f1f5f9 0%, #ffffff 50%, #e2e8f0 100%);
