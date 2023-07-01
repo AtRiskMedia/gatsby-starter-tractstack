@@ -36,9 +36,9 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   const branding =
     viewportKey === `mobile` ? (
-      <div className="z-30 relative pt-16 px-2">
+      <div className="pt-16 px-2 relative z-10">
         <div className="flex flex-row flex-nowrap">
-          <div className="flex flex-col place-content-center place-items-center px-2">
+          <div className="flex flex-col place-content-center px-6">
             <div className="flex flex-col w-fit">
               <Logo className="h-10 mb-2" />
               <Wordmark className="h-5 fill-black" />
@@ -47,8 +47,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
               A better way to reach buyers
             </p>
           </div>
-          <div className="flex flex-col place-content-center place-items-center">
-            <p className="text-sm text-darkgrey pl-6 font-action tracking-wider max-w-xs text-right pr-4">
+          <div className="flex flex-col place-content-center pr-6">
+            <p className="text-sm text-darkgrey font-action tracking-wider max-w-xs text-right">
               no-code, build-your-own fast and fully accessible websites to grow
               your brand or business
             </p>
@@ -56,7 +56,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         </div>
       </div>
     ) : (
-      <div className="z-30 relative py-12 md:py-24 ml-12 max-w-sm">
+      <div className="py-24 ml-12 max-w-sm relative z-10">
         <div className="flex flex-col w-fit">
           <Logo className="h-16 mb-2" />
           <Wordmark className="h-10 fill-black" />
@@ -68,62 +68,76 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         </p>
       </div>
     )
+  const yourJam = (
+    <ul>
+      <li>
+        <h3 className="font-action text-orange text-xl">
+          What&apos;s your jam?
+        </h3>
+      </li>
+      <li>
+        <p className="text-gray-700">
+          Use these widgets to customize your web reading experience!
+        </p>
+      </li>
+      <li className="mt-6">
+        I prefer non-technical explanations{` `}
+        <Belief
+          value={{ slug: `NonTechnical`, scale: `agreement` }}
+          cssClasses={``}
+          storyFragmentId={storyFragmentId}
+        />
+      </li>
+      <li className="mt-6">
+        I&apos;m already familiar with Tract Stack{` `}
+        <Belief
+          value={{ slug: `AlreadyFamiliar`, scale: `tf` }}
+          cssClasses={``}
+          storyFragmentId={storyFragmentId}
+        />
+      </li>
+      <li className="mt-6">
+        To read more on our data practices and professional standards, please
+        see{` `}
+        <Link
+          to={`/concierge/zeroParty`}
+          className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+        >
+          Zero Party data privacy policy
+        </Link>
+        .
+      </li>
+    </ul>
+  )
 
   return (
     <>
-      <div id={`${viewportKey}-${storyFragmentId}`}>
+      <div
+        id={`${viewportKey}-${storyFragmentId.id}`}
+        className="bg-white-gradient overflow-hidden"
+      >
         <div className="absolute">
           <Hex className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] lg:w-[60rem] lg:ml-[20rem] xl:ml-[30rem] fill-white" />
         </div>
-        <div className="absolute w-full h-full z-0 bg-white-gradient"></div>
-        <div className="md:flex md:flex-row md:flex-nowrap mx-auto">
+        <div className="md:flex md:flex-row md:flex-nowrap mx-auto md:pb-24">
           {branding}
-          <div className="z-50 relative mt-8 mb-12 md:my-auto md:ml-16 p-6">
-            <div className="w-full rounded-xl bg-story-controls p-6 max-w-xl mx-auto -rotate-2">
-              <ul>
-                <li>
-                  <h3 className="font-action text-orange text-xl">
-                    What&apos;s your jam?
-                  </h3>
-                </li>
-                <li>
-                  <p className="text-gray-700">
-                    Use these widgets to customize your web reading experience!
-                  </p>
-                </li>
-                <li className="mt-6">
-                  I prefer non-technical explanations{` `}
-                  <Belief
-                    value={{ slug: `NonTechnical`, scale: `agreement` }}
-                    cssClasses={``}
-                    storyFragmentId={storyFragmentId}
-                  />
-                </li>
-                <li className="mt-6">
-                  I&apos;m already familiar with Tract Stack{` `}
-                  <Belief
-                    value={{ slug: `AlreadyFamiliar`, scale: `tf` }}
-                    cssClasses={``}
-                    storyFragmentId={storyFragmentId}
-                  />
-                </li>
-                <li className="mt-6">
-                  To read more on our data practices and professional standards,
-                  please see our{` `}
-                  <Link
-                    to={`/concierge/zeroParty`}
-                    className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
-                  >
-                    Zero Party data privacy policy
-                  </Link>
-                  .
-                </li>
-              </ul>
+          <div className="mt-8 mb-12 md:my-auto md:ml-16 p-6">
+            <div className="w-full rounded-xl bg-story-controls p-6 max-w-xl mx-auto -rotate-1">
+              {yourJam}
             </div>
           </div>
         </div>
       </div>
-      <StyledDiv css="margin-bottom:-1px; position: relative; background:none; svg {fill:#393d34;}">
+      <StyledDiv
+        css={`
+          margin-top: ${viewportKey === `mobile` ? `-30` : `-50`}px;
+          position: relative;
+          background: none;
+          svg {
+            fill: #393d34;
+          }
+        `}
+      >
         {breakTop}
       </StyledDiv>
     </>
