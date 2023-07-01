@@ -36,6 +36,7 @@ body {
 }
 .bg-story-controls {
   border: 1px solid #a7b1b7;
+  background: rgba(255, 255, 255, 0.3);
 }
 .bg-blue-seethrough {
   background: rgba(41, 63, 88, 0.8);

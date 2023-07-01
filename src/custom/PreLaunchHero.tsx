@@ -33,41 +33,40 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     if (thisCount !== count) setCount(thisCount)
   }, [count, setCount, beliefs])
 
-  const branding = viewportKey === `mobile` ? (
-    <div className="z-30 relative pt-16 px-6">
-      <div className="flex flex-row flex-nowrap">
-        <div className="px-6">
-          <div className="flex flex-col w-fit">
-            <Logo className="h-10 mb-2" />
-            <Wordmark className="h-6 fill-black" />
+  const branding =
+    viewportKey === `mobile` ? (
+      <div className="z-30 relative pt-16 px-6">
+        <div className="flex flex-row flex-nowrap">
+          <div className="px-6">
+            <div className="flex flex-col w-fit">
+              <Logo className="h-10 mb-2" />
+              <Wordmark className="h-6 fill-black" />
+            </div>
+            <p className="mt-4 text-md text-black">
+              A better way to reach buyers
+            </p>
           </div>
-          <p className="mt-4 text-md text-black">
-            A better way to reach buyers
-          </p>
-        </div>
-        <div className="flex flex-col place-content-center place-items-center">
-          <p className="text-sm text-darkgrey pl-8 font-action tracking-wider px-6 max-w-xs">
-            no-code, build-your-own fast and fully accessible websites to grow
-            your brand or business
-          </p>
+          <div className="flex flex-col place-content-center place-items-center">
+            <p className="text-sm text-darkgrey pl-8 font-action tracking-wider px-6 max-w-xs">
+              no-code, build-your-own fast and fully accessible websites to grow
+              your brand or business
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  ) : (
-    <div className="z-30 relative py-12 md:py-24 ml-12 max-w-sm">
-      <div className="flex flex-col w-fit">
-        <Logo className="h-16 mb-2" />
-        <Wordmark className="h-10 fill-black" />
+    ) : (
+      <div className="z-30 relative py-12 md:py-24 ml-12 max-w-sm">
+        <div className="flex flex-col w-fit">
+          <Logo className="h-16 mb-2" />
+          <Wordmark className="h-10 fill-black" />
+        </div>
+        <p className="mt-6 text-3xl text-black">A better way to reach buyers</p>
+        <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
+          no-code, build-your-own fast and fully accessible websites to grow
+          your brand or business
+        </p>
       </div>
-      <p className="mt-6 text-3xl text-black">
-        A better way to reach buyers
-      </p>
-      <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
-        no-code, build-your-own fast and fully accessible websites to grow
-        your brand or business
-      </p>
-    </div>
-  )
+    )
 
   return (
     <>
@@ -81,8 +80,16 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           <div className="z-50 relative mt-8 mb-12 md:my-auto md:ml-16 p-6">
             <div className="w-full rounded-xl bg-story-controls p-6 max-w-xl mx-auto -rotate-2">
               <ul>
-                <li><h3 className="font-action text-orange text-xl">What&apos;s your jam?</h3></li>
-                <li><p className="text-gray-700">Use these widgets to customize your web reading experience!</p></li>
+                <li>
+                  <h3 className="font-action text-orange text-xl">
+                    What&apos;s your jam?
+                  </h3>
+                </li>
+                <li>
+                  <p className="text-gray-700">
+                    Use these widgets to customize your web reading experience!
+                  </p>
+                </li>
                 <li className="mt-6 md:text-left">
                   I prefer non-technical explanations{` `}
                   <Belief

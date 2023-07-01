@@ -69,7 +69,10 @@ const ZeroParty = () => {
                       content pathways to meet your needs.
                     </p>
                     <p className="text-lg text-darkgrey mt-4 md:max-w-2xl">
-                      Tract Stack is currently pre-launch and pre-revenue. We are not monetizing or selling/sharing any data with third parties. We will soon add functionality to opt-out and even wipe any associated data.
+                      Tract Stack is currently pre-launch and pre-revenue. We
+                      are not monetizing or selling/sharing any data with third
+                      parties. We will soon add functionality to opt-out and
+                      even wipe any associated data.
                     </p>
                   </div>
                 </div>
