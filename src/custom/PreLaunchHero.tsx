@@ -100,7 +100,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                   />
                 </li>
                 <li className="mt-6">
-                  I&apos;m already familiar with Tract Stack?{` `}
+                  I&apos;m already familiar with Tract Stack{` `}
                   <Belief
                     value={{ slug: `AlreadyFamiliar`, scale: `tf` }}
                     cssClasses={``}
@@ -108,8 +108,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                   />
                 </li>
                 <li className="mt-6">
-                  To read more on our data practices and professional
-                  standards, please see our{` `}
+                  To read more on our data practices and professional standards,
+                  please see our{` `}
                   <Link
                     to={`/concierge/zeroParty`}
                     className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
@@ -117,7 +117,6 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     Zero Party data privacy policy
                   </Link>
                   .
-
                 </li>
               </ul>
             </div>
