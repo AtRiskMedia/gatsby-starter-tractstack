@@ -48,7 +48,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             </p>
           </div>
           <div className="flex flex-col place-content-center place-items-center">
-            <p className="text-sm text-darkgrey pl-6 font-action tracking-wider max-w-xs text-right md:text-left">
+            <p className="text-sm text-darkgrey pl-6 font-action tracking-wider max-w-xs text-right pr-4">
               no-code, build-your-own fast and fully accessible websites to grow
               your brand or business
             </p>
