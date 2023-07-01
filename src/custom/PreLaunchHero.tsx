@@ -36,19 +36,19 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   const branding =
     viewportKey === `mobile` ? (
-      <div className="z-30 relative pt-16 px-6">
+      <div className="z-30 relative pt-16 px-2">
         <div className="flex flex-row flex-nowrap">
-          <div className="px-6">
+          <div className="flex flex-col place-content-center place-items-center px-2">
             <div className="flex flex-col w-fit">
               <Logo className="h-10 mb-2" />
-              <Wordmark className="h-6 fill-black" />
+              <Wordmark className="h-5 fill-black" />
             </div>
             <p className="mt-4 text-md text-black">
               A better way to reach buyers
             </p>
           </div>
           <div className="flex flex-col place-content-center place-items-center">
-            <p className="text-sm text-darkgrey pl-8 font-action tracking-wider px-6 max-w-xs">
+            <p className="text-sm text-darkgrey pl-6 font-action tracking-wider max-w-xs text-right md:text-left">
               no-code, build-your-own fast and fully accessible websites to grow
               your brand or business
             </p>
