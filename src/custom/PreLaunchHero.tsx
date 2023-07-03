@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'gatsby'
 import { Svg } from 'gatsby-plugin-tractstack'
 import styled from 'styled-components'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 import { useAuthStore } from '../stores/authStore'
 import Hex from '../../assets/hex.svg'
@@ -81,7 +82,15 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         </p>
       </li>
       <li className="mt-6">
-        I prefer non-technical explanations{` `}
+        <div className="inline-flex">
+          I prefer non-technical explanations
+          <InformationCircleIcon
+            className="h-6 w-6 mx-1"
+            title="Set this to DISAGREE if you *want* to geek-out on all the tech under the hood!"
+          />
+        </div>
+      </li>
+      <li className="mt-2">
         <Belief
           value={{ slug: `NonTechnical`, scale: `agreement` }}
           cssClasses={``}
@@ -89,7 +98,15 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         />
       </li>
       <li className="mt-6">
-        I&apos;m already familiar with Tract Stack{` `}
+        <div className="inline-flex">
+          I&apos;m already familiar with Tract Stack
+          <InformationCircleIcon
+            className="h-6 w-6 mx-1"
+            title="Already familiar? Sweet... all our introductory product marketing can be turned off!"
+          />
+        </div>
+      </li>
+      <li className="mt-2">
         <Belief
           value={{ slug: `AlreadyFamiliar`, scale: `tf` }}
           cssClasses={``}

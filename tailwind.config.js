@@ -46,6 +46,7 @@ module.exports = {
       },
       fontFamily: {
         action: ['Organetto-Regular'],
+        main: ['FranklinGothicURW'],
       },
       fontSize: {
         rxs: 'calc(var(--scale) * 0.75rem)',

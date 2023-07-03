@@ -21,6 +21,18 @@ export const createPages: GatsbyNode['createPages'] = async ({
   const contextPaneTemplate = path.resolve(`src/templates/contextPane.tsx`)
   const result: any = await graphql(`
     query {
+      allNodeResource {
+        edges {
+          node {
+            id
+            field_slug
+            field_options
+            field_action_lisp
+            field_oneliner
+            title
+          }
+        }
+      }
       allNodeStoryFragment {
         edges {
           node {

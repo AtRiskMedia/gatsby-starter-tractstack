@@ -25,6 +25,7 @@ export default function ContextPage(props: IContextPageProps) {
     (state) => state.updateEventStream,
   )
   const processRead = useStoryStepStore((state) => state.processRead)
+  const resourcePayload = props?.pageContext?.allNodeResource?.edges
   const hooks = {
     navigate,
     belief: Belief,
@@ -32,6 +33,7 @@ export default function ContextPage(props: IContextPageProps) {
     processRead,
     GatsbyImage,
     getImage,
+    resourcePayload,
   }
   const [now] = useState(Date.now())
   const thisWidth = typeof window !== `undefined` ? window?.innerWidth : `600`

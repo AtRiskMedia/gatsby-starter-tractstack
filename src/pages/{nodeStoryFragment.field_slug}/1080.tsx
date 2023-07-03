@@ -10,11 +10,24 @@ import Header from '../../components/Header'
 import Seo from '../../components/Seo'
 import Belief from '../../components/Belief'
 import YouTube from '../../components/YouTube'
+import templates from '../../custom/templates'
 import storyFragmentCompositor from '../../components/storyFragmentCompositor'
 import { IStoryFragmentPayload } from '../../types'
 
 export const query = graphql`
   query ($id: String) {
+    allNodeResource {
+      edges {
+        node {
+          id
+          field_slug
+          field_options
+          field_action_lisp
+          field_oneliner
+          title
+        }
+      }
+    }
     nodeStoryFragment(id: { eq: $id }) {
       id
       title
@@ -250,6 +263,7 @@ export const query = graphql`
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const viewportKey = `tablet`
   const storyFragmentTitle = data.nodeStoryFragment.title
+  const resourcePayload = data?.allNodeResource?.edges
   const processRead = useStoryStepStore((state) => state.processRead)
   const storyFragmentPayload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
@@ -260,6 +274,8 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
       processRead,
       GatsbyImage,
       getImage,
+      resourcePayload,
+      templates,
     },
   })
   const hasH5P =

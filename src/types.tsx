@@ -224,6 +224,10 @@ export interface ICodeHookDict {
   [key: string]: any
 }
 
+export interface ITemplateDict {
+  [key: string]: any
+}
+
 export interface IMenuPayloadItem {
   id: string
   field_title: string
@@ -253,6 +257,8 @@ export interface IStoryFragmentCompositorHooks {
   processRead: Function
   GatsbyImage: Function
   getImage: Function
+  resourcePayload: any // FIX
+  templates: any // FIX
 }
 
 export interface IMenuProps {
