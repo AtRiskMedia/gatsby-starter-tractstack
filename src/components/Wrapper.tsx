@@ -130,7 +130,9 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
         if (mode === `storyFragment`) navigate(`/${slug}/${thisViewport}`)
       }
       const thisScale =
-        thisWidth < 801
+        thisWidth < 401
+          ? (400 - scrollBarOffset) / 601
+          : thisWidth < 801
           ? (thisWidth - scrollBarOffset) / 601
           : thisWidth < 1367
           ? (thisWidth - scrollBarOffset) / 1081

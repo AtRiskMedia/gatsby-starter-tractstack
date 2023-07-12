@@ -1,11 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'gatsby'
 import { Svg } from 'gatsby-plugin-tractstack'
 import styled from 'styled-components'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-import { useAuthStore } from '../stores/authStore'
 import Hex from '../../assets/hex.svg'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
@@ -20,20 +19,10 @@ const StyledDiv = styled.div<IStyledDivProps>`
 `
 
 const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
-  const beliefs = useAuthStore((state) => state.beliefs)
-  const [count, setCount] = useState(0)
   const breakTop =
     viewportKey !== `desktop`
       ? Svg(`kCzlowcutC`, viewportKey, `herolowcutC`)
       : Svg(`kCzlowcutwideC`, viewportKey, `herolowcutwideC`)
-
-  useEffect(() => {
-    const confusing = !!beliefs?.Confusing
-    const nonTechnical = !!beliefs?.NonTechnical
-    const thisCount =
-      confusing && nonTechnical ? 2 : confusing ? 1 : nonTechnical ? 1 : 0
-    if (thisCount !== count) setCount(thisCount)
-  }, [count, setCount, beliefs])
 
   const branding =
     viewportKey === `mobile` ? (
@@ -50,8 +39,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </div>
           <div className="flex flex-col place-content-center pr-6">
             <p className="text-sm text-darkgrey font-action tracking-wider max-w-xs text-right">
-              no-code, build-your-own fast and fully accessible websites to grow
-              your brand or business
+              Made-to-order lead generation websites to grow your business
             </p>
           </div>
         </div>
@@ -64,8 +52,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         </div>
         <p className="mt-6 text-3xl text-black">A better way to reach buyers</p>
         <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
-          no-code, build-your-own fast and fully accessible websites to grow
-          your brand or business
+          Made-to-order lead generation websites to grow your business
         </p>
       </div>
     )

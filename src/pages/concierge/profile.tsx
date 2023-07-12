@@ -234,15 +234,15 @@ const ConciergeProfile = () => {
                         id="rooted"
                         className="text-3xl font-bold tracking-tight text-orange sm:text-4xl"
                       >
-                        We are rooted in community.
+                        Tract Stack is pre-launch and under active development.
                       </h2>
                       <p className="mt-4 mb-4 text-lg text-gray-700">
                         {authenticated ? (
                           <>Welcome back, {firstname}.</>
                         ) : (
                           <>
-                            Introduce yourself to unlock special offers and
-                            personalized recommendations throughout the site.
+                            We welcome you to introduce yourself. Please set
+                            your communication preferences!
                           </>
                         )}
                       </p>

@@ -171,24 +171,33 @@ const StoryFragmentRender = ({
       typeof thisPane?.hasMaxHScreen === `boolean`
         ? thisPane.hasMaxHScreen
         : false
-    let override = false
+    let override
     if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
+      override = true
       Object.entries(heldBeliefs).forEach(([key, value]) => {
         if (typeof beliefs[key] === `undefined`) override = true
         if (
           typeof value === `string` &&
           typeof beliefs[key] === `string` &&
           beliefs[key] === value
-        )
-          override = true
-        else if (
+        ) {
+          override = false
+        } else if (
+          typeof value === `string` &&
+          typeof value === `string` &&
+          value === `*` &&
+          typeof beliefs[key] === `string`
+        ) {
+          override = false
+        } else if (
           typeof value === `object` &&
           typeof beliefs[key] === `string`
         ) {
           const values: any = value
           Object.values(values).forEach((b) => {
-            if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              override = true
+            if (typeof beliefs[key] === `string` && beliefs[key] === b) {
+              override = false
+            }
           })
         }
       })
