@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import { getImage, GatsbyImage } from 'gatsby-plugin-image'
@@ -19,7 +19,7 @@ export const query = graphql`
     allNodeResource {
       edges {
         node {
-          id
+          id: drupal_id
           field_slug
           field_options
           field_action_lisp
@@ -29,26 +29,26 @@ export const query = graphql`
       }
     }
     nodeStoryFragment(id: { eq: $id }) {
-      id
+      id: drupal_id
       title
       field_slug
       field_social_image_path
       field_tailwind_background_colour
       relationships {
         field_tract_stack {
-          id
+          id: drupal_id
           title
           field_social_image_path
           field_slug
           relationships {
             field_context_panes {
-              id
+              id: drupal_id
               title
               field_slug
               relationships {
                 field_pane_fragments {
                   ... on paragraph__markdown {
-                    id
+                    id: drupal_id
                     field_markdown_body
                     field_zindex
                     field_hidden_viewports
@@ -67,7 +67,7 @@ export const query = graphql`
               }
             }
             field_story_fragments {
-              id
+              id: drupal_id
               title
               field_slug
             }
@@ -82,13 +82,13 @@ export const query = graphql`
           }
           relationships {
             field_svg_logo {
-              id
+              id: drupal_id
               localFile {
                 publicURL
               }
             }
             field_image_logo {
-              id
+              id: drupal_id
               localFile {
                 childImageSharp {
                   tablet: gatsbyImageData(width: 512, placeholder: BLURRED)
@@ -105,7 +105,7 @@ export const query = graphql`
           }
         }
         field_panes {
-          id
+          id: drupal_id
           title
           field_slug
           field_options
@@ -159,7 +159,7 @@ export const query = graphql`
                 }
                 relationships {
                   field_image {
-                    id
+                    id: drupal_id
                     filename
                     tablet: localFile {
                       childImageSharp {
@@ -184,7 +184,7 @@ export const query = graphql`
                 }
                 relationships {
                   field_svg_file {
-                    id
+                    id: drupal_id
                     filename
                     localFile {
                       publicURL
@@ -213,7 +213,7 @@ export const query = graphql`
                 }
                 relationships {
                   field_image {
-                    id
+                    id: drupal_id
                     filename
                     localFile {
                       publicURL
@@ -231,13 +231,13 @@ export const query = graphql`
         }
 
         field_context_panes {
-          id
+          id: drupal_id
           title
           field_slug
           relationships {
             field_pane_fragments {
               ... on paragraph__markdown {
-                id
+                id: drupal_id
                 field_markdown_body
                 field_zindex
                 field_hidden_viewports
@@ -265,6 +265,20 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const storyFragmentTitle = data.nodeStoryFragment.title
   const resourcePayload = data?.allNodeResource?.edges
   const processRead = useStoryStepStore((state) => state.processRead)
+  const [scrollToPane, setScrollToPane] = useState(``)
+  useEffect(() => {
+    if (scrollToPane) {
+      const pane =
+        typeof document !== `undefined`
+          ? document.getElementById(`${viewportKey}-${scrollToPane}`)
+          : null
+      if (pane) {
+        pane.scrollIntoView({ behavior: `smooth` })
+        setScrollToPane(``)
+      }
+    }
+  }, [scrollToPane, viewportKey])
+
   const storyFragmentPayload = storyFragmentCompositor({
     data: data.nodeStoryFragment,
     viewportKey,
@@ -276,6 +290,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
       getImage,
       resourcePayload,
       templates,
+      setScrollToPane,
     },
   })
   const hasH5P =

@@ -26,10 +26,11 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                 </dt>
                 {` `}
                 <dd className="pt-2">
-                  Get a fast,{' '}
+                  Get a fast,{` `}
                   <abbr title="Search Engine Optimization / Search Engine Marketing">
                     SEO/SEM
-                  </abbr>{' '}
+                  </abbr>
+                  {` `}
                   ready website up in minutes!
                 </dd>
               </div>
@@ -58,8 +59,8 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                 {` `}
                 <dd className="pt-2">
                   Show buyers the way through their purchasing journey. Help
-                  them understand and 'make sense' of each step towards
-                  purchase.
+                  them understand and &apos;make sense&apos; of each step
+                  towards purchase.
                 </dd>
               </div>
               <div className="relative pl-16 pb-8">

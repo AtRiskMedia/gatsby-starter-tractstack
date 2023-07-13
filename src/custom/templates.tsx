@@ -19,6 +19,7 @@ function ToggleBeliefGrid(
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const concierge = hooks?.concierge
+  const setScrollToPane = hooks?.setScrollToPane
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
     const actionLisp = thisPayload?.field_action_lisp
@@ -30,6 +31,7 @@ function ToggleBeliefGrid(
       typeof thisPayload?.field_options === `string`
         ? ParseOptions(thisPayload.field_options)
         : null
+    const paneTarget = optionsPayload?.paneTarget
     const heldBeliefSlug = optionsPayload?.heldBelief?.slug
     const heldBeliefTitle = optionsPayload?.heldBelief?.title
     const heldBeliefTarget = optionsPayload?.heldBelief?.target
@@ -60,8 +62,10 @@ function ToggleBeliefGrid(
         },
         id,
       )
+      if (paneTarget) setScrollToPane(paneTarget)
       if (concierge && actionLisp) concierge(actionLisp, hooks, id.id)
     }
+
     return (
       <li key={`${id.id}-${idx}`}>
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">

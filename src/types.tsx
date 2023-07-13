@@ -259,6 +259,7 @@ export interface IStoryFragmentCompositorHooks {
   getImage: Function
   resourcePayload: any // FIX
   templates: any // FIX
+  setScrollToPane: Function
 }
 
 export interface IMenuProps {
