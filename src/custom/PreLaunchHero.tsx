@@ -54,7 +54,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           position: relative;
           background: none;
           svg {
-            fill: #10120d;
+            fill: #ffffff;
           }
         `}
       >
