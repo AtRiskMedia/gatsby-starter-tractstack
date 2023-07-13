@@ -68,6 +68,9 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-transformer-remark`,
     },
+    {
+      resolve: 'gatsby-plugin-no-sourcemaps',
+    },
     'gatsby-transformer-tractstack',
     'gatsby-plugin-tractstack',
     {
