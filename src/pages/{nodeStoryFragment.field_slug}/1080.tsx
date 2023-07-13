@@ -13,6 +13,7 @@ import YouTube from '../../components/YouTube'
 import templates from '../../custom/templates'
 import storyFragmentCompositor from '../../components/storyFragmentCompositor'
 import { IStoryFragmentPayload } from '../../types'
+import { config } from '../../../data/SiteConfig'
 
 export const query = graphql`
   query ($id: String) {
@@ -261,6 +262,7 @@ export const query = graphql`
 `
 
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
+  const isHome = data.nodeStoryFragment.field_slug === config.home
   const viewportKey = `tablet`
   const storyFragmentTitle = data.nodeStoryFragment.title
   const resourcePayload = data?.allNodeResource?.edges
@@ -305,7 +307,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
           <script src="/h5p-resizer.js" />
         </Helmet>
       ) : null}
-      <Header siteTitle={storyFragmentTitle} open={false} />
+      <Header isHome={isHome} siteTitle={storyFragmentTitle} open={false} />
       <StoryFragment payload={storyFragmentPayload} />
     </>
   )

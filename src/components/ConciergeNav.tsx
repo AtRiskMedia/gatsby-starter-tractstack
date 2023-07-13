@@ -52,7 +52,6 @@ const _subNavigation = ({ active, hasAuth }: IConciergeNavLinksProps) => {
       current: active === `zeroParty`,
     },
   ]
-
   if (!hasAuth) return linksNotAuth.concat(links)
   return linksHasAuth.concat(links)
 }
@@ -62,11 +61,9 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const hasAuth = !!isLoggedIn
   const subNavigation = _subNavigation({ active, hasAuth })
-
   function navigateHome() {
     processRead(config.home)
   }
-
   return (
     <>
       {subNavigation.map((item) => (
@@ -93,8 +90,7 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
           <span className="truncate">{item.name}</span>
         </Link>
       ))}
-      <a
-        href="#"
+      <button
         key="close"
         onClick={() => navigateHome()}
         className="border-transparent text-gray-900 hover:bg-slate-200 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
@@ -104,7 +100,7 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
           aria-hidden="true"
         />
         <span className="truncate">Close this Panel</span>
-      </a>
+      </button>
     </>
   )
 }

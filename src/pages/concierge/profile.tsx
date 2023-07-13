@@ -9,9 +9,11 @@ import {
   BellSlashIcon,
   BoltIcon,
   ChatBubbleBottomCenterIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline'
 
 import { useAuthStore } from '../../stores/authStore'
+import { useStoryStepStore } from '../../stores/storyStep'
 import { loadProfile, saveProfile } from '../../api/services'
 import { getTokens } from '../../api/axiosClient'
 import Seo from '../../components/Seo'
@@ -19,6 +21,7 @@ import Header from '../../components/Header'
 import Wrapper from '../../components/Wrapper'
 import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
+import { config } from '../../../data/SiteConfig'
 
 const contactPersonaOptions = [
   {
@@ -82,6 +85,12 @@ const ConciergeProfile = () => {
   const [personaSelected, setPersonaSelected] = useState(
     contactPersonaOptions[0],
   )
+  const storySteps = useStoryStepStore((state) => state.storySteps)
+  let target: any // FIX
+  Object.keys(storySteps).forEach((e) => {
+    if (storySteps[e]?.type !== `conciergePage`) target = storySteps[e]
+  })
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (firstname && email && codeword && !saving) {
@@ -213,6 +222,28 @@ const ConciergeProfile = () => {
 
   if (isLoggedIn && knownLead && !authenticated) navigate(`/concierge/login`)
 
+  function close() {
+    const thisViewport =
+      window.innerWidth < 801
+        ? `600`
+        : window.innerWidth < 1367
+        ? `1080`
+        : `1920`
+    const thisTo =
+      target?.type === `storyFragment`
+        ? `/${target.id}/${thisViewport}`
+        : target?.type === `contextPane`
+        ? `/context/${target.id}`
+        : target?.type === `conciergePage`
+        ? `/concierge/${target.id}`
+        : target?.type === `product`
+        ? `/products/${target.id}`
+        : target?.type === `/breadcrumbs`
+        ? `${target.id}`
+        : `/${config.home}`
+    navigate(`${thisTo}`)
+  }
+
   return (
     <Wrapper slug="profile" mode="conciergePage">
       <Header siteTitle="Zero-party Introductions" open={true} />
@@ -227,7 +258,12 @@ const ConciergeProfile = () => {
                   </nav>
                 </aside>
 
-                <div className="divide-y divide-gray-200 lg:col-span-9">
+                <div className="divide-y divide-gray-200 lg:col-span-9 relative">
+                  <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
+                    <button onClick={() => close()}>
+                      <XMarkIcon className="w-8 h-8" />
+                    </button>
+                  </div>
                   <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl my-16">
                     <div>
                       <h2

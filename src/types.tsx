@@ -326,6 +326,7 @@ export interface INavLinkProps {
 export interface IHeaderProps {
   siteTitle: string
   open: boolean
+  isHome?: boolean
 }
 
 export interface IH5PProps {

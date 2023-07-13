@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { Link } from 'gatsby'
+//import { Link } from 'gatsby'
 import { Svg } from 'gatsby-plugin-tractstack'
 import styled from 'styled-components'
-import { InformationCircleIcon } from '@heroicons/react/24/outline'
+//import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 import Hex from '../../assets/hex.svg'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
-import Belief from '../components/Belief'
+//import Belief from '../components/Belief'
 
 interface IStyledDivProps {
   css: string
@@ -24,38 +24,47 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
       ? Svg(`kCzlowcutC`, viewportKey, `herolowcutC`)
       : Svg(`kCzlowcutwideC`, viewportKey, `herolowcutwideC`)
 
-  const branding =
-    viewportKey === `mobile` ? (
-      <div className="pt-16 px-2 relative z-10">
-        <div className="flex flex-row flex-nowrap">
-          <div className="flex flex-col place-content-center px-6">
-            <div className="flex flex-col w-fit">
-              <Logo className="h-10 mb-2" />
-              <Wordmark className="h-5 fill-black" />
-            </div>
-            <p className="mt-4 text-md text-black">
-              A better way to reach buyers
-            </p>
-          </div>
-          <div className="flex flex-col place-content-center pr-6">
-            <p className="text-sm text-darkgrey font-action tracking-wider max-w-xs text-right">
-              Made-to-order lead generation websites to grow your business
-            </p>
-          </div>
-        </div>
+  const branding = (
+    <div className="py-24 mx-auto max-w-sm relative z-10">
+      <div className="flex flex-col w-fit">
+        <Logo className="h-16 mb-2" />
+        <Wordmark className="h-10 fill-black" />
       </div>
-    ) : (
-      <div className="py-24 ml-12 max-w-sm relative z-10">
-        <div className="flex flex-col w-fit">
-          <Logo className="h-16 mb-2" />
-          <Wordmark className="h-10 fill-black" />
+      <p className="mt-6 text-3xl text-black">A better way to reach buyers</p>
+      <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
+        Made-to-order lead generation websites to grow your business
+      </p>
+    </div>
+  )
+
+  return (
+    <>
+      <div
+        id={`${viewportKey}-${storyFragmentId.id}`}
+        className="bg-white-gradient overflow-hidden"
+      >
+        <div className="absolute">
+          <Hex className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] lg:w-[60rem] lg:ml-[20rem] xl:ml-[30rem] fill-white" />
         </div>
-        <p className="mt-6 text-3xl text-black">A better way to reach buyers</p>
-        <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
-          Made-to-order lead generation websites to grow your business
-        </p>
+        {branding}
       </div>
-    )
+      <StyledDiv
+        css={`
+          margin-top: ${viewportKey === `mobile` ? `-30` : `-50`}px;
+          position: relative;
+          background: none;
+          svg {
+            fill: #10120d;
+          }
+        `}
+      >
+        {breakTop}
+      </StyledDiv>
+    </>
+  )
+}
+
+/*
   const yourJam = (
     <ul>
       <li>
@@ -114,8 +123,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     </ul>
   )
 
-  return (
-    <>
+
+
       <div
         id={`${viewportKey}-${storyFragmentId.id}`}
         className="bg-white-gradient overflow-hidden"
@@ -132,20 +141,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           </div>
         </div>
       </div>
-      <StyledDiv
-        css={`
-          margin-top: ${viewportKey === `mobile` ? `-30` : `-50`}px;
-          position: relative;
-          background: none;
-          svg {
-            fill: #393d34;
-          }
-        `}
-      >
-        {breakTop}
-      </StyledDiv>
-    </>
-  )
-}
+
+ */
 
 export default PreLaunchHero

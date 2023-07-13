@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import { TractStackIcon } from 'gatsby-plugin-tractstack'
-import { BackwardIcon, BeakerIcon } from '@heroicons/react/24/outline'
+import { BackwardIcon, BeakerIcon, HomeIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
@@ -13,7 +13,7 @@ import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '../types'
 import { config } from '../../data/SiteConfig'
 
-const Header = ({ siteTitle, open = false }: IHeaderProps) => {
+const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
   const initialize = useShopifyStore((state) => state.initialize)
   const setClient = useShopifyStore((state) => state.setClient)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
@@ -64,6 +64,9 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
   function reveal() {
     processRead(`/concierge/profile`)
   }
+  function goHome() {
+    processRead(config.home)
+  }
   function hide() {
     processRead(goBackTo)
   }
@@ -99,7 +102,6 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
       return () => document.removeEventListener(`keydown`, handleEscapeKey)
     }
   }, [open, lastStoryStep, processRead])
-
   return (
     <header className="relative z-90000">
       <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-white shadow-inner shadow-darkgrey">
@@ -140,6 +142,11 @@ const Header = ({ siteTitle, open = false }: IHeaderProps) => {
           ) : null}
           {isLoggedIn && config.initializeShopify && quantity > 0 ? (
             <CartButton quantity={quantity} />
+          ) : null}
+          {!isHome ? (
+            <button className="mx-2 hover:text-blue" onClick={() => goHome()}>
+              <HomeIcon className="w-8 h-8" title="Go to home page" />
+            </button>
           ) : null}
         </div>
       </div>
