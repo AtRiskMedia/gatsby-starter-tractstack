@@ -21,8 +21,8 @@ const StyledDiv = styled.div<IStyledDivProps>`
 const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const breakTop =
     viewportKey !== `desktop`
-      ? Svg(`kCzlowcutC`, viewportKey, `herolowcutC`)
-      : Svg(`kCzlowcutwideC`, viewportKey, `herolowcutwideC`)
+      ? Svg(`kCzlowcut2`, viewportKey, `herolowcut2`)
+      : Svg(`kCzlowcutwide2`, viewportKey, `herolowcutwide2`)
 
   const branding = (
     <div className="py-24 mx-auto max-w-sm relative z-10">
