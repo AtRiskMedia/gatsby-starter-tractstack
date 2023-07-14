@@ -20,6 +20,10 @@ function ToggleBeliefGrid(
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const concierge = hooks?.concierge
   const setScrollToPane = hooks?.setScrollToPane
+  const length = Object.keys(payload)?.length
+  const defaultCols =
+    viewportKey === `mobile` ? 2 : viewportKey === `tablet` ? 3 : 4
+  const thisCols = length < defaultCols ? length : defaultCols
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
     const actionLisp = thisPayload?.field_action_lisp
@@ -101,7 +105,7 @@ function ToggleBeliefGrid(
     <ul
       key={id.id}
       role="list"
-      className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 xl:gap-x-8"
+      className={`grid grid-cols-${thisCols} gap-x-4 gap-y-8`}
     >
       {rendered}
     </ul>
@@ -110,6 +114,10 @@ function ToggleBeliefGrid(
 
 function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
   const concierge = hooks?.concierge
+  const length = Object.keys(payload)?.length
+  const defaultCols =
+    viewportKey === `mobile` ? 2 : viewportKey === `tablet` ? 3 : 4
+  const thisCols = length < defaultCols ? length : defaultCols
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
     const actionLisp = thisPayload?.field_action_lisp
@@ -158,7 +166,7 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     <ul
       key={id.id}
       role="list"
-      className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 md:grid-cols-3 xl:gap-x-8"
+      className={`grid grid-cols-${thisCols} gap-x-4 gap-y-8`}
     >
       {rendered}
     </ul>
