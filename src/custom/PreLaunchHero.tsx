@@ -114,7 +114,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         see{` `}
         <Link
           to={`/concierge/zeroParty`}
-          className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+          className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
         >
           Zero Party data privacy policy
         </Link>

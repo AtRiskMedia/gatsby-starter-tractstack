@@ -105,7 +105,7 @@ const ConciergeLogin = () => {
                   </div>
                   <div className="py-6 px-4 sm:p-6 lg:pb-8 lg:col-span-9 md:max-w-2xl my-16">
                     <div>
-                      <h2 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
+                      <h2 className="text-3xl tracking-tight text-orange sm:text-4xl">
                         Welcome back
                         {!authenticated && knownFirstName
                           ? `, ${firstName}.`
@@ -116,7 +116,7 @@ const ConciergeLogin = () => {
                           First visit?{` `}
                           <Link
                             to={`/concierge/profile`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                           >
                             Create Profile
                           </Link>

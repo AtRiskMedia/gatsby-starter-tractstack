@@ -118,7 +118,7 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
                             />
                             <span
                               className={classNames(
-                                selected ? `font-semibold` : `font-normal`,
+                                selected ? `underline` : ``,
                                 `ml-3 block truncate`,
                               )}
                             >

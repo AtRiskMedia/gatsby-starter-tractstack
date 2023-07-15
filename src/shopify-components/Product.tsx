@@ -144,9 +144,7 @@ const Product = ({ payload }: any) => {
                                     <>
                                       <span
                                         className={classNames(
-                                          selected
-                                            ? `font-semibold`
-                                            : `font-normal`,
+                                          selected ? `underline` : ``,
                                           `block truncate`,
                                         )}
                                       >

@@ -36,11 +36,12 @@ function ToggleBeliefGrid(
         ? ParseOptions(thisPayload.field_options)
         : null
     const paneTarget = optionsPayload?.paneTarget
-    const heldBeliefSlug = optionsPayload?.heldBelief?.slug
-    const heldBeliefTitle = optionsPayload?.heldBelief?.title
-    const heldBeliefTarget = optionsPayload?.heldBelief?.target
+
+    const identifyAsSlug = optionsPayload?.identifyAs?.slug
+    const identifyAsTitle = optionsPayload?.identifyAs?.title
+    const identifyAsObject = optionsPayload?.identifyAs?.target
     const matchedBelief =
-      heldBeliefSlug && beliefs && beliefs[heldBeliefSlug] === heldBeliefTarget
+      identifyAsSlug && beliefs && beliefs[identifyAsSlug] === identifyAsObject
     const hasArtpack = optionsPayload?.artpack
     const hasArtpackAll = hasArtpack && hasArtpack.all
     const hasArtpackViewport =
@@ -55,13 +56,13 @@ function ToggleBeliefGrid(
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
     const injectPayload = function (): void {
-      updateBeliefs(heldBeliefSlug, heldBeliefTarget)
+      updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
       pushEvent(
         {
-          verb:
-            heldBeliefTarget && heldBeliefTarget !== `FALSE` ? `TRUE` : `FALSE`,
-          id: heldBeliefSlug,
-          title: heldBeliefTitle,
+          verb: `IDENTIFY_AS`,
+          id: identifyAsSlug,
+          title: identifyAsTitle,
+          object: identifyAsObject.toUpperCase(),
           type: `Belief`,
         },
         id,

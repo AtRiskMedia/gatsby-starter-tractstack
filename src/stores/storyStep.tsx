@@ -4,6 +4,7 @@ import { navigate } from 'gatsby'
 import { config } from '../../data/SiteConfig'
 import { IEventStream, IStoryFragmentId, IStoryStepStoreState } from '../types'
 import { pushPayload } from '../api/services'
+import { IContentMapDict } from 'gatsby-plugin-tractstack'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
@@ -23,6 +24,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   currentStoryStep: null,
   currentStoryStepCount: null,
   storySteps: {},
+  contentMap: {},
   pastStorySteps: {},
   processRead: (goto: string, mode: string, parent?: string) => {
     // when goto is set, processRead can apply glossed; else only apply read
@@ -157,6 +159,10 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   updatePanesVisible: (key: string, value: string) =>
     set((state) => ({
       panesVisible: { ...state.panesVisible, [key]: value },
+    })),
+  updateContentMap: (values: IContentMapDict) =>
+    set((state) => ({
+      contentMap: { ...state.contentMap, ...values },
     })),
   updateEventStream: (key: string, value: any) =>
     set((state) => ({

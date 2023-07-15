@@ -166,9 +166,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                                         <>
                                           <span
                                             className={classNames(
-                                              selected
-                                                ? `font-semibold`
-                                                : `font-normal`,
+                                              selected ? `underline` : ``,
                                               `block truncate`,
                                             )}
                                           >

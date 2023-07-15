@@ -143,6 +143,7 @@ export interface IStoryStepStoreState {
       id: string
     }
   }
+  contentMap: IContentMapDict
   pastStorySteps: {
     [key: string]: {
       timecode: string
@@ -153,6 +154,7 @@ export interface IStoryStepStoreState {
   resetGotoLastPane: Function
   setGotoLastPane: Function
   setLastStoryStep: Function
+  updateContentMap: Function
   updatePanesRead: Function
   updatePanesVisible: Function
   updateEventStream: Function

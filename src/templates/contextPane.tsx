@@ -158,7 +158,7 @@ export default function ContextPage(props: IContextPageProps) {
         <>{children}</>
         <div id="context-exit" className="text-center my-12">
           <button
-            className="rounded-md bg-red-400 hover:bg-allblack hover:text-white px-3.5 py-1.5 text-base font-semibold leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+            className="rounded-md bg-red-400 hover:bg-allblack hover:text-white px-3.5 py-1.5 text-base leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
             onClick={() => hide()}
           >
             {goBackText}

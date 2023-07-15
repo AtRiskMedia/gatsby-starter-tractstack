@@ -59,11 +59,11 @@ const ZeroParty = () => {
                     </button>
                   </div>
                   <div className="py-6 px-4 sm:p-6 lg:pb-8 my-16">
-                    <h3 className="text-3xl font-bold tracking-tight text-orange sm:text-4xl">
+                    <h3 className="text-3xl tracking-tight text-orange sm:text-4xl">
                       Zero-party data policy
                     </h3>
 
-                    <p className="text-2xl text-darkgrey font-bold mt-4 md:max-w-2xl">
+                    <p className="text-2xl text-darkgrey mt-4 md:max-w-2xl">
                       Think of this website as an interactive business pitch
                       deck presented as a choose your own adventure style buyers
                       guide <em>... a &quot;flipped&quot; sales funnel.</em>
@@ -74,7 +74,7 @@ const ZeroParty = () => {
                       being collected. Behind-the-scenes we are building a{` `}
                       <Link
                         to="/concierge/graph"
-                        className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                        className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                       >
                         knowledge graph
                       </Link>
@@ -86,7 +86,7 @@ const ZeroParty = () => {
                       You are encouraged to{` `}
                       <Link
                         to="/concierge/profile"
-                        className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                        className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                       >
                         introduce yourself
                       </Link>

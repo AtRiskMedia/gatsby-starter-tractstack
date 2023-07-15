@@ -22,6 +22,7 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
 
 const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
+  const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [zoom, setZoom] = useState<boolean>(false)
   const [zoomOverride, setZoomOverride] = useState<boolean>(false)
@@ -37,8 +38,10 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     tractStackTitle: payload.tractStackTitle,
     tractStackSlug: payload.tractStackSlug,
   }
-  const contentMap = payload.contentMap
+  const thisContentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
+  const contentMap = useStoryStepStore((state) => state.contentMap)
+  const updateContentMap = useStoryStepStore((state) => state.updateContentMap)
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
   )
@@ -78,6 +81,13 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
       else impressionPanes.push(key)
     }
   })
+
+  useEffect(() => {
+    if (!contentMapSyncd && thisContentMap) {
+      updateContentMap(thisContentMap)
+      setContentMapSyncd(true)
+    }
+  }, [contentMapSyncd, thisContentMap, updateContentMap])
 
   useEffect(() => {
     function listenOnDevicePixelRatio() {

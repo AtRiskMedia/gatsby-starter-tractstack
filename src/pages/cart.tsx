@@ -38,7 +38,7 @@ const Cart = () => {
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
                 <div className="lg:col-span-12">
                   <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:px-0">
-                    <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    <h2 className="text-center text-3xl tracking-tight text-gray-900 sm:text-4xl">
                       Shopping Cart
                     </h2>
 

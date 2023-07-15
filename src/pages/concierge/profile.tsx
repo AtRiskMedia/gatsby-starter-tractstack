@@ -268,7 +268,7 @@ const ConciergeProfile = () => {
                     <div>
                       <h2
                         id="rooted"
-                        className="text-3xl font-bold tracking-tight text-orange sm:text-4xl"
+                        className="text-3xl tracking-tight text-orange sm:text-4xl"
                       >
                         Tract Stack is pre-launch and under active development.
                       </h2>
@@ -293,7 +293,7 @@ const ConciergeProfile = () => {
                           standards, please see our{` `}
                           <Link
                             to={`/concierge/zeroParty`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                           >
                             Zero Party data privacy policy
                           </Link>
@@ -305,7 +305,7 @@ const ConciergeProfile = () => {
                           Not your first visit?{` `}
                           <Link
                             to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                           >
                             Log-in
                           </Link>
@@ -322,7 +322,7 @@ const ConciergeProfile = () => {
                         <p>
                           <Link
                             to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue font-bold hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
                           >
                             Log-in
                           </Link>
@@ -467,8 +467,8 @@ const ConciergeProfile = () => {
                                                         <span
                                                           className={classNames(
                                                             selected
-                                                              ? `font-semibold`
-                                                              : `font-normal`,
+                                                              ? `underline`
+                                                              : ``,
                                                             `block truncate`,
                                                           )}
                                                         >
