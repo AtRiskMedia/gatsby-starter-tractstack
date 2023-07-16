@@ -10,6 +10,12 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "FranklinGothicURW";
+  src: url("../fonts/FranklinGothicURWCon-Med.woff");
+  font-weight: bold;
+  font-display: swap;
+}
+@font-face {
   font-family: "Organetto-Regular";
   src: url("../fonts/Organetto-Regular.woff");
   font-display: swap;
@@ -18,8 +24,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
-  font: sans-serif;
   overflow-y: scroll;
+  font-family: var(--font-main);
 }
 body {
   -moz-osx-font-smoothing: grayscale;

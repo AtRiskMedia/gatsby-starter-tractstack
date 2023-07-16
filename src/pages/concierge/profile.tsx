@@ -268,7 +268,7 @@ const ConciergeProfile = () => {
                     <div>
                       <h2
                         id="rooted"
-                        className="text-3xl tracking-tight text-orange sm:text-4xl"
+                        className="text-3xl tracking-tight text-orange sm:text-4xl font-bold"
                       >
                         Tract Stack is pre-launch and under active development.
                       </h2>
@@ -293,7 +293,7 @@ const ConciergeProfile = () => {
                           standards, please see our{` `}
                           <Link
                             to={`/concierge/zeroParty`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
                           >
                             Zero Party data privacy policy
                           </Link>
@@ -305,7 +305,7 @@ const ConciergeProfile = () => {
                           Not your first visit?{` `}
                           <Link
                             to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
                           >
                             Log-in
                           </Link>
@@ -322,7 +322,7 @@ const ConciergeProfile = () => {
                         <p>
                           <Link
                             to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
                           >
                             Log-in
                           </Link>
@@ -334,7 +334,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-3 sm:col-span-1">
                             <label
                               htmlFor="firstname"
-                              className="block text-sm font-medium text-gray-700"
+                              className="block text-sm text-gray-700"
                             >
                               First name
                             </label>
@@ -364,7 +364,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-3 sm:col-span-2">
                             <label
                               htmlFor="email-address"
-                              className="block text-sm font-medium text-gray-700"
+                              className="block text-sm text-gray-700"
                             >
                               Email address
                             </label>
@@ -395,7 +395,7 @@ const ConciergeProfile = () => {
                             <div className="space-y-3">
                               <label
                                 htmlFor="contactpersona"
-                                className="block text-sm font-medium text-gray-700"
+                                className="block text-sm text-gray-700"
                               >
                                 Communication Preferences
                               </label>
@@ -421,13 +421,13 @@ const ConciergeProfile = () => {
                                           <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
                                             <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
                                               <div className="inline-flex items-center rounded-l-md border border-transparent bg-transparent py-1 pl-3 pr-4 text-black shadow-sm">
-                                                <p className="ml-2.5 text-sm text-left font-medium w-36">
+                                                <p className="ml-2.5 text-sm text-left w-36">
                                                   {personaSelected.title}
                                                 </p>
                                               </div>
                                               <Listbox.Button
                                                 id="contactpersonabutton"
-                                                className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm font-medium text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                                className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                                               >
                                                 <span className="sr-only">
                                                   Change contact-persona setting
@@ -523,7 +523,7 @@ const ConciergeProfile = () => {
                               <div className="col-span-2 mt-10">
                                 <label
                                   htmlFor="bio"
-                                  className="block text-sm font-medium text-gray-700"
+                                  className="block text-sm text-gray-700"
                                 >
                                   {!authenticated && firstname ? (
                                     <>
@@ -557,7 +557,7 @@ const ConciergeProfile = () => {
                               <div className="col-span-1">
                                 <label
                                   htmlFor="codeword"
-                                  className="block text-sm font-medium text-gray-700"
+                                  className="block text-sm text-gray-700"
                                 >
                                   {isLoggedIn ? `Re-e` : `E`}nter your secret
                                   code word to protect your account:
@@ -590,7 +590,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-2 mt-6">
                             <button
                               type="submit"
-                              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                             >
                               <span className="pr-4">
                                 {authenticated
@@ -609,7 +609,7 @@ const ConciergeProfile = () => {
                       <div className="mt-10">
                         <button
                           type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                           onClick={() => showProfile()}
                         >
                           <span className="pr-4">Edit your profile</span>

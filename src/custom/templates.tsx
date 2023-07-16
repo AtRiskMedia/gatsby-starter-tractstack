@@ -88,9 +88,9 @@ function ToggleBeliefGrid(
             <p
               className={classNames(
                 matchedBelief
-                  ? `text-orange`
-                  : `text-blue group-hover:text-orange`,
-                `font-main text-md md:text-lg tracking-tight text-left`,
+                  ? `text-orange text-left`
+                  : `text-blue group-hover:text-orange text-right`,
+                `font-main text-lg md:text-xl tracking-tight font-bold px-6`,
               )}
             >
               {matchedBelief ? <BoltIcon className="h-6 w-6 inline" /> : null}
@@ -155,7 +155,7 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
               src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
               title={oneliner}
             />
-            <p className="font-main text-md md:text-lg tracking-tight text-blue group-hover:text-orange">
+            <p className="font-main text-lg md:text-xl tracking-tight text-blue group-hover:text-orange">
               {title}
             </p>
           </button>

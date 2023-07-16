@@ -116,7 +116,7 @@ const ConciergeLogin = () => {
                           First visit?{` `}
                           <Link
                             to={`/concierge/profile`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange"
+                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
                           >
                             Create Profile
                           </Link>
@@ -133,7 +133,7 @@ const ConciergeLogin = () => {
                         <div className="col-span-3 sm:col-span-1">
                           <label
                             htmlFor="codeword"
-                            className="block text-sm font-medium text-gray-700"
+                            className="block text-sm text-gray-700 font-bold"
                           >
                             Code word:
                           </label>
@@ -152,7 +152,7 @@ const ConciergeLogin = () => {
                             )}
                           />
                           {submitted && codeword === `` ? (
-                            <span className="text-xs px-2 text-red-500">
+                            <span className="text-xs px-2 text-red-500 font-action">
                               Required field.
                             </span>
                           ) : (
@@ -162,7 +162,7 @@ const ConciergeLogin = () => {
                         <div className="col-span-3 sm:col-span-2">
                           <label
                             htmlFor="email-address"
-                            className="block text-sm font-medium text-gray-700"
+                            className="block text-sm text-gray-700 font-bold"
                           >
                             Email address
                           </label>
@@ -199,7 +199,7 @@ const ConciergeLogin = () => {
                         <div className="col-span-3 mt-6">
                           <button
                             type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm font-medium text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                           >
                             <span className="pr-4">Authenticate</span>
                             <ChevronRightIcon

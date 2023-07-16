@@ -5,11 +5,12 @@ import { Svg } from 'gatsby-plugin-tractstack'
 import styled from 'styled-components'
 // import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-import Hex from '../../assets/hex.svg'
+import Hexa from '../../assets/hexa.svg'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
 // import Belief from '../components/Belief'
+import { config } from '../../data/SiteConfig'
 
 interface IStyledDivProps {
   css: string
@@ -25,14 +26,13 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
       : Svg(`kCzlowcutwide2`, viewportKey, `herolowcutwide2`)
 
   const branding = (
-    <div className="py-24 mx-auto max-w-sm relative z-10">
+    <div className="py-24 mx-auto max-w-xs md:max-w-sm relative z-10">
       <div className="flex flex-col w-fit">
         <Logo className="h-16 mb-2" />
         <Wordmark className="h-10 fill-black" />
       </div>
-      <p className="mt-6 text-3xl text-black">A better way to reach buyers</p>
-      <p className="mt-6 text-md text-darkgrey font-action tracking-wider">
-        Made-to-order lead generation websites to grow your business
+      <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
+        {config.slogan}
       </p>
     </div>
   )
@@ -44,7 +44,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         className="bg-white-gradient overflow-hidden"
       >
         <div className="absolute">
-          <Hex className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] lg:w-[60rem] lg:ml-[20rem] xl:ml-[30rem] fill-white" />
+          <Hexa className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] xl:ml-[30rem] fill-white" />
         </div>
         {branding}
       </div>
@@ -130,7 +130,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         className="bg-white-gradient overflow-hidden"
       >
         <div className="absolute">
-          <Hex className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] lg:w-[60rem] lg:ml-[20rem] xl:ml-[30rem] fill-white" />
+          <Hexa className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] xl:ml-[30rem] fill-white" />
         </div>
         <div className="md:flex md:flex-row md:flex-nowrap mx-auto md:pb-24">
           {branding}
