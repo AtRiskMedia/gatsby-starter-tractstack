@@ -143,7 +143,7 @@ const StoryFragmentRender = ({
     const hasHiddenPane: any = thisPane.hasHiddenPane
     const thisPaneChildren =
       hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+        (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
         <CodeHookIframe
           thisId={thisId}
           payload={hasCodeHook}
@@ -238,8 +238,8 @@ const StoryFragmentRender = ({
                 duration > readThreshold
                   ? `read`
                   : duration > softReadThreshold
-                  ? `glossed`
-                  : null
+                    ? `glossed`
+                    : null
               if (verb) {
                 const eventPayload = {
                   verb,

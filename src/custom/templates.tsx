@@ -36,9 +36,8 @@ function ToggleBeliefGrid(
         ? ParseOptions(thisPayload.field_options)
         : null
     const paneTarget = optionsPayload?.paneTarget
-
+    const identifyAsId = optionsPayload?.identifyAs?.id
     const identifyAsSlug = optionsPayload?.identifyAs?.slug
-    const identifyAsTitle = optionsPayload?.identifyAs?.title
     const identifyAsObject = optionsPayload?.identifyAs?.target
     const matchedBelief =
       identifyAsSlug && beliefs && beliefs[identifyAsSlug] === identifyAsObject
@@ -49,19 +48,19 @@ function ToggleBeliefGrid(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function (): void {
+    const injectPayload = function(): void {
       updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
       pushEvent(
         {
           verb: `IDENTIFY_AS`,
-          id: identifyAsSlug,
-          title: identifyAsTitle,
+          id: identifyAsId,
+          title: identifyAsSlug,
           object: identifyAsObject.toUpperCase(),
           type: `Belief`,
         },
@@ -74,17 +73,22 @@ function ToggleBeliefGrid(
     return (
       <li key={`${id.id}-${idx}`}>
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">
-          <button onClick={injectPayload} className="group">
-            <img
+          <button onClick={injectPayload} className="group relative">
+            <div
               className={classNames(
                 matchedBelief
                   ? `-rotate-1 scale-95`
                   : `group-hover:-rotate-1 scale-90 group-hover:scale-95`,
-                `mb-2 rounded-xl transition duration-50 pointer-events-none object-cover`,
-              )}
-              src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
-              title={oneliner}
-            />
+                `mb-2 transition duration-50 pointer-events-none object-cover`,
+
+              )} >
+              {!matchedBelief ? <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" /> : null}
+              <img
+                className="rounded-xl relative z-50"
+                src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+                title={oneliner}
+              />
+            </div>
             <p
               className={classNames(
                 matchedBelief
@@ -137,30 +141,35 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function (): void {
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
       <li key={`${id.id}-${idx}`}>
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">
           <button onClick={injectPayload} className="group">
-            <img
-              className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover"
-              src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
-              title={oneliner}
-            />
-            <p className="font-main text-lg md:text-xl tracking-tight text-blue group-hover:text-orange">
+            <div
+              className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover relative"
+            >
+              <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" />
+              <img
+                className="rounded-xl z-50 relative"
+                src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+                title={oneliner}
+              />
+            </div>
+            <p className="font-main text-lg md:text-xl tracking-tight text-blue group-hover:text-orange z-50 relative">
               {title}
             </p>
           </button>
-        </div>
-      </li>
+        </div >
+      </li >
     )
   })
   return (
@@ -194,8 +203,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -203,9 +212,9 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `800`
         : viewportKey === `tablet`
-        ? `400`
-        : `200`
-    const injectPayload = function (): void {
+          ? `400`
+          : `200`
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -235,13 +244,13 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
   switch (target) {
     case `logo`:
       return (
-        <div key={id} className="mx-auto w-fit">
+        <div key={id} className="mx-auto w-fit max-w-xs">
           <div className="flex flex-col w-fit">
             <Logo className="h-12 mb-2" />
             <Wordmark className="h-8 fill-black" />
           </div>
           <p className="mt-6 text-2xl text-darkgrey">
-            A better way to reach buyers
+            intelligent no-code websites & landing pages that validate product-market-fit
           </p>
         </div>
       )

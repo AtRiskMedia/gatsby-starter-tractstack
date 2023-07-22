@@ -6,8 +6,8 @@ import styled from 'styled-components'
 // import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 import Hexa from '../../assets/hexa.svg'
-import Wordmark from '../../assets/wordmark.svg'
-import Logo from '../../assets/logo.svg'
+import Wordmark from '../../assets/ARm-wordmark.svg'
+import Logo from '../../assets/ARm-logo.svg'
 import { IViewportKeyProps } from '../types'
 // import Belief from '../components/Belief'
 //import { config } from '../../data/SiteConfig'
@@ -19,7 +19,7 @@ const StyledDiv = styled.div<IStyledDivProps>`
   ${(props: any) => props.css};
 `
 
-const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
+const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const breakTop =
     viewportKey !== `desktop`
       ? Svg(`kCzlowcut2`, viewportKey, `herolowcut2`)
@@ -28,11 +28,11 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const branding = (
     <div className="py-24 mx-auto max-w-xs md:max-w-sm relative z-10">
       <div className="flex flex-col w-fit">
-        <Logo className="h-16 mb-2" />
-        <Wordmark className="h-10 fill-black" />
+        <Logo className="h-8 w-8 mb-2 mx-auto fill-lightgrey" />
+        <Wordmark className="h-10 fill-blue" />
       </div>
       <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
-        intelligent no-code websites & landing pages that validate product-market-fit
+        UX that qualifies the conversation
       </p>
     </div>
   )
@@ -144,4 +144,4 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
  */
 
-export default PreLaunchHero
+export default AtRiskMedia
