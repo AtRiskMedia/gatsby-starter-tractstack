@@ -24,6 +24,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
+  const [doingForceSync, setDoingForceSync] = useState<boolean>(false)
   const [zoom, setZoom] = useState<boolean>(false)
   const [zoomOverride, setZoomOverride] = useState<boolean>(false)
   const [scrollTo, setScrollTo] = useState<String>(``)
@@ -108,11 +109,13 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   }, [setZoom])
 
   useEffect(() => {
-    if (forceSync) {
+    if (forceSync && !doingForceSync) {
+      setDoingForceSync(true)
       const now = Date.now()
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
         updateEventStreamCleanup(now)
         setLastSync(now)
+        setDoingForceSync(false)
       })
     }
   }, [
@@ -123,6 +126,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     tractStackId,
     updateEventStreamCleanup,
     setLastSync,
+    doingForceSync,
   ])
 
   useInterval(() => {
@@ -132,8 +136,10 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     ) {
       const now = Date.now()
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
+        setDoingForceSync(true)
         updateEventStreamCleanup(now)
         setLastSync(now)
+        setDoingForceSync(false)
       })
     }
   }, config.conciergeSync)
