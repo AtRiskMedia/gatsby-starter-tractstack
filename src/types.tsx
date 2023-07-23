@@ -175,6 +175,7 @@ export interface ISiteConfig {
   readThreshold: number
   softReadThreshold: number
   conciergeSync: number
+  conciergeForceInterval: number
   impressionsDelay: number
   slogan: string
   footer: string

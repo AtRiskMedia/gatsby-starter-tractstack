@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useInterval } from 'gatsby-plugin-tractstack'
+//import { useInterval } from 'gatsby-plugin-tractstack'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -22,6 +22,10 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
 
 const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const lastSync = useAuthStore((state) => state.lastSync)
+  const setLastSync = useAuthStore((state) => state.setLastSync)
+  const eventStream = useStoryStepStore((state) => state.eventStream)
   const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [doingForceSync, setDoingForceSync] = useState<boolean>(false)
@@ -46,28 +50,18 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const updateEventStreamCleanup = useStoryStepStore(
     (state) => state.updateEventStreamCleanup,
   )
-  const referrer = useAuthStore((state) => state.referrer)
-  const eventStream = useStoryStepStore((state) => state.eventStream)
   const gotoLastPane = useStoryStepStore((state) => state.gotoLastPane)
   const resetGotoLastPane = useStoryStepStore(
     (state) => state.resetGotoLastPane,
   )
   const gotoPane =
     gotoLastPane &&
-    gotoLastPane[0] &&
-    gotoLastPane[1] &&
-    gotoLastPane[1] === payload.slug &&
-    viewportKey
+      gotoLastPane[0] &&
+      gotoLastPane[1] &&
+      gotoLastPane[1] === payload.slug &&
+      viewportKey
       ? `${viewportKey}-${gotoLastPane[0]}`
       : null
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
-  const lastSync = useAuthStore((state) => state.lastSync)
-  const setLastSync = useAuthStore((state) => state.setLastSync)
-  const forceSync =
-    isLoggedIn &&
-    typeof eventStream === `object` &&
-    Object.keys(eventStream).length > 0 &&
-    (!lastSync || Date.now() - lastSync > config.conciergeSync * 2)
   const thisCss = storyFragment?.css || ``
   const impressions =
     typeof storyFragment !== `undefined` ? storyFragment.impressions : null
@@ -109,26 +103,36 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   }, [setZoom])
 
   useEffect(() => {
-    if (forceSync && !doingForceSync) {
-      setDoingForceSync(true)
+    function doSync() {
       const now = Date.now()
+      setLastSync(now)
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
         updateEventStreamCleanup(now)
-        setLastSync(now)
-        setDoingForceSync(false)
       })
     }
+    if (
+      isLoggedIn && !doingForceSync &&
+      typeof eventStream === `object` &&
+      Object.keys(eventStream).length > 0 &&
+      (!lastSync || Date.now() - lastSync > config.conciergeSync * config.conciergeForceInterval)
+    ) {
+      console.log(`sync`, Date.now())
+      setDoingForceSync(true)
+      doSync()
+      setDoingForceSync(false)
+    }
   }, [
-    forceSync,
     eventStream,
-    contentMap,
-    referrer,
-    tractStackId,
-    updateEventStreamCleanup,
+    isLoggedIn,
+    lastSync,
     setLastSync,
     doingForceSync,
+    contentMap,
+    tractStackId,
+    updateEventStreamCleanup,
   ])
 
+  /*
   useInterval(() => {
     if (
       typeof eventStream === `object` &&
@@ -136,13 +140,12 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     ) {
       const now = Date.now()
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
-        setDoingForceSync(true)
         updateEventStreamCleanup(now)
         setLastSync(now)
-        setDoingForceSync(false)
       })
     }
   }, config.conciergeSync)
+  */
 
   useEffect(() => {
     if (!loaded) {
