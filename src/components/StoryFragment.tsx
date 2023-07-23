@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-//import { useInterval } from 'gatsby-plugin-tractstack'
+import { useInterval } from 'gatsby-plugin-tractstack'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -56,10 +56,10 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   )
   const gotoPane =
     gotoLastPane &&
-      gotoLastPane[0] &&
-      gotoLastPane[1] &&
-      gotoLastPane[1] === payload.slug &&
-      viewportKey
+    gotoLastPane[0] &&
+    gotoLastPane[1] &&
+    gotoLastPane[1] === payload.slug &&
+    viewportKey
       ? `${viewportKey}-${gotoLastPane[0]}`
       : null
   const thisCss = storyFragment?.css || ``
@@ -111,12 +111,15 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
       })
     }
     if (
-      isLoggedIn && !doingForceSync &&
+      isLoggedIn &&
+      !doingForceSync &&
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
-      (!lastSync || Date.now() - lastSync > config.conciergeSync * config.conciergeForceInterval)
+      config.conciergeForceInterval > 1 &&
+      (!lastSync ||
+        Date.now() - lastSync >
+          config.conciergeSync * config.conciergeForceInterval)
     ) {
-      console.log(`sync`, Date.now())
       setDoingForceSync(true)
       doSync()
       setDoingForceSync(false)
@@ -132,20 +135,21 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     updateEventStreamCleanup,
   ])
 
-  /*
   useInterval(() => {
     if (
       typeof eventStream === `object` &&
-      Object.keys(eventStream).length > 0
+      Object.keys(eventStream).length > 0 &&
+      !doingForceSync
     ) {
+      setDoingForceSync(true)
       const now = Date.now()
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
         updateEventStreamCleanup(now)
         setLastSync(now)
+        setDoingForceSync(false)
       })
     }
   }, config.conciergeSync)
-  */
 
   useEffect(() => {
     if (!loaded) {
