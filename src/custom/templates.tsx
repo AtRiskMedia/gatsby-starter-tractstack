@@ -48,13 +48,13 @@ function ToggleBeliefGrid(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function(): void {
+    const injectPayload = function (): void {
       updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
       pushEvent(
         {
@@ -80,9 +80,11 @@ function ToggleBeliefGrid(
                   ? `-rotate-1 scale-95`
                   : `group-hover:-rotate-1 scale-90 group-hover:scale-95`,
                 `mb-2 transition duration-50 pointer-events-none object-cover`,
-
-              )} >
-              {!matchedBelief ? <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" /> : null}
+              )}
+            >
+              {!matchedBelief ? (
+                <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" />
+              ) : null}
               <img
                 className="rounded-xl relative z-50"
                 src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
@@ -141,22 +143,20 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function(): void {
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
       <li key={`${id.id}-${idx}`}>
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">
           <button onClick={injectPayload} className="group">
-            <div
-              className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover relative"
-            >
+            <div className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover relative">
               <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" />
               <img
                 className="rounded-xl z-50 relative"
@@ -168,8 +168,8 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
               {title}
             </p>
           </button>
-        </div >
-      </li >
+        </div>
+      </li>
     )
   })
   return (
@@ -203,8 +203,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -212,9 +212,9 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `800`
         : viewportKey === `tablet`
-          ? `400`
-          : `200`
-    const injectPayload = function(): void {
+        ? `400`
+        : `200`
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -250,7 +250,8 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
             <Wordmark className="h-8 fill-black" />
           </div>
           <p className="mt-6 text-2xl text-darkgrey">
-            intelligent no-code websites & landing pages that validate product-market-fit
+            intelligent no-code websites & landing pages that validate
+            product-market-fit
           </p>
         </div>
       )

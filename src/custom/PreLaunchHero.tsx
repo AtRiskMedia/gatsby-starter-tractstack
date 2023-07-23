@@ -10,7 +10,7 @@ import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from '../types'
 // import Belief from '../components/Belief'
-//import { config } from '../../data/SiteConfig'
+// import { config } from '../../data/SiteConfig'
 
 interface IStyledDivProps {
   css: string
@@ -32,7 +32,8 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         <Wordmark className="h-10 fill-black" />
       </div>
       <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
-        intelligent no-code websites & landing pages that validate product-market-fit
+        intelligent no-code websites & landing pages that validate
+        product-market-fit
       </p>
     </div>
   )
