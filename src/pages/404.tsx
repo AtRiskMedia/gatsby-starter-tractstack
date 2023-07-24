@@ -36,7 +36,7 @@ const PageNotFound = () => {
   }, [referrer, setReferrer])
 
   useEffect(() => {
-    navigate(`/`)
+    navigate(`/`, { replace: true })
   }, [])
   return null
 }

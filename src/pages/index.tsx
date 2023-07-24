@@ -45,7 +45,7 @@ const IndexPage = () => {
         : window.innerWidth < 1367
         ? `1080`
         : `1920`
-    navigate(`/${config.home}/${thisViewport}`)
+    navigate(`/${config.home}/${thisViewport}`, { replace: true })
   }, [])
   return null
 }

@@ -61,7 +61,9 @@ const StoryFragmentRedirect = ({ data }: ICollectionsRouteProps) => {
           : window.innerWidth < 1367
           ? `1080`
           : `1920`
-      navigate(`/${data.nodeStoryFragment.field_slug}/${thisViewport}`)
+      navigate(`/${data.nodeStoryFragment.field_slug}/${thisViewport}`, {
+        replace: true,
+      })
     }
   }, [data.nodeStoryFragment.field_slug])
 
