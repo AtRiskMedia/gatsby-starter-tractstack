@@ -559,7 +559,7 @@ const ConciergeProfile = () => {
                                   htmlFor="codeword"
                                   className="block text-sm text-gray-700"
                                 >
-                                  {isLoggedIn ? `Re-e` : `E`}nter your secret
+                                  {authenticated ? `Re-e` : `E`}nter your secret
                                   code word to protect your account:
                                 </label>
                                 <input
