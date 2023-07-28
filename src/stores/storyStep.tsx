@@ -67,28 +67,33 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         if (verb === `read`) updatePanesRead(key, true)
       }
     }
-    if (typeof goto === `string`) {
-      const viewport =
-        window?.innerWidth < 801
-          ? `600`
-          : window?.innerWidth < 1367
-          ? `1080`
-          : `1920`
-      if (goto === `/`)
-        navigate(config?.home ? `/${config.home}/${viewport}` : `/`)
-      else if (goto[0] === `/`) navigate(goto)
-      else if (goto === `#`) {
-        const anchor =
-          typeof document !== `undefined` && typeof mode === `string`
-            ? document.getElementById(mode)
-            : null
-        anchor?.scrollIntoView({
-          behavior: `auto`,
-          block: `center`,
-          inline: `center`,
-        })
-      } else navigate(`/${goto}/${viewport}`)
-    }
+    const viewport =
+      window?.innerWidth < 801
+        ? `600`
+        : window?.innerWidth < 1367
+        ? `1080`
+        : `1920`
+
+    if (
+      goto === `/` ||
+      (goto === `<` &&
+        typeof window !== `undefined` &&
+        window.history.state == null)
+    )
+      navigate(config?.home ? `/${config.home}/${viewport}` : `/`)
+    else if (goto === `<`) navigate(-1)
+    else if (goto[0] === `/`) navigate(goto)
+    else if (goto === `#`) {
+      const anchor =
+        typeof document !== `undefined` && typeof mode === `string`
+          ? document.getElementById(mode)
+          : null
+      anchor?.scrollIntoView({
+        behavior: `auto`,
+        block: `center`,
+        inline: `center`,
+      })
+    } else navigate(`/${goto}/${viewport}`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
     const contentMap = {

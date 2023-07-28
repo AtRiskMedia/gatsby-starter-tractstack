@@ -68,9 +68,6 @@ const Controller = ({
   const setControllerOverride = useStoryStepStore(
     (state) => state.setControllerOverride,
   )
-  const [open, setOpen] = React.useState(
-    !!(viewportKey === `desktop` && !controllerOverride),
-  )
 
   useInterval(() => {
     if (impressionPanes.length > offset + 1) setOffset(offset + 1)
@@ -88,16 +85,10 @@ const Controller = ({
     typeof offsetImpression[0] === `object`
       ? offsetImpression[0]
       : null
-  const callback = viewportKey === `desktop` ? doOverride : setOpen
-  function doOverride(value: any) {
-    setControllerOverride(!value)
-    setOpen(!value)
-  }
-  const value = viewportKey === `desktop` ? !controllerOverride : !open
 
   if (!thisImpression) return null
 
-  if (open)
+  if (controllerOverride)
     return (
       <aside id="controller" className="mr-1">
         <div
@@ -107,7 +98,7 @@ const Controller = ({
             <button
               type="button"
               className="z-90101 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              onClick={() => callback(value)}
+              onClick={() => setControllerOverride(!controllerOverride)}
             >
               <span className="sr-only">Hide controller</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -123,8 +114,8 @@ const Controller = ({
     >
       <button
         type="button"
-        className="z-90101 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        onClick={() => callback(value)}
+        className="z-90101 rounded-md bg-lightgrey text-allblack hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        onClick={() => setControllerOverride(!controllerOverride)}
       >
         <span className="sr-only">Show controller</span>
         <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />

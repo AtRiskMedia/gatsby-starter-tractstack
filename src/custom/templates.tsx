@@ -1,13 +1,80 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React from 'react'
+import React, { useState } from 'react'
 import { ITemplateDict } from '../types'
 import { ParseOptions, lispLexer, classNames } from 'gatsby-plugin-tractstack'
-import { BoltIcon } from '@heroicons/react/20/solid'
+import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
+
+function ToggleBeliefTags(
+  payload: any,
+  id: any, // FIX
+  viewportKey: string,
+  hooks: any,
+) {
+  const beliefs = useAuthStore((state) => state.beliefs)
+  const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
+  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const concierge = hooks?.concierge
+  const setScrollToPane = hooks?.setScrollToPane
+  const rendered = payload.map((e: any, idx: string) => {
+    const thisPayload = e.node
+    const actionLisp = thisPayload?.field_action_lisp
+      ? lispLexer(thisPayload.field_action_lisp)
+      : null
+    const oneliner = thisPayload?.field_oneliner
+    const optionsPayload =
+      typeof thisPayload?.field_options === `string`
+        ? ParseOptions(thisPayload.field_options)
+        : null
+    const paneTarget = optionsPayload?.paneTarget
+    const identifyAsId = optionsPayload?.identifyAs?.id
+    const identifyAsSlug = optionsPayload?.identifyAs?.slug
+    const identifyAsObject = optionsPayload?.identifyAs?.target
+    const matchedBelief =
+      identifyAsSlug && beliefs && beliefs[identifyAsSlug] === identifyAsObject
+    const injectPayload = function (): void {
+      if (!matchedBelief) {
+        updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
+        pushEvent(
+          {
+            verb: `IDENTIFY_AS`,
+            id: identifyAsId,
+            title: identifyAsSlug,
+            object: identifyAsObject.toUpperCase(),
+            type: `Belief`,
+          },
+          id,
+        )
+      }
+      if (paneTarget) setScrollToPane(paneTarget)
+      if (concierge && actionLisp) concierge(actionLisp, hooks, id.id)
+    }
+    return (
+      <button
+        key={`${id.id}-${idx}`}
+        onClick={injectPayload}
+        className={classNames(
+          matchedBelief
+            ? `-rotate-1 scale-95 bg-blue text-allwhite`
+            : `hover:-rotate-1 scale-90 hover:scale-95 bg-allwhite text-blue`,
+          `transition duration-50 inline-flex items-center rounded-md px-4 py-2 text-lg font-main m-2`,
+        )}
+      >
+        {matchedBelief ? (
+          <span className="mr-2">
+            <BoltIcon className="h-6 w-6 inline" />
+          </span>
+        ) : null}
+        {oneliner}
+      </button>
+    )
+  })
+  return <div key={id.id}>{rendered}</div>
+}
 
 function ToggleBeliefGrid(
   payload: any,
@@ -30,7 +97,6 @@ function ToggleBeliefGrid(
       ? lispLexer(thisPayload.field_action_lisp)
       : null
     const oneliner = thisPayload?.field_oneliner
-    const title = thisPayload?.title
     const optionsPayload =
       typeof thisPayload?.field_options === `string`
         ? ParseOptions(thisPayload.field_options)
@@ -96,12 +162,12 @@ function ToggleBeliefGrid(
                 matchedBelief
                   ? `text-orange text-left`
                   : `text-blue group-hover:text-orange text-right`,
-                `font-main text-lg md:text-xl tracking-tight font-bold px-6`,
+                `font-main text-lg leading-5 tracking-tight font-bold px-6`,
               )}
             >
               {matchedBelief ? <BoltIcon className="h-6 w-6 inline" /> : null}
               {` `}
-              {title}
+              {oneliner}
             </p>
           </button>
         </div>
@@ -235,6 +301,79 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
   return <ul key={id.id}>{rendered}</ul>
 }
 
+function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
+  const [playing, setPlaying] = useState<boolean>(false)
+  const concierge = hooks?.concierge
+  const rendered = payload.map((e: any, idx: string) => {
+    const thisPayload = e.node
+    const actionLisp = thisPayload?.field_action_lisp
+      ? lispLexer(thisPayload.field_action_lisp)
+      : null
+    const oneliner = thisPayload?.field_oneliner
+    const title = thisPayload?.title
+    const optionsPayload =
+      typeof thisPayload?.field_options === `string`
+        ? ParseOptions(thisPayload.field_options)
+        : null
+    const videoPath = optionsPayload?.videoPath
+    const videoType = optionsPayload?.videoType
+    const hasArtpack = optionsPayload?.artpack
+    const hasArtpackAll = hasArtpack && hasArtpack.all
+    const hasArtpackViewport =
+      hasArtpack && typeof hasArtpack[viewportKey] !== `undefined`
+    const artpack = hasArtpackAll
+      ? hasArtpack.all
+      : hasArtpackViewport
+      ? hasArtpack[viewportKey]
+      : null
+    const artpackFiletype = artpack?.filetype
+    const artpackCollection = artpack?.collection
+    const artpackImage = artpack?.image
+    const size =
+      viewportKey === `desktop`
+        ? `800`
+        : viewportKey === `tablet`
+        ? `800`
+        : `400`
+    const injectPayload = function (): void {
+      if (concierge) concierge(actionLisp, hooks, id.id)
+      setPlaying(!playing)
+    }
+    return (
+      <button key={`${id.id}-${idx}`} onClick={injectPayload} className="group">
+        {!(playing && videoPath && videoType) ? (
+          <div className="relative">
+            <div className="flex items-center justify-center absolute w-full h-full">
+              <button className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
+                <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
+              </button>
+            </div>
+            <video
+              className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
+              poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+              title={oneliner}
+            ></video>
+          </div>
+        ) : (
+          <>
+            <video
+              autoPlay={true}
+              className="rounded-md aspect-video"
+              title={oneliner}
+            >
+              <source src={videoPath} type={videoType} />
+            </video>
+          </>
+        )}
+        <h2 className="font-action text-lg tracking-tight text-blue group-hover:text-orange pt-4">
+          {title}
+        </h2>
+      </button>
+    )
+  })
+  return <div key={id.id}>{rendered}</div>
+}
+
 interface IInjectComponentProps {
   target: string
   id: string
@@ -246,10 +385,10 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
       return (
         <div key={id} className="mx-auto w-fit max-w-xs">
           <div className="flex flex-col w-fit">
-            <Logo className="h-12 mb-2" />
-            <Wordmark className="h-8 fill-black" />
+            <Logo className="h-16 mb-2" />
+            <Wordmark className="h-10 fill-black" />
           </div>
-          <p className="mt-6 text-2xl text-darkgrey">
+          <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
             intelligent no-code websites & landing pages that validate
             product-market-fit
           </p>
@@ -264,7 +403,9 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
 const templates: ITemplateDict = {
   menugrid: MenuGrid,
   menuitem: MenuItem,
+  videoitem: VideoItem,
   togglebeliefgrid: ToggleBeliefGrid,
+  togglebelieftags: ToggleBeliefTags,
   injectComponent: InjectComponent,
 }
 

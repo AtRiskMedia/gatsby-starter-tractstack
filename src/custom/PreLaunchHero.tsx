@@ -27,11 +27,11 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
 
   const branding = (
     <div className="py-24 mx-auto max-w-xs md:max-w-sm relative z-10">
-      <div className="flex flex-col w-fit">
+      <div className="flex flex-col w-fit mx-auto">
         <Logo className="h-16 mb-2" />
         <Wordmark className="h-10 fill-black" />
       </div>
-      <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
+      <p className="mt-6 text-sm text-darkgrey text-center font-action tracking-wider">
         intelligent no-code websites & landing pages that validate
         product-market-fit
       </p>

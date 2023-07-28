@@ -7,6 +7,9 @@
 *.woff
 *.woff2
 
+# videos
+*.mp4
+
 # testing
 /coverage
 

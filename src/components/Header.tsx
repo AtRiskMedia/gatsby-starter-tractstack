@@ -20,44 +20,13 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
   const [shopifyInitialized, setShopifyInitialized] = useState(0)
   const processRead = useStoryStepStore((state) => state.processRead)
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
-  const currentStoryStepCount = useStoryStepStore(
-    (state) => state.currentStoryStepCount,
-  )
-  const lastStoryStepCount =
-    currentStoryStepCount && parseInt(currentStoryStepCount) > 0
-      ? (parseInt(currentStoryStepCount) - 1).toString()
-      : `0`
   const storySteps = useStoryStepStore((state) => state.storySteps)
-  const pastStorySteps = useStoryStepStore((state) => state.pastStorySteps)
   const checkout = useShopifyStore((state) => state.checkout)
   const items = checkout ? checkout.lineItems : []
   const quantity = items.reduce((total: any, item: any) => {
     return total + item.quantity
   }, 0)
   const hasStorySteps = Object.keys(storySteps).length > 1
-  const viewport =
-    typeof window === `undefined`
-      ? `1920`
-      : window?.innerWidth < 801
-      ? `600`
-      : window?.innerWidth < 1367
-      ? `1080`
-      : `1920`
-  const goBackPayload =
-    parseInt(lastStoryStepCount) > 0
-      ? storySteps[pastStorySteps[lastStoryStepCount].timecode]
-      : null
-  const goBackText = goBackPayload ? `Go to last page` : `Go to home page`
-  const goBackTo =
-    goBackPayload?.type === `storyFragment`
-      ? `/${goBackPayload.id}/${viewport}`
-      : goBackPayload?.type === `content`
-      ? `/context/${goBackPayload.id}`
-      : goBackPayload?.type === `products`
-      ? `/products/${goBackPayload.id}`
-      : goBackPayload?.type === `concierge`
-      ? `/concierge/${goBackPayload.id}`
-      : `/`
   function navigateBreadcrumbs() {
     processRead(`/breadcrumbs`)
   }
@@ -68,7 +37,7 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
     processRead(config.home)
   }
   function hide() {
-    processRead(goBackTo)
+    processRead(`<`)
   }
 
   useEffect(() => {
@@ -114,7 +83,10 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
           {hasStorySteps ? (
             <>
               <button className="mx-2 hover:text-blue" onClick={() => hide()}>
-                <BackwardIcon className="h-8 w-8" title={goBackText} />
+                <BackwardIcon
+                  className="h-8 w-8"
+                  title="Return to previous page"
+                />
               </button>
               <button
                 className="mx-2 hover:text-blue"
