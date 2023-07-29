@@ -340,23 +340,30 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       setPlaying(!playing)
     }
     return (
-      <button key={`${id.id}-${idx}`} onClick={injectPayload} className="group">
+      <>
         {!(playing && videoPath && videoType) ? (
-          <div className="relative">
-            <div className="flex items-center justify-center absolute w-full h-full">
-              <button className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
-                <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
-              </button>
+          <button
+            key={`${id.id}-${idx}`}
+            onClick={injectPayload}
+            className="group"
+          >
+            <div className="relative">
+              <div className="flex items-center justify-center absolute w-full h-full">
+                <button className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
+                  <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
+                </button>
+              </div>
+              <video
+                className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
+                poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+                title={oneliner}
+              ></video>
             </div>
-            <video
-              className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
-              poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
-              title={oneliner}
-            ></video>
-          </div>
+          </button>
         ) : (
           <>
             <video
+              controls
               autoPlay={true}
               className="rounded-md aspect-video"
               title={oneliner}
@@ -368,7 +375,7 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
         <h2 className="font-action text-lg tracking-tight text-blue group-hover:text-orange pt-4">
           {title}
         </h2>
-      </button>
+      </>
     )
   })
   return <div key={id.id}>{rendered}</div>
