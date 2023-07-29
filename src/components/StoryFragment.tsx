@@ -29,6 +29,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [doingForceSync, setDoingForceSync] = useState<boolean>(false)
+  const [beenSeenPanes, setBeenSeenPanes] = useState<Object>({})
   const [zoom, setZoom] = useState<boolean>(false)
   const [zoomOverride, setZoomOverride] = useState<boolean>(false)
   const [scrollTo, setScrollTo] = useState<String>(``)
@@ -72,6 +73,17 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
       impressions &&
       typeof impressions[key] !== `undefined`
     ) {
+      if (!Object.prototype.hasOwnProperty.call(beenSeenPanes, key)) {
+        if (panesVisible.last === key) impressionPanes.unshift(key)
+        else impressionPanes.push(key)
+        if (!Object.prototype.hasOwnProperty.call(beenSeenPanes, key)) {
+          setBeenSeenPanes({ ...beenSeenPanes, [key]: Date.now() })
+        }
+      }
+    }
+  })
+  Object.keys(beenSeenPanes).forEach((key) => {
+    if (!Object.prototype.hasOwnProperty.call(impressionPanes, key)) {
       if (panesVisible.last === key) impressionPanes.unshift(key)
       else impressionPanes.push(key)
     }
