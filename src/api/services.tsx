@@ -110,6 +110,7 @@ export async function pushPayload({
       nodes[matchTractStack] = {
         title: contentMap[matchTractStack]?.title,
         type: contentMap[matchTractStack]?.type,
+        slug: contentMap[matchTractStack]?.slug,
       }
     if (matchPane && !nodes?.matchPane) {
       nodes[matchPane] = {
@@ -132,6 +133,7 @@ export async function pushPayload({
         nodes[matchTractStack] = {
           title: contentMap[matchTractStack]?.title,
           type: contentMap[matchTractStack]?.type,
+          slug: contentMap[matchTractStack]?.slug,
         }
     }
   })
