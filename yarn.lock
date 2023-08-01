@@ -6951,10 +6951,10 @@ gatsby-plugin-styled-components@6.7.0:
   dependencies:
     "@babel/runtime" "^7.20.13"
 
-gatsby-plugin-tractstack@1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-tractstack/-/gatsby-plugin-tractstack-1.1.7.tgz#3a1fcd95d680481789266bc0216db975a621e897"
-  integrity sha512-E79TiA/gfYvMtcT2wAEOgpqNznOvQaG3E2aA08Qy0n+6fxJPXZETE9dtOZHqQ7o9LKl504F3EWPera6BTaAMuQ==
+gatsby-plugin-tractstack@1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-tractstack/-/gatsby-plugin-tractstack-1.1.9.tgz#42e53ae7542475467694565eae0d6a77d777cc7e"
+  integrity sha512-cbKCPVgc/YggwpuKm2kvHTGF6mU56C2ODfCQ7JrJhOQnb2bW5CoJ20IY9gqZa6ZgwyhYK8PMB9ju0f/Pmp+tjw==
   dependencies:
     buffer "^6.0.3"
     hast-util-sanitize "^4.1.0"
@@ -7135,10 +7135,10 @@ gatsby-transformer-sharp@5.7.0:
     semver "^7.3.8"
     sharp "^0.31.3"
 
-gatsby-transformer-tractstack@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/gatsby-transformer-tractstack/-/gatsby-transformer-tractstack-1.1.0.tgz#b8a900671b93abf337a31bfad39946b9045902e5"
-  integrity sha512-XZM7P6STed40L/ryFNs84Vag9lYQcpCFGFxEwP6dY4zhVetZ+eFrbTrCsyW+qNb59Ol+K3CRzUXwCLlBhB0h3g==
+gatsby-transformer-tractstack@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/gatsby-transformer-tractstack/-/gatsby-transformer-tractstack-1.1.1.tgz#5cdc02a342e3056802f0933628d5361ac9d4c56f"
+  integrity sha512-aFP4LJ2m/LJvTW35KDr3FHUG9gyiXNWIfDEVG8rDNojA4x31RaB99as1NyelPLQvvRvEF5e0uD2HlnOIyfqLzg==
   dependencies:
     react "^18.2.0"
 

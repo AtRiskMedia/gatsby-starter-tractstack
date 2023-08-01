@@ -197,7 +197,6 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
       ? lispLexer(thisPayload.field_action_lisp)
       : null
     const oneliner = thisPayload?.field_oneliner
-    const title = thisPayload?.title
     const optionsPayload =
       typeof thisPayload?.field_options === `string`
         ? ParseOptions(thisPayload.field_options)
@@ -231,7 +230,7 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
               />
             </div>
             <p className="font-main text-lg md:text-xl tracking-tight text-blue group-hover:text-orange z-50 relative">
-              {title}
+              {oneliner}
             </p>
           </button>
         </div>
@@ -257,7 +256,6 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       ? lispLexer(thisPayload.field_action_lisp)
       : null
     const oneliner = thisPayload?.field_oneliner
-    const title = thisPayload?.title
     const optionsPayload =
       typeof thisPayload?.field_options === `string`
         ? ParseOptions(thisPayload.field_options)
@@ -292,7 +290,7 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
             title={oneliner}
           />
           <h2 className="font-action text-lg tracking-tight text-blue group-hover:text-orange">
-            {title}
+            {oneliner}
           </h2>
         </button>
       </li>
@@ -310,7 +308,6 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       ? lispLexer(thisPayload.field_action_lisp)
       : null
     const oneliner = thisPayload?.field_oneliner
-    const title = thisPayload?.title
     const optionsPayload =
       typeof thisPayload?.field_options === `string`
         ? ParseOptions(thisPayload.field_options)
@@ -331,7 +328,7 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpackImage = artpack?.image
     const size =
       viewportKey === `desktop`
-        ? `800`
+        ? `1920`
         : viewportKey === `tablet`
         ? `800`
         : `400`
@@ -340,18 +337,14 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       setPlaying(!playing)
     }
     return (
-      <>
+      <div key={`${id.id}-${idx}`}>
         {!(playing && videoPath && videoType) ? (
-          <button
-            key={`${id.id}-${idx}`}
-            onClick={injectPayload}
-            className="group"
-          >
+          <button onClick={injectPayload} className="group">
             <div className="relative">
               <div className="flex items-center justify-center absolute w-full h-full">
-                <button className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
+                <div className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
                   <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
-                </button>
+                </div>
               </div>
               <video
                 className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
@@ -361,24 +354,124 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
             </div>
           </button>
         ) : (
-          <>
-            <video
-              controls
-              autoPlay={true}
-              className="rounded-md aspect-video"
-              title={oneliner}
-            >
-              <source src={videoPath} type={videoType} />
-            </video>
-          </>
+          <video
+            controls
+            autoPlay={true}
+            poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+            className="rounded-md aspect-video"
+            title={oneliner}
+          >
+            <source src={videoPath} type={videoType} />
+          </video>
         )}
-        <h2 className="font-action text-lg tracking-tight text-blue group-hover:text-orange pt-4">
-          {title}
+        <h2 className="font-action text-lg text-center tracking-tight text-blue group-hover:text-orange pt-4">
+          {oneliner}
         </h2>
-      </>
+      </div>
     )
   })
   return <div key={id.id}>{rendered}</div>
+}
+
+function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
+  const concierge = hooks?.concierge
+  const months = [
+    `Jan`,
+    `Feb`,
+    `Mar`,
+    `Apr`,
+    `May`,
+    `Jun`,
+    `Jul`,
+    `Aug`,
+    `Sep`,
+    `Oct`,
+    `Nov`,
+    `Dec`,
+  ]
+  const rendered = payload.map((e: any, idx: string) => {
+    const thisPayload = e.node
+    const actionLisp = thisPayload?.field_action_lisp
+      ? lispLexer(thisPayload.field_action_lisp)
+      : null
+    const oneliner = thisPayload?.field_oneliner
+    const categorySlug = thisPayload?.field_category_slug
+    const optionsPayload =
+      typeof thisPayload?.field_options === `string`
+        ? ParseOptions(thisPayload.field_options)
+        : null
+    const timestamp = optionsPayload?.timestamp
+    const date = timestamp ? new Date(timestamp * 1000) : null
+    const year = date ? date.getFullYear() : null
+    const day = date ? date.getDate() : null
+    const month = date ? months[date.getMonth()] : null
+    const description = optionsPayload?.description
+    const hasArtpack = optionsPayload?.artpack
+    const hasArtpackAll = hasArtpack && hasArtpack.all
+    const hasArtpackViewport =
+      hasArtpack && typeof hasArtpack[viewportKey] !== `undefined`
+    const artpack = hasArtpackAll
+      ? hasArtpack.all
+      : hasArtpackViewport
+      ? hasArtpack[viewportKey]
+      : null
+    const artpackFiletype = artpack?.filetype
+    const artpackCollection = artpack?.collection
+    const artpackImage = artpack?.image
+    const size = viewportKey === `desktop` ? `800` : `400`
+    const injectPayload = function (): void {
+      if (concierge) concierge(actionLisp, hooks, id.id)
+    }
+    return (
+      <article
+        key={idx}
+        className="relative isolate flex flex-col gap-8 xl:flex-row group"
+      >
+        <button
+          onClick={injectPayload}
+          className="relative aspect-[16/9] sm:aspect-[2/1] xl:w-64 xl:shrink-0 border-none"
+        >
+          <img
+            src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+            alt={`Decorative image for ${oneliner}`}
+            className="absolute inset-0 h-full w-full rounded-2xl object-cover group-hover:-rotate-1 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-darkgrey/10" />
+        </button>
+        <div>
+          <div className="flex items-center gap-x-4 text-xs">
+            {timestamp ? (
+              <time dateTime={timestamp} className="text-darkgrey">
+                {`${day} ${month} ${year}`}
+              </time>
+            ) : null}
+            <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 font-medium text-black">
+              {categorySlug}
+            </span>
+          </div>
+          <div className="group relative max-w-xl">
+            <h3 className="mt-3 leading-6 text-darkgrey group-hover:text-black">
+              <button
+                className="font-bold font-main text-xl"
+                onClick={injectPayload}
+              >
+                <span className="absolute inset-0" />
+                {oneliner}
+              </button>
+            </h3>
+            <p className="mt-5 text-sm leading-6 text-darkgrey">
+              {description}
+            </p>
+          </div>
+        </div>
+      </article>
+    )
+  })
+  return (
+    <div key={id.id} className="mt-16 space-y-20 xl:mt-20 xl:space-y-20">
+      {rendered}
+    </div>
+  )
 }
 
 interface IInjectComponentProps {
@@ -410,6 +503,7 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
 const templates: ITemplateDict = {
   menugrid: MenuGrid,
   menuitem: MenuItem,
+  bloglist: BlogList,
   videoitem: VideoItem,
   togglebeliefgrid: ToggleBeliefGrid,
   togglebelieftags: ToggleBeliefTags,

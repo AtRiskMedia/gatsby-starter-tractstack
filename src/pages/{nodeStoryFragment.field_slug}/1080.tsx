@@ -22,6 +22,7 @@ export const query = graphql`
         node {
           id: drupal_id
           field_slug
+          field_category_slug
           field_options
           field_action_lisp
           field_oneliner
