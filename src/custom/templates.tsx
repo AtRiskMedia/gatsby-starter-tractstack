@@ -15,6 +15,7 @@ function ToggleBeliefTags(
   viewportKey: string,
   hooks: any,
 ) {
+  let isMatched = false
   const beliefs = useAuthStore((state) => state.beliefs)
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
@@ -36,7 +37,8 @@ function ToggleBeliefTags(
     const identifyAsObject = optionsPayload?.identifyAs?.target
     const matchedBelief =
       identifyAsSlug && beliefs && beliefs[identifyAsSlug] === identifyAsObject
-    const injectPayload = function (): void {
+    if (matchedBelief) isMatched = true
+    const injectPayload = function(): void {
       if (!matchedBelief) {
         updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
         pushEvent(
@@ -61,7 +63,7 @@ function ToggleBeliefTags(
           matchedBelief
             ? `-rotate-1 scale-95 bg-blue text-allwhite`
             : `hover:-rotate-1 scale-90 hover:scale-95 bg-allwhite text-blue`,
-          `transition duration-50 inline-flex items-center rounded-md px-4 py-2 text-lg font-main m-2`,
+          `transition duration-50 inline-flex items-center rounded-md px-8 py-4 text-lg font-action m-4 relative`,
         )}
       >
         {matchedBelief ? (
@@ -73,7 +75,17 @@ function ToggleBeliefTags(
       </button>
     )
   })
-  return <div key={id.id}>{rendered}</div>
+  return (
+    <div key={id.id} className="relative">
+      <div
+        className={classNames(
+          isMatched ? `border-l-4 border-lightgrey opacity-5` : `border-l-4 border-slate-200 motion-safe:animate-pulse opacity-5`,
+          `absolute w-full h-full `,
+        )}
+      />
+      <div className="px-8">{rendered}</div>
+    </div>
+  )
 }
 
 function ToggleBeliefGrid(
@@ -114,13 +126,13 @@ function ToggleBeliefGrid(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function (): void {
+    const injectPayload = function(): void {
       updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
       pushEvent(
         {
@@ -149,7 +161,7 @@ function ToggleBeliefGrid(
               )}
             >
               {!matchedBelief ? (
-                <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" />
+                <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
               ) : null}
               <img
                 className="rounded-xl relative z-50"
@@ -208,13 +220,13 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function (): void {
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -222,7 +234,7 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">
           <button onClick={injectPayload} className="group">
             <div className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover relative">
-              <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-25" />
+              <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
               <img
                 className="rounded-xl z-50 relative"
                 src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
@@ -267,8 +279,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -276,9 +288,9 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `800`
         : viewportKey === `tablet`
-        ? `400`
-        : `200`
-    const injectPayload = function (): void {
+          ? `400`
+          : `200`
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -321,8 +333,8 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -330,9 +342,10 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `1920`
         : viewportKey === `tablet`
-        ? `800`
-        : `400`
-    const injectPayload = function (): void {
+          ? `800`
+          : `400`
+    const poster = artpackCollection === `static` ? `/${artpackImage}.${artpackFiletype}` : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
       setPlaying(!playing)
     }
@@ -348,7 +361,7 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
               </div>
               <video
                 className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
-                poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+                poster={poster}
                 title={oneliner}
               ></video>
             </div>
@@ -357,7 +370,7 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
           <video
             controls
             autoPlay={true}
-            poster={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+            poster={poster}
             className="rounded-md aspect-video"
             title={oneliner}
           >
@@ -413,13 +426,14 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function (): void {
+    const poster = artpackCollection === `static` ? `/${artpackImage}.${artpackFiletype}` : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
+    const injectPayload = function(): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -432,7 +446,7 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
           className="relative aspect-[16/9] sm:aspect-[2/1] xl:w-64 xl:shrink-0 border-none"
         >
           <img
-            src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
+            src={poster}
             alt={`Decorative image for ${oneliner}`}
             className="absolute inset-0 h-full w-full rounded-2xl object-cover group-hover:-rotate-1 group-hover:scale-105"
           />
@@ -459,7 +473,7 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
                 {oneliner}
               </button>
             </h3>
-            <p className="mt-5 text-sm leading-6 text-darkgrey">
+            <p className="mt-2 text-sm leading-4 text-darkgrey">
               {description}
             </p>
           </div>

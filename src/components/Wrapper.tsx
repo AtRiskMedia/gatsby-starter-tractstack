@@ -57,7 +57,8 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
 
   useEffect(() => {
     if (!loaded) {
-      setLastStoryStep(slug, mode)
+      if (mode === `storyFragment`)
+        setLastStoryStep(slug, mode)
       setLoaded(true)
     }
   }, [loaded, setLoaded, setLastStoryStep, slug, mode])
@@ -65,11 +66,11 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   useEffect(() => {
     if (typeof fingerprint === `object` && fingerprint === null) {
       const fpPromise = FingerprintJS.load()
-      ;(async () => {
-        const fp = await fpPromise
-        const result = await fp.get()
-        setFingerprint(result.visitorId)
-      })()
+        ; (async () => {
+          const fp = await fpPromise
+          const result = await fp.get()
+          setFingerprint(result.visitorId)
+        })()
     }
   }, [fingerprint, setFingerprint])
 
@@ -82,8 +83,8 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
           encryptedEmail.length > 0 &&
           typeof encryptedCode === `string` &&
           encryptedCode.length > 0
-        ? true
-        : !validToken
+          ? true
+          : !validToken
 
     if (
       lastRun + 2000 < Date.now() &&
@@ -123,8 +124,8 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
         thisViewportKey === `mobile`
           ? `600`
           : thisViewportKey === `tablet`
-          ? 1080
-          : 1920
+            ? 1080
+            : 1920
       if (thisViewportKey !== viewportKey) {
         setViewportKey(thisViewportKey)
         if (mode === `storyFragment`) navigate(`/${slug}/${thisViewport}`)
@@ -133,10 +134,10 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
         thisWidth < 401
           ? (400 - scrollBarOffset) / 601
           : thisWidth < 801
-          ? (thisWidth - scrollBarOffset) / 601
-          : thisWidth < 1367
-          ? (thisWidth - scrollBarOffset) / 1081
-          : (thisWidth - scrollBarOffset) / 1921
+            ? (thisWidth - scrollBarOffset) / 601
+            : thisWidth < 1367
+              ? (thisWidth - scrollBarOffset) / 1081
+              : (thisWidth - scrollBarOffset) / 1921
       document.documentElement.style.setProperty(
         `--scale`,
         thisScale.toString(),

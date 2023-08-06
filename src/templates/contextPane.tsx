@@ -7,6 +7,7 @@ import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
+import templates from '../custom/templates'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
@@ -25,7 +26,7 @@ export default function ContextPage(props: IContextPageProps) {
     (state) => state.updateEventStream,
   )
   const processRead = useStoryStepStore((state) => state.processRead)
-  const resourcePayload = props?.pageContext?.allNodeResource?.edges
+  const resourcePayload = props?.pageContext?.resources?.edges
   const hooks = {
     navigate,
     belief: Belief,
@@ -34,6 +35,7 @@ export default function ContextPage(props: IContextPageProps) {
     GatsbyImage,
     getImage,
     resourcePayload,
+    templates,
   }
   const [now] = useState(Date.now())
   const thisWidth = typeof window !== `undefined` ? window?.innerWidth : `600`
@@ -55,6 +57,7 @@ export default function ContextPage(props: IContextPageProps) {
     id,
     tailwindBgColour: null,
   }
+
   const payload = Compositor(compositorPayload)
   const title = payload.contentMap[pageContext.id].title
   const children = payload.contentChildren[`all-${pageContext.id}`]
@@ -66,8 +69,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-        ? `glossed`
-        : null
+          ? `glossed`
+          : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -77,7 +80,7 @@ export default function ContextPage(props: IContextPageProps) {
       }
       updateEventStream(Date.now(), eventPayload)
     }
-    processRead(`<`)
+    processRead(`<`, `context`)
   }
 
   useEffect(() => {
@@ -88,8 +91,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-            ? `glossed`
-            : null
+              ? `glossed`
+              : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,
@@ -99,7 +102,7 @@ export default function ContextPage(props: IContextPageProps) {
           }
           updateEventStream(Date.now(), eventPayload)
         }
-        processRead(`<`)
+        processRead(`<`, `context`)
       }
     }
     document.addEventListener(`keydown`, handleEscapeKey)
