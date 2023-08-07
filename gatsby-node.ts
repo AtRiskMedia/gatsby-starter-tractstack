@@ -141,7 +141,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
               node.relationships.field_tract_stack?.field_slug ||
               node.field_slug,
             contextPane: node,
-            resources: result.data.allNodeResource
+            resources: result.data.allNodeResource,
           },
         })
       })

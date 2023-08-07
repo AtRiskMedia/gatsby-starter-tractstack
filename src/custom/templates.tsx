@@ -38,7 +38,7 @@ function ToggleBeliefTags(
     const matchedBelief =
       identifyAsSlug && beliefs && beliefs[identifyAsSlug] === identifyAsObject
     if (matchedBelief) isMatched = true
-    const injectPayload = function(): void {
+    const injectPayload = function (): void {
       if (!matchedBelief) {
         updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
         pushEvent(
@@ -79,7 +79,9 @@ function ToggleBeliefTags(
     <div key={id.id} className="relative">
       <div
         className={classNames(
-          isMatched ? `border-l-4 border-lightgrey opacity-5` : `border-l-4 border-slate-200 motion-safe:animate-pulse opacity-5`,
+          isMatched
+            ? `border-l-4 border-lightgrey opacity-5`
+            : `border-l-4 border-slate-200 motion-safe:animate-pulse opacity-5`,
           `absolute w-full h-full `,
         )}
       />
@@ -126,13 +128,13 @@ function ToggleBeliefGrid(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function(): void {
+    const injectPayload = function (): void {
       updateBeliefs(identifyAsSlug, identifyAsObject.toUpperCase())
       pushEvent(
         {
@@ -220,13 +222,13 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const injectPayload = function(): void {
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -279,8 +281,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -288,9 +290,9 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `800`
         : viewportKey === `tablet`
-          ? `400`
-          : `200`
-    const injectPayload = function(): void {
+        ? `400`
+        : `200`
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (
@@ -333,8 +335,8 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -342,10 +344,13 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `1920`
         : viewportKey === `tablet`
-          ? `800`
-          : `400`
-    const poster = artpackCollection === `static` ? `/${artpackImage}.${artpackFiletype}` : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
-    const injectPayload = function(): void {
+        ? `800`
+        : `400`
+    const poster =
+      artpackCollection === `static`
+        ? `/${artpackImage}.${artpackFiletype}`
+        : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
       setPlaying(!playing)
     }
@@ -426,14 +431,17 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
+      ? hasArtpack[viewportKey]
+      : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
     const size = viewportKey === `desktop` ? `800` : `400`
-    const poster = artpackCollection === `static` ? `/${artpackImage}.${artpackFiletype}` : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
-    const injectPayload = function(): void {
+    const poster =
+      artpackCollection === `static`
+        ? `/${artpackImage}.${artpackFiletype}`
+        : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
+    const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
     return (

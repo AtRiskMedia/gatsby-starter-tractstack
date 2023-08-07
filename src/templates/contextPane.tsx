@@ -69,8 +69,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-          ? `glossed`
-          : null
+        ? `glossed`
+        : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -91,8 +91,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-              ? `glossed`
-              : null
+            ? `glossed`
+            : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,
@@ -142,12 +142,12 @@ export default function ContextPage(props: IContextPageProps) {
       <Header siteTitle={title} open={false} />
       <div id="context" className="z-80010 w-full min-h-screen">
         <>{children}</>
-        <div id="context-exit" className="text-center my-12">
+        <div id="context-exit" className="text-center my-4">
           <button
             className="rounded-md bg-red-400 hover:bg-allblack hover:text-white px-3.5 py-1.5 text-base leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
             onClick={() => hide()}
           >
-            Go to previous page
+            Return to main site
           </button>
         </div>
       </div>
