@@ -287,7 +287,14 @@ const ConciergeProfile = () => {
                           Your profile has been{` `}
                           {!created ? `updated` : `created`}.
                         </p>
-                      ) : badSave ? null : (
+                      ) : badSave ? (
+                        <p className="text-red-500 text-lg mb-10">
+                          Your profile could not be created. You have likely
+                          already registered this email. Please try logging in.
+                          If issues persists, please email **info at atriskmedia
+                          dot com**.
+                        </p>
+                      ) : (
                         <p className="text-gray-700 text-lg mb-6">
                           To read more on our data practices and professional
                           standards, please see our{` `}
@@ -313,22 +320,7 @@ const ConciergeProfile = () => {
                         </p>
                       ) : null}
                     </div>
-                    {badSave ? (
-                      <>
-                        <p className="text-red-500 text-lg mb-10">
-                          Your secret codeword did not match. You have been
-                          logged out.
-                        </p>
-                        <p>
-                          <Link
-                            to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
-                          >
-                            Log-in
-                          </Link>
-                        </p>
-                      </>
-                    ) : show || (!authenticated && !knownLead) ? (
+                    {badSave ? null : show || (!authenticated && !knownLead) ? (
                       <form onSubmit={handleSubmit} method="POST">
                         <div className="grid grid-cols-3 gap-4 bg-slate-50">
                           <div className="col-span-3 sm:col-span-1">
