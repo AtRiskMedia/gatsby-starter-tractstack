@@ -55,6 +55,10 @@ function ToggleBeliefTags(
       if (paneTarget) setScrollToPane(paneTarget)
       if (concierge && actionLisp) concierge(actionLisp, hooks, id.id)
     }
+    const viewportClasses =
+      viewportKey === `desktop` || viewportKey === `tablet`
+        ? `py-3 px-4 text-md m-3`
+        : `py-2 px-3 text-sm m-2`
     return (
       <button
         key={`${id.id}-${idx}`}
@@ -63,7 +67,8 @@ function ToggleBeliefTags(
           matchedBelief
             ? `-rotate-1 scale-95 bg-blue text-allwhite`
             : `hover:-rotate-1 scale-90 hover:scale-95 bg-allwhite text-blue`,
-          `transition duration-50 inline-flex items-center rounded-md px-8 py-4 text-lg font-action m-4 relative`,
+          `transition duration-50 inline-flex items-center rounded-md font-action relative`,
+          viewportClasses,
         )}
       >
         {matchedBelief ? (
@@ -75,6 +80,12 @@ function ToggleBeliefTags(
       </button>
     )
   })
+  const viewportClassesWrapper =
+    viewportKey === `desktop`
+      ? `px-8`
+      : viewportKey === `tablet`
+      ? `px-6`
+      : `px-2`
   return (
     <div key={id.id} className="relative">
       <div
@@ -85,7 +96,7 @@ function ToggleBeliefTags(
           `absolute w-full h-full `,
         )}
       />
-      <div className="px-8">{rendered}</div>
+      <div className={viewportClassesWrapper}>{rendered}</div>
     </div>
   )
 }
@@ -449,41 +460,45 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
         key={idx}
         className="relative isolate flex flex-col gap-8 xl:flex-row group"
       >
-        <button
-          onClick={injectPayload}
-          className="relative aspect-[16/9] sm:aspect-[2/1] xl:w-64 xl:shrink-0 border-none"
-        >
-          <img
-            src={poster}
-            alt={`Decorative image for ${oneliner}`}
-            className="absolute inset-0 h-full w-full rounded-2xl object-cover group-hover:-rotate-1 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-darkgrey/10" />
-        </button>
-        <div>
-          <div className="flex items-center gap-x-4 text-xs">
-            {timestamp ? (
-              <time dateTime={timestamp} className="text-darkgrey">
-                {`${day} ${month} ${year}`}
-              </time>
-            ) : null}
-            <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 font-medium text-black">
-              {categorySlug}
-            </span>
-          </div>
-          <div className="group relative max-w-xl">
-            <h3 className="mt-3 leading-6 text-darkgrey group-hover:text-black">
-              <button
-                className="font-bold font-main text-xl"
-                onClick={injectPayload}
-              >
-                <span className="absolute inset-0" />
-                {oneliner}
-              </button>
-            </h3>
-            <p className="mt-2 text-sm leading-4 text-darkgrey">
-              {description}
-            </p>
+        <div className="flex justify-between gap-x-6 py-5">
+          <button
+            onClick={injectPayload}
+            className="relative md:aspect-[16/9] aspect-[2/1] w-64 xl:shrink-0 border-none"
+          >
+            <img
+              src={poster}
+              alt={`Decorative image for ${oneliner}`}
+              className="absolute inset-0 h-full w-full rounded-2xl object-cover group-hover:-rotate-1 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-darkgrey/10" />
+          </button>
+          <div>
+            <div>
+              <div className="flex items-center gap-x-4 text-xs">
+                {timestamp ? (
+                  <time dateTime={timestamp} className="text-darkgrey">
+                    {`${day} ${month} ${year}`}
+                  </time>
+                ) : null}
+                <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 font-medium text-black">
+                  {categorySlug}
+                </span>
+              </div>
+              <div className="group relative max-w-xl">
+                <h3 className="mt-3 leading-6 text-blue text-2xl">
+                  <button
+                    className="font-bold font-main"
+                    onClick={injectPayload}
+                  >
+                    <span className="absolute inset-0" />
+                    {oneliner}
+                  </button>
+                </h3>
+                <p className="mt-2 text-sm leading-4 text-darkgrey">
+                  {description}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </article>

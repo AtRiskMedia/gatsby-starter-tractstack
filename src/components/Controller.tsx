@@ -82,6 +82,7 @@ const Controller = ({
       : null
   const thisImpression: any =
     typeof offsetImpression === `object` &&
+    offsetImpression !== null &&
     typeof offsetImpression[0] === `object`
       ? offsetImpression[0]
       : null
