@@ -17,7 +17,7 @@ import {
   ICodeHookShopifyProps,
   IPaneProps,
   IStoryFragmentRenderProps,
-} from '../types'
+} from 'gatsby-plugin-tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold

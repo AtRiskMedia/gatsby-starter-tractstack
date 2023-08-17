@@ -17,10 +17,10 @@ export const query = graphql`
         node {
           id
           title
-          field_slug
+          slug: field_slug
           relationships {
-            field_context_panes {
-              field_slug
+            contextPanes: field_context_panes {
+              slug: field_slug
               id
               title
             }
@@ -32,10 +32,10 @@ export const query = graphql`
       edges {
         node {
           relationships {
-            field_context_panes {
+            contextPanes: field_context_panes {
               id
               title
-              field_slug
+              slug: field_slug
             }
           }
         }
@@ -62,12 +62,12 @@ const Breadcrumbs = (data: any) => {
   const products = data.data.allShopifyProduct.edges
   const contextPanes: any[] = []
   storyFragments.forEach((e: any) => {
-    e.node.relationships.field_context_panes.forEach((p: any) => {
+    e.node.relationships.contextPanes.forEach((p: any) => {
       contextPanes.push(p)
     })
   })
   tractStacks.forEach((e: any) => {
-    e.node.relationships.field_context_panes.forEach((p: any) => {
+    e.node.relationships.contextPanes.forEach((p: any) => {
       contextPanes.push(p)
     })
   })
@@ -88,10 +88,10 @@ const Breadcrumbs = (data: any) => {
       ? products.filter((e: any) => e?.node?.handle === isProduct)[0].node
       : null
     const thisStoryFragmentPayload = storyFragments?.filter(
-      (e: any) => e.node.field_slug === thisSlug,
+      (e: any) => e.node.slug === thisSlug,
     )
     const thisContextPanePayload = contextPanes?.filter(
-      (e: any) => e.field_slug === thisSlug,
+      (e: any) => e.slug === thisSlug,
     )
     const thisConciergePagePayload = config.conciergeNav?.filter(
       (e: any) => e.id === thisSlug,
@@ -126,9 +126,9 @@ const Breadcrumbs = (data: any) => {
         : null
     const thisTo =
       type === `storyFragment`
-        ? `/${thisPayload.field_slug}/${viewportWidth}`
+        ? `/${thisPayload.slug}/${viewportWidth}`
         : type === `contextPane`
-        ? `/context/${thisPayload.field_slug}`
+        ? `/context/${thisPayload.slug}`
         : type === `conciergePage`
         ? `/concierge/${thisPayload.id}`
         : type === `product`

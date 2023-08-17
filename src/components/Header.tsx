@@ -10,7 +10,7 @@ import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { useShopifyStore } from '../stores/shopify'
 import { CartButton } from '../shopify-components/CartButton'
-import { IHeaderProps } from '../types'
+import { IHeaderProps } from 'gatsby-plugin-tractstack/types'
 import { config } from '../../data/SiteConfig'
 
 const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {

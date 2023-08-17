@@ -7,7 +7,7 @@ import {
   BeakerIcon,
 } from '@heroicons/react/24/outline'
 
-import { IViewportKeyProps } from '../types'
+import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 
 const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   return (

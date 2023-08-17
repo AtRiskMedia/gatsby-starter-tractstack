@@ -11,7 +11,7 @@ import Controller from './Controller'
 import Wrapper from './Wrapper'
 import StoryFragmentRender from './storyFragmentRender'
 import '../styles/storyfragment.css'
-import { IStoryFragmentProps } from '../types'
+import { IStoryFragmentProps } from 'gatsby-plugin-tractstack/types'
 
 interface IStyledWrapperSectionProps {
   css: string

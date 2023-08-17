@@ -6,7 +6,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
-import { INavLinkProps, IMenuProps } from '../types'
+import { INavLinkProps, IMenuProps } from 'gatsby-plugin-tractstack/types'
 
 const NavLink = ({ children, to }: INavLinkProps) => (
   <Link to={to} activeClassName="is-active">
@@ -20,31 +20,29 @@ function Menu({ menuPayload, viewportKey }: IMenuProps) {
   )
   const processRead = useStoryStepStore((state) => state.processRead)
   const logo = getLogo(
-    menuPayload.relationships?.field_svg_logo,
-    menuPayload.relationships?.field_image_logo,
+    menuPayload.relationships?.svgLogo,
+    menuPayload.relationships?.imageLogo,
     viewportKey,
     GatsbyImage,
   )
-  const menuItems = menuPayload.relationships?.field_menu_items?.map(
-    (e: any) => {
-      function injectPayload() {
-        const eventPayload = {
-          verb: `clicked`,
-          id: e.id,
-          title: e.field_title,
-          type: `MenuItem`,
-          targetSlug: e.field_slug,
-        }
-        processRead(true)
-        updateEventStream(Date.now(), eventPayload)
+  const menuItems = menuPayload.relationships?.menuItems?.map((e: any) => {
+    function injectPayload() {
+      const eventPayload = {
+        verb: `clicked`,
+        id: e.id,
+        title: e.field_title,
+        type: `MenuItem`,
+        targetSlug: e.slug,
       }
-      return (
-        <li key={`${viewportKey}-${e.field_slug}`} onClick={injectPayload}>
-          <NavLink to={`/${e.field_slug}`}>{e.field_title}</NavLink>
-        </li>
-      )
-    },
-  )
+      processRead(true)
+      updateEventStream(Date.now(), eventPayload)
+    }
+    return (
+      <li key={`${viewportKey}-${e.slug}`} onClick={injectPayload}>
+        <NavLink to={`/${e.slug}`}>{e.title}</NavLink>
+      </li>
+    )
+  })
 
   const slogan = <p>{config.slogan}</p>
   const branding = <span>{logo}</span>

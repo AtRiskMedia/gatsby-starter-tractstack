@@ -25,10 +25,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
         edges {
           node {
             id
-            field_slug
-            field_options
-            field_action_lisp
-            field_oneliner
+            slug: field_slug
+            optionsPayload: field_options
+            actionLisp: field_action_lisp
+            oneliner: field_oneliner
             title
           }
         }
@@ -37,24 +37,24 @@ export const createPages: GatsbyNode['createPages'] = async ({
         edges {
           node {
             relationships {
-              field_tract_stack {
+              tractstack: field_tract_stack {
                 id
                 title
-                field_slug
+                slug: field_slug
               }
-              field_context_panes {
+              contextPanes: field_context_panes {
                 id
                 title
-                field_slug
+                slug: field_slug
                 relationships {
-                  field_pane_fragments {
+                  paneFragments: field_pane_fragments {
                     ... on paragraph__markdown {
                       id
-                      field_markdown_body
-                      field_zindex
-                      field_hidden_viewports
-                      field_options
-                      field_context_pane
+                      markdownBody: field_markdown_body
+                      zindex: field_zindex
+                      hiddenViewports: field_hidden_viewports
+                      optionsPayload: field_options
+                      isContextPane: field_context_pane
                       internal {
                         type
                       }
@@ -64,7 +64,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
                         }
                       }
                       relationships {
-                        field_image {
+                        image: field_image {
                           id
                           filename
                           localFile {
@@ -90,21 +90,21 @@ export const createPages: GatsbyNode['createPages'] = async ({
           node {
             id
             title
-            field_slug
+            slug: field_slug
             relationships {
-              field_context_panes {
+              contextPanes: field_context_panes {
                 id
                 title
-                field_slug
+                slug: field_slug
                 relationships {
-                  field_pane_fragments {
+                  paneFragments: field_pane_fragments {
                     ... on paragraph__markdown {
                       id
-                      field_markdown_body
-                      field_zindex
-                      field_hidden_viewports
-                      field_options
-                      field_context_pane
+                      markdownBody: field_markdown_body
+                      zindex: field_zindex
+                      hiddenViewports: field_hidden_viewports
+                      optionsPayload: field_options
+                      isContextPane: field_context_pane
                       internal {
                         type
                       }
@@ -124,22 +124,20 @@ export const createPages: GatsbyNode['createPages'] = async ({
     }
   `)
 
+  console.log(result)
   result.data.allNodeStoryFragment.edges
     .concat(result.data.allNodeTractstack.edges)
     .forEach((edge: any) => {
-      edge.node.relationships.field_context_panes.forEach((node: any) => {
+      edge.node.relationships.contextPanes.forEach((node: any) => {
         createPage({
-          path: `context/${node.field_slug}`,
+          path: `context/${node.slug}`,
           component: contextPaneTemplate,
           context: {
             id: node.id,
             title: node.title,
-            tractStackId: node.relationships.field_tract_stack?.id || node.id,
-            tractStackTitle:
-              node.relationships.field_tract_stack?.title || node.title,
-            tractStackSlug:
-              node.relationships.field_tract_stack?.field_slug ||
-              node.field_slug,
+            tractStackId: node.relationships.tractstack?.id || node.id,
+            tractStackTitle: node.relationships.tractstack?.title || node.title,
+            tractStackSlug: node.relationships.tractstack?.slug || node.slug,
             contextPane: node,
             resources: result.data.allNodeResource,
           },

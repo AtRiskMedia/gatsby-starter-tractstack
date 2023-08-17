@@ -12,7 +12,7 @@ import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
 import Wrapper from '../components/Wrapper'
-import { IContextPageProps } from '../types'
+import { IContextPageProps } from 'gatsby-plugin-tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
@@ -46,9 +46,13 @@ export default function ContextPage(props: IContextPageProps) {
       ? `/${lastStoryStep}/${viewportWidth}`
       : `/`
   const id = {
+    id: `contextPane`,
+    title: `contextPane`,
+    slug: `contextPane`,
     tractStackId: pageContext.tractStackId,
     tractStackTitle: pageContext.tractStackTitle,
     tractStackSlug: pageContext.tractStackSlug,
+    isContextPane: true,
   }
   const compositorPayload = {
     panesPayload: [pageContext.contextPane],
@@ -58,7 +62,9 @@ export default function ContextPage(props: IContextPageProps) {
     tailwindBgColour: null,
   }
 
+  console.log(`in`, compositorPayload)
   const payload = Compositor(compositorPayload)
+  console.log(`out`, payload)
   const title = payload.contentMap[pageContext.id].title
   const children = payload.contentChildren[`all-${pageContext.id}`]
   const thisSlug = payload.contentMap[pageContext.id].slug
@@ -69,8 +75,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-        ? `glossed`
-        : null
+          ? `glossed`
+          : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -91,8 +97,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-            ? `glossed`
-            : null
+              ? `glossed`
+              : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,

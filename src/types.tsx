@@ -1,45 +1,15 @@
 import {
-  ICodeHook,
-  ICodeHookIframe,
-  ICodeHookShopify,
-  IPane,
-} from 'gatsby-plugin-tractstack'
-import {
-  IComposedStoryFragment,
-  IContentChildrenDict,
   IContentMapDict,
-  IImpressionDict,
+  IStoryFragmentId,
 } from 'gatsby-plugin-tractstack/types'
 
 export interface IStoryFragmentPayload {
-  data: any
-}
-
-interface IRenderedStoryFragment {
-  contentChildren: IContentChildrenDict
-  contentMap: IContentMapDict
-  id: string
-  menu: any
-  slug: string
-  storyFragment: { [key: string]: IComposedStoryFragment | undefined }
-  title: string
-  tractStackId: string
-  tractStackSlug: string
-  tractStackTitle: string
+  data: any // FIX
 }
 
 export interface ITokens {
   encryptedCode: string | null
   encryptedEmail: string | null
-}
-
-export interface IStoryFragmentId {
-  id: string
-  title: string
-  slug: string
-  tractStackId: string
-  tractStackTitle: string
-  tractStackSlug: string
 }
 
 export interface IAuthStorePayload {
@@ -185,183 +155,6 @@ export interface ISiteConfig {
   conciergeNav: ISiteConfigNavItem[]
 }
 
-export interface IContextPageProps {
-  pageContext: any
-}
-
-export interface IFooterProps {
-  observe?: any
-}
-
-export interface IPaneProps {
-  thisId: string
-  children: any
-  inView?: any
-  observe?: any
-  hasMaxHScreen: boolean
-}
-
-export interface ICodeHookProps {
-  thisId: string
-  payload: ICodeHook
-  viewportKey: string
-  storyFragmentId: IStoryFragmentId
-}
-export interface ICodeHookShopifyProps {
-  thisId: string
-  payload: ICodeHookShopify
-}
-export interface ICodeHookIframeProps {
-  thisId: string
-  payload: ICodeHookIframe
-  viewportKey: string
-}
-
-export interface IStoryFragmentRenderProps {
-  viewportKey: string
-  payload: IRenderedStoryFragment
-  storyFragmentId: IStoryFragmentId
-}
-
-export interface ICodeHookDict {
-  [key: string]: any
-}
-
-export interface ITemplateDict {
-  [key: string]: any
-}
-
-export interface IMenuPayloadItem {
-  id: string
-  field_title: string
-  field_slug: string
-  field_options: string | null
-  field_level: number | null
-}
-
-export interface IMenuPayload {
-  field_options: string | null
-  field_theme: string
-  id: string
-  internal: { type: string }
-  relationships: {
-    field_image_logo: any
-    field_menu_items: IMenuPayloadItem[]
-    field_svg_logo: {
-      id: string
-      localFile: string
-    }
-  }
-}
-
-export interface IStoryFragmentCompositorHooks {
-  belief: Function
-  youtube: Function
-  processRead: Function
-  GatsbyImage: Function
-  getImage: Function
-  resourcePayload: any // FIX
-  templates: any // FIX
-  setScrollToPane: Function
-}
-
-export interface IMenuProps {
-  menuPayload: IMenuPayload
-  viewportKey: string
-}
-
-export interface IContextPanesPayload {
-  field_slug: string
-  id: string
-  relationships: { field_pane_fragments: any[] }
-  title: string
-}
-
-export interface IStoryFragmentCompositorPayload {
-  field_slug: string
-  field_social_image_path: string | null
-  field_tailwind_background_colour: string | null
-  id: string
-  title: string
-  relationships: {
-    field_context_panes: IContextPanesPayload
-    field_menu: IMenuPayload
-    field_panes: IPane[]
-    field_tract_stack: {
-      field_slug: string
-      field_social_image_path: string | null
-      id: string
-      relationships: {
-        field_context_panes: IContextPanesPayload
-        field_story_fragments: { id: string; title: string; slug: string }
-      }
-      title: string
-    }
-  }
-}
-export interface IStoryFragmentCompositorProps {
-  data: IStoryFragmentCompositorPayload
-  viewportKey: string
-  hooks: IStoryFragmentCompositorHooks
-}
-
-export interface IStoryFragmentProps {
-  payload: IRenderedStoryFragment
-}
-
-export interface IWrapperProps {
-  children: any // FIX
-  slug: string
-  mode: string
-}
-
-export interface IViewportKeyProps {
-  viewportKey: string
-  beliefHook: Function
-  storyFragmentId: IStoryFragmentId
-}
-
-export interface INavLinkProps {
-  children: any
-  to: string
-}
-
-export interface IHeaderProps {
-  siteTitle: string
-  open: boolean
-  isHome?: boolean
-}
-
-export interface IH5PProps {
-  src: string
-  title: string
-  parent: string
-}
-
-export interface ID3Props {
-  options: any
-  slug: string
-}
-
-export interface IImpressionProps {
-  payload: {
-    id: string
-    actionsLisp: string
-    body: string
-    buttonText: string
-    icon: string
-    parentId: string
-    title: string
-    weight: number
-  }
-}
-export interface IControllerProps {
-  impressions: IImpressionDict | null
-  impressionPanes: string[]
-  viewportKey: string
-  contentMap: IContentMapDict
-}
-
 export interface IConciergeNavProps {
   active: string
 }
@@ -422,11 +215,11 @@ export interface ICollectionsRouteProps {
   data: {
     nodeStoryFragment: {
       title: string
-      field_slug: string
-      field_social_image_path: string
+      slug: string
+      socialImagePath: string
       relationships: {
-        field_tract_stack: {
-          field_social_image_path: string
+        tractstack: {
+          socialImagePath: string
         }
       }
     }

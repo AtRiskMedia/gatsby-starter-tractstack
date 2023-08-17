@@ -1,14 +1,11 @@
 # Tract Stack by At Risk Media | gatsby-starter-tractstack
 
-_Made-to-order lead generation websites to grow your business_
+**lead generation websites that grow your business**
+_a better way to reach buyers | optimize your messaging for each unique visitor_
 
 Built using [Gatsby](https://gatsbyjs.com)
 By [At Risk Media](https://atriskmedia.com) with love and oodles of unicorn oomph!
 
-## Introducing Tract Stack
+Version 1.2.x is the _pre-launch release_ powering [https://tractstack.com](https://tractstack.com)
 
-We are actively building!
-
-Version 1.0.0 is the _pre-launch release_ powering [https://tractstack.com](https://tractstack.com)
-
-_More details coming soon_
+- See: [gatsby-starter-tractstack](https://gitlab.com/at-risk-media/gatsby-starter-tractstack)

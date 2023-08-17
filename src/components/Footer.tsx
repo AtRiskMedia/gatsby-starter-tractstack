@@ -3,7 +3,7 @@ import React from 'react'
 import { SocialIcons } from 'gatsby-plugin-tractstack'
 
 import { config } from '../../data/SiteConfig'
-import { IFooterProps } from '../types'
+import { IFooterProps } from 'gatsby-plugin-tractstack/types'
 
 const Footer = ({ observe }: IFooterProps) => {
   const footerText = config.footer

@@ -21,41 +21,45 @@ export const query = graphql`
       edges {
         node {
           id: drupal_id
-          field_slug
-          field_category_slug
-          field_options
-          field_action_lisp
-          field_oneliner
+          drupalNid: drupal_internal__nid
           title
+          slug: field_slug
+          categorySlug: field_category_slug
+          optionsPayload: field_options
+          actionLisp: field_action_lisp
+          oneliner: field_oneliner
         }
       }
     }
     nodeStoryFragment(id: { eq: $id }) {
       id: drupal_id
+      drupalNid: drupal_internal__nid
       title
-      field_slug
-      field_social_image_path
-      field_tailwind_background_colour
+      slug: field_slug
+      socialImagePath: field_social_image_path
+      tailwindBgColour: field_tailwind_background_colour
       relationships {
-        field_tract_stack {
+        tractstack: field_tract_stack {
           id: drupal_id
+          drupalNid: drupal_internal__nid
           title
-          field_social_image_path
-          field_slug
+          socialImagePath: field_social_image_path
+          slug: field_slug
           relationships {
-            field_context_panes {
+            contextPanes: field_context_panes {
               id: drupal_id
               title
-              field_slug
+              drupalNid: drupal_internal__nid
+              slug: field_slug
               relationships {
-                field_pane_fragments {
+                paneFragments: field_pane_fragments {
                   ... on paragraph__markdown {
                     id: drupal_id
-                    field_markdown_body
-                    field_zindex
-                    field_hidden_viewports
-                    field_options
-                    field_context_pane
+                    markdownBody: field_markdown_body
+                    zindex: field_zindex
+                    hiddenViewports: field_hidden_viewports
+                    optionsPayload: field_options
+                    isContextPane: field_context_pane
                     internal {
                       type
                     }
@@ -68,57 +72,57 @@ export const query = graphql`
                 }
               }
             }
-            field_story_fragments {
+            storyFragments: field_story_fragments {
               id: drupal_id
               title
-              field_slug
+              slug: field_slug
             }
           }
         }
-        field_menu {
-          field_options
-          field_theme
+        menu: field_menu {
+          optionsPayload: field_options
+          theme: field_theme
           id
           internal {
             type
           }
           relationships {
-            field_svg_logo {
+            svgLogo: field_svg_logo {
               id: drupal_id
               localFile {
                 publicURL
               }
             }
-            field_image_logo {
+            imageLogo: field_image_logo {
               id: drupal_id
               localFile {
                 childImageSharp {
-                  desktop: gatsbyImageData(width: 768, placeholder: BLURRED)
+                  desktop: gatsbyImageData(width: 512, placeholder: BLURRED)
                 }
               }
             }
-            field_menu_items {
+            menuItems: field_menu_items {
               id
-              field_title
-              field_slug
-              field_options
-              field_level
+              title: field_title
+              slug: field_slug
+              optionsPayload: field_options
+              level: field_level
             }
           }
         }
-        field_panes {
+        panes: field_panes {
           id: drupal_id
           title
-          field_slug
-          field_options
-          field_height_ratio: field_height_ratio_desktop
-          field_height_offset: field_height_offset_desktop
+          slug: field_slug
+          optionsPayload: field_options
+          heightRatio: field_height_ratio_desktop
+          heightOffset: field_height_offset_desktop
           relationships {
-            field_pane_fragments {
+            paneFragments: field_pane_fragments {
               ... on paragraph__background_colour {
                 id
-                field_background_colour
-                field_hidden_viewports
+                bgColour: field_background_colour
+                hiddenViewports: field_hidden_viewports
                 internal {
                   type
                 }
@@ -126,10 +130,10 @@ export const query = graphql`
 
               ... on paragraph__background_pane {
                 id
-                field_zindex
-                field_shape: field_shape_desktop
-                field_hidden_viewports
-                field_options
+                zindex: field_zindex
+                shape: field_shape_desktop
+                hiddenViewports: field_hidden_viewports
+                optionsPayload: field_options
                 internal {
                   type
                 }
@@ -137,12 +141,12 @@ export const query = graphql`
 
               ... on paragraph__background_video {
                 id
-                field_zindex
-                field_alt_text
-                field_image_mask_shape: field_image_mask_shape_desktop
-                field_hidden_viewports
-                field_cdn_url
-                field_options
+                zindex: field_zindex
+                altText: field_alt_text
+                imageMaskShape: field_image_mask_shape_desktop
+                hiddenViewports: field_hidden_viewports
+                cdnUrl: field_cdn_url
+                optionsPayload: field_options
                 internal {
                   type
                 }
@@ -150,22 +154,22 @@ export const query = graphql`
 
               ... on paragraph__background_image {
                 id
-                field_zindex
-                field_alt_text
-                field_image_mask_shape: field_image_mask_shape_desktop
-                field_hidden_viewports
-                field_options
-                field_background_position
+                zindex: field_zindex
+                altText: field_alt_text
+                imageMaskShape: field_image_mask_shape_desktop
+                hiddenViewports: field_hidden_viewports
+                optionsPayload: field_options
+                bgPosition: field_background_position
                 internal {
                   type
                 }
                 relationships {
-                  field_image {
+                  image: field_image {
                     id: drupal_id
                     filename
                     desktop: localFile {
                       childImageSharp {
-                        gatsbyImageData(width: 2560, placeholder: BLURRED)
+                        gatsbyImageData(width: 1366, placeholder: BLURRED)
                       }
                     }
                   }
@@ -174,18 +178,18 @@ export const query = graphql`
 
               ... on paragraph__svg {
                 id
-                field_zindex
-                field_image_mask_shape: field_image_mask_shape_desktop
-                field_hidden_viewports
-                field_options
-                field_svg_file {
+                zindex: field_zindex
+                imageMaskShape: field_image_mask_shape_desktop
+                hiddenViewports: field_hidden_viewports
+                optionsPayload: field_options
+                svgFile: field_svg_file {
                   description
                 }
                 internal {
                   type
                 }
                 relationships {
-                  field_svg_file {
+                  svgFile: field_svg_file {
                     id: drupal_id
                     filename
                     localFile {
@@ -197,14 +201,14 @@ export const query = graphql`
 
               ... on paragraph__markdown {
                 id
-                field_markdown_body
-                field_zindex
-                field_image_mask_shape: field_image_mask_shape_desktop
-                field_text_shape_outside: field_text_shape_outside_desktop
-                field_hidden_viewports
-                field_options
-                field_modal
-                field_context_pane
+                markdownBody: field_markdown_body
+                zindex: field_zindex
+                imageMaskShape: field_image_mask_shape_desktop
+                textShapeOutside: field_text_shape_outside_desktop
+                hiddenViewports: field_hidden_viewports
+                optionsPayload: field_options
+                isModal: field_modal
+                isContextPane: field_context_pane
                 internal {
                   type
                 }
@@ -214,7 +218,7 @@ export const query = graphql`
                   }
                 }
                 relationships {
-                  field_image {
+                  image: field_image {
                     id: drupal_id
                     filename
                     localFile {
@@ -222,7 +226,7 @@ export const query = graphql`
                     }
                     desktop: localFile {
                       childImageSharp {
-                        gatsbyImageData(width: 2560, placeholder: BLURRED)
+                        gatsbyImageData(width: 1366, placeholder: BLURRED)
                       }
                     }
                   }
@@ -232,19 +236,19 @@ export const query = graphql`
           }
         }
 
-        field_context_panes {
+        contextPanes: field_context_panes {
           id: drupal_id
           title
-          field_slug
+          slug: field_slug
           relationships {
-            field_pane_fragments {
+            paneFragments: field_pane_fragments {
               ... on paragraph__markdown {
                 id: drupal_id
-                field_markdown_body
-                field_zindex
-                field_hidden_viewports
-                field_options
-                field_context_pane
+                markdownBody: field_markdown_body
+                zindex: field_zindex
+                hiddenViewports: field_hidden_viewports
+                optionsPayload: field_options
+                isContextPane: field_context_pane
                 internal {
                   type
                 }
@@ -263,7 +267,7 @@ export const query = graphql`
 `
 
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
-  const isHome = data.nodeStoryFragment.field_slug === config.home
+  const isHome = data.nodeStoryFragment.slug === config.home
   const viewportKey = `desktop`
   const storyFragmentTitle = data.nodeStoryFragment.title
   const resourcePayload = data?.allNodeResource?.edges
@@ -317,9 +321,8 @@ export const Head = ({ data }: IStoryFragmentPayload) => (
   <Seo
     title={data.nodeStoryFragment.title}
     socialImagePath={
-      data.nodeStoryFragment.field_social_image_path ||
-      data.nodeStoryFragment.relationships.field_tract_stack
-        .field_social_image_path
+      data.nodeStoryFragment.socialImagePath ||
+      data.nodeStoryFragment.relationships.tractstack.socialImagePath
     }
   />
 )

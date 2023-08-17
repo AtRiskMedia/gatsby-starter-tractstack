@@ -1,7 +1,7 @@
 import { Compositor } from 'gatsby-plugin-tractstack'
 
 import Menu from '../components/Menu'
-import { IStoryFragmentCompositorProps } from '../types'
+import { IStoryFragmentCompositorProps } from 'gatsby-plugin-tractstack/types'
 
 const storyFragmentCompositor = ({
   data,
@@ -10,12 +10,12 @@ const storyFragmentCompositor = ({
 }: IStoryFragmentCompositorProps) => {
   const storyFragmentId = data.id
   const storyFragmentTitle = data.title
-  const storyFragmentSlug = data.field_slug
-  const tractStackId = data.relationships.field_tract_stack.id
-  const tractStackTitle = data.relationships.field_tract_stack.title
-  const tractStackSlug = data.relationships.field_tract_stack.field_slug
-  const panesPayload = data.relationships.field_panes
-  const tailwindBgColour = data.field_tailwind_background_colour || null
+  const storyFragmentSlug = data.slug
+  const tractStackId = data.relationships.tractstack.id
+  const tractStackTitle = data.relationships.tractstack.title
+  const tractStackSlug = data.relationships.tractstack.slug
+  const panesPayload = data.relationships.panes
+  const tailwindBgColour = data.tailwindBgColour || null
   const payload = {
     panesPayload,
     tailwindBgColour,
@@ -30,8 +30,10 @@ const storyFragmentCompositor = ({
       tractStackSlug,
     },
   }
+  console.log(`in`, payload)
   const storyFragmentPayload = Compositor(payload)
-  const menuPayload = data?.relationships?.field_menu
+  console.log(`out`, storyFragmentPayload)
+  const menuPayload = data?.relationships?.menu
   const compositedMenu = menuPayload
     ? Menu({
         menuPayload,

@@ -2,9 +2,12 @@ import { create } from 'zustand'
 import { navigate } from 'gatsby'
 
 import { config } from '../../data/SiteConfig'
-import { IEventStream, IStoryFragmentId, IStoryStepStoreState } from '../types'
 import { pushPayload } from '../api/services'
-import { IContentMapDict } from 'gatsby-plugin-tractstack'
+import { IEventStream, IStoryStepStoreState } from '../types'
+import {
+  IContentMapDict,
+  IStoryFragmentId,
+} from 'gatsby-plugin-tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
@@ -47,8 +50,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `read`
           : !!goto && duration > softReadThreshold
-          ? `glossed`
-          : null
+            ? `glossed`
+            : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -71,8 +74,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       window?.innerWidth < 801
         ? `600`
         : window?.innerWidth < 1367
-        ? `1080`
-        : `1920`
+          ? `1080`
+          : `1920`
 
     if (
       goto === `/` ||
@@ -97,31 +100,33 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/${viewport}`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
-    const contentMap = {
-      [storyFragmentId.id]: {
-        title: storyFragmentId.title,
-        type: `StoryFragment`,
-        slug: storyFragmentId.slug,
-        parentId: storyFragmentId.tractStackId,
-        heldBeliefs: {},
-        withheldBeliefs: {},
-      },
-      [storyFragmentId.tractStackId]: {
-        title: storyFragmentId.tractStackTitle,
-        type: `TractStack`,
-        slug: storyFragmentId.tractStackSlug,
-        parentId: storyFragmentId.tractStackId,
-        heldBeliefs: {},
-        withheldBeliefs: {},
-      },
+    if (typeof storyFragmentId.id === `string` && typeof storyFragmentId.title === `string` && typeof storyFragmentId.slug === `string`) {
+      const contentMap = {
+        [storyFragmentId.id]: {
+          title: storyFragmentId.title,
+          type: `StoryFragment`,
+          slug: storyFragmentId.slug,
+          parentId: storyFragmentId.tractStackId,
+          heldBeliefs: {},
+          withheldBeliefs: {},
+        },
+        [storyFragmentId.tractStackId]: {
+          title: storyFragmentId.tractStackTitle,
+          type: `TractStack`,
+          slug: storyFragmentId.tractStackSlug,
+          parentId: storyFragmentId.tractStackId,
+          heldBeliefs: {},
+          withheldBeliefs: {},
+        },
+      }
+      const tractStackId = storyFragmentId.tractStackId
+      const eventStream = { push: payload }
+      pushPayload({
+        eventStream,
+        contentMap,
+        tractStackId,
+      })
     }
-    const tractStackId = storyFragmentId.tractStackId
-    const eventStream = { push: payload }
-    pushPayload({
-      eventStream,
-      contentMap,
-      tractStackId,
-    })
   },
   resetGotoLastPane: () => {
     set((state) => ({

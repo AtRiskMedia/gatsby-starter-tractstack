@@ -2,10 +2,13 @@
 import React from 'react'
 import { XMarkIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { concierge, lispLexer, useInterval } from 'gatsby-plugin-tractstack'
+import {
+  IImpressionProps,
+  IControllerProps,
+} from 'gatsby-plugin-tractstack/types'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
-import { IImpressionProps, IControllerProps } from '../types'
 
 const impressionsDelay = config.impressionsDelay
 

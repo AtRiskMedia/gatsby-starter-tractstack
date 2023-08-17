@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import Hexa from '../../assets/hexa.svg'
 import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
-import { IViewportKeyProps } from '../types'
+import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 // import Belief from '../components/Belief'
 // import { config } from '../../data/SiteConfig'
 

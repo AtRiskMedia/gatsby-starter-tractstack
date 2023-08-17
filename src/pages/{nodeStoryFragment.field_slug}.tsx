@@ -10,11 +10,11 @@ export const query = graphql`
   query ($id: String) {
     nodeStoryFragment(id: { eq: $id }) {
       title
-      field_slug
-      field_social_image_path
+      slug: field_slug
+      socialImagePath: field_social_image_path
       relationships {
-        field_tract_stack {
-          field_social_image_path
+        tractstack: field_tract_stack {
+          socialImagePath: field_social_image_path
         }
       }
     }
@@ -61,11 +61,11 @@ const StoryFragmentRedirect = ({ data }: ICollectionsRouteProps) => {
           : window.innerWidth < 1367
           ? `1080`
           : `1920`
-      navigate(`/${data.nodeStoryFragment.field_slug}/${thisViewport}`, {
+      navigate(`/${data.nodeStoryFragment.slug}/${thisViewport}`, {
         replace: true,
       })
     }
-  }, [data.nodeStoryFragment.field_slug])
+  }, [data.nodeStoryFragment.slug])
 
   return null
 }

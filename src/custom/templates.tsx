@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState } from 'react'
-import { ITemplateDict } from '../types'
+import { ITemplateDict } from 'gatsby-plugin-tractstack/types'
 import { ParseOptions, lispLexer, classNames } from 'gatsby-plugin-tractstack'
 import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
 
@@ -23,13 +23,13 @@ function ToggleBeliefTags(
   const setScrollToPane = hooks?.setScrollToPane
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
+    const oneliner = thisPayload?.oneliner
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const paneTarget = optionsPayload?.paneTarget
     const identifyAsId = optionsPayload?.identifyAs?.id
@@ -118,13 +118,13 @@ function ToggleBeliefGrid(
   const thisCols = length < defaultCols ? length : defaultCols
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
+    const oneliner = thisPayload?.oneliner
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const paneTarget = optionsPayload?.paneTarget
     const identifyAsId = optionsPayload?.identifyAs?.id
@@ -218,13 +218,13 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
   const thisCols = length < defaultCols ? length : defaultCols
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
+    const oneliner = thisPayload?.oneliner
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const hasArtpack = optionsPayload?.artpack
     const hasArtpackAll = hasArtpack && hasArtpack.all
@@ -277,13 +277,13 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
   const concierge = hooks?.concierge
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
+    const oneliner = thisPayload?.oneliner
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const hasArtpack = optionsPayload?.artpack
     const hasArtpackAll = hasArtpack && hasArtpack.all
@@ -329,13 +329,13 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
   const concierge = hooks?.concierge
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
+    const oneliner = thisPayload?.oneliner
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const videoPath = optionsPayload?.videoPath
     const videoType = optionsPayload?.videoType
@@ -420,14 +420,14 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
   ]
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.field_action_lisp
-      ? lispLexer(thisPayload.field_action_lisp)
+    const actionLisp = thisPayload?.actionLisp
+      ? lispLexer(thisPayload.actionLisp)
       : null
-    const oneliner = thisPayload?.field_oneliner
-    const categorySlug = thisPayload?.field_category_slug
+    const oneliner = thisPayload?.oneliner
+    const categorySlug = thisPayload?.categorySlug
     const optionsPayload =
-      typeof thisPayload?.field_options === `string`
-        ? ParseOptions(thisPayload.field_options)
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
         : null
     const timestamp = optionsPayload?.timestamp
     const date = timestamp ? new Date(timestamp * 1000) : null
@@ -480,7 +480,7 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
                     {`${day} ${month} ${year}`}
                   </time>
                 ) : null}
-                <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 font-medium text-black">
+                <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 text-black">
                   {categorySlug}
                 </span>
               </div>

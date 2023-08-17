@@ -7,7 +7,7 @@ import { getScrollbarSize } from 'gatsby-plugin-tractstack'
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { getTokens } from '../api/axiosClient'
-import { IWrapperProps } from '../types'
+import { IWrapperProps } from 'gatsby-plugin-tractstack/types'
 
 const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const [loggingIn, setLoggingIn] = useState(false)
