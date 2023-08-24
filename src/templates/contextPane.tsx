@@ -62,9 +62,7 @@ export default function ContextPage(props: IContextPageProps) {
     tailwindBgColour: null,
   }
 
-  console.log(`in`, compositorPayload)
   const payload = Compositor(compositorPayload)
-  console.log(`out`, payload)
   const title = payload.contentMap[pageContext.id].title
   const children = payload.contentChildren[`all-${pageContext.id}`]
   const thisSlug = payload.contentMap[pageContext.id].slug
@@ -75,8 +73,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-          ? `glossed`
-          : null
+        ? `glossed`
+        : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -97,8 +95,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-              ? `glossed`
-              : null
+            ? `glossed`
+            : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,

@@ -50,8 +50,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `read`
           : !!goto && duration > softReadThreshold
-            ? `glossed`
-            : null
+          ? `glossed`
+          : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -74,8 +74,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       window?.innerWidth < 801
         ? `600`
         : window?.innerWidth < 1367
-          ? `1080`
-          : `1920`
+        ? `1080`
+        : `1920`
 
     if (
       goto === `/` ||
@@ -100,7 +100,11 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/${viewport}`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
-    if (typeof storyFragmentId.id === `string` && typeof storyFragmentId.title === `string` && typeof storyFragmentId.slug === `string`) {
+    if (
+      typeof storyFragmentId.id === `string` &&
+      typeof storyFragmentId.title === `string` &&
+      typeof storyFragmentId.slug === `string`
+    ) {
       const contentMap = {
         [storyFragmentId.id]: {
           title: storyFragmentId.title,

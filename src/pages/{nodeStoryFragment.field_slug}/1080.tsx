@@ -46,32 +46,6 @@ export const query = graphql`
           socialImagePath: field_social_image_path
           slug: field_slug
           relationships {
-            contextPanes: field_context_panes {
-              id: drupal_id
-              title
-              drupalNid: drupal_internal__nid
-              slug: field_slug
-              relationships {
-                paneFragments: field_pane_fragments {
-                  ... on paragraph__markdown {
-                    id: drupal_id
-                    markdownBody: field_markdown_body
-                    zindex: field_zindex
-                    hiddenViewports: field_hidden_viewports
-                    optionsPayload: field_options
-                    isContextPane: field_context_pane
-                    internal {
-                      type
-                    }
-                    childPaneFragment {
-                      childMarkdownRemark {
-                        htmlAst
-                      }
-                    }
-                  }
-                }
-              }
-            }
             storyFragments: field_story_fragments {
               id: drupal_id
               title
@@ -101,13 +75,6 @@ export const query = graphql`
                 }
               }
             }
-            menuItems: field_menu_items {
-              id
-              title: field_title
-              slug: field_slug
-              optionsPayload: field_options
-              level: field_level
-            }
           }
         }
         panes: field_panes {
@@ -118,143 +85,51 @@ export const query = graphql`
           heightRatio: field_height_ratio_tablet
           heightOffset: field_height_offset_tablet
           relationships {
-            paneFragments: field_pane_fragments {
-              ... on paragraph__background_colour {
-                id
-                bgColour: field_background_colour
-                hiddenViewports: field_hidden_viewports
-                internal {
-                  type
-                }
+            field_image {
+              id: drupal_id
+              filename
+              localFile {
+                publicURL
               }
-
-              ... on paragraph__background_pane {
-                id
-                zindex: field_zindex
-                shape: field_shape_tablet
-                hiddenViewports: field_hidden_viewports
-                optionsPayload: field_options
-                internal {
-                  type
-                }
-              }
-
-              ... on paragraph__background_video {
-                id
-                zindex: field_zindex
-                altText: field_alt_text
-                imageMaskShape: field_image_mask_shape_tablet
-                hiddenViewports: field_hidden_viewports
-                cdnUrl: field_cdn_url
-                optionsPayload: field_options
-                internal {
-                  type
-                }
-              }
-
-              ... on paragraph__background_image {
-                id
-                zindex: field_zindex
-                altText: field_alt_text
-                imageMaskShape: field_image_mask_shape_tablet
-                hiddenViewports: field_hidden_viewports
-                optionsPayload: field_options
-                bgPosition: field_background_position
-                internal {
-                  type
-                }
-                relationships {
-                  image: field_image {
-                    id: drupal_id
-                    filename
-                    tablet: localFile {
-                      childImageSharp {
-                        gatsbyImageData(width: 1366, placeholder: BLURRED)
-                      }
-                    }
-                  }
-                }
-              }
-
-              ... on paragraph__svg {
-                id
-                zindex: field_zindex
-                imageMaskShape: field_image_mask_shape_tablet
-                hiddenViewports: field_hidden_viewports
-                optionsPayload: field_options
-                svgFile: field_svg_file {
-                  description
-                }
-                internal {
-                  type
-                }
-                relationships {
-                  svgFile: field_svg_file {
-                    id: drupal_id
-                    filename
-                    localFile {
-                      publicURL
-                    }
-                  }
-                }
-              }
-
-              ... on paragraph__markdown {
-                id
-                markdownBody: field_markdown_body
-                zindex: field_zindex
-                imageMaskShape: field_image_mask_shape_tablet
-                textShapeOutside: field_text_shape_outside_tablet
-                hiddenViewports: field_hidden_viewports
-                optionsPayload: field_options
-                isModal: field_modal
-                isContextPane: field_context_pane
-                internal {
-                  type
-                }
-                childPaneFragment {
-                  childMarkdownRemark {
-                    htmlAst
-                  }
-                }
-                relationships {
-                  image: field_image {
-                    id: drupal_id
-                    filename
-                    localFile {
-                      publicURL
-                    }
-                    tablet: localFile {
-                      childImageSharp {
-                        gatsbyImageData(width: 1366, placeholder: BLURRED)
-                      }
-                    }
-                  }
+              all: localFile {
+                childImageSharp {
+                  gatsbyImageData(width: 1366, placeholder: BLURRED)
                 }
               }
             }
-          }
-        }
-
-        contextPanes: field_context_panes {
-          id: drupal_id
-          title
-          slug: field_slug
-          relationships {
-            paneFragments: field_pane_fragments {
-              ... on paragraph__markdown {
-                id: drupal_id
-                markdownBody: field_markdown_body
-                zindex: field_zindex
-                hiddenViewports: field_hidden_viewports
-                optionsPayload: field_options
-                isContextPane: field_context_pane
-                internal {
-                  type
+            field_image_svg {
+              id: drupal_id
+              localFile {
+                publicURL
+              }
+            }
+            markdown: field_markdown {
+              id: drupal_id
+              slug: field_slug
+              markdownBody: field_markdown_body
+              childMarkdown {
+                childMarkdownRemark {
+                  htmlAst
                 }
-                childPaneFragment {
-                  childMarkdownRemark {
-                    htmlAst
+              }
+              relationships {
+                images: field_image {
+                  id: drupal_id
+                  filename
+                  localFile {
+                    publicURL
+                  }
+                  all: localFile {
+                    childImageSharp {
+                      gatsbyImageData(width: 1366, placeholder: BLURRED)
+                    }
+                  }
+                }
+                imagesSvg: field_image_svg {
+                  id: drupal_id
+                  filename
+                  localFile {
+                    publicURL
                   }
                 }
               }

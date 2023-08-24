@@ -24,7 +24,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allNodeResource {
         edges {
           node {
-            id
+            id: drupal_id
             slug: field_slug
             optionsPayload: field_options
             actionLisp: field_action_lisp
@@ -38,43 +38,44 @@ export const createPages: GatsbyNode['createPages'] = async ({
           node {
             relationships {
               tractstack: field_tract_stack {
-                id
+                id: drupal_id
                 title
                 slug: field_slug
               }
               contextPanes: field_context_panes {
-                id
+                id: drupal_id
                 title
                 slug: field_slug
+                isContextPane: field_is_context_pane
+                optionsPayload: field_options
                 relationships {
-                  paneFragments: field_pane_fragments {
-                    ... on paragraph__markdown {
-                      id
-                      markdownBody: field_markdown_body
-                      zindex: field_zindex
-                      hiddenViewports: field_hidden_viewports
-                      optionsPayload: field_options
-                      isContextPane: field_context_pane
-                      internal {
-                        type
+                  markdown: field_markdown {
+                    id: drupal_id
+                    slug: field_slug
+                    markdownBody: field_markdown_body
+                    childMarkdown {
+                      childMarkdownRemark {
+                        htmlAst
                       }
-                      childPaneFragment {
-                        childMarkdownRemark {
-                          htmlAst
+                    }
+                    relationships {
+                      images: field_image {
+                        id: drupal_id
+                        filename
+                        localFile {
+                          publicURL
+                        }
+                        all: localFile {
+                          childImageSharp {
+                            gatsbyImageData(width: 1366, placeholder: BLURRED)
+                          }
                         }
                       }
-                      relationships {
-                        image: field_image {
-                          id
-                          filename
-                          localFile {
-                            publicURL
-                          }
-                          all: localFile {
-                            childImageSharp {
-                              gatsbyImageData(width: 1366, placeholder: BLURRED)
-                            }
-                          }
+                      imagesSvg: field_image_svg {
+                        id: drupal_id
+                        filename
+                        localFile {
+                          publicURL
                         }
                       }
                     }
@@ -88,29 +89,43 @@ export const createPages: GatsbyNode['createPages'] = async ({
       allNodeTractstack {
         edges {
           node {
-            id
+            id: drupal_id
             title
             slug: field_slug
             relationships {
               contextPanes: field_context_panes {
-                id
+                id: drupal_id
                 title
                 slug: field_slug
+                isContextPane: field_is_context_pane
+                optionsPayload: field_options
                 relationships {
-                  paneFragments: field_pane_fragments {
-                    ... on paragraph__markdown {
-                      id
-                      markdownBody: field_markdown_body
-                      zindex: field_zindex
-                      hiddenViewports: field_hidden_viewports
-                      optionsPayload: field_options
-                      isContextPane: field_context_pane
-                      internal {
-                        type
+                  markdown: field_markdown {
+                    id: drupal_id
+                    slug: field_slug
+                    childMarkdown {
+                      childMarkdownRemark {
+                        htmlAst
                       }
-                      childPaneFragment {
-                        childMarkdownRemark {
-                          htmlAst
+                    }
+                    relationships {
+                      images: field_image {
+                        id: drupal_id
+                        filename
+                        localFile {
+                          publicURL
+                        }
+                        all: localFile {
+                          childImageSharp {
+                            gatsbyImageData(width: 1366, placeholder: BLURRED)
+                          }
+                        }
+                      }
+                      imagesSvg: field_image_svg {
+                        id: drupal_id
+                        filename
+                        localFile {
+                          publicURL
                         }
                       }
                     }
@@ -124,7 +139,6 @@ export const createPages: GatsbyNode['createPages'] = async ({
     }
   `)
 
-  console.log(result)
   result.data.allNodeStoryFragment.edges
     .concat(result.data.allNodeTractstack.edges)
     .forEach((edge: any) => {

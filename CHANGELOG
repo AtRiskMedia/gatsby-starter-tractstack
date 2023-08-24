@@ -16,3 +16,8 @@
 [1.2.1] - 2023-08-14
 
 - updated packages
+
+
+[1.3.0] - 2023-08-24
+
+- full update on data schema; added markdown nodes and removed paragraphs

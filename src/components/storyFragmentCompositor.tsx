@@ -30,9 +30,7 @@ const storyFragmentCompositor = ({
       tractStackSlug,
     },
   }
-  console.log(`in`, payload)
   const storyFragmentPayload = Compositor(payload)
-  console.log(`out`, storyFragmentPayload)
   const menuPayload = data?.relationships?.menu
   const compositedMenu = menuPayload
     ? Menu({
