@@ -10,7 +10,7 @@ import Wordmark from '../../assets/wordmark.svg'
 import Logo from '../../assets/logo.svg'
 import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 // import Belief from '../components/Belief'
-// import { config } from '../../data/SiteConfig'
+import { config } from '../../data/SiteConfig'
 
 interface IStyledDivProps {
   css: string
@@ -32,8 +32,7 @@ const PreLaunchHero = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         <Wordmark className="h-10 fill-black" />
       </div>
       <p className="mt-6 text-sm text-darkgrey text-center font-action tracking-wider">
-        intelligent no-code websites & landing pages that validate
-        product-market-fit
+        {config.slogan}
       </p>
     </div>
   )
