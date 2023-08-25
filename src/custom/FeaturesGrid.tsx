@@ -5,14 +5,17 @@ import {
   CircleStackIcon,
   ArrowTrendingUpIcon,
   BeakerIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
 } from '@heroicons/react/24/outline'
 
 import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 
 const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   return (
-    <div id={`${viewportKey}-${storyFragmentId.id}`} className="sm:px-8 pb-12 bg-allwhite">
+    <div
+      id={`${viewportKey}-${storyFragmentId.id}`}
+      className="sm:px-8 pb-12 bg-allwhite"
+    >
       <div className="mx-auto max-w-5xl md:max-w-7xl lg:px-8">
         <div className="relative px-8 lg:px-12">
           <div className="max-w-3xl md:flex md:flex-row mx-auto w-fit">
