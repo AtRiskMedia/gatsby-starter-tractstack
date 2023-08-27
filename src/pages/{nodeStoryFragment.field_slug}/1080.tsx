@@ -163,7 +163,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
     if (scrollToPane) {
       setTimeout(() => {
         doScrollTo()
-      }, 50)
+      }, 1250)
     }
   }, [scrollToPane, viewportKey])
 
