@@ -147,8 +147,9 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const storyFragmentTitle = data.nodeStoryFragment.title
   const resourcePayload = data?.allNodeResource?.edges
   const [scrollToPane, setScrollToPane] = useState(``)
+
   useEffect(() => {
-    if (scrollToPane) {
+    function doScrollTo() {
       const pane =
         typeof document !== `undefined`
           ? document.getElementById(`${viewportKey}-${scrollToPane}`)
@@ -158,7 +159,13 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
         setScrollToPane(``)
       }
     }
+    if (scrollToPane) {
+      setTimeout(() => {
+        doScrollTo()
+      }, 50)
+    }
   }, [scrollToPane, viewportKey])
+
   const processRead = useStoryStepStore((state) => state.processRead)
   const storyFragmentPayload = storyFragmentCompositor({
     data: data.nodeStoryFragment,

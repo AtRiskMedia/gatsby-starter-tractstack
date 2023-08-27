@@ -148,8 +148,9 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const resourcePayload = data?.allNodeResource?.edges
   const processRead = useStoryStepStore((state) => state.processRead)
   const [scrollToPane, setScrollToPane] = useState(``)
+
   useEffect(() => {
-    if (scrollToPane) {
+    function doScrollTo() {
       const pane =
         typeof document !== `undefined`
           ? document.getElementById(`${viewportKey}-${scrollToPane}`)
@@ -158,6 +159,11 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
         pane.scrollIntoView({ behavior: `smooth` })
         setScrollToPane(``)
       }
+    }
+    if (scrollToPane) {
+      setTimeout(() => {
+        doScrollTo()
+      }, 50)
     }
   }, [scrollToPane, viewportKey])
 
