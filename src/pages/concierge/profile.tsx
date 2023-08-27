@@ -137,34 +137,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-        ? ArrowPathRoundedSquareIcon
-        : personaSelected.title === `All Updates`
-          ? BoltIcon
-          : BellSlashIcon
+      ? ArrowPathRoundedSquareIcon
+      : personaSelected.title === `All Updates`
+      ? BoltIcon
+      : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-orange`
       : personaSelected.title === `Major Updates Only`
-        ? `text-darkgrey`
-        : personaSelected.title === `All Updates`
-          ? `text-blue`
-          : `text-darkgrey`
+      ? `text-darkgrey`
+      : personaSelected.title === `All Updates`
+      ? `text-blue`
+      : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
       : personaSelected.title === `Major Updates Only`
-        ? `bg-lightgrey`
-        : personaSelected.title === `All Updates`
-          ? `bg-green`
-          : `bg-darkgrey`
+      ? `bg-lightgrey`
+      : personaSelected.title === `All Updates`
+      ? `bg-green`
+      : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `Major Updates Only`
-        ? `20%`
-        : personaSelected.title === `All Updates`
-          ? `98%`
-          : `2%`
+      ? `20%`
+      : personaSelected.title === `All Updates`
+      ? `98%`
+      : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -227,20 +227,20 @@ const ConciergeProfile = () => {
       window.innerWidth < 801
         ? `600`
         : window.innerWidth < 1367
-          ? `1080`
-          : `1920`
+        ? `1080`
+        : `1920`
     const thisTo =
       target?.type === `storyFragment`
         ? `/${target.id}/${thisViewport}`
         : target?.type === `contextPane`
-          ? `/context/${target.id}`
-          : target?.type === `conciergePage`
-            ? `/concierge/${target.id}`
-            : target?.type === `product`
-              ? `/products/${target.id}`
-              : target?.type === `/breadcrumbs`
-                ? `${target.id}`
-                : `/${config.home}`
+        ? `/context/${target.id}`
+        : target?.type === `conciergePage`
+        ? `/concierge/${target.id}`
+        : target?.type === `product`
+        ? `/products/${target.id}`
+        : target?.type === `/breadcrumbs`
+        ? `${target.id}`
+        : `/${config.home}`
     navigate(`${thisTo}`)
   }
 
@@ -270,7 +270,9 @@ const ConciergeProfile = () => {
                         id="rooted"
                         className="text-3xl tracking-tight text-orange sm:text-4xl font-bold"
                       >
-                        Tract Stack is pre-launch and under active development. Join our waitlist below to be notified as we approach launch!
+                        Tract Stack is pre-launch and under active development.
+                        Join our waitlist below to be notified as we approach
+                        launch!
                       </h2>
                       <p className="mt-4 mb-4 text-lg text-gray-700">
                         {authenticated ? (
@@ -336,7 +338,7 @@ const ConciergeProfile = () => {
                               id="firstname"
                               autoComplete="given-name"
                               defaultValue={firstname || ``}
-                              onBlur={(e) =>
+                              onChange={(e) =>
                                 updateAuthData(`firstname`, e.target.value)
                               }
                               className={classNames(
@@ -355,7 +357,7 @@ const ConciergeProfile = () => {
 
                           <div className="col-span-3 sm:col-span-2">
                             <label
-                              htmlFor="email-address"
+                              htmlFor="email"
                               className="block text-sm text-gray-700"
                             >
                               Email address
@@ -366,7 +368,7 @@ const ConciergeProfile = () => {
                               id="email"
                               autoComplete="email"
                               defaultValue={email}
-                              onBlur={(e) =>
+                              onChange={(e) =>
                                 updateAuthData(`email`, e.target.value)
                               }
                               className={classNames(
@@ -385,30 +387,18 @@ const ConciergeProfile = () => {
 
                           <div className="col-span-3 mt-2">
                             <div className="space-y-3">
-                              <label
-                                htmlFor="contactpersona"
-                                className="block text-sm text-gray-700"
-                              >
-                                Communication Preferences
-                              </label>
-
                               <div className="flex items-center text-sm">
                                 <div className="pr-8 text-sm text-black">
                                   <Listbox
                                     value={personaSelected}
                                     onChange={setPersonaSelected}
-                                    name="contactpersona"
                                   >
                                     {({ open }) => (
                                       <>
-                                        <Listbox.Label
-                                          id="contactpersonalabel"
-                                          className="sr-only"
-                                        >
-                                          {` `}
-                                          Indicate communication preferences
-                                          {` `}
+                                        <Listbox.Label className="block text-sm text-gray-700 mb-2">
+                                          Communication Preferences
                                         </Listbox.Label>
+
                                         <div className="relative">
                                           <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
                                             <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
@@ -539,7 +529,7 @@ const ConciergeProfile = () => {
                                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
                                     placeholder="Your one-liner bio"
                                     defaultValue={shortBio}
-                                    onBlur={(e) =>
+                                    onChange={(e) =>
                                       updateAuthData(`shortBio`, e.target.value)
                                     }
                                   />
@@ -560,7 +550,7 @@ const ConciergeProfile = () => {
                                   id="codeword"
                                   autoComplete="off"
                                   defaultValue={codeword}
-                                  onBlur={(e) => setCodeword(e.target.value)}
+                                  onChange={(e) => setCodeword(e.target.value)}
                                   className={classNames(
                                     `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
                                     submitted && firstname === ``

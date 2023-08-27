@@ -161,7 +161,7 @@ const ConciergeLogin = () => {
                         </div>
                         <div className="col-span-3 sm:col-span-2">
                           <label
-                            htmlFor="email-address"
+                            htmlFor="email"
                             className="block text-sm text-gray-700 font-bold"
                           >
                             Email address

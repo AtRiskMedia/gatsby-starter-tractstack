@@ -17,6 +17,14 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   setControllerOverride: (controllerOverride: boolean) => {
     set((state) => ({ ...state, controllerOverride }))
   },
+  withheldPanes: {},
+  panesRevealed: false,
+  setPanesRevealed: (panesRevealed: boolean) => {
+    set((state) => ({
+      ...state,
+      panesRevealed,
+    }))
+  },
   panesVisible: {
     last: false,
   },
@@ -193,5 +201,9 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
             return obj
           }, {}),
       },
+    })),
+  toggleWithheldPanes: (key: string, value: boolean) =>
+    set((state) => ({
+      withheldPanes: { ...state.withheldPanes, [key]: value },
     })),
 }))

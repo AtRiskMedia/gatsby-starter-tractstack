@@ -9,7 +9,7 @@ import { config } from '../../data/SiteConfig'
 import { pushPayload } from '../api/services'
 import Controller from './Controller'
 import Wrapper from './Wrapper'
-import StoryFragmentRender from './storyFragmentRender'
+import RenderStoryFragment from './renderStoryFragment'
 import '../styles/storyfragment.css'
 import { IStoryFragmentProps } from 'gatsby-plugin-tractstack/types'
 
@@ -187,7 +187,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
       <main>
         {!zoom || zoomOverride ? (
           <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
-            <StoryFragmentRender
+            <RenderStoryFragment
               viewportKey={viewportKey}
               payload={payload}
               storyFragmentId={storyFragmentId}

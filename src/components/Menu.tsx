@@ -1,30 +1,31 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { Link } from 'gatsby'
+// import { Link } from 'gatsby'
 import { getLogo } from 'gatsby-plugin-tractstack'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
-import { useStoryStepStore } from '../stores/storyStep'
+// import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
-import { INavLinkProps, IMenuProps } from 'gatsby-plugin-tractstack/types'
+import { IMenuProps } from 'gatsby-plugin-tractstack/types'
 
-const NavLink = ({ children, to }: INavLinkProps) => (
-  <Link to={to} activeClassName="is-active">
-    {children}
-  </Link>
-)
+// const NavLink = ({ children, to }: INavLinkProps) => (
+//  <Link to={to} activeClassName="is-active">
+//    {children}
+//  </Link>
+// )
 
 function Menu({ menuPayload, viewportKey }: IMenuProps) {
-  const updateEventStream = useStoryStepStore(
-    (state) => state.updateEventStream,
-  )
-  const processRead = useStoryStepStore((state) => state.processRead)
+  // const updateEventStream = useStoryStepStore(
+  //  (state) => state.updateEventStream,
+  // )
+  // const processRead = useStoryStepStore((state) => state.processRead)
   const logo = getLogo(
     menuPayload.relationships?.svgLogo,
     menuPayload.relationships?.imageLogo,
     viewportKey,
     GatsbyImage,
   )
+  /*
   const menuItems = menuPayload.relationships?.menuItems?.map((e: any) => {
     function injectPayload() {
       const eventPayload = {
@@ -43,6 +44,7 @@ function Menu({ menuPayload, viewportKey }: IMenuProps) {
       </li>
     )
   })
+  */
 
   const slogan = <p>{config.slogan}</p>
   const branding = <span>{logo}</span>
@@ -55,7 +57,7 @@ function Menu({ menuPayload, viewportKey }: IMenuProps) {
         </div>
       </div>
       <div className="menu">
-        <ul className="menu__menuitems">{menuItems}</ul>
+        <ul className="menu__menuitems"></ul>
       </div>
     </>
   )

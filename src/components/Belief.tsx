@@ -12,8 +12,14 @@ import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { IBeliefProps } from '../types'
 
-const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
+const Belief = ({
+  value,
+  cssClasses,
+  cssClassesExtra = ``,
+  storyFragmentId,
+}: IBeliefProps) => {
   const thisScaleLookup = value.scale
+  const extra = value && typeof value.extra === `string` ? value.extra : null
   // @ts-expect-error
   const thisTitle = heldBeliefsTitles[thisScaleLookup]
   // @ts-expect-error
@@ -47,7 +53,7 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
   }
 
   useEffect(() => {
-    if (!init) {
+    function doInit() {
       const hasMatchingBelief = beliefs[value.slug]
       const knownOffset =
         typeof hasMatchingBelief === `string`
@@ -58,15 +64,21 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
         setInit(true)
       }
     }
+    if (!init) setTimeout(() => doInit(), 50)
   }, [init, setInit, beliefs, thisScale, selected.slug, value.slug])
 
   return (
-    <div className={cssClasses}>
+    <div className={classNames(cssClasses, `inline-flex`)}>
+      {extra ? (
+        <div className="mr-4 flex justify-center items-end">
+          <span className={cssClassesExtra}>{extra}</span>
+        </div>
+      ) : null}
       <Listbox value={selected} onChange={handleClick}>
         {({ open }) => (
           <>
-            <div className="relative mt-1">
-              <Listbox.Button className="relative cursor-default rounded-md border border-gray-300 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
+            <div className="relative mt-1 -rotate-1">
+              <Listbox.Button className="relative w-full cursor-default rounded-md border border-slate-200 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
                 <span className="flex items-center">
                   <span
                     aria-label="Color swatch for belief"
@@ -81,7 +93,7 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-lightgrey"
                     aria-hidden="true"
                   />
                 </span>
@@ -94,13 +106,13 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-90000 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {thisScale.map((factor: any) => (
                     <Listbox.Option
                       key={factor.id}
                       className={({ active }) =>
                         classNames(
-                          active ? `text-blue bg-slate-200` : `text-gray-900`,
+                          active ? `text-blue bg-slate-200` : `text-black`,
                           `relative cursor-default select-none py-2 pl-3 pr-9`,
                         )
                       }
@@ -130,7 +142,7 @@ const Belief = ({ value, cssClasses, storyFragmentId }: IBeliefProps) => {
                             <span
                               className={classNames(
                                 active ? `text-white` : `text-allblack`,
-                                `absolute inset-y-0 right-0 flex items-center pr-4`,
+                                `absolute inset-y-0 right-0 flex items-center px-2`,
                               )}
                             >
                               <CheckIcon

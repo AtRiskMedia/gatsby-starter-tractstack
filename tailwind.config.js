@@ -56,7 +56,7 @@ module.exports = {
         rxl: 'calc(var(--scale) * 1.25rem)',
         r2xl: 'calc(var(--scale) * 1.5rem)',
         r3xl: 'calc(var(--scale) * 1.875rem)',
-        r4xl: 'calc(var(--scale) * 2.25rem)',
+        r4xl: 'calc(var(--scale) * 2.5rem)',
         r5xl: 'calc(var(--scale) * 3rem)',
         r6xl: 'calc(var(--scale) * 3.75rem)',
         r7xl: 'calc(var(--scale) * 4.5rem)',
@@ -72,7 +72,15 @@ module.exports = {
         80020: '80020',
         80030: '80030',
         90000: '90000', // for beliefs widget
-        90001: '90001', // for header
+        90001: '90001', // for header or beliefs
+        90002: '90002', // for beliefs widget
+        90003: '90003', // for beliefs widget
+        90004: '90004', // for beliefs widget
+        90005: '90005', // for beliefs widget
+        90006: '90006', // for beliefs widget
+        90007: '90007', // for beliefs widget
+        90008: '90008', // for beliefs widget
+        90009: '90009', // for beliefs widget
         90101: '90101', // for controller
       },
       colors: {

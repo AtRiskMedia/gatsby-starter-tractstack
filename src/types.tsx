@@ -100,6 +100,10 @@ export interface IEventStreamDict {
 export interface IStoryStepStoreState {
   controllerOverride: boolean
   setControllerOverride: Function
+  panesRevealed: boolean
+  withheldPanes: any
+  setPanesRevealed: Function
+  toggleWithheldPanes: Function
   panesVisible: any
   panesRead: any
   eventStream: IEventStreamDict
@@ -171,8 +175,9 @@ export interface IYouTubeProps {
 }
 
 export interface IBeliefProps {
-  value: { slug: string; scale: string }
+  value: { slug: string; scale: string; extra?: string }
   cssClasses: string
+  cssClassesExtra?: string
   storyFragmentId: IStoryFragmentId
 }
 

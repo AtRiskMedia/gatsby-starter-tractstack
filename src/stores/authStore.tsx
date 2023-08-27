@@ -91,10 +91,10 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
           )
             updateBeliefs(value[1].slug, value[1].object)
           else if (
-            typeof value[1].slug === `string` &&
+            typeof value[1].id === `string` &&
             typeof value[1].verb === `string`
           )
-            updateBeliefs(value[1].slug, value[1].verb)
+            updateBeliefs(value[1].id, value[1].verb)
         })
       }
       if (

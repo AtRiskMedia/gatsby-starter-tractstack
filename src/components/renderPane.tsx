@@ -7,7 +7,6 @@ import IframeResizer from 'iframe-resizer-react'
 import { config } from '../../data/SiteConfig'
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
-import Footer from './Footer'
 import Product from '../shopify-components/Product'
 import H5P from './H5P'
 import codeHooks from '../custom/codehooks'
@@ -16,7 +15,7 @@ import {
   ICodeHookIframeProps,
   ICodeHookShopifyProps,
   IPaneProps,
-  IStoryFragmentRenderProps,
+  IRenderPaneProps,
 } from 'gatsby-plugin-tractstack/types'
 
 const readThreshold = config.readThreshold
@@ -115,63 +114,65 @@ const CodeHookIframe = ({
   )
 }
 
-const StoryFragmentRender = ({
+const RenderPane = ({
   viewportKey,
   payload,
+  paneId,
   storyFragmentId,
-}: IStoryFragmentRenderProps) => {
-  const [loaded, setLoaded] = useState(false)
+}: IRenderPaneProps) => {
+  const [withhold, setWithhold] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
+  const withheldPanes = useStoryStepStore((state) => state.withheldPanes)
+  const toggleWithheldPanes = useStoryStepStore(
+    (state) => state.toggleWithheldPanes,
+  )
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
+  const setPanesRevealed = useStoryStepStore((state) => state.setPanesRevealed)
   const updatePanesVisible = useStoryStepStore(
     (state) => state.updatePanesVisible,
   )
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
-  const storyFragment = payload?.storyFragment[`${viewportKey}-${payload.id}`]
-  const storyFragmentPayload: any = payload.contentMap[payload.id]
-  const tailwindBgColour =
-    typeof storyFragmentPayload?.tailwindBgColour === `string`
-      ? storyFragmentPayload.tailwindBgColour
-      : ``
-  const paneIds = storyFragment?.paneIds
-  const thisStoryFragment = paneIds?.map((p: string) => {
-    const thisPane = payload.contentMap[p]
-    const thisId = `${viewportKey}-${p}`
-    const hasCodeHook: any = thisPane.hasCodeHook
-    const hasHiddenPane: any = thisPane.hasHiddenPane
-    const thisPaneChildren =
-      hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
-        <CodeHookIframe
-          thisId={thisId}
-          payload={hasCodeHook}
-          viewportKey={viewportKey}
-        />
-      ) : hasCodeHook?.target && hasCodeHook.target === `shopify` ? (
-        <CodeHookShopify thisId={thisId} payload={hasCodeHook} />
-      ) : hasCodeHook?.target ? (
-        <CodeHook
-          thisId={thisId}
-          payload={hasCodeHook}
-          viewportKey={viewportKey}
-          storyFragmentId={storyFragmentId}
-        />
-      ) : (
-        payload.contentChildren[`${viewportKey}-${p}`]
-      )
-    const heldBeliefs =
-      typeof thisPane?.heldBeliefs === `object` ? thisPane.heldBeliefs : null
-    const withheldBeliefs =
-      typeof thisPane?.withheldBeliefs === `object`
-        ? thisPane.withheldBeliefs
-        : null
-    const hasMaxHScreen =
-      typeof thisPane?.hasMaxHScreen === `boolean`
-        ? thisPane.hasMaxHScreen
-        : false
-    let override
+  const p = paneId
+  const thisPane = payload.panePayload
+  const thisId = `${viewportKey}-${p}`
+  const hasCodeHook: any = thisPane.hasCodeHook
+  const hasHiddenPane: any = thisPane.hasHiddenPane
+  const thisPaneChildren =
+    hasCodeHook?.target &&
+    (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+      <CodeHookIframe
+        thisId={thisId}
+        payload={hasCodeHook}
+        viewportKey={viewportKey}
+      />
+    ) : hasCodeHook?.target && hasCodeHook.target === `shopify` ? (
+      <CodeHookShopify thisId={thisId} payload={hasCodeHook} />
+    ) : hasCodeHook?.target ? (
+      <CodeHook
+        thisId={thisId}
+        payload={hasCodeHook}
+        viewportKey={viewportKey}
+        storyFragmentId={storyFragmentId}
+      />
+    ) : (
+      payload.children
+    )
+  const heldBeliefs =
+    typeof thisPane?.heldBeliefs === `object` ? thisPane.heldBeliefs : null
+  const withheldBeliefs =
+    typeof thisPane?.withheldBeliefs === `object`
+      ? thisPane.withheldBeliefs
+      : null
+  const hasMaxHScreen =
+    typeof thisPane?.hasMaxHScreen === `boolean`
+      ? thisPane.hasMaxHScreen
+      : false
+
+  useEffect(() => {
+    let override = false
+    let dontshow = false
     if (heldBeliefs && Object.keys(heldBeliefs)?.length) {
       override = true
       Object.entries(heldBeliefs).forEach(([key, value]) => {
@@ -201,8 +202,8 @@ const StoryFragmentRender = ({
           })
         }
       })
-      if (override) return null
     }
+    if (override) dontshow = true
     override = false
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
@@ -217,73 +218,78 @@ const StoryFragmentRender = ({
           })
         }
       })
-      if (override) return null
     }
-    return (
-      <section
-        key={`${viewportKey}-${p}-wrapper`}
-        className="w-full h-fit-content overflow-hidden"
-        id={`wrapper-${viewportKey}-${p}`}
-      >
-        <InView
-          onEnter={() => {
-            if (!hasHiddenPane) updatePanesVisible(p, Date.now())
-          }}
-          onLeave={() => {
-            if (!hasHiddenPane) {
-              const now = Date.now()
-              const duration =
-                typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
-              const verb =
-                duration > readThreshold
-                  ? `read`
-                  : duration > softReadThreshold
-                  ? `glossed`
-                  : null
-              if (verb) {
-                const eventPayload = {
-                  verb,
-                  id: p,
-                  type: `Pane`,
-                  duration: duration / 1000,
-                }
-                updateEventStream(now, eventPayload)
-              }
-              updatePanesVisible(p, false)
-            }
-          }}
-        >
-          <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>
-            {thisPaneChildren}
-          </Pane>
-        </InView>
-      </section>
-    )
-  })
-
-  useEffect(() => {
+    if (override) dontshow = true
     if (
-      typeof thisStoryFragment !== `undefined` &&
-      thisStoryFragment.length === paneIds?.length &&
-      thisStoryFragment.length > 0
-    )
-      setLoaded(true)
-  }, [thisStoryFragment, paneIds, loaded, setLoaded])
+      dontshow &&
+      (typeof withheldPanes[p] === `undefined` ||
+        (typeof withheldPanes[p] === `boolean` && !withheldPanes[p]))
+    ) {
+      setWithhold(true)
+      toggleWithheldPanes(p, true)
+    } else if (
+      !dontshow &&
+      typeof withheldPanes[p] === `boolean` &&
+      withheldPanes[p]
+    ) {
+      setWithhold(false)
+      toggleWithheldPanes(p, false)
+      setPanesRevealed(true)
+    } else if (dontshow) setWithhold(true)
+  }, [
+    p,
+    toggleWithheldPanes,
+    withheldPanes,
+    beliefs,
+    heldBeliefs,
+    thisPane.title,
+    withheldBeliefs,
+    setPanesRevealed,
+    thisPane.slug,
+  ])
 
-  return loaded ? (
-    <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
-      {payload?.menu ? payload?.menu : null}
-      {thisStoryFragment}
-      <Footer />
-    </div>
-  ) : (
-    <div
-      id="loading"
-      className="flex flex-row justify-center items-center h-screen w-screen"
+  if (withhold) return null
+
+  return (
+    <section
+      key={`${viewportKey}-${p}-wrapper`}
+      className="w-full h-fit-content overflow-hidden"
+      id={`wrapper-${viewportKey}-${p}`}
     >
-      Loading...
-    </div>
+      <InView
+        onEnter={() => {
+          if (!hasHiddenPane) updatePanesVisible(p, Date.now())
+        }}
+        onLeave={() => {
+          if (!hasHiddenPane) {
+            const now = Date.now()
+            const duration =
+              typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
+            const verb =
+              duration > readThreshold
+                ? `read`
+                : duration > softReadThreshold
+                ? `glossed`
+                : null
+            if (verb) {
+              const eventPayload = {
+                verb,
+                id: p,
+                type: `Pane`,
+                duration: duration / 1000,
+              }
+              updateEventStream(now, eventPayload)
+            }
+            updatePanesVisible(p, false)
+          }
+        }}
+      >
+        <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>
+          {thisPaneChildren}
+        </Pane>
+      </InView>
+    </section>
   )
 }
 
-export default StoryFragmentRender
+export default RenderPane
