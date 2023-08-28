@@ -34,9 +34,9 @@ const RenderStoryFragment = ({
     <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
       {panesRevealed ? (
         <>
-          <div className="z-70010 fixed bottom-0 left-0 w-full h-4 bg-green motion-safe:animate-ping opacity-40" />
+          <div className="z-70010 fixed bottom-0 left-0 w-full h-2 bg-green motion-safe:animate-ping opacity-50" />
           <div className="z-70010 fixed bottom-4 right-4 text-3xl text-allblack font-action">
-            <ArrowDownIcon className="w-12 h-12 text-green motion-safe:animate-pulse" />
+            <ArrowDownIcon className="w-12 h-12 text-darkgrey motion-safe:animate-pulse opacity-10" />
           </div>
         </>
       ) : null}

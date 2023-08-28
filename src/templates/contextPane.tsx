@@ -11,6 +11,7 @@ import templates from '../custom/templates'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Wrapper from '../components/Wrapper'
 import { IContextPageProps } from 'gatsby-plugin-tractstack/types'
 
@@ -73,8 +74,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-        ? `glossed`
-        : null
+          ? `glossed`
+          : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -95,8 +96,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-            ? `glossed`
-            : null
+              ? `glossed`
+              : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,
@@ -155,6 +156,7 @@ export default function ContextPage(props: IContextPageProps) {
           </button>
         </div>
       </div>
+      <Footer />
     </Wrapper>
   )
 }
