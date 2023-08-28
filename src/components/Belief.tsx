@@ -71,7 +71,15 @@ const Belief = ({
     <div className={classNames(cssClasses, `inline-flex`)}>
       {extra ? (
         <div className="mr-4 flex justify-center items-end">
-          <span className={cssClassesExtra}>{extra}</span>
+          <span className={cssClassesExtra}>
+            {typeof selected?.color === `undefined` ? (
+              <span
+                aria-label="Color swatch for belief"
+                className="inline-block h-2 w-2 flex-shrink-0 rounded-full bg-orange motion-safe:animate-pulse mr-2"
+              />
+            ) : null}
+            {extra}
+          </span>
         </div>
       ) : null}
       <Listbox value={selected} onChange={handleClick}>

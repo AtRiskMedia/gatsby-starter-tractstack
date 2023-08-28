@@ -74,8 +74,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `read`
         : duration > softReadThreshold
-          ? `glossed`
-          : null
+        ? `glossed`
+        : null
     if (verb) {
       const eventPayload = {
         id: pageContext.id,
@@ -96,8 +96,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `read`
             : duration > softReadThreshold
-              ? `glossed`
-              : null
+            ? `glossed`
+            : null
         if (verb) {
           const eventPayload = {
             id: pageContext.id,
