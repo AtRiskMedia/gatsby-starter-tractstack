@@ -28,7 +28,7 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   const eventStream = useStoryStepStore((state) => state.eventStream)
   const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
-  const [doingForceSync, setDoingForceSync] = useState<boolean>(false)
+  const [doingSync, setDoingSync] = useState<boolean>(false)
   const [beenSeenPanes, setBeenSeenPanes] = useState<Object>({})
   const [zoom, setZoom] = useState<boolean>(false)
   const [zoomOverride, setZoomOverride] = useState<boolean>(false)
@@ -117,31 +117,29 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   useEffect(() => {
     function doSync() {
       const now = Date.now()
-      setLastSync(now)
+      setDoingSync(true)
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
         updateEventStreamCleanup(now)
       })
+      setDoingSync(false)
+      setLastSync(now)
     }
     if (
       isLoggedIn &&
-      !doingForceSync &&
+      !doingSync &&
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
-      config.conciergeForceInterval > 1 &&
       (!lastSync ||
         Date.now() - lastSync >
           config.conciergeSync * config.conciergeForceInterval)
-    ) {
-      setDoingForceSync(true)
+    )
       doSync()
-      setDoingForceSync(false)
-    }
   }, [
     eventStream,
     isLoggedIn,
     lastSync,
     setLastSync,
-    doingForceSync,
+    doingSync,
     contentMap,
     tractStackId,
     updateEventStreamCleanup,
@@ -151,14 +149,14 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
     if (
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
-      !doingForceSync
+      !doingSync
     ) {
-      setDoingForceSync(true)
+      setDoingSync(true)
       const now = Date.now()
       pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
         updateEventStreamCleanup(now)
         setLastSync(now)
-        setDoingForceSync(false)
+        setDoingSync(false)
       })
     }
   }, config.conciergeSync)
