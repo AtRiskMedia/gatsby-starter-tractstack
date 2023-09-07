@@ -71,6 +71,7 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
       return () => document.removeEventListener(`keydown`, handleEscapeKey)
     }
   }, [open, lastStoryStep, processRead])
+
   return (
     <header className="relative z-90000">
       <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-white shadow-inner shadow-darkgrey">
