@@ -20,7 +20,7 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
   ${(props: any) => props.css};
 `
 
-const StoryFragment = ({ payload }: IStoryFragmentProps) => {
+const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const lastSync = useAuthStore((state) => state.lastSync)
@@ -222,4 +222,4 @@ const StoryFragment = ({ payload }: IStoryFragmentProps) => {
   )
 }
 
-export default StoryFragment
+export default StoryFragmentLive

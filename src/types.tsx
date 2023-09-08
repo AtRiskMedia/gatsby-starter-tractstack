@@ -7,6 +7,12 @@ export interface IStoryFragmentPayload {
   data: any // FIX
 }
 
+export interface IStoryFragmentRaw {
+  payload: {
+    resources: any // FIX
+    storyFragment: any // FIX
+  }
+}
 export interface ITokens {
   encryptedCode: string | null
   encryptedEmail: string | null

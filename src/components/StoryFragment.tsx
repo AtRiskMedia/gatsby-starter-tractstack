@@ -4,14 +4,14 @@ import React from 'react'
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import '../styles/storyfragment.css'
-import { IStoryFragmentProps } from 'gatsby-plugin-tractstack/types'
+import { IStoryFragmentRaw } from '../types'
 import StoryFragmentLive from '../components/StoryFragmentLive'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
 import templates from '../custom/templates'
 import storyFragmentCompositor from '../components/storyFragmentCompositor'
 
-const StoryFragment = ({ payload }: IStoryFragmentProps) => {
+const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
   const processRead = useStoryStepStore((state) => state.processRead)
