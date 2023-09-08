@@ -2,6 +2,7 @@ import type { GatsbyNode } from 'gatsby'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 const path = require(`path`)
+import { config } from './data/SiteConfig'
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
   actions,
@@ -11,6 +12,19 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
       plugins: [new TsconfigPathsPlugin()],
     },
   })
+}
+
+export const onCreatePage = ({ page, actions }: any) => {
+  const { createPage, deletePage } = actions
+  if (page.path === `/${config.home}/`) {
+    createPage({
+      ...page,
+      path: '/',
+    })
+  }
+  if (page.path === '/') {
+    deletePage(page)
+  }
 }
 
 export const createPages: GatsbyNode['createPages'] = async ({
