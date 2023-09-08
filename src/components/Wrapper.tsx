@@ -25,6 +25,9 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const referrer = useAuthStore((state) => state.referrer)
   const setReferrer = useAuthStore((state) => state.setReferrer)
+  const scrollToPane = useStoryStepStore((state) => state.scrollToPane)
+  const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
+  const setZoom = useStoryStepStore((state) => state.setZoom)
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -113,6 +116,24 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   ])
 
   useEffect(() => {
+    function doScrollTo() {
+      const pane =
+        typeof document !== `undefined`
+          ? document.getElementById(`${viewportKey}-${scrollToPane}`)
+          : null
+      if (pane) {
+        pane.scrollIntoView({ behavior: `smooth` })
+        setScrollToPane(``)
+      }
+    }
+    if (scrollToPane) {
+      setTimeout(() => {
+        doScrollTo()
+      }, 1250)
+    }
+  }, [scrollToPane, viewportKey, setScrollToPane])
+
+  useEffect(() => {
     function handleResize() {
       const scrollBarOffset = getScrollbarSize()
       const thisWidth = window?.innerWidth
@@ -136,6 +157,24 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     handleResize()
     return () => window.removeEventListener(`resize`, handleResize)
   }, [viewportKey, slug, mode, setViewportKey])
+
+  useEffect(() => {
+    function listenOnDevicePixelRatio() {
+      function onChange() {
+        if (
+          typeof window !== `undefined` &&
+          (window.devicePixelRatio === 1 || window.devicePixelRatio === 2)
+        )
+          setZoom(false)
+        else setZoom(true)
+        listenOnDevicePixelRatio()
+      }
+      matchMedia(
+        `(resolution: ${window?.devicePixelRatio}dppx)`,
+      ).addEventListener(`change`, onChange, { once: true })
+    }
+    listenOnDevicePixelRatio()
+  }, [setZoom])
 
   return children
 }

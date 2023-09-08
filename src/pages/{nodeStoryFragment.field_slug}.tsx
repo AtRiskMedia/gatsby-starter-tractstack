@@ -1,18 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { graphql } from 'gatsby'
-import { Helmet } from 'react-helmet'
-import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
-import { useStoryStepStore } from '../stores/storyStep'
-import { useAuthStore } from '../stores/authStore'
+import Wrapper from '../components/Wrapper'
 import StoryFragment from '../components/StoryFragment'
 import Header from '../components/Header'
 import Seo from '../components/Seo'
-import Belief from '../components/Belief'
-import YouTube from '../components/YouTube'
-import templates from '../custom/templates'
-import storyFragmentCompositor from '../components/storyFragmentCompositor'
 import { IStoryFragmentPayload } from '../types'
 import { config } from '../../data/SiteConfig'
 
@@ -138,59 +131,18 @@ export const query = graphql`
 
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const isHome = data.nodeStoryFragment.slug === config.home
-  const viewportKey = useAuthStore((state) => state.viewportKey)
   const storyFragmentTitle = data.nodeStoryFragment.title
-  const resourcePayload = data?.allNodeResource?.edges
-  const processRead = useStoryStepStore((state) => state.processRead)
-  const [scrollToPane, setScrollToPane] = useState(``)
-
-  useEffect(() => {
-    function doScrollTo() {
-      const pane =
-        typeof document !== `undefined`
-          ? document.getElementById(`${viewportKey}-${scrollToPane}`)
-          : null
-      if (pane) {
-        pane.scrollIntoView({ behavior: `smooth` })
-        setScrollToPane(``)
-      }
-    }
-    if (scrollToPane) {
-      setTimeout(() => {
-        doScrollTo()
-      }, 1250)
-    }
-  }, [scrollToPane, viewportKey])
-
-  const storyFragmentPayload = storyFragmentCompositor({
-    data: data.nodeStoryFragment,
-    viewportKey,
-    hooks: {
-      belief: Belief,
-      youtube: YouTube,
-      processRead,
-      GatsbyImage,
-      getImage,
-      resourcePayload,
-      templates,
-      setScrollToPane,
-    },
-  })
-  const hasH5P =
-    storyFragmentPayload.storyFragment[
-      `${viewportKey}-${storyFragmentPayload.id}`
-    ]!.hasH5P
 
   return (
-    <>
-      {hasH5P ? (
-        <Helmet>
-          <script src="/h5p-resizer.js" />
-        </Helmet>
-      ) : null}
+    <Wrapper slug={data.nodeStoryFragment.slug} mode="storyFragment">
       <Header isHome={isHome} siteTitle={storyFragmentTitle} open={false} />
-      <StoryFragment payload={storyFragmentPayload} />
-    </>
+      <StoryFragment
+        payload={{
+          storyFragment: data.nodeStoryFragment,
+          resources: data.allNodeResource?.edges,
+        }}
+      />
+    </Wrapper>
   )
 }
 

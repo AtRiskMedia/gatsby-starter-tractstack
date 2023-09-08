@@ -106,6 +106,12 @@ export interface IStoryStepStoreState {
   toggleWithheldPanes: Function
   panesVisible: any
   panesRead: any
+  scrollToPane: string
+  zoom: boolean
+  zoomOverride: boolean
+  setZoom: Function
+  setZoomOverride: Function
+  setScrollToPane: Function
   eventStream: IEventStreamDict
   gotoLastPane: [string | null, string | null]
   lastStoryStep: string | null
