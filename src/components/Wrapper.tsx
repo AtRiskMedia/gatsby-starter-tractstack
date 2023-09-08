@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { useEffect, useState } from 'react'
-import { navigate } from 'gatsby'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { getScrollbarSize } from 'gatsby-plugin-tractstack'
 
@@ -119,16 +118,7 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
       const thisWidth = window?.innerWidth
       const thisViewportKey =
         thisWidth < 801 ? `mobile` : thisWidth < 1367 ? `tablet` : `desktop`
-      const thisViewport =
-        thisViewportKey === `mobile`
-          ? `600`
-          : thisViewportKey === `tablet`
-          ? 1080
-          : 1920
-      if (thisViewportKey !== viewportKey) {
-        setViewportKey(thisViewportKey)
-        if (mode === `storyFragment`) navigate(`/${slug}/${thisViewport}`)
-      }
+      if (thisViewportKey !== viewportKey) setViewportKey(thisViewportKey)
       const thisScale =
         thisWidth < 401
           ? (400 - scrollBarOffset) / 601

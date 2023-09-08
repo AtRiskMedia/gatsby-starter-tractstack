@@ -51,7 +51,7 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   validToken: false,
   beliefs: {},
   lastSync: 0,
-  viewportKey: `server`,
+  viewportKey: `mobile`,
   referrer: {
     init: undefined,
   },

@@ -1,77 +1,207 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect } from 'react'
-import { navigate, graphql } from 'gatsby'
+import React, { useState, useEffect } from 'react'
+import { graphql } from 'gatsby'
+import { Helmet } from 'react-helmet'
+import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
-import Seo from '../components/Seo'
-import { ICollectionsRouteProps } from '../types'
+import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
+import StoryFragment from '../components/StoryFragment'
+import Header from '../components/Header'
+import Seo from '../components/Seo'
+import Belief from '../components/Belief'
+import YouTube from '../components/YouTube'
+import templates from '../custom/templates'
+import storyFragmentCompositor from '../components/storyFragmentCompositor'
+import { IStoryFragmentPayload } from '../types'
+import { config } from '../../data/SiteConfig'
 
 export const query = graphql`
   query ($id: String) {
+    allNodeResource {
+      edges {
+        node {
+          id: drupal_id
+          drupalNid: drupal_internal__nid
+          title
+          slug: field_slug
+          categorySlug: field_category_slug
+          optionsPayload: field_options
+          actionLisp: field_action_lisp
+          oneliner: field_oneliner
+        }
+      }
+    }
     nodeStoryFragment(id: { eq: $id }) {
+      id: drupal_id
+      drupalNid: drupal_internal__nid
       title
       slug: field_slug
       socialImagePath: field_social_image_path
+      tailwindBgColour: field_tailwind_background_colour
       relationships {
         tractstack: field_tract_stack {
+          id: drupal_id
+          drupalNid: drupal_internal__nid
+          title
           socialImagePath: field_social_image_path
+          slug: field_slug
+          relationships {
+            storyFragments: field_story_fragments {
+              id: drupal_id
+              title
+              slug: field_slug
+            }
+          }
+        }
+        menu: field_menu {
+          optionsPayload: field_options
+          theme: field_theme
+          id
+          internal {
+            type
+          }
+          relationships {
+            svgLogo: field_svg_logo {
+              id: drupal_id
+              localFile {
+                publicURL
+              }
+            }
+            imageLogo: field_image_logo {
+              id: drupal_id
+              localFile {
+                childImageSharp {
+                  desktop: gatsbyImageData(width: 512, placeholder: BLURRED)
+                }
+              }
+            }
+          }
+        }
+        panes: field_panes {
+          id: drupal_id
+          title
+          slug: field_slug
+          optionsPayload: field_options
+          heightRatioDesktop: field_height_ratio_desktop
+          heightRatioTablet: field_height_ratio_tablet
+          heightRatioMobile: field_height_ratio_mobile
+          heightOffsetDesktop: field_height_offset_desktop
+          heightOffsetTablet: field_height_offset_tablet
+          heightOffsetMobile: field_height_offset_mobile
+          relationships {
+            field_image {
+              id: drupal_id
+              filename
+              localFile {
+                publicURL
+              }
+            }
+            field_image_svg {
+              id: drupal_id
+              localFile {
+                publicURL
+              }
+            }
+            markdown: field_markdown {
+              id: drupal_id
+              slug: field_slug
+              markdownBody: field_markdown_body
+              childMarkdown {
+                childMarkdownRemark {
+                  htmlAst
+                }
+              }
+              relationships {
+                images: field_image {
+                  id: drupal_id
+                  filename
+                  localFile {
+                    publicURL
+                  }
+                }
+                imagesSvg: field_image_svg {
+                  id: drupal_id
+                  filename
+                  localFile {
+                    publicURL
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
   }
 `
 
-const StoryFragmentRedirect = ({ data }: ICollectionsRouteProps) => {
-  const referrer = useAuthStore((state) => state.referrer)
-  const setReferrer = useAuthStore((state) => state.setReferrer)
+const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
+  const isHome = data.nodeStoryFragment.slug === config.home
+  const viewportKey = useAuthStore((state) => state.viewportKey)
+  const storyFragmentTitle = data.nodeStoryFragment.title
+  const resourcePayload = data?.allNodeResource?.edges
+  const processRead = useStoryStepStore((state) => state.processRead)
+  const [scrollToPane, setScrollToPane] = useState(``)
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const utmSource = params.get(`utm_source`)
-    const utmMedium = params.get(`utm_medium`)
-    const utmCampaign = params.get(`utm_campaign`)
-    const utmTerm = params.get(`utm_term`)
-    const utmContent = params.get(`utm_content`)
-    if (
-      typeof referrer.init === `undefined` &&
-      (document?.referrer ||
-        utmSource ||
-        utmMedium ||
-        utmCampaign ||
-        utmTerm ||
-        utmContent)
-    ) {
-      setReferrer({
-        init: true,
-        httpReferrer: document.referrer,
-        utmSource,
-        utmMedium,
-        utmCampaign,
-        utmTerm,
-        utmContent,
-      })
+    function doScrollTo() {
+      const pane =
+        typeof document !== `undefined`
+          ? document.getElementById(`${viewportKey}-${scrollToPane}`)
+          : null
+      if (pane) {
+        pane.scrollIntoView({ behavior: `smooth` })
+        setScrollToPane(``)
+      }
     }
-  }, [referrer, setReferrer])
-
-  useEffect(() => {
-    if (typeof window !== `undefined`) {
-      const thisViewport =
-        window.innerWidth < 801
-          ? `600`
-          : window.innerWidth < 1367
-          ? `1080`
-          : `1920`
-      navigate(`/${data.nodeStoryFragment.slug}/${thisViewport}`, {
-        replace: true,
-      })
+    if (scrollToPane) {
+      setTimeout(() => {
+        doScrollTo()
+      }, 1250)
     }
-  }, [data.nodeStoryFragment.slug])
+  }, [scrollToPane, viewportKey])
 
-  return null
+  const storyFragmentPayload = storyFragmentCompositor({
+    data: data.nodeStoryFragment,
+    viewportKey,
+    hooks: {
+      belief: Belief,
+      youtube: YouTube,
+      processRead,
+      GatsbyImage,
+      getImage,
+      resourcePayload,
+      templates,
+      setScrollToPane,
+    },
+  })
+  const hasH5P =
+    storyFragmentPayload.storyFragment[
+      `${viewportKey}-${storyFragmentPayload.id}`
+    ]!.hasH5P
+
+  return (
+    <>
+      {hasH5P ? (
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>
+      ) : null}
+      <Header isHome={isHome} siteTitle={storyFragmentTitle} open={false} />
+      <StoryFragment payload={storyFragmentPayload} />
+    </>
+  )
 }
 
-export const Head = ({ data }: ICollectionsRouteProps) => (
-  <Seo title={data.nodeStoryFragment.title} />
+export const Head = ({ data }: IStoryFragmentPayload) => (
+  <Seo
+    title={data.nodeStoryFragment.title}
+    socialImagePath={
+      data.nodeStoryFragment.socialImagePath ||
+      data.nodeStoryFragment.relationships.tractstack.socialImagePath
+    }
+  />
 )
 
-export default StoryFragmentRedirect
+export default StoryFragmentViewport

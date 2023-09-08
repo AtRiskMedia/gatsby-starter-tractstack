@@ -78,20 +78,13 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         if (verb === `read`) updatePanesRead(key, true)
       }
     }
-    const viewport =
-      window?.innerWidth < 801
-        ? `600`
-        : window?.innerWidth < 1367
-        ? `1080`
-        : `1920`
-
     if (
       goto === `/` ||
       (goto === `<` &&
         typeof window !== `undefined` &&
         window.history.state == null)
     )
-      navigate(config?.home ? `/${config.home}/${viewport}` : `/`)
+      navigate(`/`)
     else if (goto === `<`) navigate(-1)
     else if (goto[0] === `/`) navigate(goto)
     else if (goto === `#`) {
@@ -105,7 +98,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         inline: `center`,
       })
     } else if (mode === `context`) navigate(`/context/${goto}`)
-    else navigate(`/${goto}/${viewport}`)
+    else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
     if (
