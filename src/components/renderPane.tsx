@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { InView } from 'react-cool-inview'
 import { classNames } from 'gatsby-plugin-tractstack'
 import IframeResizer from 'iframe-resizer-react'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
 import { config } from '../../data/SiteConfig'
 import { useStoryStepStore } from '../stores/storyStep'
@@ -56,7 +57,10 @@ const CodeHook = ({
     <ThisCodeHook viewportKey={viewportKey} storyFragmentId={storyFragmentId} />
   )
   return (
-    <div id={`${thisId}-hook`} className="paneFragment paneFragmentCode">
+    <div
+      id={`${thisId}-hook`}
+      className="paneFragment paneFragmentCode overflow-hidden"
+    >
       {children}
     </div>
   )
@@ -122,6 +126,8 @@ const RenderPane = ({
 }: IRenderPaneProps) => {
   const [withhold, setWithhold] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
+  const unsetBelief = useAuthStore((state) => state.unsetBelief)
+  const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const withheldPanes = useStoryStepStore((state) => state.withheldPanes)
   const toggleWithheldPanes = useStoryStepStore(
     (state) => state.toggleWithheldPanes,
@@ -165,10 +171,24 @@ const RenderPane = ({
     typeof thisPane?.withheldBeliefs === `object`
       ? thisPane.withheldBeliefs
       : null
+  const boundBelief = heldBeliefs ? Object.keys(heldBeliefs)[0] : null
   const hasMaxHScreen =
     typeof thisPane?.hasMaxHScreen === `boolean`
       ? thisPane.hasMaxHScreen
       : false
+
+  const doUnsetBelief = function (): void {
+    unsetBelief(boundBelief)
+    pushEvent(
+      {
+        verb: `UNSET`,
+        id: boundBelief,
+        title: ``,
+        type: `Belief`,
+      },
+      storyFragmentId,
+    )
+  }
 
   useEffect(() => {
     let override = false
@@ -253,7 +273,7 @@ const RenderPane = ({
   return (
     <section
       key={`${viewportKey}-${p}-wrapper`}
-      className="w-full h-fit-content overflow-hidden"
+      className="w-full h-fit-content relative"
       id={`wrapper-${viewportKey}-${p}`}
     >
       <InView
@@ -284,9 +304,20 @@ const RenderPane = ({
           }
         }}
       >
-        <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>
-          {thisPaneChildren}
-        </Pane>
+        <>
+          {boundBelief ? (
+            <button
+              onClick={() => doUnsetBelief()}
+              title="Close"
+              className="absolute top-2 right-2 z-80030"
+            >
+              <XCircleIcon className="w-8 h-8 text-orange hover:text-blue" />
+            </button>
+          ) : null}
+          <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>
+            {thisPaneChildren}
+          </Pane>
+        </>
       </InView>
     </section>
   )

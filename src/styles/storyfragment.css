@@ -11,7 +11,7 @@
 }
 @font-face {
   font-family: "FranklinGothicURW";
-  src: url("../fonts/FranklinGothicURWCon-Med.woff");
+  src: url("../fonts/FranklinGothicURW-Med.woff");
   font-weight: bold;
   font-display: swap;
 }
@@ -85,7 +85,7 @@ button {
   grid-area: 1 / 1 / 1 / 1;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   justify-self: start;
   position: relative;
 }

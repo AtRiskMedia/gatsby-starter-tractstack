@@ -53,6 +53,7 @@ export interface IAuthStoreState {
   setReferrer: Function
   setViewportKey: Function
   setLastSync: Function
+  unsetBelief: Function
   updateBeliefs: Function
   updateAuthData: Function
   setFingerprint: Function

@@ -64,6 +64,12 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   setLastSync: (lastSync: number) => {
     set((state) => ({ ...state, lastSync }))
   },
+  unsetBelief: (key: string) => {
+    const beliefs = get().beliefs
+    const remainingBeliefs = { ...beliefs }
+    delete remainingBeliefs[key]
+    set((state) => ({ ...state, beliefs: { ...remainingBeliefs } }))
+  },
   updateBeliefs: (key: string, value: string) =>
     set((state) => ({
       beliefs: { ...state.beliefs, [key]: value },

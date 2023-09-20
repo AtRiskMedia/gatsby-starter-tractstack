@@ -1,11 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect } from 'react'
+import React from 'react'
 import { IStoryFragmentRenderProps } from 'gatsby-plugin-tractstack/types'
-import { ArrowDownIcon } from '@heroicons/react/24/outline'
 
 import Footer from './Footer'
 import RenderPane from './renderPane'
-import { useStoryStepStore } from '../stores/storyStep'
+// import { useStoryStepStore } from '../stores/storyStep'
 
 const RenderStoryFragment = ({
   viewportKey,
@@ -19,9 +18,10 @@ const RenderStoryFragment = ({
       ? storyFragmentPayload.tailwindBgColour
       : ``
   const paneIds = storyFragment?.paneIds
-  const panesRevealed = useStoryStepStore((state) => state.panesRevealed)
-  const setPanesRevealed = useStoryStepStore((state) => state.setPanesRevealed)
+  // const panesRevealed = useStoryStepStore((state) => state.panesRevealed)
+  // const setPanesRevealed = useStoryStepStore((state) => state.setPanesRevealed)
 
+  /*
   useEffect(() => {
     if (panesRevealed) {
       setTimeout(() => {
@@ -30,16 +30,13 @@ const RenderStoryFragment = ({
     }
   }, [panesRevealed, setPanesRevealed])
 
+      {panesRevealed ? (
+        <div className="z-70010 fixed bottom-0 left-0 w-full h-8 bg-green motion-safe:animate-ping" />
+      ) : null}
+*/
+
   return (
     <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
-      {panesRevealed ? (
-        <>
-          <div className="z-70010 fixed bottom-0 left-0 w-full h-8 bg-green motion-safe:animate-ping" />
-          <div className="z-70010 fixed bottom-4 right-4 text-3xl text-allblack font-action">
-            <ArrowDownIcon className="w-12 h-12 text-darkgrey motion-safe:animate-pulse opacity-50" />
-          </div>
-        </>
-      ) : null}
       {payload?.menu ? payload?.menu : null}
       {paneIds
         ?.map((p: string) => {
