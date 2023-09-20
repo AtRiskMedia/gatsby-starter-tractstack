@@ -6968,10 +6968,10 @@ gatsby-plugin-styled-components@6.7.0:
   dependencies:
     "@babel/runtime" "^7.20.13"
 
-gatsby-plugin-tractstack@1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-tractstack/-/gatsby-plugin-tractstack-1.4.3.tgz#d6c7e81d68f07bf684d195cbf63801e068b98829"
-  integrity sha512-pl2RV0QG/ExJ2aR2+xdD/qCx+d1rb6/AW+W/YHrlQz3Aj0XhMPtlfcibADO760ZH3CVzaNdyKdGo8LprzA9acQ==
+gatsby-plugin-tractstack@1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-tractstack/-/gatsby-plugin-tractstack-1.4.5.tgz#03bf6ac0f051bb2bdbee117c2da0263189d3ac47"
+  integrity sha512-ddqHJec/AdOag0oY62dJTDuIT+95VA+6aW4pWCaLHv7eWKxpi2yl+44lRc3H7a6uoab05dXVlAc3pigw/UqYLA==
   dependencies:
     buffer "^6.0.3"
     hast-util-sanitize "^5.0.0"

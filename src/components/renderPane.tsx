@@ -28,6 +28,7 @@ const Pane = ({
   inView,
   observe,
   hasMaxHScreen,
+  hasOverflowHidden,
 }: IPaneProps) => (
   <div
     id={thisId}
@@ -36,6 +37,7 @@ const Pane = ({
       inView ? `pane visible` : `pane hidden`,
       `w-full h-full grid grid-rows-1 grid-cols-1`,
       hasMaxHScreen ? `max-h-screen` : ``,
+      hasOverflowHidden ? `overflow-hidden` : ``,
     )}
     ref={observe}
   >
@@ -176,6 +178,10 @@ const RenderPane = ({
     typeof thisPane?.hasMaxHScreen === `boolean`
       ? thisPane.hasMaxHScreen
       : false
+  const hasOverflowHidden =
+    typeof thisPane?.hasOverflowHidden === `boolean`
+      ? thisPane.hasOverflowHidden
+      : false
 
   const doUnsetBelief = function (): void {
     unsetBelief(boundBelief)
@@ -227,15 +233,18 @@ const RenderPane = ({
     override = false
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
-        if (typeof beliefs[key] !== `string`) override = true
-        else if (typeof beliefs[key] === `string` && beliefs[key] === value)
-          override = true
-        else if (typeof value === `object`) {
-          const values: any = value
-          Object.values(values).forEach((b) => {
-            if (typeof beliefs[key] === `string` && beliefs[key] === b)
-              override = true
-          })
+        if (!(value === `*` && typeof beliefs[key] === `undefined`)) {
+          if (typeof beliefs[key] === `string` && value === `*`) override = true
+          else if (typeof beliefs[key] !== `string`) override = true
+          else if (typeof beliefs[key] === `string` && beliefs[key] === value)
+            override = true
+          else if (typeof value === `object`) {
+            const values: any = value
+            Object.values(values).forEach((b) => {
+              if (typeof beliefs[key] === `string` && beliefs[key] === b)
+                override = true
+            })
+          }
         }
       })
     }
@@ -311,10 +320,14 @@ const RenderPane = ({
               title="Close"
               className="absolute top-2 right-2 z-80030"
             >
-              <XCircleIcon className="w-8 h-8 text-orange hover:text-blue" />
+              <XCircleIcon className="w-8 h-8 text-black/20 hover:text-blue" />
             </button>
           ) : null}
-          <Pane thisId={thisId} hasMaxHScreen={hasMaxHScreen}>
+          <Pane
+            thisId={thisId}
+            hasMaxHScreen={hasMaxHScreen}
+            hasOverflowHidden={hasOverflowHidden}
+          >
             {thisPaneChildren}
           </Pane>
         </>

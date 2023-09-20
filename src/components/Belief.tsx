@@ -72,7 +72,14 @@ const Belief = ({
           {({ open }) => (
             <>
               <div className="z-90101 relative mt-1 -rotate-1">
-                <Listbox.Button className="relative w-full cursor-default rounded-md border border-slate-200 bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm">
+                <Listbox.Button
+                  className={classNames(
+                    selected?.color
+                      ? `border-${selected.color.substring(3)}`
+                      : `bg-slate-200`,
+                    `relative w-full cursor-default rounded-md border bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm`,
+                  )}
+                >
                   <span className="flex items-center">
                     <span
                       aria-label="Color swatch for belief"
