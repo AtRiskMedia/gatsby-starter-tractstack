@@ -127,6 +127,7 @@ const RenderPane = ({
   storyFragmentId,
 }: IRenderPaneProps) => {
   const [withhold, setWithhold] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
   const unsetBelief = useAuthStore((state) => state.unsetBelief)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
@@ -265,6 +266,7 @@ const RenderPane = ({
       toggleWithheldPanes(p, false)
       setPanesRevealed(true)
     } else if (dontshow) setWithhold(true)
+    setLoaded(true)
   }, [
     p,
     toggleWithheldPanes,
@@ -277,6 +279,12 @@ const RenderPane = ({
     thisPane.slug,
   ])
 
+  if (
+    !loaded &&
+    ((heldBeliefs && Object.keys(heldBeliefs).length) ||
+      (withheldBeliefs && Object.keys(withheldBeliefs).length))
+  )
+    return null
   if (withhold) return null
 
   return (
