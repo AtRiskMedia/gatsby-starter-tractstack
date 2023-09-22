@@ -14,7 +14,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     {
       id: `builder`,
       title: `All-in-one website builder`,
-      description: `Everything your business needs to market and sell online (integrates with Shopify)`,
+      description: `Everything your business needs to market and sell online. Integrates with your Shopify store.`,
       icon: (
         <CursorArrowRaysIcon
           className="h-10 w-10 absolute left-1 top-2"
@@ -25,7 +25,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     {
       id: `insights`,
       title: `Real-time engagement analytics`,
-      description: `As buyers engage with your funnel, we'll generate data-driven insight on what does (and doesn't) convert`,
+      description: `As buyers engage with your funnel, we'll generate data-driven insight on what does (and doesn't) convert.`,
       icon: (
         <CircleStackIcon
           className="h-10 w-10 absolute left-1 top-2"
@@ -36,7 +36,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     {
       id: `marketing`,
       title: `Better tooling for content marketing`,
-      description: `Removes all the complexity. Gives you everything you'll need in one tool. You retain ownership and control of your data`,
+      description: `Removes all the complexity. Gives you everything you'll need in one tool. You retain ownership and control of your data.`,
       icon: (
         <ArrowTrendingUpIcon
           className="h-10 w-10 absolute left-1 top-2"
@@ -47,7 +47,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     {
       id: `qualify`,
       title: `Allows you to "qualify" your leads`,
-      description: `Easily create interactive 'mini-funnels' that pre-filter or onboard prospective new buyers/clients`,
+      description: `Easily create interactive 'mini-funnels' that pre-filter or onboard prospective new buyers/clients.`,
       icon: (
         <BeakerIcon
           className="h-10 w-10 absolute left-1 top-2"

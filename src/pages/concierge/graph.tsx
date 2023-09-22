@@ -24,24 +24,18 @@ const ConciergeGraph = () => {
   })
   if (isLoggedIn && knownLead && !authenticated) navigate(`/concierge/login`)
   function close() {
-    const thisViewport =
-      window.innerWidth < 801
-        ? `600`
-        : window.innerWidth < 1367
-        ? `1080`
-        : `1920`
     const thisTo =
       target?.type === `storyFragment`
-        ? `/${target.id}/${thisViewport}`
+        ? `/${target.id}/`
         : target?.type === `contextPane`
-        ? `/context/${target.id}`
-        : target?.type === `conciergePage`
-        ? `/concierge/${target.id}`
-        : target?.type === `product`
-        ? `/products/${target.id}`
-        : target?.type === `/breadcrumbs`
-        ? `${target.id}`
-        : `/${config.home}`
+          ? `/context/${target.id}`
+          : target?.type === `conciergePage`
+            ? `/concierge/${target.id}`
+            : target?.type === `product`
+              ? `/products/${target.id}`
+              : target?.type === `/breadcrumbs`
+                ? `${target.id}`
+                : `/${config.home}`
     navigate(`${thisTo}`)
   }
   return (
