@@ -21,12 +21,11 @@ const ToggleBelief = ({
       {
         verb: value,
         id: belief,
-        title: ``,
+        title: belief,
         type: `Belief`,
       },
       storyFragmentId,
     )
-    console.log(belief, value)
   }
 
   return (

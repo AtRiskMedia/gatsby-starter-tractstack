@@ -34,7 +34,7 @@ const Belief = ({
       {
         verb: e.slug,
         id: value.slug,
-        title: ``,
+        title: value.slug,
         type: `Belief`,
       },
       storyFragmentId,
