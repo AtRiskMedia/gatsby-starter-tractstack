@@ -307,44 +307,45 @@ const RenderPane = ({
       className="w-full h-fit-content relative"
       id={`wrapper-${viewportKey}-${p}`}
     >
-      <InView
-        onEnter={() => {
-          if (!hasHiddenPane) updatePanesVisible(p, Date.now())
-        }}
-        onLeave={() => {
-          if (!hasHiddenPane) {
-            const now = Date.now()
-            const duration =
-              typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
-            const verb =
-              duration > readThreshold
-                ? `read`
-                : duration > softReadThreshold
-                ? `glossed`
-                : null
-            if (verb) {
-              const eventPayload = {
-                verb,
-                id: p,
-                type: `Pane`,
-                duration: duration / 1000,
+      <>
+        {boundBelief ? (
+          <button
+            onClick={() => doUnsetBelief()}
+            title="Close"
+            className="absolute top-2 right-2 z-80030"
+          >
+            <XCircleIcon className="w-8 h-8 text-black/20 hover:text-blue" />
+          </button>
+        ) : null}
+
+        <InView
+          onEnter={() => {
+            if (!hasHiddenPane) updatePanesVisible(p, Date.now())
+          }}
+          onLeave={() => {
+            if (!hasHiddenPane) {
+              const now = Date.now()
+              const duration =
+                typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
+              const verb =
+                duration > readThreshold
+                  ? `read`
+                  : duration > softReadThreshold
+                  ? `glossed`
+                  : null
+              if (verb) {
+                const eventPayload = {
+                  verb,
+                  id: p,
+                  type: `Pane`,
+                  duration: duration / 1000,
+                }
+                updateEventStream(now, eventPayload)
               }
-              updateEventStream(now, eventPayload)
+              updatePanesVisible(p, false)
             }
-            updatePanesVisible(p, false)
-          }
-        }}
-      >
-        <>
-          {boundBelief ? (
-            <button
-              onClick={() => doUnsetBelief()}
-              title="Close"
-              className="absolute top-2 right-2 z-80030"
-            >
-              <XCircleIcon className="w-8 h-8 text-black/20 hover:text-blue" />
-            </button>
-          ) : null}
+          }}
+        >
           <Pane
             thisId={thisId}
             hasMaxHScreen={hasMaxHScreen}
@@ -352,8 +353,8 @@ const RenderPane = ({
           >
             {thisPaneChildren}
           </Pane>
-        </>
-      </InView>
+        </InView>
+      </>
     </section>
   )
 }
