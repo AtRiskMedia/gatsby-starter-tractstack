@@ -150,7 +150,7 @@ const RenderPane = ({
   const hasHiddenPane: any = thisPane.hasHiddenPane
   const thisPaneChildren =
     hasCodeHook?.target &&
-      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+    (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
       <CodeHookIframe
         thisId={thisId}
         payload={hasCodeHook}
@@ -184,7 +184,7 @@ const RenderPane = ({
       ? thisPane.hasOverflowHidden
       : false
 
-  const doUnsetBelief = function(): void {
+  const doUnsetBelief = function (): void {
     unsetBelief(boundBelief)
     pushEvent(
       {
@@ -235,15 +235,28 @@ const RenderPane = ({
     if (withheldBeliefs && Object.keys(withheldBeliefs)?.length) {
       Object.entries(withheldBeliefs).forEach(([key, value]) => {
         if (!(value === `*`)) {
-          if (typeof value === `string` && typeof beliefs[key] === `string` && value === `*`) override = true
-          else if (typeof value === `string` && typeof beliefs[key] === `string` && beliefs[key] === value)
+          if (
+            typeof value === `string` &&
+            typeof beliefs[key] === `string` &&
+            value === `*`
+          )
+            override = true
+          else if (
+            typeof value === `string` &&
+            typeof beliefs[key] === `string` &&
+            beliefs[key] === value
+          )
             override = true
           else if (typeof value === `object`) {
             const values: any = value
             Object.values(values).forEach((b) => {
               if (typeof beliefs[key] === `undefined` && b === `UNSET`)
                 override = true
-              if (b !== `UNSET` && typeof beliefs[key] === `string` && beliefs[key] === b)
+              if (
+                b !== `UNSET` &&
+                typeof beliefs[key] === `string` &&
+                beliefs[key] === b
+              )
                 override = true
             })
           }
@@ -307,8 +320,8 @@ const RenderPane = ({
               duration > readThreshold
                 ? `read`
                 : duration > softReadThreshold
-                  ? `glossed`
-                  : null
+                ? `glossed`
+                : null
             if (verb) {
               const eventPayload = {
                 verb,

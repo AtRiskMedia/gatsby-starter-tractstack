@@ -24,8 +24,8 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
       youtube: YouTube,
       toggle: Toggle,
       processRead,
-      GatsbyImage: () => { }, // will remove this and use image url
-      getImage: () => { }, // will remove this and use image url
+      GatsbyImage: () => {}, // will remove this and use image url
+      getImage: () => {}, // will remove this and use image url
       resourcePayload: payload.resources,
       templates,
       setScrollToPane,

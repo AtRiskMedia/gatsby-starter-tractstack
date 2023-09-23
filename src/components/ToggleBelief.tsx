@@ -5,7 +5,13 @@ import { IToggleBeliefProps } from 'src/types'
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 
-const ToggleBelief = ({ belief, value, prompt, cssClasses, storyFragmentId }: IToggleBeliefProps) => {
+const ToggleBelief = ({
+  belief,
+  value,
+  prompt,
+  cssClasses,
+  storyFragmentId,
+}: IToggleBeliefProps) => {
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
 
@@ -23,7 +29,11 @@ const ToggleBelief = ({ belief, value, prompt, cssClasses, storyFragmentId }: IT
     console.log(belief, value)
   }
 
-  return <button onClick={handleClick} className={cssClasses}>{prompt}</button>
+  return (
+    <button onClick={handleClick} className={cssClasses}>
+      {prompt}
+    </button>
+  )
 }
 
 export default ToggleBelief
