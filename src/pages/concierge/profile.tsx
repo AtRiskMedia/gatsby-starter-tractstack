@@ -107,9 +107,7 @@ const ConciergeProfile = () => {
         .then((response) => {
           if (response.status === 200) {
             document?.getElementById(`rooted`)?.scrollIntoView({
-              behavior: `auto`,
-              block: `center`,
-              inline: `center`,
+              behavior: `smooth`,
             })
             setSaved(Date.now())
             if (!authenticated && fingerprint) {

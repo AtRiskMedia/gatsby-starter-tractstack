@@ -158,7 +158,7 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
         typeof document !== `undefined` && typeof gotoPane === `string`
           ? document.getElementById(gotoPane)
           : null
-      if (lastPane) lastPane.scrollIntoView()
+      if (lastPane) lastPane.scrollIntoView({ behavior: `smooth` })
       setScrollTo(``)
       resetGotoLastPane()
     }
