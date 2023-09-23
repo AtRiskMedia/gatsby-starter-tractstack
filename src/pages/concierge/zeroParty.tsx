@@ -92,7 +92,7 @@ const ZeroParty = () => {
                       Throughout the site you may see &quot;belief widgets&quot;
                       where you can express yourself. Any questions asked are
                       intended to help your through the buying journey. If
-                      you&quot;re comfortable sharing your thoughts, this
+                      you&apos;re comfortable sharing your thoughts, this
                       website responds <em>adaptively</em> by revealing new
                       content pathways to meet your needs.
                     </p>
