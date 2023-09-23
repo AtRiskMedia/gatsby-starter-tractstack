@@ -66,14 +66,14 @@ const ConciergeLogin = () => {
       target?.type === `storyFragment`
         ? `/${target.id}/`
         : target?.type === `contextPane`
-          ? `/context/${target.id}`
-          : target?.type === `conciergePage`
-            ? `/concierge/${target.id}`
-            : target?.type === `product`
-              ? `/products/${target.id}`
-              : target?.type === `/breadcrumbs`
-                ? `${target.id}`
-                : `/${config.home}`
+        ? `/context/${target.id}`
+        : target?.type === `conciergePage`
+        ? `/concierge/${target.id}`
+        : target?.type === `product`
+        ? `/products/${target.id}`
+        : target?.type === `/breadcrumbs`
+        ? `${target.id}`
+        : `/${config.home}`
     navigate(`${thisTo}`)
   }
 

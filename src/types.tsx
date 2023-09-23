@@ -187,6 +187,14 @@ export interface IYouTubeProps {
   cssClasses: string
 }
 
+export interface IToggleBeliefProps {
+  belief: string
+  value: string
+  prompt: string
+  cssClasses: string
+  storyFragmentId: IStoryFragmentId
+}
+
 export interface IBeliefProps {
   value: { slug: string; scale: string; extra?: string }
   cssClasses: string

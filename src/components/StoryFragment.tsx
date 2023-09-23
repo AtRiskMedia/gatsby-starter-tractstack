@@ -8,6 +8,7 @@ import { IStoryFragmentRaw } from '../types'
 import StoryFragmentLive from '../components/StoryFragmentLive'
 import Belief from '../components/Belief'
 import YouTube from '../components/YouTube'
+import Toggle from './ToggleBelief'
 import templates from '../custom/templates'
 import storyFragmentCompositor from '../components/storyFragmentCompositor'
 
@@ -21,9 +22,10 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
     hooks: {
       belief: Belief,
       youtube: YouTube,
+      toggle: Toggle,
       processRead,
-      GatsbyImage: () => {}, // will remove this and use image url
-      getImage: () => {}, // will remove this and use image url
+      GatsbyImage: () => { }, // will remove this and use image url
+      getImage: () => { }, // will remove this and use image url
       resourcePayload: payload.resources,
       templates,
       setScrollToPane,
