@@ -26,7 +26,7 @@ const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
       : Svg(`kCzlowcutwide2`, viewportKey, `herolowcutwide2`)
 
   const branding = (
-    <div className="py-24 mx-auto max-w-xs md:max-w-sm relative z-10">
+    <div className="py-24 mx-auto w-fit relative z-10">
       <div className="flex flex-col w-fit">
         <span className="mb-2">
           <Logo className="h-10 mx-auto fill-lightgrey" />
