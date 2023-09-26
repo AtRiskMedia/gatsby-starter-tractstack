@@ -324,7 +324,13 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
   return <ul key={id.id}>{rendered}</ul>
 }
 
-function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
+function VideoItem(
+  payload: any,
+  id: any,
+  viewportKey: string,
+  hooks: any,
+  classes: string = ``,
+) {
   const [playing, setPlaying] = useState<boolean>(false)
   const concierge = hooks?.concierge
   const rendered = payload.map((e: any, idx: string) => {
@@ -366,7 +372,7 @@ function VideoItem(payload: any, id: any, viewportKey: string, hooks: any) {
       setPlaying(!playing)
     }
     return (
-      <div key={`${id.id}-${idx}`}>
+      <div key={`${id.id}-${idx}`} className={classes}>
         {!(playing && videoPath && videoType) ? (
           <button onClick={injectPayload} className="group">
             <div className="relative">
@@ -525,10 +531,6 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
             <Logo className="h-16 mb-2" />
             <Wordmark className="h-10 fill-black" />
           </div>
-          <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
-            intelligent no-code websites & landing pages that validate
-            product-market-fit
-          </p>
         </div>
       )
 

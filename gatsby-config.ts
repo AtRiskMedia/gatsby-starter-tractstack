@@ -4,12 +4,14 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+const siteUrl = process.env.SITE_URL
+const lastEpoc = `2023-08-28T03:50:04+00:00`
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Tract Stack by At Risk Media`,
-    description: `Tract Stack: SaaS by At Risk Media | Intelligent no-code landing pages for product-market-fit validation`,
+    description: `Tract Stack by At Risk Media | no-code analytics and website builder to grow your business`,
     author: `@AtRiskMedia`,
-    siteUrl: `https://tractstack.com/`,
+    siteUrl: siteUrl,
     image: 'tractstack-2023-social.png',
   },
   //flags: {
@@ -70,6 +72,87 @@ const config: GatsbyConfig = {
     },
     {
       resolve: 'gatsby-plugin-no-sourcemaps',
+    },
+    {
+      resolve: 'gatsby-plugin-sitemap',
+      options: {
+        query: `{
+  allNodeStoryFragment {
+    edges {
+      node {
+        slug: field_slug
+        modifiedGmt: changed
+      }
+    }
+  }
+  allShopifyProduct {
+    edges {
+      node {
+        slug: handle
+        modifiedGmt: updatedAt
+      }
+    }
+  }
+  allSitePage {
+    nodes {
+      path
+    }
+  }
+  allNodePane(filter: {field_is_context_pane: {eq: true}}) {
+    edges {
+      node {
+        modifiedGmt: changed
+        slug: field_slug
+      }
+    }
+  }
+}`,
+        resolveSiteUrl: () => siteUrl,
+        resolvePages: ({
+          allSitePage: { nodes: allPages },
+          allNodeStoryFragment: { edges: allStoryFragments },
+          allNodePane: { edges: allContextPanes },
+          allShopifyProduct: { edges: allShopifyProducts },
+        }: any) => {
+          const storyFragments = allStoryFragments.reduce((acc: any, node: any) => {
+            const { slug, modifiedGmt } = node.node
+            const uri = `/${slug}/`
+            acc[uri] = { uri: uri, modifiedGmt }
+            return acc
+          }, {})
+          const contextPanes = allContextPanes.reduce((acc: any, node: any) => {
+            const { slug, modifiedGmt } = node.node
+            const uri = `/context/${slug}/`
+            acc[uri] = { uri: uri, modifiedGmt }
+            return acc
+          }, {})
+          const shopifyProducts = allShopifyProducts.reduce((acc: any, node: any) => {
+            const { slug, modifiedGmt } = node.node
+            const uri = `/products/${slug}/`
+            acc[uri] = { uri: uri, modifiedGmt }
+            return acc
+          }, {})
+          const overrideNodes = { ...storyFragments, ...contextPanes, ...shopifyProducts }
+          return allPages.map((page: any) => {
+            if (typeof overrideNodes[page.path] === `object`)
+              return {
+                ...page,
+                ...overrideNodes[page.path],
+              }
+            return { ...page, modifiedGmt: lastEpoc }
+          })
+        },
+        serialize: ({ path, modifiedGmt }: any) => {
+          console.log({
+            url: path,
+            lastmod: modifiedGmt
+          })
+          return {
+            url: path,
+            lastmod: modifiedGmt,
+          }
+        },
+      },
     },
     'gatsby-transformer-tractstack',
     'gatsby-plugin-tractstack',

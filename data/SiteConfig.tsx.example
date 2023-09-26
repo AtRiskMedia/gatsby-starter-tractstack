@@ -8,6 +8,7 @@ export const config: ISiteConfig = {
   impressionsDelay: 22000,
   slogan: "slogan",
   description: "what does this product do?",
+  action: "Join waitlist",
   footer:
     "Footer slogan",
   social: [

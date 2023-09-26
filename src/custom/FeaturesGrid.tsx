@@ -7,9 +7,11 @@ import {
   BeakerIcon,
 } from '@heroicons/react/24/outline'
 
+import { useStoryStepStore } from '../stores/storyStep'
 import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 
 const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
+  const processRead = useStoryStepStore((state) => state.processRead)
   const features = [
     {
       id: `builder`,
@@ -21,10 +23,11 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           aria-hidden="true"
         />
       ),
+      goto: `/context/builder/`,
     },
     {
-      id: `insights`,
-      title: `Real-time engagement analytics`,
+      id: `analytics`,
+      title: `Meaningful engagement analytics`,
       description: `As buyers engage with your funnel, we'll generate data-driven insight on what does (and doesn't) convert.`,
       icon: (
         <CircleStackIcon
@@ -32,9 +35,10 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           aria-hidden="true"
         />
       ),
+      goto: `/context/analytics/`,
     },
     {
-      id: `marketing`,
+      id: `contentMarketing`,
       title: `Better tooling for content marketing`,
       description: `Removes all the complexity. Gives you everything you'll need in one tool. You retain ownership and control of your data.`,
       icon: (
@@ -43,9 +47,10 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           aria-hidden="true"
         />
       ),
+      goto: `/context/contentMarketing/`,
     },
     {
-      id: `qualify`,
+      id: `qualifyLeads`,
       title: `Allows you to "qualify" your leads`,
       description: `Easily create interactive 'mini-funnels' that pre-filter or onboard prospective new buyers/clients.`,
       icon: (
@@ -54,8 +59,13 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           aria-hidden="true"
         />
       ),
+      goto: `/context/qualifyLeads/`,
     },
   ]
+
+  const handleClick = (goto: string) => {
+    processRead(goto, `context`)
+  }
 
   return (
     <div
@@ -77,6 +87,13 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                   </p>
                   <p className="text-md text-darkgrey pt-2">
                     {feature.description}
+                    {` `}
+                    <button
+                      onClick={() => handleClick(feature.goto)}
+                      className="text-xs hover:text-allblack text-blue underline underline-offset-2"
+                    >
+                      Show me
+                    </button>
                   </p>
                 </div>
               </div>

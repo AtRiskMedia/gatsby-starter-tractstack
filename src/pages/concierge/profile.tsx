@@ -150,18 +150,18 @@ const ConciergeProfile = () => {
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
-      : personaSelected.title === `Major Updates Only`
-      ? `bg-lightgrey`
       : personaSelected.title === `All Updates`
-      ? `bg-green`
+      ? `bg-orange/90`
+      : personaSelected.title === `Major Updates Only`
+      ? `bg-orange/50`
       : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
-      : personaSelected.title === `Major Updates Only`
-      ? `20%`
       : personaSelected.title === `All Updates`
-      ? `98%`
+      ? `100%`
+      : personaSelected.title === `Major Updates Only`
+      ? `50%`
       : `2%`
 
   useEffect(() => {
@@ -262,17 +262,16 @@ const ConciergeProfile = () => {
                         id="rooted"
                         className="text-3xl tracking-tight text-orange sm:text-4xl font-bold"
                       >
-                        Tract Stack is pre-launch and under active development.
-                        Join our waitlist below to be notified as we approach
-                        launch!
+                        Join our launch waitlist
                       </h2>
                       <p className="mt-4 mb-4 text-lg text-gray-700">
                         {authenticated ? (
                           <>Welcome back, {firstname}.</>
                         ) : (
                           <>
-                            We welcome you to introduce yourself. Please set
-                            your communication preferences!
+                            Tract Stack is pre-launch and under active
+                            development. We welcome you to introduce yourself
+                            below.
                           </>
                         )}
                       </p>
@@ -288,19 +287,7 @@ const ConciergeProfile = () => {
                           If issues persists, please email **info at atriskmedia
                           dot com**.
                         </p>
-                      ) : (
-                        <p className="text-gray-700 text-lg mb-6">
-                          To read more on our data practices and professional
-                          standards, please see our{` `}
-                          <Link
-                            to={`/concierge/zeroParty`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
-                          >
-                            Zero Party data privacy policy
-                          </Link>
-                          .
-                        </p>
-                      )}
+                      ) : null}
                       {!isLoggedIn || !authenticated ? (
                         <p className="text-blue text-lg mb-10">
                           Not your first visit?{` `}
@@ -567,9 +554,7 @@ const ConciergeProfile = () => {
                               className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
                             >
                               <span className="pr-4">
-                                {authenticated
-                                  ? `Save Profile`
-                                  : `Create Profile`}
+                                {authenticated ? `Save Profile` : config.action}
                               </span>
                               <ChevronRightIcon
                                 className="h-5 w-5 mr-3"

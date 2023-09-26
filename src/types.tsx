@@ -164,6 +164,7 @@ export interface ISiteConfig {
   conciergeSync: number
   conciergeForceInterval: number
   impressionsDelay: number
+  action: string
   slogan: string
   footer: string
   social: ISiteConfigSocialItem[]

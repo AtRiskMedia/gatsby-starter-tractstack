@@ -71,7 +71,7 @@ const Belief = ({
         <Listbox value={selected} onChange={handleClick}>
           {({ open }) => (
             <>
-              <div className="z-90101 relative mt-1 -rotate-1">
+              <div className="z-90101 relative mt-1">
                 <Listbox.Button
                   className={classNames(
                     selected?.color
