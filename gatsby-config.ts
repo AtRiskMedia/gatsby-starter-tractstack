@@ -114,25 +114,35 @@ const config: GatsbyConfig = {
           allNodePane: { edges: allContextPanes },
           allShopifyProduct: { edges: allShopifyProducts },
         }: any) => {
-          const storyFragments = allStoryFragments.reduce((acc: any, node: any) => {
-            const { slug, modifiedGmt } = node.node
-            const uri = `/${slug}/`
-            acc[uri] = { uri: uri, modifiedGmt }
-            return acc
-          }, {})
+          const storyFragments = allStoryFragments.reduce(
+            (acc: any, node: any) => {
+              const { slug, modifiedGmt } = node.node
+              const uri = `/${slug}/`
+              acc[uri] = { uri: uri, modifiedGmt }
+              return acc
+            },
+            {},
+          )
           const contextPanes = allContextPanes.reduce((acc: any, node: any) => {
             const { slug, modifiedGmt } = node.node
             const uri = `/context/${slug}/`
             acc[uri] = { uri: uri, modifiedGmt }
             return acc
           }, {})
-          const shopifyProducts = allShopifyProducts.reduce((acc: any, node: any) => {
-            const { slug, modifiedGmt } = node.node
-            const uri = `/products/${slug}/`
-            acc[uri] = { uri: uri, modifiedGmt }
-            return acc
-          }, {})
-          const overrideNodes = { ...storyFragments, ...contextPanes, ...shopifyProducts }
+          const shopifyProducts = allShopifyProducts.reduce(
+            (acc: any, node: any) => {
+              const { slug, modifiedGmt } = node.node
+              const uri = `/products/${slug}/`
+              acc[uri] = { uri: uri, modifiedGmt }
+              return acc
+            },
+            {},
+          )
+          const overrideNodes = {
+            ...storyFragments,
+            ...contextPanes,
+            ...shopifyProducts,
+          }
           return allPages.map((page: any) => {
             if (typeof overrideNodes[page.path] === `object`)
               return {
@@ -145,7 +155,7 @@ const config: GatsbyConfig = {
         serialize: ({ path, modifiedGmt }: any) => {
           console.log({
             url: path,
-            lastmod: modifiedGmt
+            lastmod: modifiedGmt,
           })
           return {
             url: path,

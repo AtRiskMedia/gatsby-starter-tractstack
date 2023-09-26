@@ -24,7 +24,7 @@ function removeTokensFromLocalStorage() {
 }
 
 const authDataSchema = {
-  firstname: null,
+  firstname: ``,
   encryptedEmail:
     typeof localStorage === `object` && localStorage.getItem(`email`) !== null
       ? localStorage.getItem(`email`)
