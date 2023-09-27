@@ -153,10 +153,6 @@ const config: GatsbyConfig = {
           })
         },
         serialize: ({ path, modifiedGmt }: any) => {
-          console.log({
-            url: path,
-            lastmod: modifiedGmt,
-          })
           return {
             url: path,
             lastmod: modifiedGmt,
