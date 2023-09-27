@@ -14,10 +14,11 @@ import { IBeliefProps } from '../types'
 
 const Belief = ({
   value,
-  cssClasses,
+  cssClasses = ``,
   cssClassesExtra = ``,
   storyFragmentId,
 }: IBeliefProps) => {
+  console.log(cssClasses, cssClassesExtra)
   const thisScaleLookup = value.scale
   const extra = value && typeof value.extra === `string` ? value.extra : null
   // @ts-expect-error
@@ -55,15 +56,6 @@ const Belief = ({
     <>
       {extra ? (
         <div className={classNames(cssClassesExtra, `block pb-2`)}>
-          <span
-            aria-label="Color swatch for belief"
-            className={classNames(
-              `inline-block h-2 w-2 flex-shrink-0 rounded-full bg-lightgrey mr-2`,
-              typeof selected?.color === `undefined`
-                ? `bg-orange motion-safe:animate-pulse`
-                : `bg-transparent`,
-            )}
-          />
           {extra}
         </div>
       ) : null}
@@ -83,8 +75,8 @@ const Belief = ({
                   <span className="flex items-center">
                     <span
                       aria-label="Color swatch for belief"
-                      className={classNames(
-                        selected?.color ? selected.color : `bg-slate-200`,
+                      className={classNames(`motion-safe:animate-pulse`,
+                        selected?.color ? selected.color : `bg-orange`,
                         `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                       )}
                     />
