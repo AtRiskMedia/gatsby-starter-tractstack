@@ -70,7 +70,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   return (
     <div
       id={`${viewportKey}-${storyFragmentId.id}`}
-      className="sm:px-8 pb-24 bg-allwhite"
+      className="sm:px-8 pt-12 bg-allwhite"
     >
       <div className="mx-auto max-w-5xl md:max-w-7xl xl:px-8">
         <div className="relative px-8 xl:px-12">
@@ -92,7 +92,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                       onClick={() => handleClick(feature.goto)}
                       className="text-xs hover:text-allblack text-blue underline underline-offset-2"
                     >
-                      Show me
+                      Why?
                     </button>
                   </p>
                 </div>
