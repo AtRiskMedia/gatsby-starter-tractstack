@@ -18,7 +18,6 @@ const Belief = ({
   cssClassesExtra = ``,
   storyFragmentId,
 }: IBeliefProps) => {
-  console.log(cssClasses, cssClassesExtra)
   const thisScaleLookup = value.scale
   const extra = value && typeof value.extra === `string` ? value.extra : null
   // @ts-expect-error
@@ -55,9 +54,7 @@ const Belief = ({
   return (
     <>
       {extra ? (
-        <div className={classNames(cssClassesExtra, `block pb-2`)}>
-          {extra}
-        </div>
+        <div className={classNames(cssClassesExtra, `block pb-2`)}>{extra}</div>
       ) : null}
       <div className={classNames(cssClasses, `inline-block`)}>
         <Listbox value={selected} onChange={handleClick}>
@@ -75,7 +72,8 @@ const Belief = ({
                   <span className="flex items-center">
                     <span
                       aria-label="Color swatch for belief"
-                      className={classNames(`motion-safe:animate-pulse`,
+                      className={classNames(
+                        `motion-safe:animate-pulse`,
                         selected?.color ? selected.color : `bg-orange`,
                         `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                       )}
