@@ -70,7 +70,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   return (
     <div
       id={`${viewportKey}-${storyFragmentId.id}`}
-      className="sm:px-8 pt-12 bg-allwhite"
+      className="sm:px-8 py-16 bg-slate-50"
     >
       <div className="mx-auto max-w-5xl md:max-w-7xl xl:px-8">
         <div className="relative px-8 xl:px-12">

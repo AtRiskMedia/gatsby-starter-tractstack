@@ -141,15 +141,15 @@ const ConciergeProfile = () => {
       : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
-      ? `text-orange`
+      ? `text-allblack`
       : personaSelected.title === `Major Updates Only`
       ? `text-darkgrey`
       : personaSelected.title === `All Updates`
-      ? `text-blue`
+      ? `text-orange`
       : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
-      ? `bg-orange`
+      ? `bg-green`
       : personaSelected.title === `All Updates`
       ? `bg-orange/90`
       : personaSelected.title === `Major Updates Only`
@@ -374,7 +374,7 @@ const ConciergeProfile = () => {
                                   >
                                     {({ open }) => (
                                       <>
-                                        <Listbox.Label className="block text-sm text-gray-700 mb-2">
+                                        <Listbox.Label className="block text-sm text-darkgrey mb-2">
                                           Communication Preferences
                                         </Listbox.Label>
 

@@ -104,11 +104,11 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
               title="Visit the Concierge"
             >
               <span className="sr-only">Open concierge panel</span>
-              <span>
+              <span className="h-8 w-8">
                 <img
                   alt="Tract Stack logo. An impossibe square."
-                  className="h-8 w-8"
                   src={TractStackIcon}
+                  className="h-8 w-8"
                 />
               </span>
             </button>

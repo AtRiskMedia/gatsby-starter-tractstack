@@ -141,13 +141,12 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
         thisWidth < 801 ? `mobile` : thisWidth < 1367 ? `tablet` : `desktop`
       if (thisViewportKey !== viewportKey) setViewportKey(thisViewportKey)
       const thisScale =
-        thisWidth < 401
-          ? (400 - scrollBarOffset) / 601
-          : thisWidth < 801
+        thisWidth < 801
           ? (thisWidth - scrollBarOffset) / 601
           : thisWidth < 1367
           ? (thisWidth - scrollBarOffset) / 1081
           : (thisWidth - scrollBarOffset) / 1921
+      console.log(thisWidth, thisViewportKey, thisScale)
       document.documentElement.style.setProperty(
         `--scale`,
         thisScale.toString(),
