@@ -78,7 +78,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             {features.map((feature) => (
               <div
                 key={feature.id}
-                className="relative flex items-center space-x-3 rounded-lg px-6 py-5 shadow-sm"
+                className="relative flex items-center space-x-3 rounded-lg bg-allwhite px-6 py-5 shadow-sm"
               >
                 <div className="my-auto flex-shrink-0 pr-6">{feature.icon}</div>
                 <div className="min-w-0 flex-1">
