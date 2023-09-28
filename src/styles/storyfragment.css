@@ -31,7 +31,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin: 0;
-  min-width: 400px;
+  min-width: 320px;
   word-wrap: break-word;
   background: #e2e8f0;
   font-family: var(--font-main);

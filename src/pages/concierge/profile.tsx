@@ -135,34 +135,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-        ? ArrowPathRoundedSquareIcon
-        : personaSelected.title === `All Updates`
-          ? BoltIcon
-          : BellSlashIcon
+      ? ArrowPathRoundedSquareIcon
+      : personaSelected.title === `All Updates`
+      ? BoltIcon
+      : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-orange`
       : personaSelected.title === `Major Updates Only`
-        ? `text-darkgrey`
-        : personaSelected.title === `All Updates`
-          ? `text-blue`
-          : `text-darkgrey`
+      ? `text-darkgrey`
+      : personaSelected.title === `All Updates`
+      ? `text-blue`
+      : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
       : personaSelected.title === `All Updates`
-        ? `bg-orange/90`
-        : personaSelected.title === `Major Updates Only`
-          ? `bg-orange/50`
-          : `bg-darkgrey`
+      ? `bg-orange/90`
+      : personaSelected.title === `Major Updates Only`
+      ? `bg-orange/50`
+      : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `All Updates`
-        ? `100%`
-        : personaSelected.title === `Major Updates Only`
-          ? `50%`
-          : `2%`
+      ? `100%`
+      : personaSelected.title === `Major Updates Only`
+      ? `50%`
+      : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -225,14 +225,14 @@ const ConciergeProfile = () => {
       target?.type === `storyFragment`
         ? `/${target.id}/`
         : target?.type === `contextPane`
-          ? `/context/${target.id}`
-          : target?.type === `conciergePage`
-            ? `/concierge/${target.id}`
-            : target?.type === `product`
-              ? `/products/${target.id}`
-              : target?.type === `/breadcrumbs`
-                ? `${target.id}`
-                : `/${config.home}`
+        ? `/context/${target.id}`
+        : target?.type === `conciergePage`
+        ? `/concierge/${target.id}`
+        : target?.type === `product`
+        ? `/products/${target.id}`
+        : target?.type === `/breadcrumbs`
+        ? `${target.id}`
+        : `/${config.home}`
     navigate(`${thisTo}`)
   }
 
@@ -380,9 +380,14 @@ const ConciergeProfile = () => {
 
                                         <div className="relative mt-2">
                                           <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black shadow-sm ring-1 ring-inset ring-orange focus:outline-none focus:ring-2 focus:ring-orange sm:text-sm sm:leading-6">
-                                            <span className="block truncate">{personaSelected.title}</span>
+                                            <span className="block truncate">
+                                              {personaSelected.title}
+                                            </span>
                                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                              <ChevronDownIcon className="h-5 w-5 text-darkgrey" aria-hidden="true" />
+                                              <ChevronDownIcon
+                                                className="h-5 w-5 text-darkgrey"
+                                                aria-hidden="true"
+                                              />
                                             </span>
                                           </Listbox.Button>
 
