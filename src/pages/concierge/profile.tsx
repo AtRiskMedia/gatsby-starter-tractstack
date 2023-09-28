@@ -135,34 +135,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-      ? ArrowPathRoundedSquareIcon
-      : personaSelected.title === `All Updates`
-      ? BoltIcon
-      : BellSlashIcon
+        ? ArrowPathRoundedSquareIcon
+        : personaSelected.title === `All Updates`
+          ? BoltIcon
+          : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-orange`
       : personaSelected.title === `Major Updates Only`
-      ? `text-darkgrey`
-      : personaSelected.title === `All Updates`
-      ? `text-blue`
-      : `text-darkgrey`
+        ? `text-darkgrey`
+        : personaSelected.title === `All Updates`
+          ? `text-blue`
+          : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-orange`
       : personaSelected.title === `All Updates`
-      ? `bg-orange/90`
-      : personaSelected.title === `Major Updates Only`
-      ? `bg-orange/50`
-      : `bg-darkgrey`
+        ? `bg-orange/90`
+        : personaSelected.title === `Major Updates Only`
+          ? `bg-orange/50`
+          : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `All Updates`
-      ? `100%`
-      : personaSelected.title === `Major Updates Only`
-      ? `50%`
-      : `2%`
+        ? `100%`
+        : personaSelected.title === `Major Updates Only`
+          ? `50%`
+          : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -225,14 +225,14 @@ const ConciergeProfile = () => {
       target?.type === `storyFragment`
         ? `/${target.id}/`
         : target?.type === `contextPane`
-        ? `/context/${target.id}`
-        : target?.type === `conciergePage`
-        ? `/concierge/${target.id}`
-        : target?.type === `product`
-        ? `/products/${target.id}`
-        : target?.type === `/breadcrumbs`
-        ? `${target.id}`
-        : `/${config.home}`
+          ? `/context/${target.id}`
+          : target?.type === `conciergePage`
+            ? `/concierge/${target.id}`
+            : target?.type === `product`
+              ? `/products/${target.id}`
+              : target?.type === `/breadcrumbs`
+                ? `${target.id}`
+                : `/${config.home}`
     navigate(`${thisTo}`)
   }
 
@@ -324,7 +324,7 @@ const ConciergeProfile = () => {
                                 `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
                                 submitted && firstname === ``
                                   ? `border-red-500`
-                                  : `border-gray-300`,
+                                  : `border-slate-200`,
                               )}
                             />
                             {submitted && firstname === `` && (
@@ -354,7 +354,7 @@ const ConciergeProfile = () => {
                                 `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
                                 submitted && firstname === ``
                                   ? `border-red-500`
-                                  : `border-gray-300`,
+                                  : `border-slate-200`,
                               )}
                             />
                             {submitted && email === `` && (
@@ -378,28 +378,13 @@ const ConciergeProfile = () => {
                                           Communication Preferences
                                         </Listbox.Label>
 
-                                        <div className="relative">
-                                          <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
-                                            <div className="inline-flex divide-x divide-indigo-600 rounded-md shadow-sm">
-                                              <div className="inline-flex items-center rounded-l-md border border-transparent bg-transparent py-1 pl-3 pr-4 text-black shadow-sm">
-                                                <p className="ml-2.5 text-sm text-left w-36">
-                                                  {personaSelected.title}
-                                                </p>
-                                              </div>
-                                              <Listbox.Button
-                                                id="contactpersonabutton"
-                                                className="inline-flex items-center rounded-l-none rounded-r-md bg-darkgrey p-1 text-sm text-allwhite hover:bg-lightgrey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                                              >
-                                                <span className="sr-only">
-                                                  Change contact-persona setting
-                                                </span>
-                                                <ChevronDownIcon
-                                                  className="h-5 w-5"
-                                                  aria-hidden="true"
-                                                />
-                                              </Listbox.Button>
-                                            </div>
-                                          </div>
+                                        <div className="relative mt-2">
+                                          <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black shadow-sm ring-1 ring-inset ring-orange focus:outline-none focus:ring-2 focus:ring-orange sm:text-sm sm:leading-6">
+                                            <span className="block truncate">{personaSelected.title}</span>
+                                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                              <ChevronDownIcon className="h-5 w-5 text-darkgrey" aria-hidden="true" />
+                                            </span>
+                                          </Listbox.Button>
 
                                           <Transition
                                             show={open}
@@ -460,7 +445,7 @@ const ConciergeProfile = () => {
                                       aria-hidden="true"
                                     />
                                     <div className="relative ml-3 flex-1">
-                                      <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
+                                      <div className="h-3 rounded-full border border-gray-200 bg-slate-100" />
                                       <div
                                         className={classNames(
                                           `absolute inset-y-0 rounded-full border`,
@@ -505,7 +490,7 @@ const ConciergeProfile = () => {
                                     name="bio"
                                     rows={3}
                                     maxLength={280}
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                                    className="block w-full rounded-md border-slate-200 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
                                     placeholder="Your one-liner bio"
                                     defaultValue={shortBio}
                                     onChange={(e) =>
@@ -531,10 +516,10 @@ const ConciergeProfile = () => {
                                   defaultValue={codeword}
                                   onChange={(e) => setCodeword(e.target.value)}
                                   className={classNames(
-                                    `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
+                                    `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange`,
                                     submitted && firstname === ``
                                       ? `border-red-500`
-                                      : `border-gray-300`,
+                                      : `border-slate-200`,
                                   )}
                                 />
                                 {submitted && codeword === `` && (
