@@ -145,7 +145,7 @@ export default function ContextPage(props: IContextPageProps) {
   return (
     <Wrapper slug={thisSlug} mode="contextPane">
       <Header siteTitle={title} open={false} />
-      <div id="context" className="w-full min-h-screen max-w-5xl mx-auto">
+      <div id="context" className="w-full max-w-5xl mx-auto">
         <>{children}</>
         <div id="context-exit" className="text-center my-4">
           <button

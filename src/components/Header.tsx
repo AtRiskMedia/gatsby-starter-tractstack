@@ -35,9 +35,9 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
                   <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
                 </button>
    */
-  //function navigateBreadcrumbs() {
+  // function navigateBreadcrumbs() {
   //  processRead(`/breadcrumbs`)
-  //}
+  // }
   function reveal() {
     processRead(`/concierge/profile`)
   }
