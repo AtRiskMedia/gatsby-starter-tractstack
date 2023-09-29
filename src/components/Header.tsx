@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import { TractStackIcon } from 'gatsby-plugin-tractstack'
-import { BackwardIcon, BeakerIcon, HomeIcon } from '@heroicons/react/24/outline'
+import { BackwardIcon, HomeIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
@@ -27,9 +27,17 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
     return total + item.quantity
   }, 0)
   const hasStorySteps = Object.keys(storySteps).length > 1
-  function navigateBreadcrumbs() {
-    processRead(`/breadcrumbs`)
-  }
+  /*
+      <button
+                  className="mx-2 hover:text-blue"
+                  onClick={() => navigateBreadcrumbs()}
+                >
+                  <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
+                </button>
+   */
+  //function navigateBreadcrumbs() {
+  //  processRead(`/breadcrumbs`)
+  //}
   function reveal() {
     processRead(`/concierge/profile`)
   }
@@ -82,20 +90,12 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
         </div>
         <div className="inline-flex">
           {hasStorySteps ? (
-            <>
-              <button className="mx-2 hover:text-blue" onClick={() => hide()}>
-                <BackwardIcon
-                  className="h-8 w-8"
-                  title="Return to previous page"
-                />
-              </button>
-              <button
-                className="mx-2 hover:text-blue"
-                onClick={() => navigateBreadcrumbs()}
-              >
-                <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
-              </button>
-            </>
+            <button className="mx-2 hover:text-blue" onClick={() => hide()}>
+              <BackwardIcon
+                className="h-8 w-8"
+                title="Return to previous page"
+              />
+            </button>
           ) : null}
           {isLoggedIn ? (
             <button
