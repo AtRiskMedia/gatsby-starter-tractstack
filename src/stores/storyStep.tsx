@@ -79,8 +79,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `read`
           : !!goto && duration > softReadThreshold
-          ? `glossed`
-          : null
+            ? `glossed`
+            : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -100,14 +100,13 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       }
     }
     if (
-      goto === `/` ||
+      goto === `/` || goto[0] === `/` || goto === config.home ||
       (goto === `<` &&
         typeof window !== `undefined` &&
         window.history.state == null)
     )
       navigate(`/`)
     else if (goto === `<`) navigate(-1)
-    else if (goto[0] === `/`) navigate(goto)
     else if (goto === `#`) {
       const anchor =
         typeof document !== `undefined` && typeof mode === `string`
@@ -119,6 +118,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         inline: `center`,
       })
     } else if (mode === `context`) navigate(`/context/${goto}`)
+    else if (mode === `product`) navigate(`/product/${goto}`)
     else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {

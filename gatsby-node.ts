@@ -21,6 +21,7 @@ export const onCreatePage = ({ page, actions }: any) => {
       ...page,
       path: '/',
     })
+    deletePage(page)
   }
   if (page.path === '/') {
     deletePage(page)
