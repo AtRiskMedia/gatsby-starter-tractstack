@@ -146,7 +146,6 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
           : thisWidth < 1367
           ? (thisWidth - scrollBarOffset) / 1081
           : (thisWidth - scrollBarOffset) / 1921
-      console.log(thisWidth, thisViewportKey, thisScale)
       document.documentElement.style.setProperty(
         `--scale`,
         thisScale.toString(),

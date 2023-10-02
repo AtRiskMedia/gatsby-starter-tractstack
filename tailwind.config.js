@@ -84,6 +84,17 @@ module.exports = {
         90101: '90101', // for controller
       },
       colors: {
+        mywhite: '#fcfcfc',
+        myoffwhite: '#e3e3e3',
+        myallwhite: '#ffffff',
+        mylightgrey: '#a7b1b7',
+        myblue: '#293f58',
+        mygreen: '#c8df8c',
+        myorange: '#f58333',
+        mydarkgrey: '#393d34',
+        myblack: '#10120d',
+        myallblack: '#000000',
+        // remove
         white: '#fcfcfc',
         offwhite: '#e3e3e3',
         allwhite: '#ffffff',
