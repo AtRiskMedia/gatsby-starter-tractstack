@@ -12,6 +12,8 @@ import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { IBeliefProps } from '../types'
 
+// whitelist: bg-teal-400 bg-lime-400 bg-slate-200 bg-amber-400 bg-red-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400
+
 const Belief = ({
   value,
   cssClasses = ``,

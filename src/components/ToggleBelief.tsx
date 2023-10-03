@@ -40,7 +40,7 @@ const ToggleBelief = ({
   return (
     <Switch.Group
       as="div"
-      className={classNames(`flex items-center `, cssClasses)}
+      className={classNames(`flex items-center mt-6`, cssClasses)}
     >
       <Switch
         checked={enabled}
