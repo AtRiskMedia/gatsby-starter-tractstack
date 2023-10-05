@@ -10,7 +10,7 @@ import Wordmark from '../../assets/ARm-wordmark.svg'
 import Logo from '../../assets/ARm-logo.svg'
 import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 // import Belief from '../components/Belief'
-// import { config } from '../../data/SiteConfig'
+import { config } from '../../data/SiteConfig'
 
 interface IStyledDivProps {
   css: string
@@ -29,13 +29,10 @@ const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     <div className="py-24 mx-auto w-fit relative z-10">
       <div className="flex flex-col w-fit">
         <span className="mb-2">
-          <Logo className="h-10 mx-auto fill-lightgrey" />
+          <Logo className="h-10 mx-auto fill-mylightgrey" />
         </span>
         <Wordmark className="h-10 fill-blue" />
       </div>
-      <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
-        the makers of Tract Stack
-      </p>
     </div>
   )
 
@@ -46,7 +43,7 @@ const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         className="bg-white-gradient overflow-hidden"
       >
         <div className="absolute">
-          <Hexa className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] xl:ml-[30rem] fill-white" />
+          <Hexa className="w-[40rem] ml-[10rem] md:w-[60rem] md:ml-[10rem] xl:ml-[30rem] fill-mywhite" />
         </div>
         {branding}
       </div>
