@@ -10,7 +10,7 @@ import Wordmark from '../../assets/ARm-wordmark.svg'
 import Logo from '../../assets/ARm-logo.svg'
 import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 // import Belief from '../components/Belief'
-import { config } from '../../data/SiteConfig'
+// import { config } from '../../data/SiteConfig'
 
 interface IStyledDivProps {
   css: string
