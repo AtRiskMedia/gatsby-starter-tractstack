@@ -34,7 +34,7 @@ const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         <Wordmark className="h-10 fill-blue" />
       </div>
       <p className="mt-6 text-sm md:text-md text-darkgrey font-action tracking-wider">
-        UX that qualifies the conversation
+        the makers of Tract Stack
       </p>
     </div>
   )
