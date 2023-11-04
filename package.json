@@ -54,7 +54,7 @@
     "gatsby-plugin-sharp": "5.7.0",
     "gatsby-plugin-sitemap": "6.12.0",
     "gatsby-plugin-styled-components": "6.7.0",
-    "gatsby-plugin-tractstack": "1.4.22",
+    "gatsby-plugin-tractstack": "1.4.24",
     "gatsby-source-drupal": "6.7.1",
     "gatsby-source-filesystem": "5.10.0",
     "gatsby-source-shopify": "8.7.0",
