@@ -29,9 +29,9 @@ const AtRiskMedia = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     <div className="py-24 mx-auto w-fit relative z-10">
       <div className="flex flex-col w-fit">
         <span className="mb-2">
-          <Logo className="h-10 mx-auto fill-mylightgrey" />
+          <Logo className="h-14 mx-auto fill-myblack" />
         </span>
-        <Wordmark className="h-10 fill-blue" />
+        <Wordmark className="h-6 fill-myblack" />
       </div>
     </div>
   )
