@@ -17,11 +17,11 @@ const ToggleBelief = ({
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const enabled = !![
-    `FALSE`,
-    `NO`,
+    `BELIEVES_FALSE`,
+    `BELIEVES_NO`,
     `NOT_INTERESTED`,
-    `DISAGREE`,
-    `STRONGLY_DISAGREE`,
+    `DISAGREES`,
+    `STRONGLY_DISAGREES`,
   ].includes(value)
 
   const handleClick = () => {

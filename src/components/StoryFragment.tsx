@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -16,6 +16,9 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
   const processRead = useStoryStepStore((state) => state.processRead)
+  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const entered = useStoryStepStore((state) => state.entered)
+  const setEntered = useStoryStepStore((state) => state.setEntered)
   const storyFragmentPayload = storyFragmentCompositor({
     data: payload.storyFragment,
     viewportKey,
@@ -24,13 +27,38 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
       youtube: YouTube,
       toggle: Toggle,
       processRead,
-      GatsbyImage: () => {}, // will remove this and use image url
-      getImage: () => {}, // will remove this and use image url
+      pushEvent,
       resourcePayload: payload.resources,
       templates,
       setScrollToPane,
     },
   })
+
+  useEffect(() => {
+    if (!entered) {
+      setEntered(true)
+      setTimeout(
+        () =>
+          pushEvent(
+            {
+              id: payload.storyFragment.id,
+              title: payload.storyFragment.title,
+              type: `StoryFragment`,
+              verb: `ENTERED`,
+            },
+            payload.id,
+          ),
+        1000,
+      )
+    }
+  }, [
+    entered,
+    setEntered,
+    payload.id,
+    payload.storyFragment.id,
+    payload.storyFragment.title,
+    pushEvent,
+  ])
 
   return <StoryFragmentLive payload={storyFragmentPayload} />
 }

@@ -13,6 +13,10 @@ const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold
 
 export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
+  entered: false,
+  setEntered: (entered: boolean) => {
+    set((state) => ({ ...state, entered }))
+  },
   controllerOverride: false,
   setControllerOverride: (controllerOverride: boolean) => {
     set((state) => ({ ...state, controllerOverride }))
@@ -77,9 +81,9 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       const duration = now - value
       const verb =
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
-          ? `read`
+          ? `READ`
           : !!goto && duration > softReadThreshold
-          ? `glossed`
+          ? `GLOSSED`
           : null
       if (key && verb && !panesRead?.key) {
         let when = 0
@@ -96,7 +100,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         }
         updateEventStream(when, eventPayload)
         updatePanesVisible(key, false)
-        if (verb === `read`) updatePanesRead(key, true)
+        if (verb === `READ`) updatePanesRead(key, true)
       }
     }
     if (
@@ -123,7 +127,15 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
-    if (
+    if (storyFragmentId.isContextPane) {
+      const eventStream = { contextPane: payload }
+      const contentMap = {}
+      pushPayload({
+        eventStream,
+        contentMap,
+        tractStackId: storyFragmentId.slug,
+      })
+    } else if (
       typeof storyFragmentId.id === `string` &&
       typeof storyFragmentId.title === `string` &&
       typeof storyFragmentId.slug === `string`

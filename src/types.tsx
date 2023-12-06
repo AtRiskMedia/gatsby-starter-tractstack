@@ -11,6 +11,7 @@ export interface IStoryFragmentRaw {
   payload: {
     resources: any // FIX
     storyFragment: any // FIX
+    id: any
   }
 }
 export interface ITokens {
@@ -105,6 +106,8 @@ export interface IEventStreamDict {
   [key: string]: IEventStream
 }
 export interface IStoryStepStoreState {
+  entered: boolean
+  setEntered: Function
   controllerOverride: boolean
   setControllerOverride: Function
   panesRevealed: boolean
@@ -224,7 +227,7 @@ export interface IAxiosRegisterProps {
 export interface IAxiosPushProps {
   eventStream: IEventStreamDict
   contentMap: IContentMapDict
-  tractStackId: string
+  tractStackId?: string
 }
 
 export interface IAxiosProfileProps {

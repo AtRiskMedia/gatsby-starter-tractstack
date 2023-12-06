@@ -22,7 +22,7 @@ const Impression = ({ payload }: IImpressionProps) => {
   function injectPayload() {
     const now = Date.now()
     const eventPayload = {
-      verb: `clicked`,
+      verb: `CLICKED`,
       id: payload.id,
       title: payload.title,
       type: `Impression`,

@@ -131,7 +131,12 @@ export const query = graphql`
 
 const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const isHome = data.nodeStoryFragment.slug === config.home
+  const storyFragmentId = data.nodeStoryFragment.id
   const storyFragmentTitle = data.nodeStoryFragment.title
+  const storyFragmentSlug = data.nodeStoryFragment.slug
+  const tractStackId = data.nodeStoryFragment.relationships.tractstack.id
+  const tractStackTitle = data.nodeStoryFragment.relationships.tractstack.title
+  const tractStackSlug = data.nodeStoryFragment.relationships.tractstack.slug
 
   return (
     <Wrapper slug={data.nodeStoryFragment.slug} mode="storyFragment">
@@ -140,6 +145,14 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
         payload={{
           storyFragment: data.nodeStoryFragment,
           resources: data.allNodeResource?.edges,
+          id: {
+            id: storyFragmentId,
+            title: storyFragmentTitle,
+            slug: storyFragmentSlug,
+            tractStackId,
+            tractStackTitle,
+            tractStackSlug,
+          },
         }}
       />
     </Wrapper>

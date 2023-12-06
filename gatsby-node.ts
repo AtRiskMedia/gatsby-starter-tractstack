@@ -164,9 +164,10 @@ export const createPages: GatsbyNode['createPages'] = async ({
           context: {
             id: node.id,
             title: node.title,
-            tractStackId: node.relationships.tractstack?.id || node.id,
-            tractStackTitle: node.relationships.tractstack?.title || node.title,
-            tractStackSlug: node.relationships.tractstack?.slug || node.slug,
+            slug: node.field_slug,
+            tractStackId: ``,
+            tractStackTitle: ``,
+            tractStackSlug: ``,
             contextPane: node,
             resources: result.data.allNodeResource,
           },

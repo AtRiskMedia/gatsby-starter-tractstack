@@ -29,7 +29,7 @@ function Menu({ menuPayload, viewportKey }: IMenuProps) {
   const menuItems = menuPayload.relationships?.menuItems?.map((e: any) => {
     function injectPayload() {
       const eventPayload = {
-        verb: `clicked`,
+        verb: `CLICKED`,
         id: e.id,
         title: e.field_title,
         type: `MenuItem`,

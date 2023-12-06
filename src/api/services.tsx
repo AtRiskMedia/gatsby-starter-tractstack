@@ -63,6 +63,7 @@ export async function pushPayload({
 
       case `Pane`: // match "Pane" on id, then StoryFragment and TractStack
       case `Context`: // match "Pane" on id, then StoryFragment and TractStack
+      case `StoryFragment`: // match StoryFragment on id
         matchPane = thisEventStream.id
         break
 
@@ -86,14 +87,16 @@ export async function pushPayload({
       }
 
       case `Belief`: // no match required
-        matchTractStack = tractStackId
-        e = eventStream[key]
-        if (e?.id && !nodes[e.id])
-          nodes[e.id] = {
-            title: e?.title,
-            type: `Belief`,
-            parentId: tractStackId,
-          }
+        if (tractStackId) {
+          matchTractStack = tractStackId
+          e = eventStream[key]
+          if (e?.id && !nodes[e.id])
+            nodes[e.id] = {
+              title: e?.title,
+              type: `Belief`,
+              parentId: tractStackId,
+            }
+        }
         break
 
       default:
@@ -106,37 +109,46 @@ export async function pushPayload({
         break
     }
 
-    if (matchTractStack && !nodes?.matchTractStack)
-      nodes[matchTractStack] = {
-        title: contentMap[matchTractStack]?.title,
-        type: contentMap[matchTractStack]?.type,
-        slug: contentMap[matchTractStack]?.slug,
-      }
-    if (matchPane && !nodes?.matchPane) {
+    if (key === `contextPane`) {
       nodes[matchPane] = {
-        title: contentMap[matchPane]?.title,
-        slug: contentMap[matchPane]?.slug,
-        type: contentMap[matchPane]?.type,
-        parentId: contentMap[matchPane]?.parentId,
+        title: eventStream[key].title,
+        slug: tractStackId,
+        type: `Pane`,
       }
-      matchStoryFragment = contentMap[matchPane]?.parentId
-    }
-    if (matchStoryFragment && !nodes?.matchStoryFragment) {
-      nodes[matchStoryFragment] = {
-        title: contentMap[matchStoryFragment]?.title,
-        slug: contentMap[matchStoryFragment]?.slug,
-        type: contentMap[matchStoryFragment]?.type,
-        parentId: contentMap[matchStoryFragment]?.parentId,
-      }
-      matchTractStack = contentMap[matchStoryFragment]?.parentId
+    } else {
       if (matchTractStack && !nodes?.matchTractStack)
         nodes[matchTractStack] = {
           title: contentMap[matchTractStack]?.title,
           type: contentMap[matchTractStack]?.type,
           slug: contentMap[matchTractStack]?.slug,
         }
+      if (matchPane && !nodes?.matchPane) {
+        nodes[matchPane] = {
+          title: contentMap[matchPane]?.title,
+          slug: contentMap[matchPane]?.slug,
+          type: contentMap[matchPane]?.type,
+          parentId: contentMap[matchPane]?.parentId,
+        }
+        matchStoryFragment = contentMap[matchPane]?.parentId
+      }
+      if (matchStoryFragment && !nodes?.matchStoryFragment) {
+        nodes[matchStoryFragment] = {
+          title: contentMap[matchStoryFragment]?.title,
+          slug: contentMap[matchStoryFragment]?.slug,
+          type: contentMap[matchStoryFragment]?.type,
+          parentId: contentMap[matchStoryFragment]?.parentId,
+        }
+        matchTractStack = contentMap[matchStoryFragment]?.parentId
+        if (matchTractStack && !nodes?.matchTractStack)
+          nodes[matchTractStack] = {
+            title: contentMap[matchTractStack]?.title,
+            type: contentMap[matchTractStack]?.type,
+            slug: contentMap[matchTractStack]?.slug,
+          }
+      }
     }
   })
+
   return client.post(`/users/eventStream`, {
     nodes,
     events: eventStream,

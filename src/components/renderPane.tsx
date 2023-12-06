@@ -329,9 +329,9 @@ const RenderPane = ({
                 typeof panesVisible[p] === `number` ? now - panesVisible[p] : 0
               const verb =
                 duration > readThreshold
-                  ? `read`
+                  ? `READ`
                   : duration > softReadThreshold
-                  ? `glossed`
+                  ? `GLOSSED`
                   : null
               if (verb) {
                 const eventPayload = {

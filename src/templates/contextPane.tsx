@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import { navigate } from 'gatsby'
 import { Compositor } from 'gatsby-plugin-tractstack'
-import { getImage, GatsbyImage } from 'gatsby-plugin-image'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 import templates from '../custom/templates'
 import Belief from '../components/Belief'
+import Toggle from '../components/ToggleBelief'
 import YouTube from '../components/YouTube'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -27,16 +27,19 @@ export default function ContextPage(props: IContextPageProps) {
     (state) => state.updateEventStream,
   )
   const processRead = useStoryStepStore((state) => state.processRead)
+  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
   const resourcePayload = props?.pageContext?.resources?.edges
   const hooks = {
     navigate,
     belief: Belief,
+    toggle: Toggle,
     youtube: YouTube,
     processRead,
-    GatsbyImage,
-    getImage,
+    pushEvent,
     resourcePayload,
     templates,
+    setScrollToPane,
   }
   const [now] = useState(Date.now())
   const thisWidth = typeof window !== `undefined` ? window?.innerWidth : `600`
@@ -46,45 +49,52 @@ export default function ContextPage(props: IContextPageProps) {
     typeof lastStoryStep === `string`
       ? `/${lastStoryStep}/${viewportWidth}`
       : `/`
-  const id = {
-    id: `contextPane`,
-    title: `contextPane`,
-    slug: `contextPane`,
-    tractStackId: pageContext.tractStackId,
-    tractStackTitle: pageContext.tractStackTitle,
-    tractStackSlug: pageContext.tractStackSlug,
-    isContextPane: true,
-  }
   const compositorPayload = {
     panesPayload: [pageContext.contextPane],
     viewportKey: ``,
     hooks,
-    id,
+    id: {
+      id: pageContext.contextPane.id,
+      title: pageContext.contextPane.title,
+      slug: pageContext.contextPane.slug,
+      tractStackId: ``,
+      tractStackTitle: ``,
+      tractStackSlug: ``,
+      isContextPane: true,
+    },
     tailwindBgColour: null,
   }
-
   const payload = Compositor(compositorPayload)
-  const title = payload.contentMap[pageContext.id].title
   const children = payload.contentChildren[`all-${pageContext.id}`]
-  const thisSlug = payload.contentMap[pageContext.id].slug
+  const entered = useStoryStepStore((state) => state.entered)
+  const setEntered = useStoryStepStore((state) => state.setEntered)
 
   function hide() {
     const duration = Date.now() - now
     const verb =
       duration > readThreshold
-        ? `read`
+        ? `READ`
         : duration > softReadThreshold
-        ? `glossed`
+        ? `GLOSSED`
         : null
-    if (verb) {
-      const eventPayload = {
-        id: pageContext.id,
-        verb,
-        type: `Context`,
-        duration: duration / 1000,
-      }
-      updateEventStream(Date.now(), eventPayload)
-    }
+    if (verb)
+      pushEvent(
+        {
+          id: pageContext.contextPane.id,
+          title: pageContext.contextPane.title,
+          type: `Pane`,
+          verb,
+        },
+        {
+          id: pageContext.contextPane.id,
+          title: pageContext.contextPane.title,
+          slug: pageContext.contextPane.slug,
+          tractStackId: ``,
+          tractStackTitle: ``,
+          tractStackSlug: ``,
+          isContextPane: true,
+        },
+      )
     processRead(`<`, `context`)
   }
 
@@ -94,25 +104,43 @@ export default function ContextPage(props: IContextPageProps) {
         const duration = Date.now() - now
         const verb =
           duration > readThreshold
-            ? `read`
+            ? `READ`
             : duration > softReadThreshold
-            ? `glossed`
+            ? `GLOSSED`
             : null
-        if (verb) {
-          const eventPayload = {
-            id: pageContext.id,
-            verb,
-            type: `Context`,
-            duration: duration / 1000,
-          }
-          updateEventStream(Date.now(), eventPayload)
-        }
+        if (verb)
+          pushEvent(
+            {
+              id: pageContext.contextPane.id,
+              title: pageContext.contextPane.title,
+              type: `Pane`,
+              verb,
+            },
+            {
+              id: pageContext.contextPane.id,
+              title: pageContext.contextPane.title,
+              slug: pageContext.contextPane.slug,
+              tractStackId: ``,
+              tractStackTitle: ``,
+              tractStackSlug: ``,
+              isContextPane: true,
+            },
+          )
         processRead(`<`, `context`)
       }
     }
     document.addEventListener(`keydown`, handleEscapeKey)
     return () => document.removeEventListener(`keydown`, handleEscapeKey)
-  }, [updateEventStream, processRead, goto, now, pageContext.id])
+  }, [
+    updateEventStream,
+    processRead,
+    goto,
+    now,
+    pageContext.contextPane.id,
+    pageContext.contextPane.title,
+    pageContext.contextPane.slug,
+    pushEvent,
+  ])
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -142,9 +170,13 @@ export default function ContextPage(props: IContextPageProps) {
     }
   }, [referrer, setReferrer])
 
+  useEffect(() => {
+    if (!entered) setEntered(true)
+  }, [setEntered, entered])
+
   return (
-    <Wrapper slug={thisSlug} mode="contextPane">
-      <Header siteTitle={title} open={false} />
+    <Wrapper slug={pageContext.slug} mode="contextPane">
+      <Header siteTitle={pageContext.title} open={false} />
       <div id="context" className="w-full max-w-5xl mx-auto">
         <>{children}</>
         <div id="context-exit" className="text-center my-4">
