@@ -27,7 +27,6 @@ export default function ContextPage(props: IContextPageProps) {
     (state) => state.updateEventStream,
   )
   const processRead = useStoryStepStore((state) => state.processRead)
-  const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
   const resourcePayload = props?.pageContext?.resources?.edges
   const hooks = {
@@ -36,7 +35,7 @@ export default function ContextPage(props: IContextPageProps) {
     toggle: Toggle,
     youtube: YouTube,
     processRead,
-    pushEvent,
+    updateEventStream,
     resourcePayload,
     templates,
     setScrollToPane,
@@ -78,23 +77,14 @@ export default function ContextPage(props: IContextPageProps) {
         ? `GLOSSED`
         : null
     if (verb)
-      pushEvent(
-        {
-          id: pageContext.contextPane.id,
-          title: pageContext.contextPane.title,
-          type: `Pane`,
-          verb,
-        },
-        {
-          id: pageContext.contextPane.id,
-          title: pageContext.contextPane.title,
-          slug: pageContext.contextPane.slug,
-          tractStackId: ``,
-          tractStackTitle: ``,
-          tractStackSlug: ``,
-          isContextPane: true,
-        },
-      )
+      updateEventStream(Date.now(), {
+        id: pageContext.contextPane.id,
+        title: pageContext.contextPane.title,
+        slug: pageContext.contextPane.slug,
+        type: `Pane`,
+        verb,
+        isContextPane: true,
+      })
     processRead(`<`, `context`)
   }
 
@@ -109,23 +99,14 @@ export default function ContextPage(props: IContextPageProps) {
             ? `GLOSSED`
             : null
         if (verb)
-          pushEvent(
-            {
-              id: pageContext.contextPane.id,
-              title: pageContext.contextPane.title,
-              type: `Pane`,
-              verb,
-            },
-            {
-              id: pageContext.contextPane.id,
-              title: pageContext.contextPane.title,
-              slug: pageContext.contextPane.slug,
-              tractStackId: ``,
-              tractStackTitle: ``,
-              tractStackSlug: ``,
-              isContextPane: true,
-            },
-          )
+          updateEventStream(Date.now(), {
+            id: pageContext.contextPane.id,
+            title: pageContext.contextPane.title,
+            slug: pageContext.contextPane.slug,
+            type: `Pane`,
+            verb,
+            isContextPane: true,
+          })
         processRead(`<`, `context`)
       }
     }
@@ -139,7 +120,6 @@ export default function ContextPage(props: IContextPageProps) {
     pageContext.contextPane.id,
     pageContext.contextPane.title,
     pageContext.contextPane.slug,
-    pushEvent,
   ])
 
   useEffect(() => {
@@ -171,8 +151,28 @@ export default function ContextPage(props: IContextPageProps) {
   }, [referrer, setReferrer])
 
   useEffect(() => {
-    if (!entered) setEntered(true)
-  }, [setEntered, entered])
+    if (!entered) {
+      setEntered(true)
+      setTimeout(
+        () =>
+          updateEventStream(Date.now(), {
+            id: pageContext.contextPane.id,
+            title: pageContext.contextPane.title,
+            slug: pageContext.contextPane.slug,
+            type: `Pane`,
+            verb: `ENTERED`,
+          }),
+        1000,
+      )
+    }
+  }, [
+    entered,
+    setEntered,
+    pageContext.contextPane.id,
+    pageContext.contextPane.title,
+    pageContext.contextPane.slug,
+    updateEventStream,
+  ])
 
   return (
     <Wrapper slug={pageContext.slug} mode="contextPane">

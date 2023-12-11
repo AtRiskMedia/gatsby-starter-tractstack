@@ -12,7 +12,9 @@ import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 
 const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const processRead = useStoryStepStore((state) => state.processRead)
-  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const updateEventStream = useStoryStepStore(
+    (state) => state.updateEventStream,
+  )
   const features = [
     {
       id: `builder`,
@@ -65,16 +67,17 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   ]
 
   const handleClick = (goto: string) => {
-    if (storyFragmentId && storyFragmentId?.paneId && storyFragmentId?.paneTitle)
-      pushEvent(
-        {
-          id: storyFragmentId.paneId,
-          title: storyFragmentId.paneTitle,
-          type: `Pane`,
-          verb: `CLICKED`,
-        },
-        storyFragmentId,
-      )
+    if (
+      storyFragmentId &&
+      storyFragmentId?.paneId &&
+      storyFragmentId?.paneTitle
+    )
+      updateEventStream(Date.now(), {
+        id: storyFragmentId.paneId,
+        title: storyFragmentId.paneTitle,
+        type: `Pane`,
+        verb: `CLICKED`,
+      })
     processRead(goto, `context`)
   }
 

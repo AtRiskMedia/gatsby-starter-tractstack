@@ -34,6 +34,7 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
   const [doingSync, setDoingSync] = useState<boolean>(false)
   const [beenSeenPanes, setBeenSeenPanes] = useState<Object>({})
   const [scrollTo, setScrollTo] = useState<String>(``)
+  const [forced, setForced] = useState(false)
   const lookup = `${viewportKey}-${payload.id}`
   const storyFragment = payload.storyFragment[lookup]
   const tractStackId = payload.tractStackId
@@ -109,6 +110,7 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
       setLastSync(now)
     }
     if (
+      !forced &&
       isLoggedIn &&
       !doingSync &&
       typeof eventStream === `object` &&
@@ -116,9 +118,12 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
       (!lastSync ||
         Date.now() - lastSync >
           config.conciergeSync * config.conciergeForceInterval)
-    )
+    ) {
+      setForced(true)
       doSync()
+    }
   }, [
+    forced,
     eventStream,
     isLoggedIn,
     lastSync,

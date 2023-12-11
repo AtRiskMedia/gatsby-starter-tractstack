@@ -101,6 +101,7 @@ export interface IEventStream {
   score?: string
   title?: string
   targetSlug?: string
+  isContextPane?: string
 }
 export interface IEventStreamDict {
   [key: string]: IEventStream

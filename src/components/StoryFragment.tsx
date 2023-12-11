@@ -16,7 +16,9 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
   const processRead = useStoryStepStore((state) => state.processRead)
-  const pushEvent = useStoryStepStore((state) => state.pushEvent)
+  const updateEventStream = useStoryStepStore(
+    (state) => state.updateEventStream,
+  )
   const entered = useStoryStepStore((state) => state.entered)
   const setEntered = useStoryStepStore((state) => state.setEntered)
   const storyFragmentPayload = storyFragmentCompositor({
@@ -27,7 +29,7 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
       youtube: YouTube,
       toggle: Toggle,
       processRead,
-      pushEvent,
+      updateEventStream,
       resourcePayload: payload.resources,
       templates,
       setScrollToPane,
@@ -39,15 +41,12 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
       setEntered(true)
       setTimeout(
         () =>
-          pushEvent(
-            {
-              id: payload.storyFragment.id,
-              title: payload.storyFragment.title,
-              type: `StoryFragment`,
-              verb: `ENTERED`,
-            },
-            payload.id,
-          ),
+          updateEventStream(Date.now(), {
+            id: payload.storyFragment.id,
+            title: payload.storyFragment.title,
+            type: `StoryFragment`,
+            verb: `ENTERED`,
+          }),
         1000,
       )
     }
@@ -57,7 +56,7 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
     payload.id,
     payload.storyFragment.id,
     payload.storyFragment.title,
-    pushEvent,
+    updateEventStream,
   ])
 
   return <StoryFragmentLive payload={storyFragmentPayload} />

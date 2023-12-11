@@ -83,8 +83,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `READ`
           : !!goto && duration > softReadThreshold
-            ? `GLOSSED`
-            : null
+          ? `GLOSSED`
+          : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -97,6 +97,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
           id: key,
           type: `Pane`,
           duration: duration / 1000,
+          parentId: parent,
         }
         updateEventStream(when, eventPayload)
         updatePanesVisible(key, false)
@@ -127,18 +128,13 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
-    if (storyFragmentId.isContextPane) {
-      const eventStream = { contextPane: payload }
-      const contentMap = {}
-      pushPayload({
-        eventStream,
-        contentMap,
-        tractStackId: storyFragmentId.slug,
-      })
-    } else if (
+    if (
       typeof storyFragmentId.id === `string` &&
       typeof storyFragmentId.title === `string` &&
-      typeof storyFragmentId.slug === `string`
+      typeof storyFragmentId.slug === `string` &&
+      typeof storyFragmentId.tractStackId === `string` &&
+      typeof storyFragmentId.tractStackTitle === `string` &&
+      typeof storyFragmentId.tractStackSlug === `string`
     ) {
       const contentMap = {
         [storyFragmentId.id]: {
@@ -165,6 +161,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         contentMap,
         tractStackId,
       })
+    } else {
+      console.log(`MISS in pushEvent on:`, storyFragmentId, payload)
     }
   },
   resetGotoLastPane: () => {

@@ -31,7 +31,13 @@ export async function pushPayload({
   tractStackId,
 }: IAxiosPushProps) {
   const nodes: any = {}
+  const events: any = {}
   Object.keys(eventStream).forEach((key) => {
+    events[key] = { ...eventStream[key] }
+    if (typeof events[key].isContextPane !== `undefined`)
+      delete events[key].isContextPane
+    if (typeof events[key].title !== `undefined`) delete events[key].title
+    if (typeof events[key].slug !== `undefined`) delete events[key].slug
     let matchPane: string = ``
     let matchStoryFragment: string = ``
     let matchTractStack: string = ``
@@ -64,7 +70,13 @@ export async function pushPayload({
       case `Pane`: // match "Pane" on id, then StoryFragment and TractStack
       case `Context`: // match "Pane" on id, then StoryFragment and TractStack
       case `StoryFragment`: // match StoryFragment on id
-        matchPane = thisEventStream.id
+        if (thisEventStream.isContextPane) {
+          nodes[thisEventStream.id] = {
+            title: thisEventStream.title,
+            slug: thisEventStream.slug,
+            type: `Pane`,
+          }
+        } else matchPane = thisEventStream.id
         break
 
       case `MenuItem`: {
@@ -109,49 +121,50 @@ export async function pushPayload({
         break
     }
 
-    if (key === `contextPane`) {
-      nodes[matchPane] = {
-        title: eventStream[key].title,
-        slug: tractStackId,
-        type: `Pane`,
+    if (matchTractStack && !nodes?.matchTractStack) {
+      nodes[matchTractStack] = {
+        title: contentMap[matchTractStack]?.title,
+        type: contentMap[matchTractStack]?.type,
+        slug: contentMap[matchTractStack]?.slug,
       }
-    } else {
-      if (matchTractStack && !nodes?.matchTractStack)
-        nodes[matchTractStack] = {
-          title: contentMap[matchTractStack]?.title,
-          type: contentMap[matchTractStack]?.type,
-          slug: contentMap[matchTractStack]?.slug,
+    }
+    if (matchPane && !nodes?.matchPane) {
+      matchStoryFragment = contentMap[matchPane]?.parentId
+      if (typeof contentMap[matchPane] === `undefined`)
+        nodes[matchPane] = {
+          title: thisEventStream.title,
+          slug: thisEventStream.slug,
+          type: `Pane`,
         }
-      if (matchPane && !nodes?.matchPane) {
+      else
         nodes[matchPane] = {
           title: contentMap[matchPane]?.title,
           slug: contentMap[matchPane]?.slug,
           type: contentMap[matchPane]?.type,
           parentId: contentMap[matchPane]?.parentId,
         }
-        matchStoryFragment = contentMap[matchPane]?.parentId
+    }
+    if (matchStoryFragment && !nodes?.matchStoryFragment) {
+      nodes[matchStoryFragment] = {
+        title: contentMap[matchStoryFragment]?.title,
+        slug: contentMap[matchStoryFragment]?.slug,
+        type: contentMap[matchStoryFragment]?.type,
+        parentId: contentMap[matchStoryFragment]?.parentId,
       }
-      if (matchStoryFragment && !nodes?.matchStoryFragment) {
-        nodes[matchStoryFragment] = {
-          title: contentMap[matchStoryFragment]?.title,
-          slug: contentMap[matchStoryFragment]?.slug,
-          type: contentMap[matchStoryFragment]?.type,
-          parentId: contentMap[matchStoryFragment]?.parentId,
+      matchTractStack = contentMap[matchStoryFragment]?.parentId
+      if (matchTractStack && !nodes?.matchTractStack) {
+        nodes[matchTractStack] = {
+          title: contentMap[matchTractStack]?.title,
+          type: contentMap[matchTractStack]?.type,
+          slug: contentMap[matchTractStack]?.slug,
         }
-        matchTractStack = contentMap[matchStoryFragment]?.parentId
-        if (matchTractStack && !nodes?.matchTractStack)
-          nodes[matchTractStack] = {
-            title: contentMap[matchTractStack]?.title,
-            type: contentMap[matchTractStack]?.type,
-            slug: contentMap[matchTractStack]?.slug,
-          }
       }
     }
   })
 
   return client.post(`/users/eventStream`, {
     nodes,
-    events: eventStream,
+    events,
   })
 }
 
