@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useInterval } from 'gatsby-plugin-tractstack'
-import { Helmet } from 'react-helmet'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -69,7 +68,7 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
   const impressions =
     typeof storyFragment !== `undefined` ? storyFragment.impressions : null
   const impressionPanes: any[] = []
-  const hasH5P = payload.storyFragment[`${viewportKey}-${payload.id}`]!.hasH5P
+  //  const hasH5P = payload.storyFragment[`${viewportKey}-${payload.id}`]!.hasH5P
   Object.keys(panesVisible).forEach((key) => {
     if (
       typeof panesVisible[key] === `number` &&
@@ -171,11 +170,6 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
 
   return (
     <>
-      {hasH5P ? (
-        <Helmet>
-          <script src="/h5p-resizer.js" />
-        </Helmet>
-      ) : null}
       <main>
         {!zoom || zoomOverride ? (
           <StyledWrapperSection key={`${viewportKey}`} css={thisCss}>
@@ -228,3 +222,11 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
 }
 
 export default StoryFragmentLive
+
+/* -- no longer injecting for h5p
+      {hasH5P ? (
+        <Helmet>
+          <script src="/h5p-resizer.js" />
+        </Helmet>
+      ) : null}
+*/

@@ -80,12 +80,12 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
       !isLoggedIn && typeof fingerprint === `string` && fingerprint.length > 0
         ? true
         : !isLoggedIn &&
-          typeof encryptedEmail === `string` &&
-          encryptedEmail.length > 0 &&
-          typeof encryptedCode === `string` &&
-          encryptedCode.length > 0
-        ? true
-        : !validToken
+            typeof encryptedEmail === `string` &&
+            encryptedEmail.length > 0 &&
+            typeof encryptedCode === `string` &&
+            encryptedCode.length > 0
+          ? true
+          : !validToken
 
     if (
       lastRun + 2000 < Date.now() &&
@@ -144,8 +144,8 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
         thisWidth < 801
           ? (thisWidth - scrollBarOffset) / 601
           : thisWidth < 1367
-          ? (thisWidth - scrollBarOffset) / 1081
-          : (thisWidth - scrollBarOffset) / 1921
+            ? (thisWidth - scrollBarOffset) / 1081
+            : (thisWidth - scrollBarOffset) / 1921
       document.documentElement.style.setProperty(
         `--scale`,
         thisScale.toString(),

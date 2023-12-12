@@ -84,8 +84,8 @@ function ToggleBeliefTags(
     viewportKey === `desktop`
       ? `px-8`
       : viewportKey === `tablet`
-      ? `px-6`
-      : `px-2`
+        ? `px-6`
+        : `px-2`
   return (
     <div key={id.id} className="relative">
       <div
@@ -139,8 +139,8 @@ function ToggleBeliefGrid(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -233,8 +233,8 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -292,8 +292,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -301,8 +301,8 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
       viewportKey === `desktop`
         ? `800`
         : viewportKey === `tablet`
-        ? `400`
-        : `200`
+          ? `400`
+          : `200`
     const injectPayload = function (): void {
       if (concierge) concierge(actionLisp, hooks, id.id)
     }
@@ -352,8 +352,8 @@ function VideoItem(
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image
@@ -361,8 +361,8 @@ function VideoItem(
       viewportKey === `desktop`
         ? `1920`
         : viewportKey === `tablet`
-        ? `800`
-        : `400`
+          ? `800`
+          : `400`
     const poster =
       artpackCollection === `static`
         ? `/${artpackImage}.${artpackFiletype}`
@@ -448,8 +448,8 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
     const artpack = hasArtpackAll
       ? hasArtpack.all
       : hasArtpackViewport
-      ? hasArtpack[viewportKey]
-      : null
+        ? hasArtpack[viewportKey]
+        : null
     const artpackFiletype = artpack?.filetype
     const artpackCollection = artpack?.collection
     const artpackImage = artpack?.image

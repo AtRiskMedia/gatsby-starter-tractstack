@@ -19,9 +19,8 @@ export const useShopifyStore = create<IShopifyStoreState>((set, get) => ({
         : null
       if (existingCheckoutID && existingCheckoutID !== `null`) {
         try {
-          const existingCheckout = await client.checkout.fetch(
-            existingCheckoutID,
-          )
+          const existingCheckout =
+            await client.checkout.fetch(existingCheckoutID)
           if (!existingCheckout.completedAt) {
             setCheckoutItem(existingCheckout)
             return

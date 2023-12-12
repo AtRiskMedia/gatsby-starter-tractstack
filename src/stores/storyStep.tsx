@@ -80,11 +80,11 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       if (typeof value !== `number`) continue
       const duration = now - value
       const verb =
-        (!!goto && duration) > readThreshold || duration > readThreshold * 2
+        (!!goto && duration > readThreshold) || duration > readThreshold * 2
           ? `READ`
           : !!goto && duration > softReadThreshold
-          ? `GLOSSED`
-          : null
+            ? `GLOSSED`
+            : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {

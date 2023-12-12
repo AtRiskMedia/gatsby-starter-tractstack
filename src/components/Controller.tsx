@@ -81,8 +81,8 @@ const Controller = ({
     impressions && typeof impressionPanes[offset] !== `undefined`
       ? impressions[impressionPanes[offset]]
       : impressions
-      ? impressions[impressionPanes[0]]
-      : null
+        ? impressions[impressionPanes[0]]
+        : null
   const thisImpression: any =
     typeof offsetImpression === `object` &&
     offsetImpression !== null &&

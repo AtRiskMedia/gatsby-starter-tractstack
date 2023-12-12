@@ -9,21 +9,19 @@ interface Meta {
 }
 
 function Seo({ description, title, socialImagePath }: Meta) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-            image
-            siteUrl
-          }
+  const { site } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+          description
+          author
+          image
+          siteUrl
         }
       }
-    `,
-  )
+    }
+  `)
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
   const image =

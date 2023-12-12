@@ -135,34 +135,34 @@ const ConciergeProfile = () => {
     personaSelected.title === `DMs open`
       ? ChatBubbleBottomCenterIcon
       : personaSelected.title === `Major Updates Only`
-      ? ArrowPathRoundedSquareIcon
-      : personaSelected.title === `All Updates`
-      ? BoltIcon
-      : BellSlashIcon
+        ? ArrowPathRoundedSquareIcon
+        : personaSelected.title === `All Updates`
+          ? BoltIcon
+          : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
       ? `text-allblack`
       : personaSelected.title === `Major Updates Only`
-      ? `text-darkgrey`
-      : personaSelected.title === `All Updates`
-      ? `text-orange`
-      : `text-darkgrey`
+        ? `text-darkgrey`
+        : personaSelected.title === `All Updates`
+          ? `text-orange`
+          : `text-darkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-green`
       : personaSelected.title === `All Updates`
-      ? `bg-orange/90`
-      : personaSelected.title === `Major Updates Only`
-      ? `bg-orange/50`
-      : `bg-darkgrey`
+        ? `bg-orange/90`
+        : personaSelected.title === `Major Updates Only`
+          ? `bg-orange/50`
+          : `bg-darkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
       : personaSelected.title === `All Updates`
-      ? `100%`
-      : personaSelected.title === `Major Updates Only`
-      ? `50%`
-      : `2%`
+        ? `100%`
+        : personaSelected.title === `Major Updates Only`
+          ? `50%`
+          : `2%`
 
   useEffect(() => {
     if (contactPersona) {
@@ -225,14 +225,14 @@ const ConciergeProfile = () => {
       target?.type === `storyFragment`
         ? `/${target.id}/`
         : target?.type === `contextPane`
-        ? `/context/${target.id}`
-        : target?.type === `conciergePage`
-        ? `/concierge/${target.id}`
-        : target?.type === `product`
-        ? `/products/${target.id}`
-        : target?.type === `/breadcrumbs`
-        ? `${target.id}`
-        : `/${config.home}`
+          ? `/context/${target.id}`
+          : target?.type === `conciergePage`
+            ? `/concierge/${target.id}`
+            : target?.type === `product`
+              ? `/products/${target.id}`
+              : target?.type === `/breadcrumbs`
+                ? `${target.id}`
+                : `/${config.home}`
     navigate(`${thisTo}`)
   }
 

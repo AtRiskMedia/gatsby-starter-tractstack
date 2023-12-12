@@ -75,8 +75,8 @@ const Breadcrumbs = (data: any) => {
     viewportKey === `mobile`
       ? `600`
       : viewportKey === `tablet`
-      ? `1080`
-      : `1920`
+        ? `1080`
+        : `1920`
   const hasBreadcrumbs = Object.keys(storySteps)?.length
   const memory: any[] = []
   const breadcrumbs = Object.keys(storySteps)?.map((e: any, i: number) => {
@@ -102,38 +102,38 @@ const Breadcrumbs = (data: any) => {
       thisStoryFragmentPayload[0].node
         ? `storyFragment`
         : thisContextPanePayload &&
-          thisContextPanePayload[0] &&
-          thisContextPanePayload[0].title
-        ? `contextPane`
-        : thisConciergePagePayload && thisConciergePagePayload[0]
-        ? `conciergePage`
-        : isProduct
-        ? `product`
-        : null
+            thisContextPanePayload[0] &&
+            thisContextPanePayload[0].title
+          ? `contextPane`
+          : thisConciergePagePayload && thisConciergePagePayload[0]
+            ? `conciergePage`
+            : isProduct
+              ? `product`
+              : null
     const thisPayload =
       type === `storyFragment`
         ? thisStoryFragmentPayload &&
           thisStoryFragmentPayload[0] &&
           thisStoryFragmentPayload[0].node
         : type === `contextPane`
-        ? thisContextPanePayload &&
-          thisContextPanePayload[0] &&
-          thisContextPanePayload[0]
-        : type === `conciergePage`
-        ? thisConciergePagePayload && thisConciergePagePayload[0]
-        : isProduct
-        ? product
-        : null
+          ? thisContextPanePayload &&
+            thisContextPanePayload[0] &&
+            thisContextPanePayload[0]
+          : type === `conciergePage`
+            ? thisConciergePagePayload && thisConciergePagePayload[0]
+            : isProduct
+              ? product
+              : null
     const thisTo =
       type === `storyFragment`
         ? `/${thisPayload.slug}/${viewportWidth}`
         : type === `contextPane`
-        ? `/context/${thisPayload.slug}`
-        : type === `conciergePage`
-        ? `/concierge/${thisPayload.id}`
-        : type === `product`
-        ? `/products/${thisPayload.handle}`
-        : null
+          ? `/context/${thisPayload.slug}`
+          : type === `conciergePage`
+            ? `/concierge/${thisPayload.id}`
+            : type === `product`
+              ? `/products/${thisPayload.handle}`
+              : null
     if (thisPayload && thisTo)
       return (
         <p key={`${thisPayload.id}-${i}`} className="text-center p-6">

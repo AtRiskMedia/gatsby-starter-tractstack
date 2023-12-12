@@ -336,8 +336,8 @@ const RenderPane = ({
                 duration > readThreshold
                   ? `READ`
                   : duration > softReadThreshold
-                  ? `GLOSSED`
-                  : null
+                    ? `GLOSSED`
+                    : null
               if (verb) {
                 const eventPayload = {
                   verb,

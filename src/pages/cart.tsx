@@ -18,8 +18,8 @@ const Cart = () => {
     viewportKey === `mobile`
       ? `600`
       : viewportKey === `tablet`
-      ? `1080`
-      : `1920`
+        ? `1080`
+        : `1920`
   const goto = `/${config.home}/${viewportWidth}`
   const checkout = useShopifyStore((state) => state.checkout)
   const loading = useShopifyStore((state) => state.loading)

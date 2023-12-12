@@ -41,7 +41,7 @@ export default function ContextPage(props: IContextPageProps) {
     setScrollToPane,
   }
   const [now] = useState(Date.now())
-  const thisWidth = typeof window !== `undefined` ? window?.innerWidth : `600`
+  const thisWidth = typeof window !== `undefined` ? window?.innerWidth : 600
   const viewportWidth =
     thisWidth < 801 ? `600` : thisWidth < 1367 ? `1080` : `1920`
   const goto =
@@ -74,8 +74,8 @@ export default function ContextPage(props: IContextPageProps) {
       duration > readThreshold
         ? `READ`
         : duration > softReadThreshold
-        ? `GLOSSED`
-        : null
+          ? `GLOSSED`
+          : null
     if (verb)
       updateEventStream(Date.now(), {
         id: pageContext.contextPane.id,
@@ -96,8 +96,8 @@ export default function ContextPage(props: IContextPageProps) {
           duration > readThreshold
             ? `READ`
             : duration > softReadThreshold
-            ? `GLOSSED`
-            : null
+              ? `GLOSSED`
+              : null
         if (verb)
           updateEventStream(Date.now(), {
             id: pageContext.contextPane.id,
