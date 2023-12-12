@@ -129,6 +129,7 @@ const RenderPane = ({
   const [withhold, setWithhold] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
+  console.log(`beliefs`, beliefs)
   const unsetBelief = useAuthStore((state) => state.unsetBelief)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const withheldPanes = useStoryStepStore((state) => state.withheldPanes)
@@ -150,7 +151,7 @@ const RenderPane = ({
   const hasHiddenPane: any = thisPane.hasHiddenPane
   const thisPaneChildren =
     hasCodeHook?.target &&
-    (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
+      (hasCodeHook.target === `h5p` || hasCodeHook.target === `iframe`) ? (
       <CodeHookIframe
         thisId={thisId}
         payload={hasCodeHook}
@@ -179,6 +180,7 @@ const RenderPane = ({
     typeof thisPane?.withheldBeliefs === `object`
       ? thisPane.withheldBeliefs
       : null
+  console.log(`h/w`, heldBeliefs, withheldBeliefs)
   const boundBelief = heldBeliefs ? Object.keys(heldBeliefs)[0] : null
   const hasMaxHScreen =
     typeof thisPane?.hasMaxHScreen === `boolean`
@@ -189,7 +191,7 @@ const RenderPane = ({
       ? thisPane.hasOverflowHidden
       : false
 
-  const doUnsetBelief = function (): void {
+  const doUnsetBelief = function(): void {
     unsetBelief(boundBelief)
     pushEvent(
       {
@@ -336,8 +338,8 @@ const RenderPane = ({
                 duration > readThreshold
                   ? `READ`
                   : duration > softReadThreshold
-                  ? `GLOSSED`
-                  : null
+                    ? `GLOSSED`
+                    : null
               if (verb) {
                 const eventPayload = {
                   verb,

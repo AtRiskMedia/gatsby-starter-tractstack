@@ -83,8 +83,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         (!!goto && duration) > readThreshold || duration > readThreshold * 2
           ? `READ`
           : !!goto && duration > softReadThreshold
-          ? `GLOSSED`
-          : null
+            ? `GLOSSED`
+            : null
       if (key && verb && !panesRead?.key) {
         let when = 0
         while (!when) {
@@ -128,6 +128,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
+    console.log(`pushEvent`, payload, storyFragmentId)
     if (
       typeof storyFragmentId.id === `string` &&
       typeof storyFragmentId.title === `string` &&
