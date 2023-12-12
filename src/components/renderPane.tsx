@@ -129,7 +129,6 @@ const RenderPane = ({
   const [withhold, setWithhold] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const beliefs = useAuthStore((state) => state.beliefs)
-  console.log(`beliefs`, beliefs)
   const unsetBelief = useAuthStore((state) => state.unsetBelief)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const withheldPanes = useStoryStepStore((state) => state.withheldPanes)
@@ -180,7 +179,6 @@ const RenderPane = ({
     typeof thisPane?.withheldBeliefs === `object`
       ? thisPane.withheldBeliefs
       : null
-  console.log(`h/w`, heldBeliefs, withheldBeliefs)
   const boundBelief = heldBeliefs ? Object.keys(heldBeliefs)[0] : null
   const hasMaxHScreen =
     typeof thisPane?.hasMaxHScreen === `boolean`

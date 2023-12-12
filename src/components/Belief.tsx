@@ -20,7 +20,6 @@ const Belief = ({
   cssClassesExtra = ``,
   storyFragmentId,
 }: IBeliefProps) => {
-  console.log(value, storyFragmentId)
   const thisScaleLookup = value.scale
   const extra = value && typeof value.extra === `string` ? value.extra : null
   // @ts-expect-error

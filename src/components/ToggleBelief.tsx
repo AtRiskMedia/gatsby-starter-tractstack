@@ -14,7 +14,6 @@ const ToggleBelief = ({
   cssClasses,
   storyFragmentId,
 }: IToggleBeliefProps) => {
-  console.log(`ToggleBelief`, belief, value, prompt, storyFragmentId)
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
   const enabled = !![

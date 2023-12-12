@@ -128,7 +128,6 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     else navigate(`/${goto}/`)
   },
   pushEvent: (payload: IEventStream, storyFragmentId: IStoryFragmentId) => {
-    console.log(`pushEvent`, payload, storyFragmentId)
     if (
       typeof storyFragmentId.id === `string` &&
       typeof storyFragmentId.title === `string` &&
