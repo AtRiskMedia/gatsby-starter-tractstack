@@ -54,7 +54,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     },
     {
       id: `qualifyLeads`,
-      title: `Allows you to "qualify" your leads`,
+      title: `Help leads qualify themselves`,
       description: `Easily create interactive 'mini-funnels' that pre-filter or onboard prospective new buyers/clients.`,
       icon: (
         <BeakerIcon
