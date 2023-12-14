@@ -9,6 +9,7 @@ import { getTokens } from '../api/axiosClient'
 import { IWrapperProps } from 'gatsby-plugin-tractstack/types'
 
 const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
+  const [loaded, setLoaded] = useState<boolean>(false)
   const [loggingIn, setLoggingIn] = useState(false)
   const [lastRun, setLastRun] = useState(0)
   const viewportKey = useAuthStore((state) => state.viewportKey)
@@ -21,13 +22,12 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const validToken = useAuthStore((state) => state.validToken)
   const fingerprint = useAuthStore((state) => state.fingerprint)
   const setFingerprint = useAuthStore((state) => state.setFingerprint)
-  const [loaded, setLoaded] = useState<boolean>(false)
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const referrer = useAuthStore((state) => state.referrer)
   const setReferrer = useAuthStore((state) => state.setReferrer)
   const scrollToPane = useStoryStepStore((state) => state.scrollToPane)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
-  const setZoom = useStoryStepStore((state) => state.setZoom)
+  // const setZoom = useStoryStepStore((state) => state.setZoom)
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -156,6 +156,7 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     return () => window.removeEventListener(`resize`, handleResize)
   }, [viewportKey, slug, mode, setViewportKey])
 
+  /*
   useEffect(() => {
     function listenOnDevicePixelRatio() {
       function onChange() {
@@ -173,6 +174,7 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     }
     listenOnDevicePixelRatio()
   }, [setZoom])
+  */
 
   return children
 }
