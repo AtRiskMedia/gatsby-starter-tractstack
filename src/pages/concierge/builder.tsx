@@ -9,11 +9,11 @@ import Footer from '../../components/Footer'
 const Builder = () => {
   return (
     <Wrapper slug="builder" mode="conciergePage">
-      <Header siteTitle="Builder" open={true} />
+      <Header siteTitle="Builder | Tract Stack Story Keep" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 sm:px-4 lg:px-6 lg:py-6">
-            <div className="overflow-hidden rounded-lg bg-slate-50 shadow h-max">
+            <div className="overflow-hidden rounded-lg bg-mydarkgrey shadow h-max">
               <div className="p-1 h-screen">
                 <iframe
                   title="Tract Stack Story Keep"
