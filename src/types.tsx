@@ -11,6 +11,7 @@ export interface IStoryFragmentRaw {
   payload: {
     resources: any // FIX
     storyFragment: any // FIX
+    contextPanesMap: any // FIX
     id: any
   }
 }

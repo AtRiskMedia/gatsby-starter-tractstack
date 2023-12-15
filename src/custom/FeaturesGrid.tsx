@@ -66,7 +66,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
     },
   ]
 
-  const handleClick = (goto: string) => {
+  const handleClick = (goto: string, targetSlug: string) => {
     if (
       storyFragmentId &&
       storyFragmentId?.paneId &&
@@ -77,6 +77,14 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         title: storyFragmentId.paneTitle,
         type: `Pane`,
         verb: `CLICKED`,
+      })
+    if ((storyFragmentId?.paneId, storyFragmentId?.paneTitle, targetSlug))
+      updateEventStream(Date.now(), {
+        id: storyFragmentId?.paneId,
+        title: storyFragmentId?.paneTitle,
+        targetSlug,
+        type: `Pane`,
+        verb: `CONNECTED`,
       })
     processRead(goto, `context`)
   }
@@ -103,7 +111,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                     {feature.description}
                     {` `}
                     <button
-                      onClick={() => handleClick(feature.goto)}
+                      onClick={() => handleClick(feature.goto, feature.id)}
                       className="text-xs hover:text-allblack text-blue underline underline-offset-2"
                     >
                       Why?

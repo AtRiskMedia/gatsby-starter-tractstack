@@ -71,6 +71,11 @@ export const query = graphql`
             }
           }
         }
+        contextPanes: field_context_panes {
+          id: drupal_id
+          title
+          slug: field_slug
+        }
         panes: field_panes {
           id: drupal_id
           title
@@ -145,6 +150,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
         payload={{
           storyFragment: data.nodeStoryFragment,
           resources: data.allNodeResource?.edges,
+          contextPanesMap: data.nodeStoryFragment.relationships.contextPanes,
           id: {
             id: storyFragmentId,
             title: storyFragmentTitle,

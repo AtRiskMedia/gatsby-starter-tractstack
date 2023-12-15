@@ -84,6 +84,7 @@ export default function ContextPage(props: IContextPageProps) {
         type: `Pane`,
         verb,
         isContextPane: true,
+        duration: duration / 1000,
       })
     processRead(`<`, `context`)
   }
@@ -106,6 +107,7 @@ export default function ContextPage(props: IContextPageProps) {
             type: `Pane`,
             verb,
             isContextPane: true,
+            duration: duration / 1000,
           })
         processRead(`<`, `context`)
       }

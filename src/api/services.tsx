@@ -34,18 +34,23 @@ export async function pushPayload({
   const events: any = {}
   Object.keys(eventStream).forEach((key) => {
     events[key] = { ...eventStream[key] }
+    if (events[key].verb === `CONNECTED`)
+      Object.keys(contentMap).forEach((e: any) => {
+        if (contentMap[e].slug === events[key].targetSlug)
+          events[key].parentId = e
+      })
     if (typeof events[key].isContextPane !== `undefined`)
       delete events[key].isContextPane
     if (typeof events[key].title !== `undefined`) delete events[key].title
     if (typeof events[key].slug !== `undefined`) delete events[key].slug
+    if (typeof events[key].targetSlug !== `undefined`)
+      delete events[key].targetSlug
     let matchPane: string = ``
     let matchStoryFragment: string = ``
     let matchTractStack: string = ``
-    let e: any
-    const thisEventStream: any = eventStream[key]
-    switch (thisEventStream.type) {
+    const e: any = events[key]
+    switch (e.type) {
       case `H5P`: // match "pane" on parentId
-        e = eventStream[key]
         if (e?.id && typeof e.id === `string` && e.targetId)
           nodes[e.id] = {
             title: e?.title,
@@ -56,7 +61,6 @@ export async function pushPayload({
         break
 
       case `Impression`: // match "StoryFragment" on targetId
-        e = eventStream[key]
         if (e?.id && typeof e.id === `string` && e?.targetId) {
           nodes[e.id] = {
             title: e?.title,
@@ -70,19 +74,25 @@ export async function pushPayload({
       case `Pane`: // match "Pane" on id, then StoryFragment and TractStack
       case `Context`: // match "Pane" on id, then StoryFragment and TractStack
       case `StoryFragment`: // match StoryFragment on id
-        if (thisEventStream.isContextPane) {
-          nodes[thisEventStream.id] = {
-            title: thisEventStream.title,
-            slug: thisEventStream.slug,
+        if (e.verb === `CONNECTED` && e.parentId && e.type === `StoryFragment`)
+          nodes[e.parentId] = {
+            title: contentMap[e.parentId].title,
+            slug: contentMap[e.parentId].slug,
+            type: contentMap[e.parentId].type,
+            parentId: contentMap[e.parentId].parentId,
+          }
+        if (e.isContextPane)
+          nodes[e.id] = {
+            title: e.title,
+            slug: e.slug,
             type: `Pane`,
           }
-        } else matchPane = thisEventStream.id
+        else matchPane = e.id
         break
 
       case `MenuItem`: {
         // match "StoryFragment" on targetSlug
         let lookup: string = ``
-        e = eventStream[key]
         let k: keyof typeof contentMap
         for (k in contentMap) {
           const thisSlug = contentMap[k]
@@ -101,7 +111,6 @@ export async function pushPayload({
       case `Belief`: // no match required
         if (tractStackId) {
           matchTractStack = tractStackId
-          e = eventStream[key]
           if (e?.id && !nodes[e.id])
             nodes[e.id] = {
               title: e?.title,
@@ -116,47 +125,48 @@ export async function pushPayload({
           `bad event handler type`,
           key,
           eventStream[key],
-          contentMap[thisEventStream.id],
+          events[key],
+          contentMap[e.id],
         )
         break
     }
 
     if (matchTractStack && !nodes?.matchTractStack) {
       nodes[matchTractStack] = {
-        title: contentMap[matchTractStack]?.title,
-        type: contentMap[matchTractStack]?.type,
-        slug: contentMap[matchTractStack]?.slug,
+        title: contentMap[matchTractStack].title,
+        type: contentMap[matchTractStack].type,
+        slug: contentMap[matchTractStack].slug,
       }
     }
     if (matchPane && !nodes?.matchPane) {
       matchStoryFragment = contentMap[matchPane]?.parentId
       if (typeof contentMap[matchPane] === `undefined`)
         nodes[matchPane] = {
-          title: thisEventStream.title,
-          slug: thisEventStream.slug,
+          title: e.title,
+          slug: e.slug,
           type: `Pane`,
         }
       else
         nodes[matchPane] = {
-          title: contentMap[matchPane]?.title,
-          slug: contentMap[matchPane]?.slug,
-          type: contentMap[matchPane]?.type,
-          parentId: contentMap[matchPane]?.parentId,
+          title: contentMap[matchPane].title,
+          slug: contentMap[matchPane].slug,
+          type: contentMap[matchPane].type,
+          parentId: contentMap[matchPane].parentId,
         }
     }
     if (matchStoryFragment && !nodes?.matchStoryFragment) {
       nodes[matchStoryFragment] = {
-        title: contentMap[matchStoryFragment]?.title,
-        slug: contentMap[matchStoryFragment]?.slug,
-        type: contentMap[matchStoryFragment]?.type,
-        parentId: contentMap[matchStoryFragment]?.parentId,
+        title: contentMap[matchStoryFragment].title,
+        slug: contentMap[matchStoryFragment].slug,
+        type: contentMap[matchStoryFragment].type,
+        parentId: contentMap[matchStoryFragment].parentId,
       }
-      matchTractStack = contentMap[matchStoryFragment]?.parentId
+      matchTractStack = contentMap[matchStoryFragment].parentId
       if (matchTractStack && !nodes?.matchTractStack) {
         nodes[matchTractStack] = {
-          title: contentMap[matchTractStack]?.title,
-          type: contentMap[matchTractStack]?.type,
-          slug: contentMap[matchTractStack]?.slug,
+          title: contentMap[matchTractStack].title,
+          type: contentMap[matchTractStack].type,
+          slug: contentMap[matchTractStack].slug,
         }
       }
     }

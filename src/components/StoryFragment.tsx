@@ -59,7 +59,12 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
     updateEventStream,
   ])
 
-  return <StoryFragmentLive payload={storyFragmentPayload} />
+  return (
+    <StoryFragmentLive
+      payload={storyFragmentPayload}
+      contextPanesMap={payload.contextPanesMap}
+    />
+  )
 }
 
 export default StoryFragment

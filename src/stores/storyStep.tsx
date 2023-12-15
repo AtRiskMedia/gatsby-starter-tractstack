@@ -92,13 +92,19 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
           if (eventStream[(now - offset).toString()] === undefined)
             when = now - offset
         }
-        const eventPayload = {
+        const eventPayload: {
+          verb: string
+          id: string
+          type: string
+          duration: number
+          parentId?: string
+        } = {
           verb,
           id: key,
           type: `Pane`,
           duration: duration / 1000,
-          parentId: parent,
         }
+        if (parent) eventPayload.parentId = parent
         updateEventStream(when, eventPayload)
         updatePanesVisible(key, false)
         if (verb === `READ`) updatePanesRead(key, true)

@@ -19,7 +19,10 @@ const StyledWrapperSection = styled.section<IStyledWrapperSectionProps>`
   ${(props: any) => props.css};
 `
 
-const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
+const StoryFragmentLive = ({
+  payload,
+  contextPanesMap,
+}: IStoryFragmentProps) => {
   const viewportKey = useAuthStore((state) => state.viewportKey)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const lastSync = useAuthStore((state) => state.lastSync)
@@ -93,10 +96,23 @@ const StoryFragmentLive = ({ payload }: IStoryFragmentProps) => {
 
   useEffect(() => {
     if (!contentMapSyncd && thisContentMap) {
+      contextPanesMap.forEach((e: any) => {
+        thisContentMap[e.id] = {
+          hasHiddenPane: false,
+          hasMaxHScreen: false,
+          hasOverflowHidden: false,
+          heldBeliefs: {},
+          withheldBeliefs: {},
+          parentId: ``,
+          slug: e.slug,
+          title: e.title,
+          type: `Pane`,
+        }
+      })
       updateContentMap(thisContentMap)
       setContentMapSyncd(true)
     }
-  }, [contentMapSyncd, thisContentMap, updateContentMap])
+  }, [contextPanesMap, contentMapSyncd, thisContentMap, updateContentMap])
 
   useEffect(() => {
     function doSync() {
