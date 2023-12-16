@@ -11,7 +11,7 @@ const D3 = ({ options, slug }: ID3Props) => {
       if (JSON.stringify(options) !== JSON.stringify(thisOptions)) {
         setThisOptions(options)
       }
-      if (thisOptions?.neo4jData) (() => new Neo4jd3(`#${slug}`, thisOptions))()
+      if (thisOptions?.neo4jData) Neo4jd3(`#${slug}`, thisOptions)
     },
     [slug, options, thisOptions, setThisOptions],
   )
