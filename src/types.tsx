@@ -1,7 +1,4 @@
-import {
-  IContentMapDict,
-  IStoryFragmentId,
-} from 'gatsby-plugin-tractstack/types'
+import { IContentMapDict, IStoryFragmentId } from '@tractstack/types'
 
 export interface IStoryFragmentPayload {
   data: any // FIX

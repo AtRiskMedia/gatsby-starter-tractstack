@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 import { Link } from 'gatsby'
-import { formatPrice } from 'gatsby-plugin-tractstack'
+import { formatPrice } from '@tractstack/helpers'
 
 import Seo from '../components/Seo'
 import Header from '../components/Header'

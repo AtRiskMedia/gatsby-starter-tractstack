@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, Fragment } from 'react'
 import { PlayIcon } from '@heroicons/react/20/solid'
-import { classNames } from 'gatsby-plugin-tractstack'
+import { classNames } from '@tractstack/helpers'
 
 import { IYouTubeProps } from 'src/types'
 

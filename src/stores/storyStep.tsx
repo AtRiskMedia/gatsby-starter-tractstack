@@ -4,10 +4,7 @@ import { navigate } from 'gatsby'
 import { config } from '../../data/SiteConfig'
 import { pushPayload } from '../api/services'
 import { IEventStream, IStoryStepStoreState } from '../types'
-import {
-  IContentMapDict,
-  IStoryFragmentId,
-} from 'gatsby-plugin-tractstack/types'
+import { IContentMapDict, IStoryFragmentId } from '@tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold

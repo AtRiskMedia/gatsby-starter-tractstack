@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { IStoryFragmentRenderProps } from 'gatsby-plugin-tractstack/types'
+import { IStoryFragmentRenderProps } from '@tractstack/types'
 
 import Footer from './Footer'
 import RenderPane from './renderPane'

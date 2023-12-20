@@ -44,6 +44,8 @@
     "@fingerprintjs/fingerprintjs": "3.4.0",
     "@headlessui/react": "1.7.17",
     "@heroicons/react": "2.0.18",
+    "@tractstack/helpers": "0.1.3",
+    "@tractstack/types": "0.1.3",
     "babel-plugin-styled-components": "2.1.4",
     "gatsby": "5.12.12",
     "gatsby-plugin-image": "3.12.3",

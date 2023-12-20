@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState, useEffect } from 'react'
 import { InView } from 'react-cool-inview'
-import { classNames } from 'gatsby-plugin-tractstack'
+import { classNames } from '@tractstack/helpers'
 import IframeResizer from 'iframe-resizer-react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 
@@ -17,7 +17,7 @@ import {
   ICodeHookShopifyProps,
   IPaneProps,
   IRenderPaneProps,
-} from 'gatsby-plugin-tractstack/types'
+} from '@tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold

@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useCallback, useEffect } from 'react'
 import { graphql } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { formatPrice, classNames } from 'gatsby-plugin-tractstack'
+import { formatPrice, classNames } from '@tractstack/helpers'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 

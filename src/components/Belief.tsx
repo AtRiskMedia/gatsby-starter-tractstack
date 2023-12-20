@@ -6,7 +6,7 @@ import {
   classNames,
   heldBeliefsScales,
   heldBeliefsTitles,
-} from 'gatsby-plugin-tractstack'
+} from '@tractstack/helpers'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'

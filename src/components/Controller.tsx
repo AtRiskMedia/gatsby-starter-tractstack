@@ -1,11 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 import { XMarkIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
-import { concierge, lispLexer, useInterval } from 'gatsby-plugin-tractstack'
-import {
-  IImpressionProps,
-  IControllerProps,
-} from 'gatsby-plugin-tractstack/types'
+import { concierge, lispLexer, useInterval } from '@tractstack/helpers'
+import { IImpressionProps, IControllerProps } from '@tractstack/types'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'

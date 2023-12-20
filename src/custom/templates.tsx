@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState } from 'react'
-import { ITemplateDict } from 'gatsby-plugin-tractstack/types'
-import { ParseOptions, lispLexer, classNames } from 'gatsby-plugin-tractstack'
+import { ITemplateDict } from '@tractstack/types'
+import { ParseOptions, lispLexer, classNames } from '@tractstack/helpers'
 import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../stores/authStore'

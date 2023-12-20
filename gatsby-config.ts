@@ -149,6 +149,7 @@ const config: GatsbyConfig = {
                 ...page,
                 ...overrideNodes[page.path],
               }
+            // prevents stale pages from pretending to be new; to appease Google/SEO
             return { ...page, modifiedGmt: lastEpoc }
           })
         },
@@ -161,7 +162,6 @@ const config: GatsbyConfig = {
       },
     },
     'gatsby-transformer-tractstack',
-    'gatsby-plugin-tractstack',
     {
       resolve: 'gatsby-source-drupal',
       options: {

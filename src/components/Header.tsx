@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
-import { TractStackIcon } from 'gatsby-plugin-tractstack'
+import { TractStackIcon } from '@tractstack/helpers'
 import { BackwardIcon, HomeIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
@@ -10,7 +10,7 @@ import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { useShopifyStore } from '../stores/shopify'
 import { CartButton } from '../shopify-components/CartButton'
-import { IHeaderProps } from 'gatsby-plugin-tractstack/types'
+import { IHeaderProps } from '@tractstack/types'
 import { config } from '../../data/SiteConfig'
 
 const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {

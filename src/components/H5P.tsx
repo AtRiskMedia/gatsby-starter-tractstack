@@ -2,7 +2,7 @@
 import React from 'react'
 
 import { useStoryStepStore } from '../stores/storyStep'
-import { IH5PProps } from 'gatsby-plugin-tractstack/types'
+import { IH5PProps } from '@tractstack/types'
 
 const H5P = ({ src, title, parent }: IH5PProps) => {
   const updateEventStream = useStoryStepStore(

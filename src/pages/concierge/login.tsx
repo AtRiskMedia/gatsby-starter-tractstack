@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState } from 'react'
 import { navigate, Link } from 'gatsby'
-import { classNames } from 'gatsby-plugin-tractstack'
+import { classNames } from '@tractstack/helpers'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 

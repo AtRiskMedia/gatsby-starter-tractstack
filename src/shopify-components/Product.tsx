@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { Fragment, useState, useCallback } from 'react'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { formatPrice, classNames } from 'gatsby-plugin-tractstack'
+import { formatPrice, classNames } from '@tractstack/helpers'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 

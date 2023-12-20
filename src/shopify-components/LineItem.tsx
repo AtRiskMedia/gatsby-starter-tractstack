@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useMemo, useState } from 'react'
 import { GatsbyImage } from 'gatsby-plugin-image'
-import { formatPrice } from 'gatsby-plugin-tractstack'
+import { formatPrice } from '@tractstack/helpers'
 import { getShopifyImage } from 'gatsby-source-shopify'
 
 import { useShopifyStore } from '../stores/shopify'

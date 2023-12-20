@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 // import { Link } from 'gatsby'
-import { getLogo } from 'gatsby-plugin-tractstack'
+import { getLogo } from '@tractstack/helpers'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
 // import { useStoryStepStore } from '../stores/storyStep'
 import { config } from '../../data/SiteConfig'
-import { IMenuProps } from 'gatsby-plugin-tractstack/types'
+import { IMenuProps } from '@tractstack/types'
 
 // const NavLink = ({ children, to }: INavLinkProps) => (
 //  <Link to={to} activeClassName="is-active">

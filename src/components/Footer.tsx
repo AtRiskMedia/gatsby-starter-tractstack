@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { SocialIcons } from 'gatsby-plugin-tractstack'
+import { SocialIcons } from '@tractstack/helpers'
 
 import { config } from '../../data/SiteConfig'
-import { IFooterProps } from 'gatsby-plugin-tractstack/types'
+import { IFooterProps } from '@tractstack/types'
 
 const Footer = ({ observe }: IFooterProps) => {
   const footerText = config.footer

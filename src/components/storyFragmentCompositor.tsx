@@ -1,7 +1,7 @@
-import { Compositor } from 'gatsby-plugin-tractstack'
+import { Compositor } from '@tractstack/helpers'
 
 import Menu from '../components/Menu'
-import { IStoryFragmentCompositorProps } from 'gatsby-plugin-tractstack/types'
+import { IStoryFragmentCompositorProps } from '@tractstack/types'
 
 const storyFragmentCompositor = ({
   data,

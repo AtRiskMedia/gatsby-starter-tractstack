@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import { navigate } from 'gatsby'
-import { Compositor } from 'gatsby-plugin-tractstack'
+import { Compositor } from '@tractstack/helpers'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -13,7 +13,7 @@ import YouTube from '../components/YouTube'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Wrapper from '../components/Wrapper'
-import { IContextPageProps } from 'gatsby-plugin-tractstack/types'
+import { IContextPageProps } from '@tractstack/types'
 
 const readThreshold = config.readThreshold
 const softReadThreshold = config.softReadThreshold

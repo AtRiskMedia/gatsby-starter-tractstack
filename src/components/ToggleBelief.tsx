@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 import { Switch } from '@headlessui/react'
-import { classNames } from 'gatsby-plugin-tractstack'
+import { classNames } from '@tractstack/helpers'
 
 import { IToggleBeliefProps } from 'src/types'
 import { useAuthStore } from '../stores/authStore'

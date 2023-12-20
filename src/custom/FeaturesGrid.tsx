@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { useStoryStepStore } from '../stores/storyStep'
-import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
+import { IViewportKeyProps } from '@tractstack/types'
 
 const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   const processRead = useStoryStepStore((state) => state.processRead)

@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { useEffect, useState } from 'react'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
-import { getScrollbarSize } from 'gatsby-plugin-tractstack'
+import { getScrollbarSize } from '@tractstack/helpers'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
 import { getTokens } from '../api/axiosClient'
-import { IWrapperProps } from 'gatsby-plugin-tractstack/types'
+import { IWrapperProps } from '@tractstack/types'
 
 const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const [loaded, setLoaded] = useState<boolean>(false)

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Neo4jd3 from 'tractstack-neo4jd3'
 
-import { ID3Props } from 'gatsby-plugin-tractstack/types'
+import { ID3Props } from '@tractstack/types'
 
 const D3 = ({ options, slug }: ID3Props) => {
   const [thisOptions, setThisOptions] = useState<any>({})

@@ -1,14 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 // import { Link } from 'gatsby'
-import { Svg } from 'gatsby-plugin-tractstack'
+import { Svg } from '@tractstack/helpers'
+import { IViewportKeyProps } from '@tractstack/types'
 import styled from 'styled-components'
 // import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 import Hexa from '../../assets/hexa.svg'
 import Wordmark from '../../assets/ARm-wordmark.svg'
 import Logo from '../../assets/ARm-logo.svg'
-import { IViewportKeyProps } from 'gatsby-plugin-tractstack/types'
 // import Belief from '../components/Belief'
 // import { config } from '../../data/SiteConfig'
 

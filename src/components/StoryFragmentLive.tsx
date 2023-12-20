@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useInterval } from 'gatsby-plugin-tractstack'
+import { useInterval } from '@tractstack/helpers'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -10,7 +10,7 @@ import { pushPayload } from '../api/services'
 import Controller from './Controller'
 import RenderStoryFragment from './renderStoryFragment'
 import '../styles/storyfragment.css'
-import { IStoryFragmentProps } from 'gatsby-plugin-tractstack/types'
+import { IStoryFragmentProps } from '@tractstack/types'
 
 interface IStyledWrapperSectionProps {
   css: string
