@@ -18,7 +18,6 @@ const config: GatsbyConfig = {
   //  DEV_SSR: true
   //},
   plugins: [
-    `gatsby-plugin-pnpm`,
     {
       resolve: 'gatsby-source-shopify',
       options: {
