@@ -160,7 +160,6 @@ const config: GatsbyConfig = {
         },
       },
     },
-    'gatsby-transformer-tractstack',
     {
       resolve: 'gatsby-source-drupal',
       options: {
