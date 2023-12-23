@@ -111,7 +111,7 @@ const CodeHookIframe = ({
       className={classNames(
         `paneFragment paneFragmentCode my-16`,
         payload.target === `iframe` || payload.target === `h5p`
-          ? `w-full mx-auto px-4 md:max-w-3xl lg:max-w-5xl`
+          ? `w-full mx-auto px-4 md:max-w-3xl md:max-w-5xl`
           : ``,
       )}
     >

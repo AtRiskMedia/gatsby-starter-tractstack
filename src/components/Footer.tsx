@@ -16,7 +16,7 @@ const Footer = ({ observe }: IFooterProps) => {
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:py-8 lg:px-8">
+      <div className="mx-auto max-w-7xl py-4 px-4 md:py-8 md:px-8">
         <div className="mt-2 pt-4 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2 mr-16">
             {config.social.map((item) => (

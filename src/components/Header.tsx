@@ -82,7 +82,7 @@ const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
 
   return (
     <header className="relative z-90000">
-      <div className="mx-auto flex justify-between px-4 py-5 sm:px-8 sm:py-4 md:space-x-10 lg:px-8 bg-white shadow-inner shadow-darkgrey">
+      <div className="mx-auto flex justify-between px-4 py-5 md:space-x-10 md:px-8 bg-white shadow-inner shadow-darkgrey">
         <div className="flex flex-nowrap">
           <h1 className="text-xl leading-none mb-0 flex items-center font-action">
             {siteTitle}

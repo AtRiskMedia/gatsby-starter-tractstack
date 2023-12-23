@@ -85,19 +85,19 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
       <Header siteTitle={title} open={false} />
       <div className="w-full h-full">
         <div className="bg-white">
-          <div className="pt-6 pb-16 sm:pb-24">
-            <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-              <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
-                <div className="lg:col-span-5 lg:col-start-8">
+          <div className="pt-6 pb-16 md:pb-24">
+            <div className="mx-auto mt-8 max-w-2xl px-4 md:max-w-7xl md:px-8">
+              <div className="md:grid md:auto-rows-min md:grid-cols-12 md:gap-x-8">
+                <div className="md:col-span-5 md:col-start-8">
                   <div className="flex justify-between">
-                    <h1 className="text-xl font-medium text-gray-900">
+                    <h1 className="text-xl text-gray-900">
                       {title}
                     </h1>
-                    <p className="text-xl font-medium text-gray-900">{price}</p>
+                    <p className="text-xl text-gray-900">{price}</p>
                   </div>
                 </div>
 
-                <div className="mt-8 lg:col-span-7">
+                <div className="mt-8 md:col-span-7">
                   <h2 className="sr-only">Images</h2>
                   <div className="grid grid-cols-1">
                     {hasFeaturedImage ? (
@@ -115,7 +115,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                   </div>
                 </div>
 
-                <div className="mt-8 lg:col-span-5">
+                <div className="mt-8 md:col-span-5">
                   {hasVariants &&
                     options.map(({ name, values }: any) => (
                       <Listbox
@@ -125,11 +125,11 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                       >
                         {({ open }) => (
                           <>
-                            <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
+                            <Listbox.Label className="block text-sm leading-6 text-gray-900">
                               {name}
                             </Listbox.Label>
                             <div className="relative mt-2">
-                              <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 md:text-sm md:leading-6">
                                 <span className="block truncate">
                                   {selected}
                                 </span>
@@ -148,7 +148,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                               >
-                                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none md:text-sm">
                                   {values.map((value: any) => (
                                     <Listbox.Option
                                       key={value}
@@ -214,7 +214,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                     />
                   </div>
                   <div className="mt-10">
-                    <h2 className="text-sm font-medium text-gray-900">
+                    <h2 className="text-sm text-gray-900">
                       Description
                     </h2>
 

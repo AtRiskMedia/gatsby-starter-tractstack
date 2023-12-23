@@ -148,12 +148,12 @@ const Breadcrumbs = (data: any) => {
       <Header siteTitle="Breadcrumb Path" open={false} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
-          <div className="mx-auto px-2 py-4 sm:px-4 lg:px-6 lg:py-6">
+          <div className="mx-auto px-2 py-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
-                <div className="lg:col-span-12">
-                  <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:px-0">
-                    <h2 className="text-center text-3xl tracking-tight text-gray-900 sm:text-4xl mb-12">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+                <div className="md:col-span-12">
+                  <div className="mx-auto max-w-2xl py-16 px-4 md:px-0">
+                    <h2 className="text-center text-3xl tracking-tight text-gray-900 md:text-4xl mb-12">
                       Your Breadcrumbs Path
                     </h2>
                     {hasBreadcrumbs ? (
@@ -171,7 +171,7 @@ const Breadcrumbs = (data: any) => {
                 </div>
 
                 {isLoggedIn() ? (
-                  <div className="lg:col-span-12 text-center h-96 mb-24">
+                  <div className="md:col-span-12 text-center h-96 mb-24">
                     <Graph />
                   </div>
                 ) : null}

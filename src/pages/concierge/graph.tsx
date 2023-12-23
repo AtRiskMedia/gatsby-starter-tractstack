@@ -43,16 +43,16 @@ const ConciergeGraph = () => {
       <Header siteTitle="Site Map | Knowledge graph" open={true} />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
-          <div className="mx-auto px-2 py-4 sm:px-4 lg:px-6 lg:py-6">
+          <div className="mx-auto px-2 py-4 sm:px-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x shadow-inner shadow-lightgrey">
-                <aside className="py-6 lg:col-span-3">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+                <aside className="py-6 md:col-span-3">
                   <nav className="space-y-1">
                     <ConciergeNav active="graph" />
                   </nav>
                 </aside>
 
-                <div className="divide-y divide-gray-200 lg:col-span-9 h-screen max-h-[40rem] relative">
+                <div className="divide-y divide-gray-200 md:col-span-9 h-screen relative">
                   <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
                     <button onClick={() => close()}>
                       <XMarkIcon className="w-8 h-8" />
