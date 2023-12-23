@@ -90,9 +90,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
               <div className="md:grid md:auto-rows-min md:grid-cols-12 md:gap-x-8">
                 <div className="md:col-span-5 md:col-start-8">
                   <div className="flex justify-between">
-                    <h1 className="text-xl text-gray-900">
-                      {title}
-                    </h1>
+                    <h1 className="text-xl text-gray-900">{title}</h1>
                     <p className="text-xl text-gray-900">{price}</p>
                   </div>
                 </div>
@@ -214,9 +212,7 @@ const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
                     />
                   </div>
                   <div className="mt-10">
-                    <h2 className="text-sm text-gray-900">
-                      Description
-                    </h2>
+                    <h2 className="text-sm text-gray-900">Description</h2>
 
                     <div
                       className="prose prose-sm mt-4 text-gray-500"

@@ -192,9 +192,7 @@ const Product = ({ payload }: any) => {
                 />
               </div>
               <div className="mt-10">
-                <h2 className="text-sm text-gray-900">
-                  Description
-                </h2>
+                <h2 className="text-sm text-gray-900">Description</h2>
 
                 <div
                   className="prose prose-sm mt-4 text-gray-500"
