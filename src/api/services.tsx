@@ -34,11 +34,10 @@ export async function pushPayload({
   const events: any = {}
   Object.keys(eventStream).forEach((key) => {
     events[key] = { ...eventStream[key] }
-    if (events[key].verb === `CONNECTED`)
-      Object.keys(contentMap).forEach((e: any) => {
-        if (contentMap[e].slug === events[key].targetSlug)
-          events[key].parentId = e
-      })
+    Object.keys(contentMap).forEach((e: any) => {
+      if (contentMap[e].slug === events[key].targetSlug)
+        events[key].parentId = e
+    })
     if (typeof events[key].isContextPane !== `undefined`)
       delete events[key].isContextPane
     if (typeof events[key].title !== `undefined`) delete events[key].title
@@ -55,9 +54,9 @@ export async function pushPayload({
           nodes[e.id] = {
             title: e?.title,
             type: `H5P`,
-            parentId: e?.targetId,
+            parentId: e?.targetId || e?.parentId,
           }
-        matchPane = e.targetId
+        matchPane = e?.targetId || e?.parentId
         break
 
       case `Impression`: // match "StoryFragment" on targetId
