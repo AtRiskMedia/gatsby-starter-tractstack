@@ -52,7 +52,7 @@ const ConciergeGraph = () => {
                   </nav>
                 </aside>
 
-                <div className="divide-y divide-gray-200 md:col-span-9 h-screen relative">
+                <div className="divide-y divide-gray-200 md:col-span-9 h-auto relative">
                   <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
                     <button onClick={() => close()}>
                       <XMarkIcon className="w-8 h-8" />
