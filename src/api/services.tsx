@@ -38,9 +38,7 @@ export async function pushPayload({
       if (contentMap[e].slug === events[key].targetSlug)
         events[key].parentId = e
     })
-    if (typeof events[key].isContextPane !== `undefined`)
-      delete events[key].isContextPane
-    if (typeof events[key].title !== `undefined`) delete events[key].title
+   if (typeof events[key].title !== `undefined`) delete events[key].title
     if (typeof events[key].slug !== `undefined`) delete events[key].slug
     if (typeof events[key].targetSlug !== `undefined`)
       delete events[key].targetSlug
@@ -73,20 +71,14 @@ export async function pushPayload({
       case `Pane`: // match "Pane" on id, then StoryFragment and TractStack
       case `Context`: // match "Pane" on id, then StoryFragment and TractStack
       case `StoryFragment`: // match StoryFragment on id
-        if (e.verb === `CONNECTED` && e.parentId && e.type === `StoryFragment`)
+        if (e.verb === `CONNECTED` && e.parentId)
           nodes[e.parentId] = {
             title: contentMap[e.parentId].title,
             slug: contentMap[e.parentId].slug,
             type: contentMap[e.parentId].type,
             parentId: contentMap[e.parentId].parentId,
           }
-        if (e.isContextPane)
-          nodes[e.id] = {
-            title: e.title,
-            slug: e.slug,
-            type: `Pane`,
-          }
-        else matchPane = e.id
+       matchPane = e.id
         break
 
       case `MenuItem`: {
@@ -170,7 +162,6 @@ export async function pushPayload({
       }
     }
   })
-
   return client.post(`/users/eventStream`, {
     nodes,
     events,

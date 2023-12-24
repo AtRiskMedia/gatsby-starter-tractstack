@@ -78,7 +78,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         type: `Pane`,
         verb: `CLICKED`,
       })
-    if ((storyFragmentId?.paneId, storyFragmentId?.paneTitle, targetSlug))
+    if (storyFragmentId?.paneId && storyFragmentId?.paneTitle && targetSlug) {
       updateEventStream(Date.now(), {
         id: storyFragmentId?.paneId,
         title: storyFragmentId?.paneTitle,
@@ -86,6 +86,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         type: `Pane`,
         verb: `CONNECTED`,
       })
+    }
     processRead(goto, `context`)
   }
 

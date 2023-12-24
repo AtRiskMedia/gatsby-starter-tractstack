@@ -23,6 +23,8 @@ export default function ContextPage(props: IContextPageProps) {
   const setReferrer = useAuthStore((state) => state.setReferrer)
   const { pageContext } = props
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
+  const updateContentMap = useStoryStepStore((state) => state.updateContentMap)
+  const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const updateEventStream = useStoryStepStore(
     (state) => state.updateEventStream,
   )
@@ -83,7 +85,6 @@ export default function ContextPage(props: IContextPageProps) {
         slug: pageContext.contextPane.slug,
         type: `Pane`,
         verb,
-        isContextPane: true,
         duration: duration / 1000,
       })
     processRead(`<`, `context`)
@@ -106,7 +107,6 @@ export default function ContextPage(props: IContextPageProps) {
             slug: pageContext.contextPane.slug,
             type: `Pane`,
             verb,
-            isContextPane: true,
             duration: duration / 1000,
           })
         processRead(`<`, `context`)
@@ -151,6 +151,31 @@ export default function ContextPage(props: IContextPageProps) {
       })
     }
   }, [referrer, setReferrer])
+
+  useEffect(() => {
+    if (!contentMapSyncd) {
+      updateContentMap({
+        [pageContext.contextPane.id]: {
+          hasHiddenPane: false,
+          hasMaxHScreen: false,
+          hasOverflowHidden: false,
+          heldBeliefs: {},
+          withheldBeliefs: {},
+          parentId: ``,
+          title: pageContext.contextPane.title,
+          slug: pageContext.contextPane.slug,
+          type: `Pane`,
+        },
+      })
+      setContentMapSyncd(true)
+    }
+  }, [
+    contentMapSyncd,
+    updateContentMap,
+    pageContext.contextPane.id,
+    pageContext.contextPane.slug,
+    pageContext.contextPane.title,
+  ])
 
   useEffect(() => {
     if (!entered) {
