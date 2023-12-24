@@ -38,7 +38,7 @@ export async function pushPayload({
       if (contentMap[e].slug === events[key].targetSlug)
         events[key].parentId = e
     })
-   if (typeof events[key].title !== `undefined`) delete events[key].title
+    if (typeof events[key].title !== `undefined`) delete events[key].title
     if (typeof events[key].slug !== `undefined`) delete events[key].slug
     if (typeof events[key].targetSlug !== `undefined`)
       delete events[key].targetSlug
@@ -46,6 +46,7 @@ export async function pushPayload({
     let matchStoryFragment: string = ``
     let matchTractStack: string = ``
     const e: any = events[key]
+
     switch (e.type) {
       case `H5P`: // match "pane" on parentId
         if (e?.id && typeof e.id === `string` && e.targetId)
@@ -78,7 +79,7 @@ export async function pushPayload({
             type: contentMap[e.parentId].type,
             parentId: contentMap[e.parentId].parentId,
           }
-       matchPane = e.id
+        matchPane = e.id
         break
 
       case `MenuItem`: {
@@ -104,7 +105,7 @@ export async function pushPayload({
           matchTractStack = tractStackId
           if (e?.id && !nodes[e.id])
             nodes[e.id] = {
-              title: e?.title,
+              title: e.id,
               type: `Belief`,
               parentId: tractStackId,
             }
@@ -162,6 +163,7 @@ export async function pushPayload({
       }
     }
   })
+
   return client.post(`/users/eventStream`, {
     nodes,
     events,

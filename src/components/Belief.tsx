@@ -32,6 +32,12 @@ const Belief = ({
 
   const handleClick = (e: any) => {
     updateBeliefs(value.slug, e.slug)
+    console.log(`Belief`, {
+      verb: e.slug,
+      id: value.slug,
+      title: value.slug,
+      type: `Belief`,
+    })
     pushEvent(
       {
         verb: e.slug,
