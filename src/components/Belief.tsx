@@ -32,7 +32,7 @@ const Belief = ({
 
   const handleClick = (e: any) => {
     updateBeliefs(value.slug, e.slug)
-   pushEvent(
+    pushEvent(
       {
         verb: e.slug,
         id: value.slug,
