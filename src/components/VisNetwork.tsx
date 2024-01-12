@@ -80,15 +80,8 @@ const VisNetwork = ({ nodes, payload }: any) => {
 
       if (gotoSlug) navigate(gotoSlug)
       if (gotoContextSlug) navigate(gotoContextSlug)
-      if (
-        gotoSlugs.length === 1 &&
-        typeof gotoSlugs[0] !== `undefined` &&
-        typeof gotoSlugs[0][0] !== `undefined` &&
-        typeof gotoSlugs[0][1] !== `undefined` &&
-        typeof gotoSlugs[0][2] !== `undefined` &&
-        typeof gotoSlugs[0][3] !== `undefined`
-      ) {
-        setGotoLastPane([gotoSlugs[0][3], gotoSlugs[0][1]])
+      if (gotoSlugs.length === 1) {
+        if (type === `Pane`) setGotoLastPane([gotoSlugs[0][3], gotoSlugs[0][1]])
         navigate(gotoSlugs[0][0])
       } else {
         setGotoMenu({ title: gotoParentTitle, slugs: gotoSlugs, type })
