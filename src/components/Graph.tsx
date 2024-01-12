@@ -22,7 +22,7 @@ const goGetGraph = async () => {
   }
 }
 
-const Graph = () => {
+const Graph = ({ data }: any) => {
   const [graphData, setGraphData] = useState({})
   const [loading, setLoading] = useState(false)
   const [loaded, setLoaded] = useState(false)
@@ -39,7 +39,6 @@ const Graph = () => {
       setLoading(true)
       goGetGraph()
         .then((res: any) => {
-          console.log(res?.graph)
           setGraphData(res?.graph)
         })
         .catch((e) => {
@@ -70,7 +69,12 @@ const Graph = () => {
             </div>
           </div>
         ) : (
-          <VisNetwork payload={graphData} />
+          <>
+            <div className="p-6 w-full text-center font-action text-xl text-myblue">
+              Double Click to Visit Content Pane or Page
+            </div>
+            <VisNetwork nodes={data} payload={graphData} />
+          </>
         )}
       </div>
     </section>

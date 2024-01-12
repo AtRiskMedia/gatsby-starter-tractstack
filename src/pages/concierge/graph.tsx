@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { navigate } from 'gatsby'
+import { navigate, graphql } from 'gatsby'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 import { useAuthStore } from '../../stores/authStore'
@@ -13,7 +13,50 @@ import ConciergeNav from '../../components/ConciergeNav'
 import Footer from '../../components/Footer'
 import { config } from '../../../data/SiteConfig'
 
-const ConciergeGraph = () => {
+export const query = graphql`
+  query {
+    allNodeTractstack {
+      edges {
+        node {
+          title
+          relationships {
+            storyFragments: field_story_fragments {
+              title
+              slug: field_slug
+            }
+            contextPanes: field_context_panes {
+              id: drupal_id
+              title
+              slug: field_slug
+            }
+          }
+        }
+      }
+    }
+    allNodeStoryFragment {
+      edges {
+        node {
+          title
+          slug: field_slug
+          relationships {
+            contextPanes: field_context_panes {
+              id: drupal_id
+              title
+              slug: field_slug
+            }
+            panes: field_panes {
+              id: drupal_id
+              title
+              slug: field_slug
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const ConciergeGraph = ({ data }: any) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const knownLead = useAuthStore((state) => state.authData.knownLead)
   const authenticated = useAuthStore((state) => state.authData.authenticated)
@@ -23,6 +66,7 @@ const ConciergeGraph = () => {
     if (storySteps[e]?.type !== `conciergePage`) target = storySteps[e]
   })
   if (isLoggedIn && knownLead && !authenticated) navigate(`/concierge/login`)
+
   function close() {
     const thisTo =
       target?.type === `storyFragment`
@@ -38,6 +82,7 @@ const ConciergeGraph = () => {
                 : `/${config.home}`
     navigate(`${thisTo}`)
   }
+
   return (
     <Wrapper slug="graph" mode="conciergePage">
       <Header siteTitle="Site Map | Knowledge graph" open={true} />
@@ -59,7 +104,7 @@ const ConciergeGraph = () => {
                     </button>
                   </div>
                   {isLoggedIn ? (
-                    <Graph />
+                    <Graph data={data} />
                   ) : (
                     <p className="p-6">
                       Insufficient data found. Please check back after

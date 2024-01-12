@@ -2489,10 +2489,10 @@
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
   integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
 
-"@tractstack/helpers@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@tractstack/helpers/-/helpers-0.1.6.tgz#56cb56fa7d027e88dbbcc31a7c07775c7006bb30"
-  integrity sha512-4AJQU3vVBH3DIx5bnSZ8QB5jbfFhQ2MYu+DAXfP7tkeA4G0TX8upyAOQ063DQWd9g8/co3nJk4dTJ+5Rujgciw==
+"@tractstack/helpers@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@tractstack/helpers/-/helpers-0.1.10.tgz#2d23d4ea77c5a1b555951f56e26d224b38f25d44"
+  integrity sha512-jeWGBcknPZdRQOplo8vveKOaqrrmtYK5r13IGKFEtUDBC26vRCNspqX97ox5WY0MglMdfejhJmNR063d08KZTQ==
   dependencies:
     buffer "^6.0.3"
 

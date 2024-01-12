@@ -69,9 +69,9 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-transformer-remark`,
     },
-    {
-      resolve: 'gatsby-plugin-no-sourcemaps',
-    },
+    //{
+    //  resolve: 'gatsby-plugin-no-sourcemaps',
+    //},
     {
       resolve: 'gatsby-plugin-sitemap',
       options: {
