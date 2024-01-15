@@ -38,20 +38,6 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   storySteps: {},
   contentMap: {},
   pastStorySteps: {},
-  zoom: false,
-  zoomOverride: false,
-  setZoom: (zoom: boolean) => {
-    set((state) => ({
-      ...state,
-      zoom,
-    }))
-  },
-  setZoomOverride: (zoomOverride: boolean) => {
-    set((state) => ({
-      ...state,
-      zoomOverride,
-    }))
-  },
   scrollToPane: ``,
   setScrollToPane: (scrollToPane: string) => {
     set((state) => ({

@@ -29,7 +29,6 @@ const ConciergeLogin = () => {
   const [codeword, setCodeword] = useState(``)
   const [submitted, setSubmitted] = useState(false)
   const [success, setSuccess] = useState(0)
-  const fingerprint = useAuthStore((state) => state.fingerprint)
   const login = useAuthStore((state) => state.login)
   const [loggingIn, setLoggingIn] = useState(0)
   const storySteps = useStoryStepStore((state) => state.storySteps)
@@ -40,8 +39,8 @@ const ConciergeLogin = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (email && codeword && fingerprint && !loggingIn) {
-      getTokens(fingerprint, codeword, email)
+    if (email && codeword && !loggingIn) {
+      getTokens(codeword, email)
         .then((res) => {
           if (typeof res?.error === `string`) {
             setSuccess(-1)

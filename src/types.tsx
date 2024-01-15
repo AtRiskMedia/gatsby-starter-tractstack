@@ -42,8 +42,6 @@ export interface IReferrer {
 export interface IAuthStoreState {
   accessToken: string | null
   authData: IAuthStorePayload
-  fingerprintCheck: boolean
-  fingerprint: string | null
   validToken: boolean
   viewportKey: string
   beliefs: { [key: string]: string }
@@ -55,7 +53,6 @@ export interface IAuthStoreState {
   unsetBelief: Function
   updateBeliefs: Function
   updateAuthData: Function
-  setFingerprint: Function
   isLoggedIn: Function
   login: Function
   logout: Function
@@ -116,10 +113,6 @@ export interface IStoryStepStoreState {
   panesVisible: any
   panesRead: any
   scrollToPane: string
-  zoom: boolean
-  zoomOverride: boolean
-  setZoom: Function
-  setZoomOverride: Function
   setScrollToPane: Function
   eventStream: IEventStreamDict
   gotoLastPane: [string | null, string | null]
@@ -215,7 +208,6 @@ export interface IAxiosClientProps {
 }
 
 export interface IAxiosRegisterProps {
-  fingerprint: string
   referrer: IReferrer
   codeword?: string | undefined
   email?: string | undefined

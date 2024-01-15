@@ -5,8 +5,7 @@ import {
   IAxiosRegisterProps,
 } from '../types'
 
-export async function register({
-  fingerprint,
+export async function conciergeSync({
   codeword,
   email,
   encryptedEmail,
@@ -14,7 +13,6 @@ export async function register({
   referrer,
 }: IAxiosRegisterProps) {
   const payload = {
-    fingerprint: fingerprint.toString(),
     codeword,
     email,
     encryptedEmail,
@@ -22,7 +20,7 @@ export async function register({
     referrer,
   }
   const options: any = { authorization: false }
-  return client.post(`/auth/register`, payload, options)
+  return client.post(`/auth/sync`, payload, options)
 }
 
 export async function pushPayload({

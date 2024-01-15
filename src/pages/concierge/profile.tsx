@@ -71,7 +71,6 @@ const ConciergeProfile = () => {
   const [badSave, setBadSave] = useState(false)
   const [saved, setSaved] = useState(0)
   const login = useAuthStore((state) => state.login)
-  const fingerprint = useAuthStore((state) => state.fingerprint)
   const firstname = useAuthStore((state) => state.authData.firstname)
   const shortBio = useAuthStore((state) => state.authData.shortBio)
   const email = useAuthStore((state) => state.authData.email)
@@ -110,9 +109,9 @@ const ConciergeProfile = () => {
               behavior: `smooth`,
             })
             setSaved(Date.now())
-            if (!authenticated && fingerprint) {
+            if (!authenticated) {
               setCreated(true)
-              getTokens(fingerprint, codeword, email).then((res) => login(res))
+              getTokens(codeword, email).then((res) => login(res))
             } else setCreated(false)
           }
         })

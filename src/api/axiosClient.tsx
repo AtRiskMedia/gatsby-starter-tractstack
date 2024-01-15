@@ -1,5 +1,5 @@
 import { createAxiosClient } from './createAxiosClient'
-import { register } from '../api/services'
+import { conciergeSync } from '../api/services'
 import { useAuthStore } from '../stores/authStore'
 import { IAuthStoreLoginResponse } from '../types'
 
@@ -18,10 +18,8 @@ function logout() {
 }
 
 function getAuthData() {
-  const fingerprint = useAuthStore.getState().fingerprint
   const authData = useAuthStore.getState().authData
   return {
-    fingerprint,
     encryptedCode: authData.encryptedCode,
     encryptedEmail: authData.encryptedEmail,
   }
@@ -43,7 +41,6 @@ export const client = createAxiosClient({
 })
 
 export const getTokens = async (
-  fingerprint: string,
   codeword?: string | null,
   email?: string | null,
 ) => {
@@ -57,7 +54,7 @@ export const getTokens = async (
         ? { encryptedCode, encryptedEmail }
         : {}
   try {
-    const response = await register({ fingerprint, referrer, ...params })
+    const response = await conciergeSync({ referrer, ...params })
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const knownLead = response.data.known_lead
@@ -85,25 +82,3 @@ export const getTokens = async (
     }
   }
 }
-/*
-export const getProfile = async () => {
-  try {
-    const response = await loadProfile()
-    const firstname = response.data.firstname
-    const email = response.data.email
-    const contactPersona = response.data.contactPersona
-    const shortBio = response.data.shortBio
-    return {
-      firstname,
-      email,
-      contactPersona,
-      shortBio,
-    }
-  } catch (error: any) {
-    return {
-      error: error?.response?.data?.message || error?.message,
-      tokens: null,
-    }
-  }
-}
-*/

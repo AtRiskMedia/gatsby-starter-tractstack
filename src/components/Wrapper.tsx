@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { useEffect, useState } from 'react'
-import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { getScrollbarSize } from '@tractstack/helpers'
 
 import { useAuthStore } from '../stores/authStore'
@@ -20,14 +19,11 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   const encryptedCode = useAuthStore((state) => state.authData.encryptedCode)
   const badLogin = useAuthStore((state) => state.authData.badLogin)
   const validToken = useAuthStore((state) => state.validToken)
-  const fingerprint = useAuthStore((state) => state.fingerprint)
-  const setFingerprint = useAuthStore((state) => state.setFingerprint)
   const setLastStoryStep = useStoryStepStore((state) => state.setLastStoryStep)
   const referrer = useAuthStore((state) => state.referrer)
   const setReferrer = useAuthStore((state) => state.setReferrer)
   const scrollToPane = useStoryStepStore((state) => state.scrollToPane)
   const setScrollToPane = useStoryStepStore((state) => state.setScrollToPane)
-  // const setZoom = useStoryStepStore((state) => state.setZoom)
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -65,40 +61,26 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   }, [loaded, setLoaded, setLastStoryStep, slug, mode])
 
   useEffect(() => {
-    if (typeof fingerprint === `object` && fingerprint === null) {
-      const fpPromise = FingerprintJS.load()
-      ;(async () => {
-        const fp = await fpPromise
-        const result = await fp.get()
-        setFingerprint(result.visitorId)
-      })()
-    }
-  }, [fingerprint, setFingerprint])
-
-  useEffect(() => {
-    const doCheck =
-      !isLoggedIn && typeof fingerprint === `string` && fingerprint.length > 0
+    const doCheck = !isLoggedIn
+      ? true
+      : !isLoggedIn &&
+          typeof encryptedEmail === `string` &&
+          encryptedEmail.length > 0 &&
+          typeof encryptedCode === `string` &&
+          encryptedCode.length > 0
         ? true
-        : !isLoggedIn &&
-            typeof encryptedEmail === `string` &&
-            encryptedEmail.length > 0 &&
-            typeof encryptedCode === `string` &&
-            encryptedCode.length > 0
-          ? true
-          : !validToken
+        : !validToken
 
     if (
       lastRun + 2000 < Date.now() &&
       doCheck &&
       !isLoggedIn &&
       !loggingIn &&
-      !badLogin &&
-      typeof fingerprint === `string` &&
-      fingerprint.length > 0
+      !badLogin
     ) {
       setLastRun(Date.now())
       setLoggingIn(true)
-      getTokens(fingerprint)
+      getTokens()
         .then((res) => login(res))
         .finally(() => setLoggingIn(false))
     }
@@ -107,7 +89,6 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     encryptedEmail,
     validToken,
     badLogin,
-    fingerprint,
     login,
     loggingIn,
     isLoggedIn,
@@ -155,26 +136,6 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     handleResize()
     return () => window.removeEventListener(`resize`, handleResize)
   }, [viewportKey, slug, mode, setViewportKey])
-
-  /*
-  useEffect(() => {
-    function listenOnDevicePixelRatio() {
-      function onChange() {
-        if (
-          typeof window !== `undefined` &&
-          (window.devicePixelRatio === 1 || window.devicePixelRatio === 2)
-        )
-          setZoom(false)
-        else setZoom(true)
-        listenOnDevicePixelRatio()
-      }
-      matchMedia(
-        `(resolution: ${window?.devicePixelRatio}dppx)`,
-      ).addEventListener(`change`, onChange, { once: true })
-    }
-    listenOnDevicePixelRatio()
-  }, [setZoom])
-  */
 
   return children
 }

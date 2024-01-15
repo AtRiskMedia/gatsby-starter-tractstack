@@ -46,8 +46,6 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   authData: {
     ...authDataSchema,
   },
-  fingerprintCheck: false,
-  fingerprint: null,
   validToken: false,
   beliefs: {},
   lastSync: 0,
@@ -78,43 +76,28 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
     set((state) => ({
       authData: { ...state.authData, [key]: value },
     })),
-  setFingerprint: (fingerprint: string) => {
-    set((state) => ({ ...state, fingerprint }))
-  },
   isLoggedIn: () => !!get().accessToken,
   login: (response: IAuthStoreLoginResponse) => {
-    const fingerprint = get().fingerprint || ``
     const updateBeliefs = get().updateBeliefs
-    if (typeof fingerprint === `string` && fingerprint.length) {
-      const beliefs = response.beliefs
-      if (typeof beliefs === `object`) {
-        const thisBeliefs: any = beliefs
-        Object.entries(thisBeliefs || {}).forEach((value: any) => {
-          if (
-            typeof value[1].slug === `string` &&
-            typeof value[1].verb === `string` &&
-            typeof value[1].object === `string`
-          )
-            updateBeliefs(value[1].slug, value[1].object)
-          else if (
-            typeof value[1].id === `string` &&
-            typeof value[1].verb === `string`
-          )
-            updateBeliefs(value[1].id, value[1].verb)
-        })
-      }
-      if (
-        typeof response.encryptedEmail === `string` &&
-        typeof response.encryptedCode === `string`
-      )
-        setTokensToLocalStorage({
-          encryptedEmail: response.encryptedEmail,
-          encryptedCode: response.encryptedCode,
-        })
+    const beliefs = response.beliefs
+    if (typeof beliefs === `object`) {
+      const thisBeliefs: any = beliefs
+      Object.entries(thisBeliefs || {}).forEach((value: any) => {
+        if (
+          typeof value[1].slug === `string` &&
+          typeof value[1].verb === `string` &&
+          typeof value[1].object === `string`
+        )
+          updateBeliefs(value[1].slug, value[1].object)
+        else if (
+          typeof value[1].id === `string` &&
+          typeof value[1].verb === `string`
+        )
+          updateBeliefs(value[1].id, value[1].verb)
+      })
       set((state) => ({
         ...state,
         accessToken: response.tokens || response.jwt,
-        fingerprint,
         validToken: true,
         authData: { ...state.authData, badLogin: false },
       }))
@@ -137,6 +120,10 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
         }))
       }
       if (response.encryptedEmail && response.encryptedCode) {
+        setTokensToLocalStorage({
+          encryptedEmail: response.encryptedEmail,
+          encryptedCode: response.encryptedCode,
+        })
         set((state) => ({
           authData: {
             ...state.authData,
