@@ -61,6 +61,7 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   }, [loaded, setLoaded, setLastStoryStep, slug, mode])
 
   useEffect(() => {
+if (process.env.NODE_ENV !== `development`) {
     const doCheck = !isLoggedIn
       ? true
       : !isLoggedIn &&
@@ -83,6 +84,7 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
       getTokens()
         .then((res) => login(res))
         .finally(() => setLoggingIn(false))
+    }
     }
   }, [
     encryptedCode,
