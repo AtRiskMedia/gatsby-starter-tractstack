@@ -82,9 +82,9 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
       updateEventStream(Date.now(), {
         id: storyFragmentId?.paneId,
         title: storyFragmentId?.paneTitle,
-        targetSlug,
         type: `Pane`,
         verb: `CONNECTED`,
+        targetSlug,
       })
     }
     processRead(goto, `context`)

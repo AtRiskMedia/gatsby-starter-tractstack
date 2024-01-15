@@ -19,10 +19,10 @@ const Impression = ({ payload }: IImpressionProps) => {
   function injectPayload() {
     const now = Date.now()
     const eventPayload = {
-      verb: `CLICKED`,
       id: payload.id,
       title: payload.title,
       type: `Impression`,
+      verb: `CLICKED`,
       targetId: payload.parentId,
     }
     updateEventStream(now, eventPayload)

@@ -61,30 +61,30 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
   }, [loaded, setLoaded, setLastStoryStep, slug, mode])
 
   useEffect(() => {
-if (process.env.NODE_ENV !== `development`) {
-    const doCheck = !isLoggedIn
-      ? true
-      : !isLoggedIn &&
-          typeof encryptedEmail === `string` &&
-          encryptedEmail.length > 0 &&
-          typeof encryptedCode === `string` &&
-          encryptedCode.length > 0
+    if (process.env.NODE_ENV !== `development`) {
+      const doCheck = !isLoggedIn
         ? true
-        : !validToken
+        : !isLoggedIn &&
+            typeof encryptedEmail === `string` &&
+            encryptedEmail.length > 0 &&
+            typeof encryptedCode === `string` &&
+            encryptedCode.length > 0
+          ? true
+          : !validToken
 
-    if (
-      lastRun + 2000 < Date.now() &&
-      doCheck &&
-      !isLoggedIn &&
-      !loggingIn &&
-      !badLogin
-    ) {
-      setLastRun(Date.now())
-      setLoggingIn(true)
-      getTokens()
-        .then((res) => login(res))
-        .finally(() => setLoggingIn(false))
-    }
+      if (
+        lastRun + 2000 < Date.now() &&
+        doCheck &&
+        !isLoggedIn &&
+        !loggingIn &&
+        !badLogin
+      ) {
+        setLastRun(Date.now())
+        setLoggingIn(true)
+        getTokens()
+          .then((res) => login(res))
+          .finally(() => setLoggingIn(false))
+      }
     }
   }, [
     encryptedCode,

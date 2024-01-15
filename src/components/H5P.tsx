@@ -14,7 +14,6 @@ const H5P = ({ src, title, parent }: IH5PProps) => {
         dom?.contentWindow?.H5P?.externalDispatcher?.on(
           `xAPI`,
           function (event: any) {
-            console.log(`xAPI`, event)
             const id = event?.data?.statement?.object?.id.slice(-36)
             const verb =
               typeof event?.data?.statement?.verb?.display === `object` &&
@@ -39,10 +38,10 @@ const H5P = ({ src, title, parent }: IH5PProps) => {
                 ? Number(durationParsed[1])
                 : null
             updateEventStream(Date.now(), {
-              verb,
               id,
               title,
               type: `H5P`,
+              verb,
               targetId: parent,
               duration: durationInSeconds,
               score,

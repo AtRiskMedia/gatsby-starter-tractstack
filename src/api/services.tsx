@@ -162,10 +162,12 @@ export async function pushPayload({
     }
   })
 
-  return client.post(`/users/eventStream`, {
-    nodes,
-    events,
-  })
+  if (process.env.NODE_ENV !== `development`)
+    return client.post(`/users/eventStream`, {
+      nodes,
+      events,
+    })
+  return null
 }
 
 export async function getGraph() {

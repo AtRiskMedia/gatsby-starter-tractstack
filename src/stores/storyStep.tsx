@@ -57,8 +57,8 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
     if (parent && mode === `context`)
       setGotoLastPane([parent, currentStoryStep])
     const eventStream = get().eventStream
+    const resetPanesVisible = get().resetPanesVisible
     const updateEventStream = get().updateEventStream
-    const updatePanesVisible = get().updatePanesVisible
     for (const [key, value] of Object.entries(panesVisible)) {
       if (typeof value !== `number`) continue
       const duration = now - value
@@ -89,10 +89,10 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
         }
         if (parent) eventPayload.parentId = parent
         updateEventStream(when, eventPayload)
-        updatePanesVisible(key, false)
         if (verb === `READ`) updatePanesRead(key, true)
       }
     }
+    resetPanesVisible()
     if (
       goto === `/` ||
       goto === config.home ||
@@ -196,6 +196,10 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
   updatePanesVisible: (key: string, value: string) =>
     set((state) => ({
       panesVisible: { ...state.panesVisible, [key]: value },
+    })),
+  resetPanesVisible: () =>
+    set(() => ({
+      panesVisible: {},
     })),
   updateContentMap: (values: IContentMapDict) =>
     set((state) => ({

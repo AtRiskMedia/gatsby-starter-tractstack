@@ -340,9 +340,9 @@ const RenderPane = ({
                     : null
               if (verb) {
                 const eventPayload = {
-                  verb,
                   id: p,
                   type: `Pane`,
+                  verb,
                   duration: duration / 1000,
                   parentId: storyFragmentId.id,
                 }

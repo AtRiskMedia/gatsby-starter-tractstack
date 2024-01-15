@@ -139,6 +139,7 @@ export interface IStoryStepStoreState {
   updateContentMap: Function
   updatePanesRead: Function
   updatePanesVisible: Function
+  resetPanesVisible: Function
   updateEventStream: Function
   updateEventStreamCleanup: Function
 }
