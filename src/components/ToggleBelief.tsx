@@ -22,7 +22,7 @@ const ToggleBelief = ({
     `NOT_INTERESTED`,
     `DISAGREES`,
     `STRONGLY_DISAGREES`,
-    `TRUE`,
+    `FALSE`,
   ].includes(value)
 
   const handleClick = () => {
