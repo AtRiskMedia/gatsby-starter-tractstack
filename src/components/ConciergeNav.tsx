@@ -8,6 +8,7 @@ import {
   ShieldCheckIcon,
   DocumentTextIcon,
   BackwardIcon,
+  RectangleGroupIcon,
 } from '@heroicons/react/24/outline'
 
 import { useStoryStepStore } from '../stores/storyStep'
@@ -50,6 +51,12 @@ const _subNavigation = ({ active, hasAuth }: IConciergeNavLinksProps) => {
       href: `/concierge/zeroParty`,
       icon: DocumentTextIcon,
       current: active === `zeroParty`,
+    },
+    {
+      name: `Edit this Site`,
+      href: `/concierge/storykeep`,
+      icon: RectangleGroupIcon,
+      current: active === `storykeep`,
     },
   ]
   if (!hasAuth) return linksNotAuth.concat(links)
