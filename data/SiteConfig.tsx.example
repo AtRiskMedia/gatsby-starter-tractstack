@@ -1,52 +1,17 @@
 import { ISiteConfig } from "../src/types"
 
 export const config: ISiteConfig = {
-  home: "home",
-  readThreshold: 42000,
-  softReadThreshold: 7000,
-  conciergeSync: 30000,
-  impressionsDelay: 22000,
-  slogan: "slogan",
-  description: "what does this product do?",
-  action: "Join waitlist",
-  footer:
-    "Footer slogan",
-  social: [
-    {
-      name: "Twitter",
-      href: "https://twitter.com/AtRiskMedia",
-    },
-    {
-      name: "GitLab",
-      href: "https://gitlab.com/AtRiskMedia",
-    },
-    {
-      name: "GitHub",
-      href: "https://github.com/AtRiskMedia",
-    },
-  ],
-  localStorageKey: `shopify_checkout_id`,
-  initializeShopify: true,
-  conciergeNav: [
-    {
-      id: "profile",
-      href: "/concierge/profile",
-      title: "Your Profile | Tract Stack concierge"
-    },
-    {
-      id: "graph",
-      href: "/concierge/graph",
-      title: "Knowledge Graph | Tract Stack concierge"
-    },
-    {
-      id: "login",
-      href: "/concierge/login",
-      title: "Login | Tract Stack concierge"
-    },
-    {
-      id: "zeroParty",
-      href: "/concierge/zeroParty",
-      title: "Your Profile | Tract Stack concierge"
-    }
-  ]
+  home: typeof process.env.HOMEPAGE || ``,
+  readThreshold: typeof process.env.READ_THRESHOLD !== `undefined` ? parseInt(process.env.READ_THRESHOLD) : 40000,
+  softReadThreshold: typeof process.env.SOFT_READ_THRESHOLD !== `undefined` ? parseInt(process.env.SOFT_READ_THRESHOLD) : 40000,
+  conciergeSync: typeof process.env.CONCIERGE_SYNC !== `undefined` ? parseInt(process.env.CONCIERGE_SYNC) : 30000,
+  conciergeForceInterval: typeof process.env.CONCIERGE_FORCE_INTERVAL !== `undefined` ? parseInt(process.env.CONCIERGE_FORCE_INTERVAL) : 2,
+  impressionsDelay: typeof process.env.IMPRESSIONS_DELAY !== `undefined` ? parseInt(process.env.IMPRESSIONS_DELAY) : 22000,
+  action: process.env.ACTION || ``,
+  slogan: process.env.SLOGAN || ``,
+  footer: process.env.FOOTER || ``,
+  localStorageKey: process.env.LOCAL_STORAGE_KEY || `shopify_checkout_id`,
+  initializeShopify: typeof process.env.INITIALIZE_SHOPIFY !== `undefined` && process.env.INITIALIZE_SHOPIFY === `true` ? true : false,
+  social: typeof process.env.SOCIAL !== `undefined` ? JSON.parse(process.env.SOCIAL) : [],
+  conciergeNav: typeof process.env.CONCIERGE_NAV !== `undefined` ? JSON.parse(process.env.CONCIERGE_NAV) : [],
 }
