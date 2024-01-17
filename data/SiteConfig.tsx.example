@@ -13,5 +13,4 @@ export const config: ISiteConfig = {
   localStorageKey: process.env.LOCAL_STORAGE_KEY || `shopify_checkout_id`,
   initializeShopify: typeof process.env.INITIALIZE_SHOPIFY !== `undefined` && process.env.INITIALIZE_SHOPIFY === `true` ? true : false,
   social: typeof process.env.SOCIAL !== `undefined` ? JSON.parse(process.env.SOCIAL) : [],
-  conciergeNav: typeof process.env.CONCIERGE_NAV !== `undefined` ? JSON.parse(process.env.CONCIERGE_NAV) : [],
 }

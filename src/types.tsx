@@ -148,11 +148,6 @@ interface ISiteConfigSocialItem {
   name: string
   href: string
 }
-interface ISiteConfigNavItem {
-  id: string
-  href: string
-  title: string
-}
 export interface ISiteConfig {
   home: string
   readThreshold: number
@@ -166,7 +161,6 @@ export interface ISiteConfig {
   social: ISiteConfigSocialItem[]
   localStorageKey: string
   initializeShopify: boolean
-  conciergeNav: ISiteConfigNavItem[]
 }
 
 export interface IConciergeNavProps {

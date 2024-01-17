@@ -93,9 +93,6 @@ const Breadcrumbs = (data: any) => {
     const thisContextPanePayload = contextPanes?.filter(
       (e: any) => e.slug === thisSlug,
     )
-    const thisConciergePagePayload = config.conciergeNav?.filter(
-      (e: any) => e.id === thisSlug,
-    )
     const type =
       thisStoryFragmentPayload &&
       thisStoryFragmentPayload[0] &&
@@ -105,11 +102,9 @@ const Breadcrumbs = (data: any) => {
             thisContextPanePayload[0] &&
             thisContextPanePayload[0].title
           ? `contextPane`
-          : thisConciergePagePayload && thisConciergePagePayload[0]
-            ? `conciergePage`
-            : isProduct
-              ? `product`
-              : null
+          : isProduct
+            ? `product`
+            : `conciergePage`
     const thisPayload =
       type === `storyFragment`
         ? thisStoryFragmentPayload &&
@@ -120,7 +115,7 @@ const Breadcrumbs = (data: any) => {
             thisContextPanePayload[0] &&
             thisContextPanePayload[0]
           : type === `conciergePage`
-            ? thisConciergePagePayload && thisConciergePagePayload[0]
+            ? thisSlug
             : isProduct
               ? product
               : null
@@ -130,7 +125,7 @@ const Breadcrumbs = (data: any) => {
         : type === `contextPane`
           ? `/context/${thisPayload.slug}`
           : type === `conciergePage`
-            ? `/concierge/${thisPayload.id}`
+            ? `/concierge/${thisPayload}`
             : type === `product`
               ? `/products/${thisPayload.handle}`
               : null
