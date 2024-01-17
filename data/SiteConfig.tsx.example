@@ -1,7 +1,7 @@
 import { ISiteConfig } from "../src/types"
 
 export const config: ISiteConfig = {
-  home: typeof process.env.HOMEPAGE || ``,
+  home: process.env.HOMEPAGE || ``,
   readThreshold: typeof process.env.READ_THRESHOLD !== `undefined` ? parseInt(process.env.READ_THRESHOLD) : 40000,
   softReadThreshold: typeof process.env.SOFT_READ_THRESHOLD !== `undefined` ? parseInt(process.env.SOFT_READ_THRESHOLD) : 40000,
   conciergeSync: typeof process.env.CONCIERGE_SYNC !== `undefined` ? parseInt(process.env.CONCIERGE_SYNC) : 30000,
