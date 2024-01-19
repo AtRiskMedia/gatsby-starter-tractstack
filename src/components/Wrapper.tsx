@@ -34,16 +34,9 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
     const utmContent = params.get(`utm_content`)
     if (
       typeof referrer.init === `undefined` &&
-      (document?.referrer ||
-        utmSource ||
-        utmMedium ||
-        utmCampaign ||
-        utmTerm ||
-        utmContent)
-    ) {
+        utmCampaign) {
       setReferrer({
         init: true,
-        httpReferrer: document.referrer,
         utmSource,
         utmMedium,
         utmCampaign,
@@ -52,7 +45,6 @@ const Wrapper = ({ slug, mode, children }: IWrapperProps) => {
       })
     }
   }, [referrer, setReferrer])
-
   useEffect(() => {
     if (!loaded) {
       if (mode === `storyFragment`) setLastStoryStep(slug, mode)

@@ -31,7 +31,6 @@ export interface IAuthStorePayload {
 
 export interface IReferrer {
   init: boolean | undefined
-  httpReferrer?: string
   utmSource?: string
   utmMedium?: string
   utmCampaign?: string
