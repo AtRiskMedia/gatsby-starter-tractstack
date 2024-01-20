@@ -213,6 +213,7 @@ export interface IAxiosRegisterProps {
 export interface IAxiosPushProps {
   eventStream: IEventStreamDict
   contentMap: IContentMapDict
+  referrer?: IReferrer
   tractStackId?: string
 }
 

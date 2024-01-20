@@ -27,6 +27,7 @@ export async function pushPayload({
   eventStream,
   contentMap,
   tractStackId,
+  referrer,
 }: IAxiosPushProps) {
   const nodes: any = {}
   const events: any = {}
@@ -166,6 +167,7 @@ export async function pushPayload({
     return client.post(`/users/eventStream`, {
       nodes,
       events,
+      referrer,
     })
   return null
 }

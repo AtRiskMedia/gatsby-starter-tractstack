@@ -27,6 +27,7 @@ const StoryFragmentLive = ({
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const lastSync = useAuthStore((state) => state.lastSync)
   const setLastSync = useAuthStore((state) => state.setLastSync)
+  const referrer = useAuthStore((state) => state.referrer)
   const eventStream = useStoryStepStore((state) => state.eventStream)
   const [contentMapSyncd, setContentMapSyncd] = useState<boolean>(false)
   const [loaded, setLoaded] = useState<boolean>(false)
@@ -115,9 +116,11 @@ const StoryFragmentLive = ({
     function doSync() {
       const now = Date.now()
       setDoingSync(true)
-      pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
-        updateEventStreamCleanup(now)
-      })
+      pushPayload({ eventStream, contentMap, tractStackId, referrer }).finally(
+        () => {
+          updateEventStreamCleanup(now)
+        },
+      )
       setDoingSync(false)
       setLastSync(now)
     }
@@ -144,6 +147,7 @@ const StoryFragmentLive = ({
     contentMap,
     tractStackId,
     updateEventStreamCleanup,
+    referrer,
   ])
 
   useInterval(() => {
