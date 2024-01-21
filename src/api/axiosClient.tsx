@@ -34,7 +34,7 @@ export const client = createAxiosClient({
     },
   },
   getCurrentAccessToken,
-  refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL,
+  refreshTokenUrl: process.env.CONCIERGE_REFRESH_TOKEN_URL_FRONT,
   setRefreshedTokens,
   getAuthData,
   logout,

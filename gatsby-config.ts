@@ -21,7 +21,7 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-source-shopify',
       options: {
-        password: process.env.SHOPIFY_SHOP_PASSWORD,
+        password: process.env.SHOPIFY_SHOP_PASSWORD_FRONT,
         storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
         shopifyConnections: ['collections'],
       },
@@ -163,7 +163,7 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-source-drupal',
       options: {
-        baseUrl: process.env.DRUPAL_URL,
+        baseUrl: process.env.DRUPAL_URL_FRONT,
         basicAuth: {
           username: process.env.BASIC_AUTH_USERNAME,
           password: process.env.BASIC_AUTH_PASSWORD,
