@@ -144,10 +144,6 @@ export interface IStoryStepStoreState {
   updateEventStreamCleanup: Function
 }
 
-interface ISiteConfigSocialItem {
-  name: string
-  href: string
-}
 export interface ISiteConfig {
   home: string
   readThreshold: number
@@ -158,7 +154,7 @@ export interface ISiteConfig {
   action: string
   slogan: string
   footer: string
-  social: ISiteConfigSocialItem[]
+  social: string
   localStorageKey: string
   initializeShopify: boolean
 }

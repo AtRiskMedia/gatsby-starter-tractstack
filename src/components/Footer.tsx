@@ -1,12 +1,26 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
 import { SocialIcons } from '@tractstack/helpers'
+import { IFooterProps } from '@tractstack/types'
 
 import { config } from '../../data/SiteConfig'
-import { IFooterProps } from '@tractstack/types'
 
 const Footer = ({ observe }: IFooterProps) => {
   const footerText = config.footer
+  const socials = config.social.split(`,`)
+  const socialLink = (href: string) => {
+    let name = ``
+    if (href && href.includes(`twitter.com`)) name = `Twitter`
+    else if (href && href.includes(`github.com`)) name = `GitHub`
+    if (name) return { name, href }
+    return null
+  }
+  const socialLinks = socials
+    .map((e: string) => {
+      return socialLink(e.trim())
+    })
+    .filter((e) => e)
+
   return (
     <footer
       className="z-80000 static"
@@ -19,15 +33,16 @@ const Footer = ({ observe }: IFooterProps) => {
       <div className="mx-auto max-w-7xl py-4 px-4 md:py-8 md:px-8">
         <div className="mt-2 pt-4 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2 mr-16">
-            {config.social.map((item) => (
+            {socialLinks.map((item) => (
               <a
-                key={item.name}
-                href={item.href}
+                key={item?.name}
+                href={item?.href}
+                title={item?.name}
                 className="text-gray-500 hover:text-black"
               >
-                <span className="sr-only">{item.name}</span>
+                <span className="sr-only">{item?.name}</span>
                 <SocialIcons
-                  name={item.name}
+                  name={item?.name || ``}
                   className="h-6 w-6"
                   ariaHidden={true}
                 />
