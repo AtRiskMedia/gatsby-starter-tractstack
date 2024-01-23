@@ -137,14 +137,14 @@ const StoryFragmentLive = ({
       })
     }
     if (
-      forced &&
       isLoggedIn &&
       !doingSync &&
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
       (!lastSync ||
         Date.now() - lastSync >
-          config.conciergeSync * config.conciergeForceInterval)
+          config.conciergeSync * config.conciergeForceInterval ||
+        forced)
     ) {
       setForced(false)
       doSync()
