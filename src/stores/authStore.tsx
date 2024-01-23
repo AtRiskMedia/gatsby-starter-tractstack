@@ -53,6 +53,10 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   referrer: {
     init: undefined,
   },
+  fingerprint: ``,
+  setFingerprint: (fingerprint: string) => {
+    set((state) => ({ ...state, fingerprint }))
+  },
   setReferrer: (referrer: IReferrer) => {
     set((state) => ({ ...state, referrer }))
   },
@@ -79,6 +83,8 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
   isLoggedIn: () => !!get().accessToken,
   login: (response: IAuthStoreLoginResponse) => {
     const updateBeliefs = get().updateBeliefs
+    const setFingerprint = get().setFingerprint
+    if (response.fingerprint) setFingerprint(response.fingerprint)
     const beliefs = response.beliefs
     if (typeof beliefs === `object`) {
       const thisBeliefs: any = beliefs

@@ -11,6 +11,7 @@ export async function conciergeSync({
   encryptedEmail,
   encryptedCode,
   referrer,
+  fingerprint,
 }: IAxiosRegisterProps) {
   const payload = {
     codeword,
@@ -18,6 +19,7 @@ export async function conciergeSync({
     encryptedEmail,
     encryptedCode,
     referrer,
+    fingerprint,
   }
   const options: any = { authorization: false }
   return client.post(`/auth/sync`, payload, options)
@@ -164,11 +166,16 @@ export async function pushPayload({
   })
 
   if (process.env.NODE_ENV !== `development`)
-    return client.post(`/users/eventStream`, {
-      nodes,
-      events,
-      referrer,
-    })
+    try {
+      const response = await client.post(`/users/eventStream`, {
+        nodes,
+        events,
+        referrer,
+      })
+      return { success: true, data: response }
+    } catch {
+      return { error: true }
+    }
   return null
 }
 

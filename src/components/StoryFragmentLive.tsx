@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { useInterval } from '@tractstack/helpers'
 
@@ -92,6 +92,18 @@ const StoryFragmentLive = ({
     }
   })
 
+  const goPushPayload = useCallback(async () => {
+    const response = await pushPayload({
+      eventStream,
+      contentMap,
+      tractStackId,
+      referrer,
+    })
+    if (response && response?.success && !response?.error)
+      return { success: true }
+    return { error: true }
+  }, [eventStream, contentMap, tractStackId, referrer])
+
   useEffect(() => {
     if (!contentMapSyncd && thisContentMap) {
       contextPanesMap.forEach((e: any) => {
@@ -116,16 +128,16 @@ const StoryFragmentLive = ({
     function doSync() {
       const now = Date.now()
       setDoingSync(true)
-      pushPayload({ eventStream, contentMap, tractStackId, referrer }).finally(
-        () => {
+      goPushPayload().then((res) => {
+        if (res?.success && !res?.error) {
           updateEventStreamCleanup(now)
-        },
-      )
-      setDoingSync(false)
-      setLastSync(now)
+          setLastSync(now)
+          setDoingSync(false)
+        } else setDoingSync(false)
+      })
     }
     if (
-      !forced &&
+      forced &&
       isLoggedIn &&
       !doingSync &&
       typeof eventStream === `object` &&
@@ -134,15 +146,16 @@ const StoryFragmentLive = ({
         Date.now() - lastSync >
           config.conciergeSync * config.conciergeForceInterval)
     ) {
-      setForced(true)
+      setForced(false)
       doSync()
     }
   }, [
     forced,
+    setLastSync,
+    goPushPayload,
     eventStream,
     isLoggedIn,
     lastSync,
-    setLastSync,
     doingSync,
     contentMap,
     tractStackId,
@@ -154,16 +167,9 @@ const StoryFragmentLive = ({
     if (
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
-      !doingSync
-    ) {
-      setDoingSync(true)
-      const now = Date.now()
-      pushPayload({ eventStream, contentMap, tractStackId }).finally(() => {
-        updateEventStreamCleanup(now)
-        setLastSync(now)
-        setDoingSync(false)
-      })
-    }
+      isLoggedIn
+    )
+      setForced(true)
   }, config.conciergeSync)
 
   useEffect(() => {
@@ -171,9 +177,6 @@ const StoryFragmentLive = ({
       if (gotoPane) setScrollTo(gotoPane)
       setLoaded(true)
     }
-  }, [loaded, gotoPane, setLoaded, setScrollTo])
-
-  useEffect(() => {
     if (loaded && scrollTo.length > 1) {
       const lastPane =
         typeof document !== `undefined` && typeof gotoPane === `string`
@@ -183,7 +186,7 @@ const StoryFragmentLive = ({
       setScrollTo(``)
       resetGotoLastPane()
     }
-  }, [loaded, resetGotoLastPane, gotoPane, scrollTo, setScrollTo])
+  }, [loaded, resetGotoLastPane, gotoPane, scrollTo])
 
   return (
     <>
@@ -211,11 +214,3 @@ const StoryFragmentLive = ({
 }
 
 export default StoryFragmentLive
-
-/* -- no longer injecting for h5p
-      {hasH5P ? (
-        <Helmet>
-          <script src="/h5p-resizer.js" />
-        </Helmet>
-      ) : null}
-*/

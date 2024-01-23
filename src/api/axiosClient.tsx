@@ -47,6 +47,7 @@ export const getTokens = async (
   const encryptedEmail = useAuthStore.getState().authData.encryptedEmail
   const encryptedCode = useAuthStore.getState().authData.encryptedCode
   const referrer = useAuthStore.getState().referrer
+  const fingerprint = useAuthStore.getState().fingerprint
   const params =
     codeword && email
       ? { codeword, email }
@@ -54,11 +55,12 @@ export const getTokens = async (
         ? { encryptedCode, encryptedEmail }
         : {}
   try {
-    const response = await conciergeSync({ referrer, ...params })
+    const response = await conciergeSync({ referrer, ...params, fingerprint })
     const accessToken = response.data.jwt
     const auth = response.data.auth
     const knownLead = response.data.known_lead
     const firstname = response.data.first_name
+    const newFingerprint = response.data.fingerprint
     const encryptedEmail = response.data.encryptedEmail
     const encryptedCode = response.data.encryptedCode
     const beliefs =
@@ -70,6 +72,7 @@ export const getTokens = async (
       auth,
       firstname,
       knownLead,
+      fingerprint: newFingerprint,
       encryptedEmail,
       encryptedCode,
       beliefs,

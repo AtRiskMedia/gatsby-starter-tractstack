@@ -47,6 +47,8 @@ export interface IAuthStoreState {
   beliefs: { [key: string]: string }
   lastSync: number
   referrer: IReferrer
+  fingerprint: string
+  setFingerprint: Function
   setReferrer: Function
   setViewportKey: Function
   setLastSync: Function
@@ -64,6 +66,7 @@ export interface IAuthStoreLoginResponse {
   auth: boolean
   knownLead: boolean
   firstname: string | null
+  fingerprint: string
   encryptedEmail: string | null
   encryptedCode: string | null
   beliefs: object | null
@@ -200,6 +203,7 @@ export interface IAxiosClientProps {
 
 export interface IAxiosRegisterProps {
   referrer: IReferrer
+  fingerprint?: string
   codeword?: string | undefined
   email?: string | undefined
   encryptedEmail?: string | undefined
