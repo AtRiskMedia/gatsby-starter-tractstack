@@ -125,29 +125,24 @@ const StoryFragmentLive = ({
   }, [contextPanesMap, contentMapSyncd, thisContentMap, updateContentMap])
 
   useEffect(() => {
-    function doSync() {
-      const now = Date.now()
-      setDoingSync(true)
-      goPushPayload().then((res) => {
-        if (res?.success && !res?.error) {
-          updateEventStreamCleanup(now)
-          setLastSync(now)
-          setDoingSync(false)
-        } else setDoingSync(false)
-      })
-    }
     if (
       isLoggedIn &&
       !doingSync &&
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
-      (!lastSync ||
-        Date.now() - lastSync >
-          config.conciergeSync * config.conciergeForceInterval ||
-        forced)
+      forced
     ) {
-      setForced(false)
-      doSync()
+      setDoingSync(true)
+      const now = Date.now()
+      goPushPayload()
+        .then((res) => {
+          if (res?.success && !res?.error) {
+            updateEventStreamCleanup(now)
+            setLastSync(now)
+            setDoingSync(false)
+          } else setDoingSync(false)
+        })
+        .finally(() => setForced(false))
     }
   }, [
     forced,
@@ -155,21 +150,31 @@ const StoryFragmentLive = ({
     goPushPayload,
     eventStream,
     isLoggedIn,
-    lastSync,
     doingSync,
-    contentMap,
-    tractStackId,
     updateEventStreamCleanup,
-    referrer,
   ])
+
+  useEffect(() => {
+    if (
+      isLoggedIn &&
+      !doingSync &&
+      (!lastSync ||
+        Date.now() - lastSync >
+          config.conciergeSync * config.conciergeForceInterval)
+    ) {
+      setForced(true)
+    }
+  }, [lastSync, doingSync, isLoggedIn])
 
   useInterval(() => {
     if (
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
+      !doingSync &&
       isLoggedIn
-    )
+    ) {
       setForced(true)
+    }
   }, config.conciergeSync)
 
   useEffect(() => {
