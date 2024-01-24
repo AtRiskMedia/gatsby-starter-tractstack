@@ -140,7 +140,7 @@ export const useAuthStore = create<IAuthStoreState>((set, get) => ({
       }
     }
   },
-  logout: (full: boolean = false) => {
+  logout: (full: boolean=false) => {
     if (full) removeTokensFromLocalStorage()
     set((state) => ({
       ...state,

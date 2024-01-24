@@ -86,7 +86,7 @@ export function createAxiosClient({
             return client(originalRequest)
           }, handleError)
           .catch((e) => {
-            logout()
+            logout(true)
             return handleError(e)
           })
           .finally(() => {
