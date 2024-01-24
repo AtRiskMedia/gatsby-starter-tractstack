@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState } from 'react'
+import React from 'react'
 import { ITemplateDict } from '@tractstack/types'
 import { ParseOptions, lispLexer, classNames } from '@tractstack/helpers'
-import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
+import ReactPlayer from 'react-player/lazy'
+import { BoltIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
@@ -331,20 +332,14 @@ function VideoItem(
   hooks: any,
   classes: string = ``,
 ) {
-  const [playing, setPlaying] = useState<boolean>(false)
-  const concierge = hooks?.concierge
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
-    const actionLisp = thisPayload?.actionLisp
-      ? lispLexer(thisPayload.actionLisp)
-      : null
     const oneliner = thisPayload?.oneliner
     const optionsPayload =
       typeof thisPayload?.optionsPayload === `string`
         ? ParseOptions(thisPayload.optionsPayload)
         : null
     const videoPath = optionsPayload?.videoPath
-    const videoType = optionsPayload?.videoType
     const hasArtpack = optionsPayload?.artpack
     const hasArtpackAll = hasArtpack && hasArtpack.all
     const hasArtpackViewport =
@@ -367,41 +362,16 @@ function VideoItem(
       artpackCollection === `static`
         ? `/${artpackImage}.${artpackFiletype}`
         : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
-    const injectPayload = function (): void {
-      if (concierge) concierge(actionLisp, hooks, id.id)
-      setPlaying(!playing)
-    }
+
     return (
       <div key={`${id.id}-${idx}`} className={classes}>
-        {!(playing && videoPath && videoType) ? (
-          <button onClick={injectPayload} className="group">
-            <div className="relative">
-              <div className="flex items-center justify-center absolute w-full h-full">
-                <div className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
-                  <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
-                </div>
-              </div>
-              <video
-                className="rounded-md aspect-video object-cover group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50"
-                poster={poster}
-                title={oneliner}
-              ></video>
-            </div>
-          </button>
-        ) : (
-          <video
-            controls
-            autoPlay={true}
-            poster={poster}
-            className="rounded-md aspect-video"
-            title={oneliner}
-          >
-            <source src={videoPath} type={videoType} />
-          </video>
-        )}
-        <h2 className="font-action text-lg text-center tracking-tight text-blue group-hover:text-orange pt-4">
-          {oneliner}
-        </h2>
+        <ReactPlayer
+          url={videoPath}
+          config={{ file: { attributes: { poster } } }}
+          controls
+          className="rounded-md aspect-video"
+          title={oneliner}
+        />
       </div>
     )
   })
