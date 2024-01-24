@@ -126,6 +126,7 @@ const StoryFragmentLive = ({
 
   useEffect(() => {
     if (
+      contentMapSyncd &&
       isLoggedIn &&
       !doingSync &&
       typeof eventStream === `object` &&
@@ -145,6 +146,7 @@ const StoryFragmentLive = ({
         .finally(() => setForced(false))
     }
   }, [
+    contentMapSyncd,
     forced,
     setLastSync,
     goPushPayload,
@@ -156,23 +158,27 @@ const StoryFragmentLive = ({
 
   useEffect(() => {
     if (
+      !forced &&
       isLoggedIn &&
       !doingSync &&
       (!lastSync ||
         Date.now() - lastSync >
           config.conciergeSync * config.conciergeForceInterval)
     ) {
+      console.log(`forced`, lastSync, Date.now() - lastSync)
       setForced(true)
     }
-  }, [lastSync, doingSync, isLoggedIn])
+  }, [lastSync, doingSync, isLoggedIn, forced])
 
   useInterval(() => {
     if (
+      !forced &&
       typeof eventStream === `object` &&
       Object.keys(eventStream).length > 0 &&
       !doingSync &&
       isLoggedIn
     ) {
+      console.log(`interval`)
       setForced(true)
     }
   }, config.conciergeSync)
