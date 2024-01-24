@@ -12,7 +12,7 @@ function setRefreshedTokens(response: IAuthStoreLoginResponse) {
   login(response)
 }
 
-function logout(full:boolean = false) {
+function logout(full: boolean = false) {
   const logout = useAuthStore.getState().logout
   logout(full)
 }
