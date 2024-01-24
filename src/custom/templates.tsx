@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React from 'react'
+import React, { useState } from 'react'
 import { ITemplateDict } from '@tractstack/types'
 import { ParseOptions, lispLexer, classNames } from '@tractstack/helpers'
 import ReactPlayer from 'react-player/lazy'
-import { BoltIcon } from '@heroicons/react/20/solid'
+import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
 
 import { useAuthStore } from '../stores/authStore'
 import { useStoryStepStore } from '../stores/storyStep'
@@ -332,6 +332,7 @@ function VideoItem(
   hooks: any,
   classes: string = ``,
 ) {
+  const [playing, setPlaying] = useState(false)
   const rendered = payload.map((e: any, idx: string) => {
     const thisPayload = e.node
     const oneliner = thisPayload?.oneliner
@@ -364,14 +365,29 @@ function VideoItem(
         : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
 
     return (
-      <div key={`${id.id}-${idx}`} className={classes}>
-        <ReactPlayer
-          url={videoPath}
-          config={{ file: { attributes: { poster } } }}
-          controls
-          className="rounded-md aspect-video"
-          title={oneliner}
-        />
+      <div key={`${id.id}-${idx}`} className={classNames(classes, `relative`)}>
+        {!playing ? (
+          <div
+            className="rounded-md aspect-video"
+            title={oneliner}
+            onClick={() => setPlaying(true)}
+          >
+            <div className="flex items-center justify-center absolute w-full h-full">
+              <div className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
+                <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
+              </div>
+            </div>
+            <img src={poster} />
+          </div>
+        ) : (
+          <ReactPlayer
+            url={videoPath}
+            playing={true}
+            controls
+            className="rounded-md aspect-video"
+            title={oneliner}
+          />
+        )}
       </div>
     )
   })
