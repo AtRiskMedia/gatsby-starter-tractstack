@@ -165,7 +165,6 @@ const StoryFragmentLive = ({
         Date.now() - lastSync >
           config.conciergeSync * config.conciergeForceInterval)
     ) {
-      console.log(`forced`, lastSync, Date.now() - lastSync)
       setForced(true)
     }
   }, [lastSync, doingSync, isLoggedIn, forced])
@@ -178,7 +177,6 @@ const StoryFragmentLive = ({
       !doingSync &&
       isLoggedIn
     ) {
-      console.log(`interval`)
       setForced(true)
     }
   }, config.conciergeSync)
