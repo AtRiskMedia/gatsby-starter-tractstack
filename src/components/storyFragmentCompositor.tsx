@@ -1,7 +1,8 @@
 import { Compositor } from '@tractstack/helpers'
+import { IStoryFragmentCompositorProps } from '@tractstack/types'
 
 import Menu from '../components/Menu'
-import { IStoryFragmentCompositorProps } from '@tractstack/types'
+import { config } from '../../data/SiteConfig'
 
 const storyFragmentCompositor = ({
   data,
@@ -28,6 +29,7 @@ const storyFragmentCompositor = ({
       tractStackId,
       tractStackTitle,
       tractStackSlug,
+      home: config.home,
     },
   }
   const storyFragmentPayload = Compositor(payload)

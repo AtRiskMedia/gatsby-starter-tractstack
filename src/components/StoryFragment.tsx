@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect } from 'react'
+import { Link } from 'gatsby'
 
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
@@ -28,6 +29,7 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
       belief: Belief,
       youtube: YouTube,
       toggle: Toggle,
+      Link,
       processRead,
       updateEventStream,
       resourcePayload: payload.resources,

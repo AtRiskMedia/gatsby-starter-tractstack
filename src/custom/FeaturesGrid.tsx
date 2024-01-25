@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
+import {Link} from 'gatsby'
 import {
   CursorArrowRaysIcon,
   CircleStackIcon,
@@ -67,6 +68,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   ]
 
   const handleClick = (goto: string, targetSlug: string) => {
+    console.log(`handleClick`)
     if (
       storyFragmentId &&
       storyFragmentId?.paneId &&
@@ -87,7 +89,7 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         targetSlug,
       })
     }
-    processRead(goto, `context`)
+    processRead()
   }
 
   return (
@@ -111,12 +113,13 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                   <p className="text-md text-darkgrey pt-2">
                     {feature.description}
                     {` `}
-                    <button
+                    <Link
+                      to={feature.goto}
                       onClick={() => handleClick(feature.goto, feature.id)}
                       className="text-xs hover:text-allblack text-blue underline underline-offset-2"
                     >
                       Why?
-                    </button>
+                    </Link>
                   </p>
                 </div>
               </div>

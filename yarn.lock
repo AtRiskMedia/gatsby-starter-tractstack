@@ -2482,17 +2482,18 @@
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
   integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
 
-"@tractstack/helpers@0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@tractstack/helpers/-/helpers-0.1.16.tgz#0a4a7e289a2f9bec085a60637a5aba18d95f785c"
-  integrity sha512-8VAK9q4hC36G7J2oyQJ8LNbP2SYiskto17kb3sgQuLeKCIL0torzPXK4ObO+JV5IR6jH8n17F51huOZ5xDRrCA==
+"@tractstack/helpers@0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@tractstack/helpers/-/helpers-0.1.17.tgz#9253bfc93893027254b011d385764b593abeb2d6"
+  integrity sha512-EUqvhYXr9Hhz8xeYQL8tSpW0BOtVdIft2epb+mxRg4E/dbK1ZxTYumeUOsBwKxJC82dNwjANdAYohfLRompBNQ==
   dependencies:
+    "@tractstack/types" "^0.1.5"
     buffer "^6.0.3"
 
-"@tractstack/types@0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@tractstack/types/-/types-0.1.3.tgz#11b10b1eae4344ac46ec10d493bed99e2352cc1e"
-  integrity sha512-bnhQnGpGc9R7gTt0tgyNUSnsIZlTfHYek6VSRTWu3ty6k2nQuMeRMnq9NigOE79cqGmGN1I2Rd9OkRcyZB8q5A==
+"@tractstack/types@0.1.5", "@tractstack/types@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@tractstack/types/-/types-0.1.5.tgz#799e605e066ba3582d21cae4dbcebaee9ee56197"
+  integrity sha512-6VjsfxpaXyBkmPwaFI4ORoqcqBe9vzUYfGb5q3AhHNiXiy7onpqJHIyGZpatQ8gi+oDtq/WZte/p7WkoXb6Kjg==
   dependencies:
     tslib "^2.3.0"
 
