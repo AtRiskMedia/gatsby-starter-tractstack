@@ -365,7 +365,7 @@ function VideoItem(
         : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
 
     return (
-      <div key={`${id.id}-${idx}`} className={classNames(classes, `relative`)}>
+      <div key={`${id.id}-${idx}`} className={classNames(classes, `relative w-full`)}>
         {!playing ? (
           <div
             className="rounded-md aspect-video"
@@ -383,6 +383,8 @@ function VideoItem(
           <ReactPlayer
             url={videoPath}
             playing={true}
+              preload={false}
+              width="100%"
             controls
             className="rounded-md aspect-video"
             title={oneliner}
