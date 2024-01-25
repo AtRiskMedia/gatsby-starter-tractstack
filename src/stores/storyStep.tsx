@@ -93,7 +93,7 @@ export const useStoryStepStore = create<IStoryStepStoreState>((set, get) => ({
       }
     }
     resetPanesVisible()
-    if( !goto ) return null
+    if (!goto) return null
     if (
       goto === `/` ||
       goto === config.home ||

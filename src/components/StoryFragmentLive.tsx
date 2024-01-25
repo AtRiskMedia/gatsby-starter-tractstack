@@ -45,6 +45,7 @@ const StoryFragmentLive = ({
     tractStackId: payload.tractStackId,
     tractStackTitle: payload.tractStackTitle,
     tractStackSlug: payload.tractStackSlug,
+    home: config.home,
   }
   const thisContentMap = payload.contentMap
   const panesVisible = useStoryStepStore((state) => state.panesVisible)
