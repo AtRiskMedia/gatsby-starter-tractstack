@@ -318,29 +318,12 @@ type node__resource implements Node {
   }
 
   type node__menu implements Node {
-    field_image_logo: node__menuField_image_logo
-    field_svg_logo: node__menuField_svg_logo
     field_options: String
-    field_pixel_height_desktop: Int
-    field_pixel_height_mobile: Int
-    field_pixel_height_tablet: Int
     field_theme: String
     relationships: node__menuRelationships
  }
   type node__menuRelationships {
-    field_image_logo: file__file @link(by: "id", from: "field_image_logo___NODE")
-    field_svg_logo: file__file @link(by: "id", from: "field_svg_logo___NODE")
     node__story_fragment: [node__story_fragment] @link(by: "id", from: "node__story_fragment___NODE")
-  }
-  type node__menuField_image_logo {
-    display: Boolean
-    description: String
-    drupal_internal__target_id: Int
-  }
-  type node__menuField_svg_logo {
-    display: Boolean
-    description: String
-    drupal_internal__target_id: Int
   }
 
   type node__tractstackRelationships {
@@ -359,7 +342,6 @@ type node__resource implements Node {
   }
 
   type file__fileRelationships {
-    node__menu: [node__menu] @link(by: "id", from: "node__menu___NODE")
     node__markdown: [node__markdown] @link(by: "id", from: "node__markdown___NODE")
   }
 

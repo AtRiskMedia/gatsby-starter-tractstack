@@ -54,22 +54,6 @@ export const query = graphql`
           internal {
             type
           }
-          relationships {
-            svgLogo: field_svg_logo {
-              id: drupal_id
-              localFile {
-                publicURL
-              }
-            }
-            imageLogo: field_image_logo {
-              id: drupal_id
-              localFile {
-                childImageSharp {
-                  desktop: gatsbyImageData(width: 512, placeholder: BLURRED)
-                }
-              }
-            }
-          }
         }
         contextPanes: field_context_panes {
           id: drupal_id
