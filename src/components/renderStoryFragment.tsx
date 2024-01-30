@@ -18,26 +18,9 @@ const RenderStoryFragment = ({
       ? storyFragmentPayload.tailwindBgColour
       : ``
   const paneIds = storyFragment?.paneIds
-  // const panesRevealed = useStoryStepStore((state) => state.panesRevealed)
-  // const setPanesRevealed = useStoryStepStore((state) => state.setPanesRevealed)
-
-  /*
-  useEffect(() => {
-    if (panesRevealed) {
-      setTimeout(() => {
-        setPanesRevealed(false)
-      }, 2500)
-    }
-  }, [panesRevealed, setPanesRevealed])
-
-      {panesRevealed ? (
-        <div className="z-70010 fixed bottom-0 left-0 w-full h-8 bg-green motion-safe:animate-ping" />
-      ) : null}
-*/
 
   return (
     <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
-      {payload?.menu ? payload?.menu : null}
       {paneIds
         ?.map((p: string) => {
           return (

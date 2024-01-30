@@ -13,7 +13,13 @@ import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '@tractstack/types'
 import { config } from '../../data/SiteConfig'
 
-const Header = ({ siteTitle, open = false, isHome = false }: IHeaderProps) => {
+const Header = ({
+  siteTitle,
+  open = false,
+  isHome = false,
+  menu,
+}: IHeaderProps) => {
+  if (menu) console.log(`Header`, menu)
   const initialize = useShopifyStore((state) => state.initialize)
   const setClient = useShopifyStore((state) => state.setClient)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())

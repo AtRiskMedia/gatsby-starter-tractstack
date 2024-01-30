@@ -41,7 +41,7 @@
     "@headlessui/react": "1.7.17",
     "@heroicons/react": "2.0.18",
     "@tractstack/helpers": "0.1.17",
-    "@tractstack/types": "0.1.5",
+    "@tractstack/types": "0.1.7",
     "gatsby": "5.12.12",
     "gatsby-plugin-image": "3.12.3",
     "gatsby-plugin-manifest": "5.12.3",

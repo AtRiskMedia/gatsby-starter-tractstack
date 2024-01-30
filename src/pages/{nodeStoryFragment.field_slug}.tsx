@@ -126,10 +126,16 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
   const tractStackId = data.nodeStoryFragment.relationships.tractstack.id
   const tractStackTitle = data.nodeStoryFragment.relationships.tractstack.title
   const tractStackSlug = data.nodeStoryFragment.relationships.tractstack.slug
+  const menu = data.nodeStoryFragment.relationships?.menu
 
   return (
     <Wrapper slug={data.nodeStoryFragment.slug} mode="storyFragment">
-      <Header isHome={isHome} siteTitle={storyFragmentTitle} open={false} />
+      <Header
+        isHome={isHome}
+        siteTitle={storyFragmentTitle}
+        open={false}
+        menu={menu}
+      />
       <StoryFragment
         payload={{
           storyFragment: data.nodeStoryFragment,

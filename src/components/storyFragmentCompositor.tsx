@@ -1,7 +1,6 @@
 import { Compositor } from '@tractstack/helpers'
 import { IStoryFragmentCompositorProps } from '@tractstack/types'
 
-import Menu from '../components/Menu'
 import { config } from '../../data/SiteConfig'
 
 const storyFragmentCompositor = ({
@@ -33,13 +32,6 @@ const storyFragmentCompositor = ({
     },
   }
   const storyFragmentPayload = Compositor(payload)
-  const menuPayload = data?.relationships?.menu
-  const compositedMenu = menuPayload
-    ? Menu({
-        menuPayload,
-        viewportKey,
-      })
-    : null
   return {
     id: storyFragmentId,
     slug: storyFragmentSlug,
@@ -54,7 +46,6 @@ const storyFragmentCompositor = ({
     contentChildren: {
       ...storyFragmentPayload.contentChildren,
     },
-    menu: compositedMenu,
   }
 }
 
