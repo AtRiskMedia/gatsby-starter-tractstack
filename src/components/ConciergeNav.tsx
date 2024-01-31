@@ -14,7 +14,6 @@ import {
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { IConciergeNavProps, IConciergeNavLinksProps } from '../types'
-import { config } from '../../data/SiteConfig'
 
 const _subNavigation = ({ active, hasAuth }: IConciergeNavLinksProps) => {
   const linksNotAuth = [
@@ -68,20 +67,19 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const hasAuth = !!isLoggedIn
   const subNavigation = _subNavigation({ active, hasAuth })
-  function navigateHome() {
-    processRead(config.home)
-  }
+
   return (
     <>
       {subNavigation.map((item) => (
         <Link
           key={item.name}
           to={item.href}
+          onClick={() => processRead()}
           className={classNames(
             item.current
-              ? `bg-slate-100 border-slate-200 text-black hover:text-black`
-              : `border-transparent text-gray-900 hover:bg-slate-200 hover:text-gray-900`,
-            `group border-l-4 px-3 py-2 flex items-center text-sm font-medium`,
+              ? `bg-myorange/10 border-slate-200 text-black`
+              : `border-transparent text-myblack hover:bg-myorange/5 hover:text-myblack`,
+            `group border-l-4 px-3 py-2 flex items-center text-sm`,
           )}
           aria-current={item.current ? `page` : undefined}
         >
@@ -89,7 +87,7 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
             className={classNames(
               item.current
                 ? `text-blue group-hover:text-blue`
-                : `text-gray-400 group-hover:text-gray-500`,
+                : `text-mydarkgrey group-hover:text-gray-500`,
               `flex-shrink-0 -ml-1 mr-3 h-6 w-6`,
             )}
             aria-hidden="true"
@@ -97,17 +95,18 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
           <span className="truncate">{item.name}</span>
         </Link>
       ))}
-      <button
+      <Link
         key="close"
-        onClick={() => navigateHome()}
-        className="border-transparent text-gray-900 hover:bg-slate-200 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+        to="/"
+        onClick={() => processRead()}
+        className="border-transparent text-myblack hover:bg-myorange/5 hover:text-myblack group border-l-4 px-3 py-2 flex items-center text-sm"
       >
         <BackwardIcon
-          className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -m1-1 mr-3 h-6 w-6"
+          className="text-mydarkgrey group-hover:text-myblack flex-shrink-0 -m1-1 mr-3 h-6 w-6"
           aria-hidden="true"
         />
         <span className="truncate">Close this Panel</span>
-      </button>
+      </Link>
     </>
   )
 }

@@ -90,15 +90,15 @@ const ConciergeGraph = ({ data }: any) => {
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 sm:px-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-mylightgrey">
                 <aside className="py-6 md:col-span-3">
                   <nav className="space-y-1">
                     <ConciergeNav active="graph" />
                   </nav>
                 </aside>
 
-                <div className="divide-y divide-gray-200 md:col-span-9 h-screen h-screen relative">
-                  <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
+                <div className="divide-y divide-gray-200 md:col-span-9 h-screen relative">
+                  <div className="absolute right-4 top-4 text-mydarkgrey hover:text-myorange">
                     <button onClick={() => close()}>
                       <XMarkIcon className="w-8 h-8" />
                     </button>

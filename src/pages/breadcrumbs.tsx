@@ -12,28 +12,37 @@ import { config } from '../../data/SiteConfig'
 
 export const query = graphql`
   query {
-    allNodeStoryFragment {
+    allNodeTractstack {
       edges {
         node {
-          id
           title
-          slug: field_slug
           relationships {
-            contextPanes: field_context_panes {
-              slug: field_slug
-              id
+            storyFragments: field_story_fragments {
               title
+              slug: field_slug
+            }
+            contextPanes: field_context_panes {
+              id: drupal_id
+              title
+              slug: field_slug
             }
           }
         }
       }
     }
-    allNodeTractstack {
+    allNodeStoryFragment {
       edges {
         node {
+          title
+          slug: field_slug
           relationships {
             contextPanes: field_context_panes {
-              id
+              id: drupal_id
+              title
+              slug: field_slug
+            }
+            panes: field_panes {
+              id: drupal_id
               title
               slug: field_slug
             }
@@ -54,7 +63,6 @@ export const query = graphql`
 `
 
 const Breadcrumbs = (data: any) => {
-  const viewportKey = useAuthStore((state) => state.viewportKey)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const storySteps = useStoryStepStore((state) => state.storySteps)
   const storyFragments = data.data.allNodeStoryFragment.edges
@@ -71,12 +79,6 @@ const Breadcrumbs = (data: any) => {
       contextPanes.push(p)
     })
   })
-  const viewportWidth =
-    viewportKey === `mobile`
-      ? `600`
-      : viewportKey === `tablet`
-        ? `1080`
-        : `1920`
   const hasBreadcrumbs = Object.keys(storySteps)?.length
   const memory: any[] = []
   const breadcrumbs = Object.keys(storySteps)?.map((e: any, i: number) => {
@@ -120,15 +122,17 @@ const Breadcrumbs = (data: any) => {
               ? product
               : null
     const thisTo =
-      type === `storyFragment`
-        ? `/${thisPayload.slug}/${viewportWidth}`
-        : type === `contextPane`
-          ? `/context/${thisPayload.slug}`
-          : type === `conciergePage`
-            ? `/concierge/${thisPayload}`
-            : type === `product`
-              ? `/products/${thisPayload.handle}`
-              : null
+      type === `storyFragment` && thisPayload.slug === config.home
+        ? `/`
+        : type === `storyFragment`
+          ? `/${thisPayload.slug}`
+          : type === `contextPane`
+            ? `/context/${thisPayload.slug}`
+            : type === `conciergePage`
+              ? `/concierge/${thisPayload}`
+              : type === `product`
+                ? `/products/${thisPayload.handle}`
+                : null
     if (thisPayload && thisTo)
       return (
         <p key={`${thisPayload.id}-${i}`} className="text-center p-6">
@@ -140,16 +144,19 @@ const Breadcrumbs = (data: any) => {
 
   return (
     <Wrapper slug="breadcrumbs" mode="breadcrumbs">
-      <Header siteTitle="Breadcrumb Path" open={false} />
+      <Header
+        siteTitle="Your Content Journey | Breadcrumbs Path"
+        open={false}
+      />
       <div className="w-full h-full">
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 md:px-6 md:py-6">
-            <div className="overflow-hidden rounded-lg bg-white shadow h-max">
+            <div className="overflow-hidden rounded-lg bg-white shadow h-screen">
               <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
                 <div className="md:col-span-12">
-                  <div className="mx-auto max-w-2xl py-16 px-4 md:px-0">
-                    <h2 className="text-center text-3xl tracking-tight text-gray-900 md:text-4xl mb-12">
-                      Your Breadcrumbs Path
+                  <div className="mx-auto max-w-2xl py-8 px-4 md:px-0">
+                    <h2 className="text-center text-3xl tracking-tight text-myblack md:text-4xl mb-12">
+                      Your Content Journey | Breadcrumbs Path
                     </h2>
                     {hasBreadcrumbs ? (
                       breadcrumbs
@@ -157,20 +164,17 @@ const Breadcrumbs = (data: any) => {
                       <p className="text-center">
                         No breadcrumbs found!
                         {` `}
-                        <Link to={`/${config.home}/${viewportWidth}/`}>
-                          Visit the Home Page
-                        </Link>
+                        <Link to="/">Visit the Home Page</Link>
                       </p>
                     )}
                   </div>
                 </div>
-
-                {isLoggedIn() ? (
-                  <div className="md:col-span-12 text-center h-96 mb-24">
-                    <Graph />
-                  </div>
-                ) : null}
               </div>
+              {isLoggedIn() ? (
+                <div className="h-3/5">
+                  <Graph data={data.data} />
+                </div>
+              ) : null}
             </div>
           </div>
         </main>

@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
 import { TractStackIcon } from '@tractstack/helpers'
-import { BackwardIcon, HomeIcon } from '@heroicons/react/24/outline'
+import { MapIcon, BackwardIcon, HomeIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
@@ -9,6 +9,7 @@ import Client from 'shopify-buy'
 import { useStoryStepStore } from '../stores/storyStep'
 import { useAuthStore } from '../stores/authStore'
 import { useShopifyStore } from '../stores/shopify'
+import Menu from './Menu'
 import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '@tractstack/types'
 import { config } from '../../data/SiteConfig'
@@ -19,7 +20,11 @@ const Header = ({
   isHome = false,
   menu,
 }: IHeaderProps) => {
-  if (menu) console.log(`Header`, menu)
+  const menuTheme = typeof menu?.theme !== `undefined` ? menu.theme : null
+  const menuPayload =
+    typeof menu?.optionsPayload !== `undefined`
+      ? JSON.parse(menu.optionsPayload)
+      : null
   const initialize = useShopifyStore((state) => state.initialize)
   const setClient = useShopifyStore((state) => state.setClient)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
@@ -33,17 +38,10 @@ const Header = ({
     return total + item.quantity
   }, 0)
   const hasStorySteps = Object.keys(storySteps).length > 1
-  /*
-      <button
-                  className="mx-2 hover:text-blue"
-                  onClick={() => navigateBreadcrumbs()}
-                >
-                  <BeakerIcon className="h-8 w-8" title="Breadcrumbs menu" />
-                </button>
-   */
-  // function navigateBreadcrumbs() {
-  //  processRead(`/breadcrumbs`)
-  // }
+
+  function navigateBreadcrumbs() {
+    processRead(`/breadcrumbs`)
+  }
   function reveal() {
     processRead(`/concierge/profile`)
   }
@@ -96,20 +94,31 @@ const Header = ({
         </div>
         <div className="inline-flex">
           {hasStorySteps ? (
-            <button className="mx-2 hover:text-blue" onClick={() => hide()}>
-              <BackwardIcon
-                className="h-8 w-8"
-                title="Return to previous page"
-              />
-            </button>
+            <>
+              <button className="mx-2 hover:text-blue" onClick={() => hide()}>
+                <BackwardIcon
+                  className="h-8 w-8"
+                  title="Return to previous page"
+                />
+              </button>
+              <button
+                className="mx-2 hover:text-blue"
+                onClick={() => navigateBreadcrumbs()}
+              >
+                <MapIcon
+                  className="h-8 w-8"
+                  title="Your Content Journey | Breadcrumbs Path"
+                />
+              </button>
+            </>
           ) : null}
           {isLoggedIn ? (
             <button
               className="mx-2 hover:text-blue"
               onClick={() => (!open ? reveal() : hide())}
-              title="Visit the Concierge"
+              title="Tract Stack Settings"
             >
-              <span className="sr-only">Open concierge panel</span>
+              <span className="sr-only">Open Tract Stack settings panel</span>
               <span className="h-8 w-8">
                 <img
                   alt="Tract Stack logo. An impossibe square."
@@ -127,6 +136,7 @@ const Header = ({
               <HomeIcon className="w-8 h-8" title="Go to home page" />
             </button>
           ) : null}
+          {menuTheme ? <Menu theme={menuTheme} payload={menuPayload} /> : null}
         </div>
       </div>
     </header>

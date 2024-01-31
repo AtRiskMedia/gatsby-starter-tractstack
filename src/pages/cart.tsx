@@ -9,18 +9,10 @@ import Footer from '../components/Footer'
 import LineItem from '../shopify-components/LineItem'
 import Wrapper from '../components/Wrapper'
 import { useShopifyStore } from '../stores/shopify'
-import { useAuthStore } from '../stores/authStore'
 import { config } from '../../data/SiteConfig'
 
 const Cart = () => {
-  const viewportKey = useAuthStore((state) => state.viewportKey)
-  const viewportWidth =
-    viewportKey === `mobile`
-      ? `600`
-      : viewportKey === `tablet`
-        ? `1080`
-        : `1920`
-  const goto = `/${config.home}/${viewportWidth}`
+  const goto = `/${config.home}/`
   const checkout = useShopifyStore((state) => state.checkout)
   const loading = useShopifyStore((state) => state.loading)
   const emptyCart = !(checkout?.lineItems?.length > 0)

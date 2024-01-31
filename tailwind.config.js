@@ -91,24 +91,24 @@ module.exports = {
         8: '108',
         9: '109',
         10: '110',
-        70010: '70010',
-        70020: '70020',
-        70030: '70030',
-        80000: '80000', // for footer
-        80010: '80010', // context
-        80020: '80020',
-        80030: '80030',
-        90000: '90000', // for beliefs widget
-        90001: '90001', // for header or beliefs
-        90002: '90002', // for beliefs widget
-        90003: '90003', // for beliefs widget
-        90004: '90004', // for beliefs widget
-        90005: '90005', // for beliefs widget
-        90006: '90006', // for beliefs widget
-        90007: '90007', // for beliefs widget
-        90008: '90008', // for beliefs widget
-        90009: '90009', // for beliefs widget
-        90101: '90101', // for controller
+        70010: '710',
+        70020: '720',
+        70030: '730',
+        80000: '800', // for footer
+        80010: '810', // context
+        80020: '820',
+        80030: '830',
+        90000: '900', // for beliefs widget
+        90001: '901', // for header or beliefs
+        90002: '902', // for beliefs widget
+        90003: '903', // for beliefs widget
+        90004: '904', // for beliefs widget
+        90005: '905', // for beliefs widget
+        90006: '906', // for beliefs widget
+        90007: '907', // for beliefs widget
+        90008: '908', // for beliefs widget
+        90009: '909', // for beliefs widget
+        90101: '910', // for controller
       },
       colors: {
         mywhite: '#fcfcfc',

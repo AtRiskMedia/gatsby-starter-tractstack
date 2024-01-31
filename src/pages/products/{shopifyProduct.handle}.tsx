@@ -26,7 +26,7 @@ export const query = graphql`
   }
 `
 
-const ShopifyProduct = ({ data }: IProductCollectionsRouteProps) => {
+const ShopifyProduct = ({ data }: any) => {
   const product = useProductData().filter(
     (e: any) => e?.node?.id === data.shopifyProduct.id,
   )[0].node
