@@ -380,7 +380,7 @@ function VideoItem(
                 <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
               </div>
             </div>
-            <img src={poster} />
+            <img alt="Titlecard for Promo Video about Tract Stack" src={poster} />
           </div>
         ) : (
           <ReactPlayer
