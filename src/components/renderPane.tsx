@@ -310,7 +310,7 @@ const RenderPane = ({
     <section
       key={`${viewportKey}-${p}-wrapper`}
       className="w-full h-fit-content relative"
-      id={`wrapper-${viewportKey}-${p}`}
+      id={thisPane.slug}
     >
       <>
         {boundBelief ? (
