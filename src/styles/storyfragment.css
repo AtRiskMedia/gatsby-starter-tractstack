@@ -26,6 +26,7 @@ html {
   box-sizing: border-box;
   overflow-y: scroll;
   font-family: var(--font-main);
+  scroll-behavior: smooth;
 }
 body {
   -moz-osx-font-smoothing: grayscale;

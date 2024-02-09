@@ -14,12 +14,7 @@ import { IBeliefProps } from '../types'
 
 // whitelist: bg-teal-400 bg-lime-400 bg-slate-200 bg-amber-400 bg-red-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400 bg-lime-400 bg-amber-400
 
-const Belief = ({
-  value,
-  cssClasses = ``,
-  cssClassesExtra = ``,
-  storyFragmentId,
-}: IBeliefProps) => {
+const Belief = ({ value, cssClasses = ``, storyFragmentId }: IBeliefProps) => {
   const thisScaleLookup = value.scale
   const extra = value && typeof value.extra === `string` ? value.extra : null
   // @ts-expect-error
@@ -56,9 +51,9 @@ const Belief = ({
   return (
     <>
       {extra ? (
-        <div className={classNames(cssClassesExtra, `block pb-2`)}>{extra}</div>
+        <div className={classNames(cssClasses, `block pb-2`)}>{extra}</div>
       ) : null}
-      <div className={classNames(cssClasses, `inline-block`)}>
+      <div className="inline-block">
         <Listbox value={selected} onChange={handleClick}>
           {({ open }) => (
             <>
