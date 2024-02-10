@@ -48,101 +48,42 @@ export const createPages: GatsbyNode['createPages'] = async ({
           }
         }
       }
-      allNodeStoryFragment {
-        edges {
-          node {
-            relationships {
-              tractstack: field_tract_stack {
-                id: drupal_id
-                title
-                slug: field_slug
-              }
-              contextPanes: field_context_panes {
-                id: drupal_id
-                title
-                slug: field_slug
-                isContextPane: field_is_context_pane
-                optionsPayload: field_options
-                relationships {
-                  markdown: field_markdown {
-                    id: drupal_id
-                    slug: field_slug
-                    markdownBody: field_markdown_body
-                    childMarkdown {
-                      childMarkdownRemark {
-                        htmlAst
-                      }
-                    }
-                    relationships {
-                      images: field_image {
-                        id: drupal_id
-                        filename
-                        localFile {
-                          publicURL
-                        }
-                        all: localFile {
-                          childImageSharp {
-                            gatsbyImageData(width: 1366, placeholder: BLURRED)
-                          }
-                        }
-                      }
-                      imagesSvg: field_image_svg {
-                        id: drupal_id
-                        filename
-                        localFile {
-                          publicURL
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      allNodeTractstack {
+      allNodePane(filter: { field_is_context_pane: { eq: true } }) {
         edges {
           node {
             id: drupal_id
             title
             slug: field_slug
+            isContextPane: field_is_context_pane
+            optionsPayload: field_options
             relationships {
-              contextPanes: field_context_panes {
+              markdown: field_markdown {
                 id: drupal_id
-                title
                 slug: field_slug
-                isContextPane: field_is_context_pane
-                optionsPayload: field_options
+                markdownBody: field_markdown_body
+                childMarkdown {
+                  childMarkdownRemark {
+                    htmlAst
+                  }
+                }
                 relationships {
-                  markdown: field_markdown {
+                  images: field_image {
                     id: drupal_id
-                    slug: field_slug
-                    childMarkdown {
-                      childMarkdownRemark {
-                        htmlAst
+                    filename
+                    localFile {
+                      publicURL
+                    }
+                    all: localFile {
+                      childImageSharp {
+                        gatsbyImageData(width: 1366, placeholder: BLURRED)
                       }
                     }
-                    relationships {
-                      images: field_image {
-                        id: drupal_id
-                        filename
-                        localFile {
-                          publicURL
-                        }
-                        all: localFile {
-                          childImageSharp {
-                            gatsbyImageData(width: 1366, placeholder: BLURRED)
-                          }
-                        }
-                      }
-                      imagesSvg: field_image_svg {
-                        id: drupal_id
-                        filename
-                        localFile {
-                          publicURL
-                        }
-                      }
+                  }
+                  imagesSvg: field_image_svg {
+                    id: drupal_id
+                    filename
+                    localFile {
+                      publicURL
                     }
                   }
                 }
@@ -153,26 +94,22 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }
     }
   `)
-  result.data.allNodeStoryFragment.edges
-    .concat(result.data.allNodeTractstack.edges)
-    .forEach((edge: any) => {
-      edge.node.relationships.contextPanes.forEach((node: any) => {
-        createPage({
-          path: `context/${node.slug}`,
-          component: contextPaneTemplate,
-          context: {
-            id: node.id,
-            title: node.title,
-            slug: node.field_slug,
-            tractStackId: ``,
-            tractStackTitle: ``,
-            tractStackSlug: ``,
-            contextPane: node,
-            resources: result.data.allNodeResource,
-          },
-        })
-      })
+  result.data.allNodePane.edges.forEach((edge: any) => {
+      createPage({
+        path: `context/${edge.node.slug}`,
+        component: contextPaneTemplate,
+        context: {
+          id: edge.node.id,
+          title: edge.node.title,
+          slug: edge.node.field_slug,
+          tractStackId: ``,
+          tractStackTitle: ``,
+          tractStackSlug: ``,
+          contextPane: edge.node,
+          resources: result.data.allNodeResource,
+        },
     })
+  })
 }
 
 export const onCreateNode = ({
