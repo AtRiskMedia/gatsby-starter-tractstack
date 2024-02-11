@@ -95,19 +95,19 @@ export const createPages: GatsbyNode['createPages'] = async ({
     }
   `)
   result.data.allNodePane.edges.forEach((edge: any) => {
-      createPage({
-        path: `context/${edge.node.slug}`,
-        component: contextPaneTemplate,
-        context: {
-          id: edge.node.id,
-          title: edge.node.title,
-          slug: edge.node.field_slug,
-          tractStackId: ``,
-          tractStackTitle: ``,
-          tractStackSlug: ``,
-          contextPane: edge.node,
-          resources: result.data.allNodeResource,
-        },
+    createPage({
+      path: `context/${edge.node.slug}`,
+      component: contextPaneTemplate,
+      context: {
+        id: edge.node.id,
+        title: edge.node.title,
+        slug: edge.node.field_slug,
+        tractStackId: ``,
+        tractStackTitle: ``,
+        tractStackSlug: ``,
+        contextPane: edge.node,
+        resources: result.data.allNodeResource,
+      },
     })
   })
 }
