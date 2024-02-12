@@ -1,15 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useState } from 'react'
 import { ITemplateDict } from '@tractstack/types'
-import { ParseOptions, lispLexer, classNames } from '@tractstack/helpers'
+import { ParseOptions, classNames } from '@tractstack/helpers'
 import ReactPlayer from 'react-player/lazy'
-import { BoltIcon, PlayIcon } from '@heroicons/react/20/solid'
+import { PlayIcon } from '@heroicons/react/20/solid'
 
-import { useAuthStore } from '../stores/authStore'
-import { useStoryStepStore } from '../stores/storyStep'
-import Wordmark from '../../assets/wordmark.svg'
-import Logo from '../../assets/logo.svg'
-
+/*
 function ToggleBeliefTags(
   payload: any,
   id: any, // FIX
@@ -325,80 +321,6 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
   return <ul key={id.id}>{rendered}</ul>
 }
 
-function VideoItem(
-  payload: any,
-  id: any,
-  viewportKey: string,
-  hooks: any,
-  classes: string = ``,
-) {
-  const [playing, setPlaying] = useState(false)
-  const rendered = payload.map((e: any, idx: string) => {
-    const thisPayload = e.node
-    const oneliner = thisPayload?.oneliner
-    const optionsPayload =
-      typeof thisPayload?.optionsPayload === `string`
-        ? ParseOptions(thisPayload.optionsPayload)
-        : null
-    const videoPath = optionsPayload?.videoPath
-    const hasArtpack = optionsPayload?.artpack
-    const hasArtpackAll = hasArtpack && hasArtpack.all
-    const hasArtpackViewport =
-      hasArtpack && typeof hasArtpack[viewportKey] !== `undefined`
-    const artpack = hasArtpackAll
-      ? hasArtpack.all
-      : hasArtpackViewport
-        ? hasArtpack[viewportKey]
-        : null
-    const artpackFiletype = artpack?.filetype
-    const artpackCollection = artpack?.collection
-    const artpackImage = artpack?.image
-    const size =
-      viewportKey === `desktop`
-        ? `1920`
-        : viewportKey === `tablet`
-          ? `800`
-          : `400`
-    const poster =
-      artpackCollection === `static`
-        ? `/${artpackImage}.${artpackFiletype}`
-        : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
-
-    return (
-      <div
-        key={`${id.id}-${idx}`}
-        className={classNames(classes, `relative w-full`)}
-      >
-        {!playing ? (
-          <div
-            className="rounded-md aspect-video"
-            title={oneliner}
-            onClick={() => setPlaying(true)}
-          >
-            <div className="flex items-center justify-center absolute w-full h-full">
-              <div className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
-                <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
-              </div>
-            </div>
-            <img alt={oneliner} src={poster} />
-          </div>
-        ) : (
-          <ReactPlayer
-            url={videoPath}
-            playing={true}
-            preload={false}
-            width="100%"
-            controls
-            className="rounded-md aspect-video"
-            title={oneliner}
-          />
-        )}
-      </div>
-    )
-  })
-  return <div key={id.id}>{rendered}</div>
-}
-
 function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
   const concierge = hooks?.concierge
   const months = [
@@ -529,15 +451,90 @@ function InjectComponent({ target, id }: IInjectComponentProps) {
       break
   }
 }
+*/
+
+function VideoItem(
+  payload: any,
+  id: any,
+  viewportKey: string,
+  hooks: any,
+  classes: string = ``,
+) {
+  const [playing, setPlaying] = useState(false)
+  const rendered = payload.map((e: any, idx: string) => {
+    const thisPayload = e.node
+    const oneliner = thisPayload?.oneliner
+    const optionsPayload =
+      typeof thisPayload?.optionsPayload === `string`
+        ? ParseOptions(thisPayload.optionsPayload)
+        : null
+    const videoPath = optionsPayload?.videoPath
+    const hasArtpack = optionsPayload?.artpack
+    const hasArtpackAll = hasArtpack && hasArtpack.all
+    const hasArtpackViewport =
+      hasArtpack && typeof hasArtpack[viewportKey] !== `undefined`
+    const artpack = hasArtpackAll
+      ? hasArtpack.all
+      : hasArtpackViewport
+        ? hasArtpack[viewportKey]
+        : null
+    const artpackFiletype = artpack?.filetype
+    const artpackCollection = artpack?.collection
+    const artpackImage = artpack?.image
+    const size =
+      viewportKey === `desktop`
+        ? `1920`
+        : viewportKey === `tablet`
+          ? `800`
+          : `400`
+    const poster =
+      artpackCollection === `static`
+        ? `/${artpackImage}.${artpackFiletype}`
+        : `/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`
+
+    return (
+      <div
+        key={`${id.id}-${idx}`}
+        className={classNames(classes, `relative w-full`)}
+      >
+        {!playing ? (
+          <div
+            className="rounded-md aspect-video"
+            title={oneliner}
+            onClick={() => setPlaying(true)}
+          >
+            <div className="flex items-center justify-center absolute w-full h-full">
+              <div className="rounded-md z-70030 bg-black opacity-50 group-hover:opacity-75">
+                <PlayIcon className="w-16 h-16 relative z-70030 text-white opacity-100" />
+              </div>
+            </div>
+            <img alt={oneliner} src={poster} />
+          </div>
+        ) : (
+          <ReactPlayer
+            url={videoPath}
+            playing={true}
+            preload={false}
+            width="100%"
+            controls
+            className="rounded-md aspect-video"
+            title={oneliner}
+          />
+        )}
+      </div>
+    )
+  })
+  return <div key={id.id}>{rendered}</div>
+}
 
 const templates: ITemplateDict = {
-  menugrid: MenuGrid,
-  menuitem: MenuItem,
-  bloglist: BlogList,
+  // menugrid: MenuGrid,
+  // menuitem: MenuItem,
+  // bloglist: BlogList,
   videoitem: VideoItem,
-  togglebeliefgrid: ToggleBeliefGrid,
-  togglebelieftags: ToggleBeliefTags,
-  injectComponent: InjectComponent,
+  // togglebeliefgrid: ToggleBeliefGrid,
+  // togglebelieftags: ToggleBeliefTags,
+  // injectComponent: InjectComponent,
 }
 
 export default templates

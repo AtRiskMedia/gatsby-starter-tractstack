@@ -8,6 +8,7 @@ import '../styles/storyfragment.css'
 import { IStoryFragmentRaw } from '../types'
 import StoryFragmentLive from '../components/StoryFragmentLive'
 import Belief from '../components/Belief'
+import IdentifyAs from '../components/IdentifyAs'
 import YouTube from '../components/YouTube'
 import Toggle from './ToggleBelief'
 import templates from '../custom/templates'
@@ -27,6 +28,7 @@ const StoryFragment = ({ payload }: IStoryFragmentRaw) => {
     viewportKey,
     hooks: {
       belief: Belief,
+      identifyAs: IdentifyAs,
       youtube: YouTube,
       toggle: Toggle,
       Link,

@@ -186,7 +186,7 @@ export interface IToggleBeliefProps {
 }
 
 export interface IBeliefProps {
-  value: { slug: string; scale: string; extra?: string }
+  value: { slug: string; scale?: string; extra?: string; target?: string }
   cssClasses: string
   cssClassesExtra?: string
   storyFragmentId: IStoryFragmentId
