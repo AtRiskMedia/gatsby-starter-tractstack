@@ -27,7 +27,7 @@ const Branding = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
         <Logo className="h-16 mb-2" />
         <Wordmark className="h-10 fill-black" />
       </div>
-      <p className="mt-6 text-sm text-darkgrey text-center font-action tracking-wider">
+      <p className="mt-6 text-sm text-mydarkgrey text-center font-action tracking-wider">
         {config.slogan}
       </p>
     </div>

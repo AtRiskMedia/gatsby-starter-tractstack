@@ -38,7 +38,7 @@ const Footer = ({ observe }: IFooterProps) => {
                 key={item?.name}
                 href={item?.href}
                 title={item?.name}
-                className="text-gray-500 hover:text-black"
+                className="text-mydarkgrey hover:text-black"
               >
                 <span className="sr-only">{item?.name}</span>
                 <SocialIcons
@@ -49,7 +49,7 @@ const Footer = ({ observe }: IFooterProps) => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-xl text-darkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
+          <p className="mt-8 text-xl text-mydarkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
             © {new Date().getFullYear()} &middot; {footerText}
           </p>
         </div>

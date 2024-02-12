@@ -140,20 +140,20 @@ const ConciergeProfile = () => {
           : BellSlashIcon
   const iconClass =
     personaSelected.title === `DMs open`
-      ? `text-allblack`
+      ? `text-black`
       : personaSelected.title === `Major Updates Only`
-        ? `text-darkgrey`
+        ? `text-mydarkgrey`
         : personaSelected.title === `All Updates`
-          ? `text-orange`
-          : `text-darkgrey`
+          ? `text-myorange`
+          : `text-mydarkgrey`
   const barClass =
     personaSelected.title === `DMs open`
       ? `bg-green`
       : personaSelected.title === `All Updates`
-        ? `bg-orange/90`
+        ? `bg-myorange/90`
         : personaSelected.title === `Major Updates Only`
-          ? `bg-orange/50`
-          : `bg-darkgrey`
+          ? `bg-myorange/50`
+          : `bg-mydarkgrey`
   const barWidth =
     personaSelected.title === `DMs open`
       ? `100%`
@@ -242,7 +242,7 @@ const ConciergeProfile = () => {
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 sm:px-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-mylightgrey">
                 <aside className="py-6 md:col-span-3">
                   <nav className="space-y-1">
                     <ConciergeNav active="profile" />
@@ -250,7 +250,7 @@ const ConciergeProfile = () => {
                 </aside>
 
                 <div className="divide-y divide-gray-200 md:col-span-9 relative">
-                  <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
+                  <div className="absolute right-4 top-4 text-mydarkgrey hover:text-myorange">
                     <button onClick={() => close()}>
                       <XMarkIcon className="w-8 h-8" />
                     </button>
@@ -259,11 +259,11 @@ const ConciergeProfile = () => {
                     <div>
                       <h2
                         id="rooted"
-                        className="text-3xl tracking-tight text-orange md:text-4xl font-bold"
+                        className="text-3xl tracking-tight text-myorange md:text-4xl font-bold"
                       >
                         Join our launch waitlist
                       </h2>
-                      <p className="mt-4 mb-4 text-lg text-gray-700">
+                      <p className="mt-4 mb-4 text-lg text-mydarkgrey">
                         {authenticated ? (
                           <>Welcome back, {firstname}.</>
                         ) : (
@@ -288,11 +288,11 @@ const ConciergeProfile = () => {
                         </p>
                       ) : null}
                       {!isLoggedIn || !authenticated ? (
-                        <p className="text-blue text-lg mb-10">
+                        <p className="text-myblue text-lg mb-10">
                           Not your first visit?{` `}
                           <Link
                             to={`/concierge/login`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
+                            className="no-underline hover:underline hover:underline-offset-1 text-myblue hover:text-myorange font-main font-bold"
                           >
                             Log-in
                           </Link>
@@ -306,7 +306,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-3 md:col-span-1">
                             <label
                               htmlFor="firstname"
-                              className="block text-sm text-gray-700"
+                              className="block text-sm text-mydarkgrey"
                             >
                               First name
                             </label>
@@ -320,7 +320,7 @@ const ConciergeProfile = () => {
                                 updateAuthData(`firstname`, e.target.value)
                               }
                               className={classNames(
-                                `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
+                                `mt-1 block w-full rounded-md shadow-sm focus:border-myorange focus:ring-myorange md:text-sm`,
                                 submitted && firstname === ``
                                   ? `border-red-500`
                                   : `border-slate-200`,
@@ -336,7 +336,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-3 md:col-span-2">
                             <label
                               htmlFor="email"
-                              className="block text-sm text-gray-700"
+                              className="block text-sm text-mydarkgrey"
                             >
                               Email address
                             </label>
@@ -350,7 +350,7 @@ const ConciergeProfile = () => {
                                 updateAuthData(`email`, e.target.value)
                               }
                               className={classNames(
-                                `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
+                                `mt-1 block w-full rounded-md shadow-sm focus:border-myorange focus:ring-myorange md:text-sm`,
                                 submitted && firstname === ``
                                   ? `border-red-500`
                                   : `border-slate-200`,
@@ -373,18 +373,18 @@ const ConciergeProfile = () => {
                                   >
                                     {({ open }) => (
                                       <>
-                                        <Listbox.Label className="block text-sm text-darkgrey mb-2">
+                                        <Listbox.Label className="block text-sm text-mydarkgrey mb-2">
                                           Communication Preferences
                                         </Listbox.Label>
 
                                         <div className="relative mt-2">
-                                          <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black shadow-sm ring-1 ring-inset ring-orange focus:outline-none focus:ring-2 focus:ring-orange sm:text-sm sm:leading-6">
+                                          <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black shadow-sm ring-1 ring-inset ring-myorange focus:outline-none focus:ring-2 focus:ring-myorange sm:text-sm sm:leading-6">
                                             <span className="block truncate">
                                               {personaSelected.title}
                                             </span>
                                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                               <ChevronDownIcon
-                                                className="h-5 w-5 text-darkgrey"
+                                                className="h-5 w-5 text-mydarkgrey"
                                                 aria-hidden="true"
                                               />
                                             </span>
@@ -406,7 +406,7 @@ const ConciergeProfile = () => {
                                                       classNames(
                                                         active
                                                           ? `text-black bg-slate-100`
-                                                          : `text-allblack`,
+                                                          : `text-black`,
                                                         `cursor-default select-none p-2 text-sm`,
                                                       )
                                                     }
@@ -473,7 +473,7 @@ const ConciergeProfile = () => {
                               <div className="col-span-2 mt-10">
                                 <label
                                   htmlFor="bio"
-                                  className="block text-sm text-gray-700"
+                                  className="block text-sm text-mydarkgrey"
                                 >
                                   {!authenticated && firstname ? (
                                     <>
@@ -494,7 +494,7 @@ const ConciergeProfile = () => {
                                     name="bio"
                                     rows={3}
                                     maxLength={280}
-                                    className="block w-full rounded-md border-slate-200 shadow-sm focus:border-orange focus:ring-orange md:text-sm"
+                                    className="block w-full rounded-md border-slate-200 shadow-sm focus:border-myorange focus:ring-myorange md:text-sm"
                                     placeholder="Your one-liner bio"
                                     defaultValue={shortBio}
                                     onChange={(e) =>
@@ -507,7 +507,7 @@ const ConciergeProfile = () => {
                               <div className="col-span-1">
                                 <label
                                   htmlFor="codeword"
-                                  className="block text-sm text-gray-700"
+                                  className="block text-sm text-mydarkgrey"
                                 >
                                   {authenticated ? `Re-e` : `E`}nter your secret
                                   code word to protect your account:
@@ -520,7 +520,7 @@ const ConciergeProfile = () => {
                                   defaultValue={codeword}
                                   onChange={(e) => setCodeword(e.target.value)}
                                   className={classNames(
-                                    `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange`,
+                                    `mt-1 block w-full rounded-md shadow-sm focus:border-myorange focus:ring-myorange`,
                                     submitted && firstname === ``
                                       ? `border-red-500`
                                       : `border-slate-200`,
@@ -540,7 +540,7 @@ const ConciergeProfile = () => {
                           <div className="col-span-2 mt-6">
                             <button
                               type="submit"
-                              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-black shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-myorange focus:ring-offset-2"
                             >
                               <span className="pr-4">
                                 {authenticated ? `Save Profile` : config.action}
@@ -557,7 +557,7 @@ const ConciergeProfile = () => {
                       <div className="mt-10">
                         <button
                           type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-black shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-myorange focus:ring-offset-2"
                           onClick={() => showProfile()}
                         >
                           <span className="pr-4">Edit your profile</span>

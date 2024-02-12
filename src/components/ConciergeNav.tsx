@@ -86,8 +86,8 @@ const ConciergeNav = ({ active }: IConciergeNavProps) => {
           <item.icon
             className={classNames(
               item.current
-                ? `text-blue group-hover:text-blue`
-                : `text-mydarkgrey group-hover:text-gray-500`,
+                ? `text-myblue group-hover:text-myblue`
+                : `text-mydarkgrey group-hover:text-myblack`,
               `flex-shrink-0 -ml-1 mr-3 h-6 w-6`,
             )}
             aria-hidden="true"

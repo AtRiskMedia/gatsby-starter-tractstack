@@ -103,20 +103,20 @@ const FeaturesGrid = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             {features.map((feature) => (
               <div
                 key={feature.id}
-                className="relative flex items-center space-x-3 rounded-lg bg-allwhite px-6 py-5 shadow-sm"
+                className="relative flex items-center space-x-3 rounded-lg bg-white px-6 py-5 shadow-sm"
               >
                 <div className="my-auto flex-shrink-0 pr-6">{feature.icon}</div>
                 <div className="min-w-0 flex-1">
                   <p className="text-lg font-action text-black">
                     {feature.title}
                   </p>
-                  <p className="text-md text-darkgrey pt-2">
+                  <p className="text-md text-mydarkgrey pt-2">
                     {feature.description}
                     {` `}
                     <Link
                       to={feature.goto}
                       onClick={() => handleClick(feature.goto, feature.id)}
-                      className="text-xs hover:text-allblack text-blue underline underline-offset-2"
+                      className="text-xs hover:text-black text-myblue underline underline-offset-2"
                     >
                       Why?
                     </Link>

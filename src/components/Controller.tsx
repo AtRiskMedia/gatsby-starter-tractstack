@@ -34,18 +34,18 @@ const Impression = ({ payload }: IImpressionProps) => {
   if (typeof payload !== `object`) return <></>
   return (
     <>
-      <h3 className="text-md font-action leading-6 text-allblack">
+      <h3 className="text-md font-action leading-6 text-black">
         {payload.title}
       </h3>
       <div className="mt-2 sm:flex sm:items-start sm:justify-between">
-        <div className="max-w-xl text-sm text-allblack">
+        <div className="max-w-xl text-sm text-black">
           <p>
             {payload.body}
             {` `}
             <button
               type="button"
               onClick={injectPayload}
-              className="underline underline-offset-4 text-allblack hover:text-orange"
+              className="underline underline-offset-4 text-black hover:text-myorange"
             >
               {payload.buttonText}
             </button>
@@ -93,12 +93,12 @@ const Controller = ({
     return (
       <aside id="controller" className="mr-1">
         <div
-          className={`z-90101 overflow-hidden bg-white rounded-md border border-darkgrey controller__expanded controller__expanded--${viewportKey}`}
+          className={`z-90101 overflow-hidden bg-white rounded-md border border-mydarkgrey controller__expanded controller__expanded--${viewportKey}`}
         >
           <div className="px-4 pt-4">
             <button
               type="button"
-              className="z-90101 absolute right-2 top-2 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="z-90101 absolute right-2 top-2 rounded-md bg-white text-mylightgrey hover:text-mylightgrey focus:outline-none focus:ring-2 focus:ring-mygreen focus:ring-offset-2"
               onClick={() => setControllerOverride(!controllerOverride)}
             >
               <span className="sr-only">Hide controller</span>
@@ -115,12 +115,12 @@ const Controller = ({
     >
       <button
         type="button"
-        className="z-90101 rounded-md bg-lightgrey text-allblack hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="z-90101 rounded-md bg-mylightgrey text-black hover:text-mylightgrey focus:outline-none focus:ring-2 focus:ring-mygreen focus:ring-offset-2"
         onClick={() => setControllerOverride(!controllerOverride)}
       >
         <span className="sr-only">Show controller</span>
         <ArrowsPointingOutIcon className="h-8 w-8" aria-hidden="true" />
-        <span className="z-90101 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-allwhite text-black flex justify-center items-center items">
+        <span className="z-90101 absolute -top-5 -left-4 h-6 w-6 rounded-full bg-white text-black flex justify-center items-center items">
           {impressionPanes.length}
         </span>
       </button>

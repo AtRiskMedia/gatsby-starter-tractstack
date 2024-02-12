@@ -78,7 +78,7 @@ const IdentifyAs = ({
                     selected?.color
                       ? `border-${selected.color.substring(3)}`
                       : `bg-slate-200`,
-                    `relative w-full cursor-default rounded-md border bg-white text-allblack py-2 pl-3 pr-10 text-left shadow-sm focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange sm:text-sm`,
+                    `relative w-full cursor-default rounded-md border bg-white text-black py-2 pl-3 pr-10 text-left shadow-sm focus:border-myorange focus:outline-none focus:ring-1 focus:ring-myorange sm:text-sm`,
                   )}
                 >
                   <span className="flex items-center">
@@ -86,7 +86,7 @@ const IdentifyAs = ({
                       aria-label="Color swatch for belief"
                       className={classNames(
                         `motion-safe:animate-pulse`,
-                        selected?.color ? selected.color : `bg-orange`,
+                        selected?.color ? selected.color : `bg-myorange`,
                         `inline-block h-2 w-2 flex-shrink-0 rounded-full`,
                       )}
                     />
@@ -96,7 +96,7 @@ const IdentifyAs = ({
                   </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
-                      className="h-5 w-5 text-lightgrey"
+                      className="h-5 w-5 text-mylightgrey"
                       aria-hidden="true"
                     />
                   </span>
@@ -115,7 +115,7 @@ const IdentifyAs = ({
                         key={factor.id}
                         className={({ active }) =>
                           classNames(
-                            active ? `text-blue bg-slate-200` : `text-black`,
+                            active ? `text-myblue bg-slate-200` : `text-black`,
                             `relative cursor-default select-none py-2 pl-3 pr-9`,
                           )
                         }
@@ -144,7 +144,7 @@ const IdentifyAs = ({
                             {selected ? (
                               <span
                                 className={classNames(
-                                  active ? `text-white` : `text-allblack`,
+                                  active ? `text-white` : `text-black`,
                                   `absolute inset-y-0 right-0 flex items-center px-2`,
                                 )}
                               >

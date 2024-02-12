@@ -27,10 +27,10 @@ const Cart = () => {
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-mylightgrey">
                 <div className="md:col-span-12">
                   <div className="mx-auto max-w-2xl py-16 px-4 md:px-0">
-                    <h2 className="text-center text-3xl tracking-tight text-gray-900 md:text-4xl">
+                    <h2 className="text-center text-3xl tracking-tight text-mydarkgrey md:text-4xl">
                       Shopping Cart
                     </h2>
 
@@ -42,7 +42,7 @@ const Cart = () => {
                         <p className="text-center pt-12">
                           <Link
                             to={goto}
-                            className="text-orange hover:text-allblack"
+                            className="text-myorange hover:text-black"
                           >
                             Continue Browsing
                             <span aria-hidden="true"> &rarr;</span>
@@ -78,10 +78,10 @@ const Cart = () => {
                           <div>
                             <dl className="space-y-4">
                               <div className="flex items-center justify-between">
-                                <dt className="text-base text-gray-900">
+                                <dt className="text-base text-mydarkgrey">
                                   Subtotal
                                 </dt>
-                                <dd className="ml-4 text-base text-gray-900">
+                                <dd className="ml-4 text-base text-mydarkgrey">
                                   {formatPrice(
                                     checkout.subtotalPriceV2.currencyCode,
                                     checkout.subtotalPriceV2.amount,
@@ -96,7 +96,7 @@ const Cart = () => {
                               type="submit"
                               onClick={handleCheckout}
                               disabled={loading}
-                              className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green py-3 px-8 text-base text-black hover:bg-orange focus:outline-none focus:ring-2 focus:ring-green focus:ring-offset-2"
+                              className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green py-3 px-8 text-base text-black hover:bg-myorange focus:outline-none focus:ring-2 focus:ring-green focus:ring-offset-2"
                             >
                               Checkout
                             </button>
@@ -107,7 +107,7 @@ const Cart = () => {
                               or{` `}
                               <Link
                                 to={goto}
-                                className="text-orange hover:text-allblack"
+                                className="text-myorange hover:text-black"
                               >
                                 Continue Browsing
                                 <span aria-hidden="true"> &rarr;</span>

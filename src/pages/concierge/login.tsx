@@ -83,7 +83,7 @@ const ConciergeLogin = () => {
         <main className="relative bg-blue-gradient">
           <div className="mx-auto px-2 py-4 md:px-6 md:py-6">
             <div className="overflow-hidden rounded-lg bg-white shadow h-max">
-              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-lightgrey">
+              <div className="divide-y divide-gray-200 md:grid md:grid-cols-12 md:divide-y-0 md:divide-x shadow-inner shadow-mylightgrey">
                 <aside className="py-6 md:col-span-3">
                   <nav className="space-y-1">
                     <ConciergeNav active="login" />
@@ -91,32 +91,32 @@ const ConciergeLogin = () => {
                 </aside>
 
                 <div className="divide-y divide-gray-200 md:col-span-9 relative">
-                  <div className="absolute right-4 top-4 text-darkgrey hover:text-orange">
+                  <div className="absolute right-4 top-4 text-mydarkgrey hover:text-myorange">
                     <button onClick={() => close()}>
                       <XMarkIcon className="w-8 h-8" />
                     </button>
                   </div>
                   <div className="py-6 px-4 md:pb-8 md:col-span-9 md:max-w-2xl my-16">
                     <div>
-                      <h2 className="text-3xl tracking-tight text-orange md:text-4xl">
+                      <h2 className="text-3xl tracking-tight text-myorange md:text-4xl">
                         Welcome back
                         {!authenticated && knownFirstName
                           ? `, ${firstName}.`
                           : null}
                       </h2>
                       {isLoggedIn && !authenticated && knownLead ? null : (
-                        <p className="text-blue text-lg mt-4 mb-4">
+                        <p className="text-myblue text-lg mt-4 mb-4">
                           First visit?{` `}
                           <Link
                             to={`/concierge/profile`}
-                            className="no-underline hover:underline hover:underline-offset-1 text-blue hover:text-orange font-main font-bold"
+                            className="no-underline hover:underline hover:underline-offset-1 text-myblue hover:text-myorange font-main font-bold"
                           >
                             Create Profile
                           </Link>
                           .
                         </p>
                       )}
-                      <p className="mt-4 mb-6 text-lg text-gray-700">
+                      <p className="mt-4 mb-6 text-lg text-mydarkgrey">
                         To access your profile, please enter your code word and
                         confirm your email:
                       </p>
@@ -126,7 +126,7 @@ const ConciergeLogin = () => {
                         <div className="col-span-3 md:col-span-1">
                           <label
                             htmlFor="codeword"
-                            className="block text-sm text-gray-700 font-bold"
+                            className="block text-sm text-mydarkgrey font-bold"
                           >
                             Code word:
                           </label>
@@ -138,7 +138,7 @@ const ConciergeLogin = () => {
                             defaultValue={codeword}
                             onBlur={(e) => setCodeword(e.target.value)}
                             className={classNames(
-                              `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
+                              `mt-1 block w-full rounded-md shadow-sm focus:border-myorange focus:ring-myorange md:text-sm`,
                               (submitted && codeword === ``) || success === -1
                                 ? `border-red-500`
                                 : `border-gray-300`,
@@ -168,11 +168,11 @@ const ConciergeLogin = () => {
                             defaultValue={email}
                             onBlur={(e) => setEmail(e.target.value)}
                             className={classNames(
-                              `mt-1 block w-full rounded-md shadow-sm focus:border-orange focus:ring-orange md:text-sm`,
+                              `mt-1 block w-full rounded-md shadow-sm focus:border-myorange focus:ring-myorange md:text-sm`,
                               submitted && email === ``
                                 ? `border-red-500`
                                 : `border-gray-300`,
-                              knownEmail ? `text-lightgrey` : ``,
+                              knownEmail ? `text-mylightgrey` : ``,
                             )}
                           />
                           {submitted && email === `` && (
@@ -192,7 +192,7 @@ const ConciergeLogin = () => {
                         <div className="col-span-3 mt-6">
                           <button
                             type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-allblack shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 py-3 px-4 text-sm text-black shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-myorange focus:ring-offset-2"
                           >
                             <span className="pr-4">Authenticate</span>
                             <ChevronRightIcon

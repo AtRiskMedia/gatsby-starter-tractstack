@@ -62,8 +62,8 @@ function ToggleBeliefTags(
         onClick={injectPayload}
         className={classNames(
           matchedBelief
-            ? `-rotate-1 scale-95 bg-blue text-allwhite`
-            : `hover:-rotate-1 scale-90 hover:scale-95 bg-allwhite text-blue`,
+            ? `-rotate-1 scale-95 bg-myblue text-white`
+            : `hover:-rotate-1 scale-90 hover:scale-95 bg-white text-myblue`,
           `transition duration-50 inline-flex items-center rounded-md font-action relative`,
           viewportClasses,
         )}
@@ -88,7 +88,7 @@ function ToggleBeliefTags(
       <div
         className={classNames(
           isMatched
-            ? `border-l-4 border-lightgrey opacity-5`
+            ? `border-l-4 border-mylightgrey opacity-5`
             : `border-l-4 border-slate-200 motion-safe:animate-pulse opacity-5`,
           `absolute w-full h-full `,
         )}
@@ -171,7 +171,7 @@ function ToggleBeliefGrid(
               )}
             >
               {!matchedBelief ? (
-                <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
+                <div className="absolute bg-mylightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
               ) : null}
               <img
                 className="rounded-xl relative z-50"
@@ -182,8 +182,8 @@ function ToggleBeliefGrid(
             <p
               className={classNames(
                 matchedBelief
-                  ? `text-orange text-left`
-                  : `text-blue group-hover:text-orange text-right`,
+                  ? `text-myorange text-left`
+                  : `text-myblue group-hover:text-myorange text-right`,
                 `font-main text-lg leading-5 tracking-tight font-bold px-6`,
               )}
             >
@@ -244,14 +244,14 @@ function MenuGrid(payload: any, id: any, viewportKey: string, hooks: any) {
         <div className="group aspect-h-10 aspect-w-16 block w-full overflow-hidden">
           <button onClick={injectPayload} className="group">
             <div className="mb-2 rounded-xl group-hover:-rotate-1 scale-90 group-hover:scale-95 transition duration-50 pointer-events-none object-cover relative">
-              <div className="absolute bg-lightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
+              <div className="absolute bg-mylightgrey w-full h-full z-0 rounded-xl scale-105 motion-safe:animate-pulse opacity-10" />
               <img
                 className="rounded-xl z-50 relative"
                 src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
                 title={oneliner}
               />
             </div>
-            <p className="font-main text-lg md:text-xl tracking-tight text-blue group-hover:text-orange z-50 relative">
+            <p className="font-main text-lg md:text-xl tracking-tight text-myblue group-hover:text-myorange z-50 relative">
               {oneliner}
             </p>
           </button>
@@ -311,7 +311,7 @@ function MenuItem(payload: any, id: any, viewportKey: string, hooks: any) {
             src={`/${artpackCollection}-artpack/${size}/${artpackImage}.${artpackFiletype}`}
             title={oneliner}
           />
-          <h2 className="font-action text-lg tracking-tight text-blue group-hover:text-orange">
+          <h2 className="font-action text-lg tracking-tight text-myblue group-hover:text-myorange">
             {oneliner}
           </h2>
         </button>
@@ -389,22 +389,22 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
               alt={`Decorative image for ${oneliner}`}
               className="absolute inset-0 h-full w-full rounded-2xl object-cover group-hover:-rotate-1 group-hover:scale-105"
             />
-            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-darkgrey/10" />
+            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-mydarkgrey/10" />
           </button>
           <div>
             <div>
               <div className="flex items-center gap-x-4 text-xs">
                 {timestamp ? (
-                  <time dateTime={timestamp} className="text-darkgrey">
+                  <time dateTime={timestamp} className="text-mydarkgrey">
                     {`${day} ${month} ${year}`}
                   </time>
                 ) : null}
-                <span className="relative z-10 rounded-full bg-lightgrey/10 px-3 py-1.5 text-black">
+                <span className="relative z-10 rounded-full bg-mylightgrey/10 px-3 py-1.5 text-black">
                   {categorySlug}
                 </span>
               </div>
               <div className="group relative max-w-xl">
-                <h3 className="mt-3 leading-6 text-blue text-2xl">
+                <h3 className="mt-3 leading-6 text-myblue text-2xl">
                   <button
                     className="font-bold font-main"
                     onClick={injectPayload}
@@ -413,7 +413,7 @@ function BlogList(payload: any, id: any, viewportKey: string, hooks: any) {
                     {oneliner}
                   </button>
                 </h3>
-                <p className="mt-2 text-sm leading-4 text-darkgrey">
+                <p className="mt-2 text-sm leading-4 text-mydarkgrey">
                   {description}
                 </p>
               </div>

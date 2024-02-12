@@ -90,8 +90,8 @@ const ShopifyProduct = ({ data }: any) => {
               <div className="md:grid md:auto-rows-min md:grid-cols-12 md:gap-x-8">
                 <div className="md:col-span-5 md:col-start-8">
                   <div className="flex justify-between">
-                    <h1 className="text-xl text-gray-900">{title}</h1>
-                    <p className="text-xl text-gray-900">{price}</p>
+                    <h1 className="text-xl text-mydarkgrey">{title}</h1>
+                    <p className="text-xl text-mydarkgrey">{price}</p>
                   </div>
                 </div>
 
@@ -123,17 +123,17 @@ const ShopifyProduct = ({ data }: any) => {
                       >
                         {({ open }) => (
                           <>
-                            <Listbox.Label className="block text-sm leading-6 text-gray-900">
+                            <Listbox.Label className="block text-sm leading-6 text-mydarkgrey">
                               {name}
                             </Listbox.Label>
                             <div className="relative mt-2">
-                              <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 md:text-sm md:leading-6">
+                              <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-mydarkgrey shadow-sm ring-1 ring-inset ring-mygreen focus:outline-none focus:ring-2 focus:ring-myorange md:text-sm md:leading-6">
                                 <span className="block truncate">
                                   {selected}
                                 </span>
                                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                   <ChevronUpDownIcon
-                                    className="h-5 w-5 text-gray-400"
+                                    className="h-5 w-5 text-lightgrey"
                                     aria-hidden="true"
                                   />
                                 </span>
@@ -153,8 +153,8 @@ const ShopifyProduct = ({ data }: any) => {
                                       className={({ active }) =>
                                         classNames(
                                           active
-                                            ? `bg-indigo-600 text-white`
-                                            : `text-gray-900`,
+                                            ? `bg-myorange text-white`
+                                            : `text-mydarkgrey`,
                                           `relative cursor-default select-none py-2 pl-3 pr-9`,
                                         )
                                       }
@@ -176,7 +176,7 @@ const ShopifyProduct = ({ data }: any) => {
                                               className={classNames(
                                                 active
                                                   ? `text-white`
-                                                  : `text-indigo-600`,
+                                                  : `text-myorange`,
                                                 `absolute inset-y-0 right-0 flex items-center pr-4`,
                                               )}
                                             >
@@ -212,10 +212,10 @@ const ShopifyProduct = ({ data }: any) => {
                     />
                   </div>
                   <div className="mt-10">
-                    <h2 className="text-sm text-gray-900">Description</h2>
+                    <h2 className="text-sm text-mydarkgrey">Description</h2>
 
                     <div
-                      className="prose prose-sm mt-4 text-gray-500"
+                      className="prose prose-sm mt-4 text-myblack"
                       dangerouslySetInnerHTML={{ __html: description }}
                     />
                   </div>

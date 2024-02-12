@@ -50,7 +50,7 @@ export function LineItem({ product }: any) {
         <div>
           <div className="flex justify-between">
             <h4 className="text-sm">{product.title}</h4>
-            <p className="ml-4 text-sm font-medium text-gray-900">
+            <p className="ml-4 text-sm text-mydarkgrey">
               {quantity === 1 ? `${price}` : `${quantity}x ${price}`}
             </p>
           </div>
@@ -61,7 +61,7 @@ export function LineItem({ product }: any) {
             <button
               type="button"
               onClick={handleRemove}
-              className="text-sm font-medium text-orange hover:text-allblack"
+              className="text-sm text-myorange hover:text-black"
             >
               <span>Remove</span>
             </button>
