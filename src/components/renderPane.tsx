@@ -195,6 +195,7 @@ const RenderPane = ({
       {
         verb: `UNSET`,
         id: boundBelief,
+        object: true, // janky work-around for identifyAs
         title: ``,
         type: `Belief`,
       },
