@@ -64,11 +64,11 @@ const IdentifyAs = ({
   }, [beliefs, thisScale, identifyAsObject, value.slug])
 
   return (
-    <>
+        <div className={cssClasses}>
       {extra ? (
-        <div className={classNames(cssClasses, `block pb-2`)}>{extra}</div>
+        <span className="mr-2">{extra}</span>
       ) : null}
-      <div className="inline-block">
+      <div className="block mt-3 w-fit">
         <Listbox value={selected} onChange={handleClick}>
           {({ open }) => (
             <>
@@ -165,7 +165,7 @@ const IdentifyAs = ({
           )}
         </Listbox>
       </div>
-    </>
+      </div>
   )
 }
 
