@@ -49,11 +49,9 @@ const Belief = ({ value, cssClasses = ``, storyFragmentId }: IBeliefProps) => {
   }, [beliefs, thisScale, value.slug])
 
   return (
-    <>
-      {extra ? (
-        <div className={classNames(cssClasses, `block pb-2`)}>{extra}</div>
-      ) : null}
-      <div className="inline-block">
+    <div className={cssClasses}>
+      {extra ? <span className="mr-2">{extra}</span> : null}
+      <div className="block mt-3 w-fit">
         <Listbox value={selected} onChange={handleClick}>
           {({ open }) => (
             <>
@@ -150,7 +148,7 @@ const Belief = ({ value, cssClasses = ``, storyFragmentId }: IBeliefProps) => {
           )}
         </Listbox>
       </div>
-    </>
+    </div>
   )
 }
 
