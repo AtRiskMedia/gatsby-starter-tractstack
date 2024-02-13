@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import React, { useState } from 'react'
+import React from 'react'
 import { classNames } from '@tractstack/helpers'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { IViewportKeyProps } from '@tractstack/types'
@@ -61,7 +61,8 @@ const Pricing = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
   return (
     <div
       id={`${viewportKey}-${storyFragmentId.id}`}
-      className="mx-auto my-16 max-w-7xl px-6 md:my-32 xl:px-8">
+      className="mx-auto my-16 max-w-7xl px-6 md:my-32 xl:px-8"
+    >
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="text-base leading-7 text-mydarkgrey">Pricing</h1>
         <p className="mt-2 text-4xl font-bold tracking-tight text-myblack md:text-5xl">
@@ -94,7 +95,7 @@ const Pricing = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             </p>
             <p className="mt-6 flex items-baseline gap-x-1">
               <span className="text-4xl font-bold tracking-tight text-myblack">
-                {tier.price[frequency.value]}
+                {tier.price.monthly}
               </span>
               <span className="text-sm leading-6 text-mydarkgrey">
                 {frequency.priceSuffix}

@@ -148,7 +148,7 @@ const ConciergeProfile = () => {
           : `text-mydarkgrey`
   const barClass =
     personaSelected.title === `DMs open`
-      ? `bg-green`
+      ? `bg-mygreen`
       : personaSelected.title === `All Updates`
         ? `bg-myorange/90`
         : personaSelected.title === `Major Updates Only`
