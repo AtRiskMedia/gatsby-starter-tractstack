@@ -168,6 +168,16 @@ const config: GatsbyConfig = {
           username: process.env.BASIC_AUTH_USERNAME,
           password: process.env.BASIC_AUTH_PASSWORD,
         },
+        filters: {
+          // collection : filter
+          'file--file': 'filter[status][value]=1',
+          'node--story_fragment': 'filter[status][value]=1',
+          'node--tractstack': 'filter[status][value]=1',
+          'node--pane': 'filter[status][value]=1',
+          'node--resource': 'filter[status][value]=1',
+          'node--menu': 'filter[status][value]=1',
+          'node--markdown': 'filter[status][value]=1',
+        },
       },
     },
   ],

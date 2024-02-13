@@ -41,6 +41,7 @@ module.exports = {
         20: '5rem',
       },
       screens: {
+        xs: '600px',
         md: '801px',
         xl: '1367px',
       },
