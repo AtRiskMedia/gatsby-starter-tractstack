@@ -9,7 +9,7 @@ export const useProductData = () => {
             id
             title
             handle
-            description
+            descriptionHtml
             productType
             priceRangeV2 {
               maxVariantPrice {

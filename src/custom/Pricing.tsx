@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
+import { Link } from 'gatsby'
 import { classNames } from '@tractstack/helpers'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { IViewportKeyProps } from '@tractstack/types'
@@ -12,45 +13,45 @@ const pricing = {
       id: `tier-self-hosted`,
       href: `#`,
       price: { monthly: `$0` },
-      description: `The essentials to provide your best work for clients.`,
+      description: `Tract Stack is source-available and free for commercial use. (Reselling Tract Stack as a Service is not permitted on this license.)`,
       features: [
-        `5 products`,
-        `Up to 1,000 subscribers`,
-        `Basic analytics`,
-        `48-hour support response time`,
+        `Avaliable under the Functional Source License FSL-1.0-MIT`,
+        `Install & build recipes coming soon!`,
       ],
       mostPopular: false,
+      product: null,
     },
     {
       name: `Complete`,
       id: `tier-complete`,
       href: `#`,
       price: { monthly: `$100` },
-      description: `A plan that scales with your rapidly growing business.`,
+      description: `A fully managed website + analytics in-a-box. This includes your own Tract Stack and dedicated Story Keep (for your stuff).`,
       features: [
-        `25 products`,
-        `Up to 10,000 subscribers`,
-        `Advanced analytics`,
-        `24-hour support response time`,
-        `Marketing automations`,
+        `Fully managed professional hosting of complete website`,
+        `Use your own custom domain`,
+        `Immediate and out-of-the-box content + engagement analytics`,
+        `Build recipes + how-to resources coming soon!`,
+        `Integrates with Neo4j AuraDB (knowledge graph + advanced analytics)`,
+        `Integrates with Shopify (built-in checkout cart)`,
       ],
-      mostPopular: true,
+      mostPopular: false,
+      product: `tract-stack-complete`,
     },
     {
       name: `Complete with Premium Support`,
       id: `tier-premium`,
       href: `#`,
       price: { monthly: `$250` },
-      description: `Dedicated support and infrastructure for your company.`,
+      description: `Everything you'll need to get the most out of your Tract Stack. Includes a premium package for initial set-up and ongoing technical support.`,
       features: [
-        `Unlimited products`,
-        `Unlimited subscribers`,
-        `Advanced analytics`,
-        `1-hour, dedicated support response time`,
-        `Marketing automations`,
-        `Custom reporting tools`,
+        `Everything included in complete`,
+        `Dedicated and proactive support for initial technical set-up of your Tract Stack`,
+        `Unlimited ongoing email support`,
+        `Priority input on product roadmap and feature development`,
       ],
-      mostPopular: false,
+      mostPopular: true,
+      product: `tract-stack-complete-premium`,
     },
   ],
 }
@@ -78,19 +79,19 @@ const Pricing = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
             key={tier.id}
             className={classNames(
               tier.mostPopular ? `ring-2 ring-mygreen` : `ring-1 ring-gray-200`,
-              `rounded-3xl p-8`,
+              `rounded-3xl p-8 bg-mywhite`,
             )}
           >
             <h2
               id={tier.id}
               className={classNames(
                 tier.mostPopular ? `text-black font-bold` : `text-myblack`,
-                `text-lg leading-8`,
+                `text-xl leading-8`,
               )}
             >
               {tier.name}
             </h2>
-            <p className="mt-4 text-sm leading-6 text-mydarkgrey">
+            <p className="mt-4 text-md leading-6 text-mydarkgrey">
               {tier.description}
             </p>
             <p className="mt-6 flex items-baseline gap-x-1">
@@ -101,21 +102,27 @@ const Pricing = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
                 {frequency.priceSuffix}
               </span>
             </p>
-            <a
-              href={tier.href}
-              aria-describedby={tier.id}
-              className={classNames(
-                tier.mostPopular
-                  ? `bg-mygreen text-black font-bold shadow-sm hover:bg-myblack hover:text-white`
-                  : `text-myblack ring-1 ring-inset ring-myblack hover:ring-mygreen`,
-                `mt-6 block rounded-md py-2 px-3 text-center text-sm leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mygreen`,
-              )}
-            >
-              Buy plan
-            </a>
+            {tier.product ? (
+              <Link
+                to={`/products/${tier.product}`}
+                aria-describedby={tier.id}
+                className={classNames(
+                  tier.mostPopular
+                    ? `bg-mygreen text-black font-bold shadow-sm hover:bg-myblack hover:text-white`
+                    : `text-myblack ring-1 ring-inset ring-myblack hover:ring-mygreen hover:bg-myblack hover:text-white`,
+                  `mt-6 block rounded-md py-2 px-3 text-center text-sm leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mygreen`,
+                )}
+              >
+                Buy plan
+              </Link>
+            ) : (
+              <div className="bg-white mt-6 block rounded-md py-2 px-3 text-center text-sm leading-6 text-mydarkgrey">
+                FREE
+              </div>
+            )}
             <ul
               role="list"
-              className="mt-8 space-y-3 text-sm leading-6 text-mydarkgrey"
+              className="mt-8 space-y-3 text-md leading-6 text-mydarkgrey"
             >
               {tier.features.map((feature) => (
                 <li key={feature} className="flex gap-x-3">

@@ -59,7 +59,7 @@ const Graph = ({ data }: any) => {
 
   return (
     <section className="xl:max-w-screen-2xl h-full">
-      <div className="h-full shadow-sm bg-white">
+      <div className="h-full shadow-sm bg-myoffwhite">
         {!loaded ? (
           <div className="flex items-center justify-center h-full">
             <div className="max-w-xs leading-6 text-lg text-mydarkgrey">
@@ -70,8 +70,8 @@ const Graph = ({ data }: any) => {
           </div>
         ) : (
           <>
-            <div className="p-6 w-full text-center font-action text-xl text-myblue">
-              Double Click to Visit Content Pane or Page
+            <div className="p-6 w-full text-center font-bold text-xs text-myblue">
+              Double Click to Circles below and fast travel to that section of the website
             </div>
             <VisNetwork nodes={data} payload={graphData} />
           </>

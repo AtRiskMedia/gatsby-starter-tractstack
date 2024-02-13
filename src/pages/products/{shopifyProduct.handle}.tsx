@@ -36,7 +36,7 @@ const ShopifyProduct = ({ data }: any) => {
     variants: [initialVariant],
     priceRangeV2,
     title,
-    description,
+    descriptionHtml,
     featuredImage,
   } = product
   const client = useShopifyStore((state) => state.client)
@@ -215,8 +215,8 @@ const ShopifyProduct = ({ data }: any) => {
                     <h2 className="text-sm text-mydarkgrey">Description</h2>
 
                     <div
-                      className="prose prose-sm mt-4 text-myblack"
-                      dangerouslySetInnerHTML={{ __html: description }}
+                      className="prose prose-sm mt-4 text-myblack space-y-6"
+                      dangerouslySetInnerHTML={{ __html: descriptionHtml }}
                     />
                   </div>
                 </div>
