@@ -20,7 +20,9 @@ const Belief = ({ value, cssClasses = ``, storyFragmentId }: IBeliefProps) => {
   // @ts-expect-error
   const thisTitle = heldBeliefsTitles[thisScaleLookup]
   // @ts-expect-error
-  const thisScale = heldBeliefsScales[thisScaleLookup]
+  const thisScale = heldBeliefsScales[thisScaleLookup].sort(function (a, b) {
+    return b.id - a.id
+  })
   const updateBeliefs = useAuthStore((state) => state.updateBeliefs)
   const beliefs = useAuthStore((state) => state.beliefs)
   const pushEvent = useStoryStepStore((state) => state.pushEvent)
