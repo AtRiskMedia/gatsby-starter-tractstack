@@ -261,16 +261,16 @@ const ConciergeProfile = () => {
                         id="rooted"
                         className="text-3xl tracking-tight text-myorange md:text-4xl font-bold"
                       >
-                        Join our launch waitlist
+                        {config.action}
                       </h2>
                       <p className="mt-4 mb-4 text-lg text-mydarkgrey">
                         {authenticated ? (
                           <>Welcome back, {firstname}.</>
                         ) : (
                           <>
-                            Tract Stack is pre-launch and under active
-                            development. We welcome you to introduce yourself
-                            below.
+                            If you you&rsquo;ld like to have your session
+                            restored on your next visits, feel free to introduce
+                            yourself:
                           </>
                         )}
                       </p>

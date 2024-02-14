@@ -71,7 +71,8 @@ const Graph = ({ data }: any) => {
         ) : (
           <>
             <div className="p-6 w-full text-center font-bold text-xs text-myblue">
-              Double Click to Circles below and fast travel to that section of the website
+              Double Click to Circles below and fast travel to that section of
+              the website
             </div>
             <VisNetwork nodes={data} payload={graphData} />
           </>

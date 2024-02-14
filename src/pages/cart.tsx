@@ -9,10 +9,9 @@ import Footer from '../components/Footer'
 import LineItem from '../shopify-components/LineItem'
 import Wrapper from '../components/Wrapper'
 import { useShopifyStore } from '../stores/shopify'
-import { config } from '../../data/SiteConfig'
 
 const Cart = () => {
-  const goto = `/${config.home}/`
+  const goto = `/`
   const checkout = useShopifyStore((state) => state.checkout)
   const loading = useShopifyStore((state) => state.loading)
   const emptyCart = !(checkout?.lineItems?.length > 0)
@@ -42,7 +41,7 @@ const Cart = () => {
                         <p className="text-center pt-12">
                           <Link
                             to={goto}
-                            className="text-myorange hover:text-black"
+                            className="text-myblue hover:text-black"
                           >
                             Continue Browsing
                             <span aria-hidden="true"> &rarr;</span>
@@ -96,7 +95,10 @@ const Cart = () => {
                               type="submit"
                               onClick={handleCheckout}
                               disabled={loading}
-                              className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-mygreen py-3 px-8 text-base text-black hover:bg-myorange focus:outline-none focus:ring-2 focus:ring-mygreen focus:ring-offset-2"
+                              className="mt-8 flex w-full items-center justify-center rounded-md border border-block transparent
+                                py-3 px-8 text-base
+                    bg-mygreen text-black font-bold shadow-sm hover:bg-myblack hover:text-white
+                 text-sm leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mygreen"
                             >
                               Checkout
                             </button>
@@ -107,7 +109,7 @@ const Cart = () => {
                               or{` `}
                               <Link
                                 to={goto}
-                                className="text-myorange hover:text-black"
+                                className="text-myblue hover:text-black"
                               >
                                 Continue Browsing
                                 <span aria-hidden="true"> &rarr;</span>

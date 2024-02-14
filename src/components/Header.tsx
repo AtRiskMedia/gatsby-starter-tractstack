@@ -128,15 +128,15 @@ const Header = ({
               </span>
             </button>
           ) : null}
-          {isLoggedIn && config.initializeShopify && quantity > 0 ? (
-            <CartButton quantity={quantity} />
-          ) : null}
           {!isHome ? (
             <button className="mx-2 hover:text-blue" onClick={() => goHome()}>
               <HomeIcon className="w-8 h-8" title="Go to home page" />
             </button>
           ) : null}
           {menuTheme ? <Menu theme={menuTheme} payload={menuPayload} /> : null}
+          {isLoggedIn && config.initializeShopify && quantity > 0 ? (
+            <CartButton quantity={quantity} />
+          ) : null}
         </div>
       </div>
     </header>

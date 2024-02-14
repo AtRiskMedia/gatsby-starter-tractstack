@@ -61,7 +61,7 @@ export function LineItem({ product }: any) {
             <button
               type="button"
               onClick={handleRemove}
-              className="text-sm text-myorange hover:text-black"
+              className="text-sm text-myblue hover:text-black"
             >
               <span>Remove</span>
             </button>

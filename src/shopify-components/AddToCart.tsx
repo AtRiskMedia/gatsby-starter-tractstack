@@ -15,7 +15,10 @@ export function AddToCart({ variantId, quantity, available, ...props }: any) {
   return (
     <button
       type="submit"
-      className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-mygreen py-3 px-8 text-base text-black hover:bg-myorange focus:outline-none focus:ring-2 focus:ring-mygreen focus:ring-offset-2"
+      className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent
+      py-3 px-8 text-base
+                    bg-mygreen/50 text-black font-bold shadow-sm hover:bg-mydarkgrey hover:text-white
+                 text-sm leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mygreen"
       onClick={addToCart}
       disabled={!available || loading}
       {...props}

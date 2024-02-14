@@ -72,7 +72,7 @@ const Menu = ({ theme, payload }: any) => {
         leaveTo="opacity-0 translate-y-1"
       >
         <Popover.Panel className="absolute z-50 mt-5 flex w-screen max-w-max right-0 px-4">
-          <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-mywhite text-sm leading-6 shadow-lg ring-1 ring-mydarkgrey/5">
+          <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-mydarkgrey/5">
             <div className="p-4">
               {links.map((item: any) => (
                 <div

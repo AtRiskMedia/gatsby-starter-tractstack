@@ -22,7 +22,6 @@ const ConciergeLogin = () => {
   const authenticated = useAuthStore((state) => state.authData.authenticated)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const knownEmail = useAuthStore((state) => state.authData.email)
-  const knownFirstName = typeof firstName === `string`
   const [email, setEmail] = useState(
     typeof knownEmail === `string` && knownEmail ? knownEmail : ``,
   )
@@ -98,11 +97,9 @@ const ConciergeLogin = () => {
                   </div>
                   <div className="py-6 px-4 md:pb-8 md:col-span-9 md:max-w-2xl my-16">
                     <div>
-                      <h2 className="text-3xl tracking-tight text-myorange md:text-4xl">
+                      <h2 className="text-3xl tracking-tight text-myorange md:text-4xl font-bold">
                         Welcome back
-                        {!authenticated && knownFirstName
-                          ? `, ${firstName}.`
-                          : null}
+                        {!authenticated && firstName ? `, ${firstName}.` : null}
                       </h2>
                       {isLoggedIn && !authenticated && knownLead ? null : (
                         <p className="text-myblue text-lg mt-4 mb-4">
