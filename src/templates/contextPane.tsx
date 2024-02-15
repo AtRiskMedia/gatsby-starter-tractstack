@@ -206,17 +206,19 @@ export default function ContextPage(props: IContextPageProps) {
   return (
     <Wrapper slug={pageContext.slug} mode="contextPane">
       <Header siteTitle={pageContext.title} open={false} />
-      <div id="context" className="w-full max-w-5xl mx-auto">
-        <>{children}</>
-        <div id="context-exit" className="text-center my-4">
-          <button
-            className="rounded-md bg-red-400 hover:bg-black hover:text-white px-3.5 py-1.5 text-base leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-myorange"
-            onClick={() => hide()}
-          >
-            Return to main site
-          </button>
+      <section id="context" className="w-full bg-slate-100 py-12">
+        <div className="max-w-5xl mx-auto">
+          <>{children}</>
+          <div id="context-exit" className="text-center my-4">
+            <button
+              className="rounded-md bg-red-400 hover:bg-black hover:text-white px-3.5 py-1.5 text-base leading-7 text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-myorange"
+              onClick={() => hide()}
+            >
+              Return to main site
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
       <Footer />
     </Wrapper>
   )
