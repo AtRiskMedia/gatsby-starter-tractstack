@@ -12,7 +12,7 @@ const config: GatsbyConfig = {
     description: `Tract Stack by At Risk Media | no-code analytics and website builder to grow your business`,
     author: `@AtRiskMedia`,
     siteUrl: siteUrl,
-    image: 'tractstack-2023-social.png',
+    image: 'social.png',
   },
   //flags: {
   //  DEV_SSR: true
