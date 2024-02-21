@@ -59,7 +59,7 @@ const Menu = ({ theme, payload }: any) => {
     <>
       <nav className="hidden md:flex flex-wrap items-center space-x-6 justify-around ml-12">
         {featuredLinks.map((item: any) => (
-          <span key={item.name} className="relative">
+          <div key={item.name} className="relative">
             {item.internal ? (
               <Link
                 to={item.to}
@@ -67,7 +67,6 @@ const Menu = ({ theme, payload }: any) => {
                 title={item.description}
               >
                 {item.name}
-                <span className="absolute inset-0" />
               </Link>
             ) : (
               <a
@@ -76,10 +75,9 @@ const Menu = ({ theme, payload }: any) => {
                 title={item.description}
               >
                 {item.name}
-                <span className="absolute inset-0" />
               </a>
             )}
-          </span>
+          </div>
         ))}
       </nav>
       <div className="md:hidden">
