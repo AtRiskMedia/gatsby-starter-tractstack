@@ -78,7 +78,9 @@ const Pricing = ({ viewportKey, storyFragmentId }: IViewportKeyProps) => {
           <div
             key={tier.id}
             className={classNames(
-              tier.mostPopular ? `ring-2 ring-mygreen` : `ring-1 ring-gray-200`,
+              tier.mostPopular
+                ? `ring-2 ring-mygreen/50`
+                : `ring-1 ring-gray-200`,
               `rounded-3xl p-8 bg-mywhite`,
             )}
           >

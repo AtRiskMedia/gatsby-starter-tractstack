@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
+import { ArrowUpIcon } from '@heroicons/react/20/solid'
 import { SocialIcons } from '@tractstack/helpers'
 import { IFooterProps } from '@tractstack/types'
 
@@ -27,9 +28,22 @@ const Footer = ({ menu }: IFooterProps) => {
       ? JSON.parse(menu.optionsPayload)
       : null
 
+  const scrollToTop = () => {
+    if (typeof window !== `undefined`)
+      window.scrollTo({
+        top: 0,
+        behavior: `smooth`,
+      })
+  }
+
   return (
     <footer className="bg-white">
-      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+      <div className="text-right px-6 pt-6">
+        <button onClick={scrollToTop} title="Back to top">
+          <ArrowUpIcon className="w-12 h-12 text-myblue/50 hover:text-black" />
+        </button>
+      </div>
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-20 sm:pb-24 lg:px-8">
         {menuTheme ? (
           <FooterMenu theme={menuTheme} payload={menuPayload} />
         ) : null}
