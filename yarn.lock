@@ -2490,7 +2490,14 @@
     "@tractstack/types" "^0.1.14"
     buffer "^6.0.3"
 
-"@tractstack/types@0.1.14", "@tractstack/types@^0.1.14":
+"@tractstack/types@0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@tractstack/types/-/types-0.1.15.tgz#6b5a437cbb4824e65233b253b63d8fc93b0ef1a2"
+  integrity sha512-ZNypFXn7mB/bNcMKpoCIdalkghwCr35k8VOfAVACSZjNcmJku4tS35IyP11+AlH4rRaXN9Tf7wkvNUS4l7D7Vg==
+  dependencies:
+    tslib "^2.3.0"
+
+"@tractstack/types@^0.1.14":
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/@tractstack/types/-/types-0.1.14.tgz#21ff73d9a5a43d95fbc5210fc8c0fc4d71683b56"
   integrity sha512-tG93BV5eFYTVe+xZRyP7doyNINLpCbA7k/20p7FBwDx0ZN7qRdh5XgDd4+MtJIheNvdQwIDXcNShmKwDADLVcg==

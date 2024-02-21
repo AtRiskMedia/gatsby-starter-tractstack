@@ -2,7 +2,6 @@
 import React from 'react'
 import { IStoryFragmentRenderProps } from '@tractstack/types'
 
-import Footer from './Footer'
 import RenderPane from './renderPane'
 // import { useStoryStepStore } from '../stores/storyStep'
 
@@ -21,22 +20,20 @@ const RenderStoryFragment = ({
 
   return (
     <div key={`${viewportKey}-${payload.slug}`} className={tailwindBgColour}>
-      {paneIds
-        ?.map((p: string) => {
-          return (
-            <RenderPane
-              key={p}
-              payload={{
-                panePayload: payload.contentMap[p],
-                children: payload.contentChildren[`${viewportKey}-${p}`],
-              }}
-              paneId={p}
-              viewportKey={viewportKey}
-              storyFragmentId={storyFragmentId}
-            />
-          )
-        })
-        .concat(<Footer key="footer" />)}
+      {paneIds?.map((p: string) => {
+        return (
+          <RenderPane
+            key={p}
+            payload={{
+              panePayload: payload.contentMap[p],
+              children: payload.contentChildren[`${viewportKey}-${p}`],
+            }}
+            paneId={p}
+            viewportKey={viewportKey}
+            storyFragmentId={storyFragmentId}
+          />
+        )
+      })}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 import Wrapper from '../components/Wrapper'
+import Footer from '../components/Footer'
 import StoryFragment from '../components/StoryFragment'
 import Header from '../components/Header'
 import Seo from '../components/Seo'
@@ -151,6 +152,7 @@ const StoryFragmentViewport = ({ data }: IStoryFragmentPayload) => {
           },
         }}
       />
+      <Footer menu={menu} />
     </Wrapper>
   )
 }

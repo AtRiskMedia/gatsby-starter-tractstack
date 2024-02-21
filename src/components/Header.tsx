@@ -1,18 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React, { useEffect, useState } from 'react'
-import { TractStackIcon } from '@tractstack/helpers'
-import { MapIcon, BackwardIcon, HomeIcon } from '@heroicons/react/24/outline'
+import { MapIcon, HomeIcon } from '@heroicons/react/24/outline'
 // @ts-ignore
 import fetch from 'isomorphic-fetch'
 import Client from 'shopify-buy'
 
 import { useStoryStepStore } from '../stores/storyStep'
-import { useAuthStore } from '../stores/authStore'
 import { useShopifyStore } from '../stores/shopify'
 import Menu from './Menu'
 import { CartButton } from '../shopify-components/CartButton'
 import { IHeaderProps } from '@tractstack/types'
 import { config } from '../../data/SiteConfig'
+import Wordmark from '../../assets/wordmark.svg'
+import Logo from '../../assets/logo.svg'
 
 const Header = ({
   siteTitle,
@@ -27,7 +27,6 @@ const Header = ({
       : null
   const initialize = useShopifyStore((state) => state.initialize)
   const setClient = useShopifyStore((state) => state.setClient)
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const [shopifyInitialized, setShopifyInitialized] = useState(0)
   const processRead = useStoryStepStore((state) => state.processRead)
   const lastStoryStep = useStoryStepStore((state) => state.lastStoryStep)
@@ -42,14 +41,8 @@ const Header = ({
   function navigateBreadcrumbs() {
     processRead(`/breadcrumbs`)
   }
-  function reveal() {
-    processRead(`/concierge/profile`)
-  }
   function goHome() {
     processRead(config.home)
-  }
-  function hide() {
-    processRead(`<`)
   }
 
   useEffect(() => {
@@ -85,57 +78,36 @@ const Header = ({
   }, [open, lastStoryStep, processRead])
 
   return (
-    <header className="relative z-90000">
-      <div className="mx-auto flex justify-between px-4 py-5 md:space-x-10 md:px-8 bg-white shadow-inner shadow-darkgrey">
-        <div className="flex flex-nowrap">
-          <h1 className="text-xl leading-none mb-0 flex items-center font-action">
-            {siteTitle}
-          </h1>
+    <header className="relative z-90000 bg-white shadow-inner">
+      <div className="flex flex-row flex-nowrap items-center justify-between py-3 px-4 md:px-8 bg-mygreen/10">
+        <div className="flex flex-row flex-nowrap items-center">
+          <Logo className="h-8" />
+          <span className="w-1.5" />
+          <Wordmark className="h-5 fill-myblack" />
         </div>
-        <div className="inline-flex">
-          {hasStorySteps ? (
-            <>
-              <button className="mx-2 hover:text-blue" onClick={() => hide()}>
-                <BackwardIcon
-                  className="h-8 w-8"
-                  title="Return to previous page"
-                />
-              </button>
-              <button
-                className="mx-2 hover:text-blue"
-                onClick={() => navigateBreadcrumbs()}
-              >
-                <MapIcon
-                  className="h-8 w-8"
-                  title="Your Content Journey | Breadcrumbs Path"
-                />
-              </button>
-            </>
-          ) : null}
-          {isLoggedIn ? (
-            <button
-              className="mx-2 hover:text-blue"
-              onClick={() => (!open ? reveal() : hide())}
-              title="Tract Stack Settings"
-            >
-              <span className="sr-only">Open Tract Stack settings panel</span>
-              <span className="h-8 w-8">
-                <img
-                  alt="Tract Stack logo. An impossibe square."
-                  src={TractStackIcon}
-                  className="h-8 w-8"
-                />
-              </span>
-            </button>
+        {menuTheme ? <Menu theme={menuTheme} payload={menuPayload} /> : null}
+      </div>
+      <div className="flex flex-row flex-nowrap justify-between pt-4 pb-3 px-4 md:px-8 bg-mywhite shadow-inner">
+        <h1 className="text-myblack truncate">{siteTitle}</h1>
+        <div className="flex flex-row flex-nowrap">
+          {config.initializeShopify && quantity > 0 ? (
+            <CartButton quantity={quantity} />
           ) : null}
           {!isHome ? (
             <button className="mx-2 hover:text-blue" onClick={() => goHome()}>
-              <HomeIcon className="w-8 h-8" title="Go to home page" />
+              <HomeIcon className="w-6 h-6" title="Go to home page" />
             </button>
           ) : null}
-          {menuTheme ? <Menu theme={menuTheme} payload={menuPayload} /> : null}
-          {isLoggedIn && config.initializeShopify && quantity > 0 ? (
-            <CartButton quantity={quantity} />
+          {hasStorySteps ? (
+            <button
+              className="mx-2 hover:text-blue"
+              onClick={() => navigateBreadcrumbs()}
+            >
+              <MapIcon
+                className="h-6 w-6"
+                title="Your Content Journey | Breadcrumbs Path"
+              />
+            </button>
           ) : null}
         </div>
       </div>

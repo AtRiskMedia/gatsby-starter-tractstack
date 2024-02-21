@@ -3,9 +3,10 @@ import React from 'react'
 import { SocialIcons } from '@tractstack/helpers'
 import { IFooterProps } from '@tractstack/types'
 
+import FooterMenu from './FooterMenu'
 import { config } from '../../data/SiteConfig'
 
-const Footer = ({ observe }: IFooterProps) => {
+const Footer = ({ menu }: IFooterProps) => {
   const footerText = config.footer
   const socials = config.social.split(`,`)
   const socialLink = (href: string) => {
@@ -20,39 +21,38 @@ const Footer = ({ observe }: IFooterProps) => {
       return socialLink(e.trim())
     })
     .filter((e) => e)
+  const menuTheme = typeof menu?.theme !== `undefined` ? menu.theme : null
+  const menuPayload =
+    typeof menu?.optionsPayload !== `undefined`
+      ? JSON.parse(menu.optionsPayload)
+      : null
 
   return (
-    <footer
-      className="z-80000 static"
-      aria-labelledby="footer-heading"
-      ref={observe}
-    >
-      <h2 id="footer-heading" className="sr-only">
-        Footer
-      </h2>
-      <div className="mx-auto max-w-7xl py-4 px-4 md:py-8 md:px-8">
-        <div className="mt-2 pt-4 md:flex md:items-center md:justify-between">
-          <div className="flex space-x-6 md:order-2 mr-16">
-            {socialLinks.map((item) => (
-              <a
-                key={item?.name}
-                href={item?.href}
-                title={item?.name}
-                className="text-mydarkgrey hover:text-black"
-              >
-                <span className="sr-only">{item?.name}</span>
-                <SocialIcons
-                  name={item?.name || ``}
-                  className="h-6 w-6"
-                  ariaHidden={true}
-                />
-              </a>
-            ))}
-          </div>
-          <p className="mt-8 text-xl text-mydarkgrey md:order-1 md:mt-0 mr-0 md:mr-16 md:max-w-xl">
-            © {new Date().getFullYear()} &middot; {footerText}
-          </p>
+    <footer className="bg-white">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+        {menuTheme ? (
+          <FooterMenu theme={menuTheme} payload={menuPayload} />
+        ) : null}
+        <div className="mt-10 flex justify-center space-x-10">
+          {socialLinks.map((item) => (
+            <a
+              key={item?.name}
+              href={item?.href}
+              title={item?.name}
+              className="text-mylightgrey hover:text-myblue"
+            >
+              <span className="sr-only">{item?.name}</span>
+              <SocialIcons
+                name={item?.name || ``}
+                className="h-6 w-6"
+                ariaHidden={true}
+              />
+            </a>
+          ))}
         </div>
+        <p className="mt-10 text-center text-xs leading-5 text-mydarkgrey">
+          © {new Date().getFullYear()} &middot; {footerText}
+        </p>
       </div>
     </footer>
   )

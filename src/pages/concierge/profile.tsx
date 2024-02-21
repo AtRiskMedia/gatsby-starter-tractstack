@@ -231,7 +231,7 @@ const ConciergeProfile = () => {
               ? `/products/${target.id}`
               : target?.type === `/breadcrumbs`
                 ? `${target.id}`
-                : `/${config.home}`
+                : `/`
     navigate(`${thisTo}`)
   }
 
