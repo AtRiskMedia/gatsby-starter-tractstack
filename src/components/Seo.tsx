@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+
+import { config } from '../../data/SiteConfig'
 
 interface Meta {
   description?: string
@@ -9,26 +10,13 @@ interface Meta {
 }
 
 function Seo({ description, title, socialImagePath }: Meta) {
-  const { site } = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-          description
-          author
-          image
-          siteUrl
-        }
-      }
-    }
-  `)
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
+  const metaDescription = description || config.slogan
+  const defaultTitle = config.title
   const image =
     typeof socialImagePath === `string`
-      ? `${site.siteMetadata?.siteUrl}/${socialImagePath}`
-      : `${site.siteMetadata?.siteUrl}/${site.siteMetadata?.image}`
-  const url = site.siteMetadata?.siteUrl
+      ? `${config.siteUrl}${socialImagePath}`
+      : `${config.siteUrl}og.png`
+  const url = config.siteUrl
 
   return (
     <>
@@ -43,7 +31,7 @@ function Seo({ description, title, socialImagePath }: Meta) {
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:url" content={url} />
-      <meta name="twitter:creator" content={site.siteMetadata?.author || ``} />
+      <meta name="twitter:creator" content={config.author} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={metaDescription} />
     </>

@@ -11,7 +11,7 @@ import Belief from '../components/Belief'
 import IdentifyAs from '../components/IdentifyAs'
 import YouTube from '../components/YouTube'
 import Toggle from './ToggleBelief'
-import templates from '../custom/templates'
+import templates from '../components/templates'
 import storyFragmentCompositor from '../components/storyFragmentCompositor'
 
 const StoryFragment = ({ payload }: IStoryFragmentRaw) => {

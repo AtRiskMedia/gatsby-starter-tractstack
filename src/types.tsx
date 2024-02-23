@@ -149,6 +149,9 @@ export interface IStoryStepStoreState {
 
 export interface ISiteConfig {
   home: string
+  title: string
+  author: string
+  siteUrl: string
   readThreshold: number
   softReadThreshold: number
   conciergeSync: number

@@ -8,11 +8,7 @@ const siteUrl = process.env.SITE_URL
 const lastEpoc = `2023-08-28T03:50:04+00:00`
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Tract Stack by At Risk Media`,
-    description: `Tract Stack by At Risk Media | no-code analytics and website builder to grow your business`,
     author: `@AtRiskMedia`,
-    siteUrl: siteUrl,
-    image: 'social.png',
   },
   //flags: {
   //  DEV_SSR: true
@@ -76,36 +72,36 @@ const config: GatsbyConfig = {
       resolve: 'gatsby-plugin-sitemap',
       options: {
         query: `{
-  allNodeStoryFragment {
-    edges {
-      node {
-        slug: field_slug
-        modifiedGmt: changed
-      }
-    }
-  }
-  allShopifyProduct {
-    edges {
-      node {
-        slug: handle
-        modifiedGmt: updatedAt
-      }
-    }
-  }
-  allSitePage {
-    nodes {
-      path
-    }
-  }
-  allNodePane(filter: {field_is_context_pane: {eq: true}}) {
-    edges {
-      node {
-        modifiedGmt: changed
-        slug: field_slug
-      }
-    }
-  }
-}`,
+          allNodeStoryFragment {
+            edges {
+              node {
+                slug: field_slug
+                modifiedGmt: changed
+              }
+            }
+          }
+          allShopifyProduct {
+            edges {
+              node {
+                slug: handle
+                modifiedGmt: updatedAt
+              }
+            }
+          }
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+          allNodePane(filter: {field_is_context_pane: {eq: true}}) {
+            edges {
+              node {
+                modifiedGmt: changed
+                slug: field_slug
+              }
+            }
+          }
+        }`,
         resolveSiteUrl: () => siteUrl,
         resolvePages: ({
           allSitePage: { nodes: allPages },

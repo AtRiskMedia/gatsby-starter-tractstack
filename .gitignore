@@ -37,5 +37,14 @@ yarn-error.log*
 # tailwind classes whitelist
 tailwind.whitelist
 
-# site data
-data/SiteConfig.tsx
+# site assets
+/assets
+!/assets/hexa.svg
+
+# site static
+/static
+!/static/kCz-artpack
+
+# code templates
+/src/custom
+!/src/custom/codehooks.tsx.example
