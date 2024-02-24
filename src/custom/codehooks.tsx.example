@@ -1,0 +1,5 @@
+const codeHooks: ICodeHookDict = {
+
+}
+
+export default codeHooks

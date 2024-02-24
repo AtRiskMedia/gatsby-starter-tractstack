@@ -38,13 +38,13 @@ yarn-error.log*
 tailwind.whitelist
 
 # site assets
-/assets
+/assets/*
 !/assets/hexa.svg
 
 # site static
-/static
+/static/*
 !/static/kCz-artpack
 
 # code templates
-/src/custom
+/src/custom/*
 !/src/custom/codehooks.tsx.example
