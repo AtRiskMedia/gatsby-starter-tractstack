@@ -81,8 +81,8 @@ const Header = ({
     <header className="relative z-90000 bg-white shadow-inner">
       <div className="flex flex-row flex-nowrap items-center justify-between py-3 px-4 md:px-8 bg-mygreen/10">
         <div className="flex flex-row flex-nowrap items-center">
-          <Logo className="h-8" />
-          <span className="w-1.5" />
+          <Logo className="h-5" />
+          <span className="w-2" />
           <Wordmark className="h-5 fill-myblack" />
         </div>
         {menuTheme ? <Menu theme={menuTheme} payload={menuPayload} /> : null}
