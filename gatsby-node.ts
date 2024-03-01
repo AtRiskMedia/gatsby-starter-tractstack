@@ -23,7 +23,7 @@ export const onCreatePage = ({ page, actions }: any) => {
     })
     deletePage(page)
   }
-  if (page.path === '/') {
+  if (config.home && page.path === '/') {
     deletePage(page)
   }
 }

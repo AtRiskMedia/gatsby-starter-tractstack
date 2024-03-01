@@ -1,24 +1,7 @@
+@import url("custom.css");
+
 :root {
   --scale: 0;
-  --font-main: "FranklinGothicURW";
-  --font-action: "Organetto-Regular";
-}
-
-@font-face {
-  font-family: "FranklinGothicURW";
-  src: url("../fonts/FranklinGothicURW-Boo.woff");
-  font-display: swap;
-}
-@font-face {
-  font-family: "FranklinGothicURW";
-  src: url("../fonts/FranklinGothicURW-Med.woff");
-  font-weight: bold;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Organetto-Regular";
-  src: url("../fonts/Organetto-Regular.woff");
-  font-display: swap;
 }
 
 html {

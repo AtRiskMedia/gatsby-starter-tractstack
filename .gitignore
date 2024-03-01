@@ -48,3 +48,6 @@ tailwind.whitelist
 # code templates
 /src/custom/*
 !/src/custom/codehooks.tsx.example
+
+# custom styles (not this file must exist!)
+/src/styles/custom.css
