@@ -49,5 +49,12 @@ tailwind.whitelist
 /src/custom/*
 !/src/custom/codehooks.tsx.example
 
-# custom styles (not this file must exist!)
+# custom styles (note: this file must exist!)
 /src/styles/custom.css
+
+# shopify
+src/hooks/use-product-data.tsx
+src/pages/products/{shopifyProduct.handle}.tsx
+gatsby-config.ts
+src/shopify-components/*
+

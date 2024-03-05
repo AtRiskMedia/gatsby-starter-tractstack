@@ -63,8 +63,14 @@ module.exports = {
         r20: 'calc(var(--scale) * 5rem)',
       },
       fontFamily: {
-        action: ['Font-Action','Georgia', 'Times New Roman', 'Times', 'serif'],
-        main: ['Font-Main','Arial','Helvetica Neue','Helvetica','sans-serif'],
+        action: ['Font-Action', 'Georgia', 'Times New Roman', 'Times', 'serif'],
+        main: [
+          'Font-Main',
+          'Arial',
+          'Helvetica Neue',
+          'Helvetica',
+          'sans-serif',
+        ],
       },
       fontSize: {
         rxs: 'calc(var(--scale) * 0.75rem)',

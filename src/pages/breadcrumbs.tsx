@@ -50,15 +50,6 @@ export const query = graphql`
         }
       }
     }
-    allShopifyProduct(filter: { status: { eq: ACTIVE } }) {
-      edges {
-        node {
-          id
-          title
-          handle
-        }
-      }
-    }
   }
 `
 
@@ -67,7 +58,6 @@ const Breadcrumbs = (data: any) => {
   const storySteps = useStoryStepStore((state) => state.storySteps)
   const storyFragments = data.data.allNodeStoryFragment.edges
   const tractStacks = data.data.allNodeTractstack.edges
-  const products = data.data.allShopifyProduct.edges
   const contextPanes: any[] = []
   storyFragments.forEach((e: any) => {
     e.node.relationships.contextPanes.forEach((p: any) => {
@@ -85,10 +75,6 @@ const Breadcrumbs = (data: any) => {
     if (memory.includes(storySteps[e].id)) return null
     else memory.push(storySteps[e].id)
     const thisSlug = storySteps[e].id
-    const isProduct = storySteps[e].type === `product` ? storySteps[e].id : null
-    const product = isProduct
-      ? products.filter((e: any) => e?.node?.handle === isProduct)[0].node
-      : null
     const thisStoryFragmentPayload = storyFragments?.filter(
       (e: any) => e.node.slug === thisSlug,
     )
@@ -104,9 +90,7 @@ const Breadcrumbs = (data: any) => {
             thisContextPanePayload[0] &&
             thisContextPanePayload[0].title
           ? `contextPane`
-          : isProduct
-            ? `product`
-            : `conciergePage`
+          : `conciergePage`
     const thisPayload =
       type === `storyFragment`
         ? thisStoryFragmentPayload &&
@@ -118,9 +102,7 @@ const Breadcrumbs = (data: any) => {
             thisContextPanePayload[0]
           : type === `conciergePage`
             ? thisSlug
-            : isProduct
-              ? product
-              : null
+            : null
     const thisTo =
       type === `storyFragment` && thisPayload.slug === config.home
         ? `/`
@@ -130,9 +112,7 @@ const Breadcrumbs = (data: any) => {
             ? `/context/${thisPayload.slug}`
             : type === `conciergePage`
               ? `/concierge/${thisPayload}`
-              : type === `product`
-                ? `/products/${thisPayload.handle}`
-                : null
+              : null
     if (thisPayload && thisTo)
       return (
         <p key={`${thisPayload.id}-${i}`} className="text-center p-6">
