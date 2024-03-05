@@ -55,6 +55,6 @@ tailwind.whitelist
 # shopify
 src/hooks/use-product-data.tsx
 src/pages/products/{shopifyProduct.handle}.tsx
-gatsby-config.ts
+./gatsby-config.ts
 src/shopify-components/*
 
