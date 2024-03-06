@@ -94,7 +94,7 @@ export const createPages: GatsbyNode['createPages'] = async ({
       }
     }
   `)
-  result.data.allNodePane.edges.forEach((edge: any) => {
+  result.data?.allNodePane?.edges?.forEach((edge: any) => {
     createPage({
       path: `context/${edge.node.slug}`,
       component: contextPaneTemplate,
@@ -149,6 +149,8 @@ export const createSchemaCustomization = ({ actions }: any) => {
   const { createTypes } = actions
   const typeDefs = `
   type node__markdown implements Node {
+    drupal_internal__nid: Int
+    drupal_id: String
     title: String
     field_slug: String
     field_category_slug: String
@@ -172,6 +174,8 @@ export const createSchemaCustomization = ({ actions }: any) => {
     drupal_internal__target_id: Int
   }
   type node__story_fragment implements Node {
+    drupal_internal__nid: Int
+    drupal_id: String
     title: String
     field_slug: String
     field_social_image_path: String
@@ -206,17 +210,22 @@ export const createSchemaCustomization = ({ actions }: any) => {
     node__tractstack: [node__tractstack] @link(by: "id", from: "node__tractstack___NODE")
   }
 
-type node__resource implements Node {
-  status: Boolean
-  title: String
-  field_action_lisp: String
-  field_oneliner: String
-  field_options: String
-  field_slug: String
-  field_category_slug: String
-}
+  type node__resource implements Node {
+    drupal_internal__nid: Int
+    drupal_id: String
+    status: Boolean
+    title: String
+    field_action_lisp: String
+    field_oneliner: String
+    field_options: String
+    field_slug: String
+    field_category_slug: String
+  }
 
   type node__tractstack implements Node {
+    drupal_internal__nid: Int
+    drupal_id: String
+    title: String
     field_slug: String
     field_social_image_path: String
     relationships: node__tractstackRelationships
@@ -225,6 +234,8 @@ type node__resource implements Node {
   }
 
   type node__pane implements Node {
+    drupal_internal__nid: Int
+    drupal_id: String
     title: String
     field_height_offset_desktop: Int
     field_height_offset_mobile: Int
